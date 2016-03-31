@@ -1,0 +1,149 @@
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #f2f2f2;
+    color: #545D63;
+    margin: 0;
+    width: 100%;
+}
+
+h1{
+    margin: 2rem 0 1rem;
+}
+h2{
+    margin: 0 0 1rem;
+}
+
+form, table, table.form{
+    background: auto;
+    margin: 0;
+    padding: 0;
+    box-shadow: none;
+}
+
+table, table.form{
+    margin: 0 auto;
+    width: 100%;
+}
+
+th{
+    background: #f6f7f9;
+    background: linear-gradient(to bottom,#fefefe 0,#f6f7f9 100%);
+    color: #4f4f4f;
+
+    border-bottom: 1px solid #cacaca;
+}
+
+.outer{
+    width: 100%;
+    max-width: 960px;
+    margin: 0 auto;
+}
+
+main.container {
+    padding-left: 24px;
+    width: 70%;
+    margin: 0 0 10rem;
+    float: right;
+}
+
+
+.panel {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08);
+    padding: 1.5rem;
+}
+
+.panel:not(:last-child){
+    margin-bottom: 2rem;
+}
+
+.full-width.panel {
+    border-radius: 0;
+    border-left: none;
+    border-right: 0;
+}
+
+.panel:after{
+    clear: both;
+}
+.sidebar{
+    width: 30%;
+    float: left;
+    margin-top: 3.5rem;
+}
+
+button {
+    appearance: none;
+    cursor: pointer;
+
+    border-radius: 3px;
+    border: 1px solid #dadbdc;
+
+    display: inline-block;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: bold;
+   
+    margin: 0;
+    
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+}
+button:hover {
+    box-shadow: 0px 3px 5px -2px rgba(0, 0, 0, 0.25), 0px 1px 0px rgba(255, 255, 255, 0.75) inset;
+    text-decoration: none;
+}
+
+button.search {
+    background: #f6f7f9;
+    background: linear-gradient(to bottom,#fefefe 0,#f6f7f9 100%);
+
+    border-color: #008a87;
+    border-color: #e0e0e0;
+
+    border-bottom-color: #006b69;
+    border-bottom-color: #cacaca;
+
+    box-shadow: 0px 1px 1px -1px rgba(0, 0, 0, 0.12), 0px 1px 0px rgba(255, 255, 255, 0.32) inset;
+    color: #fff;
+    color: #4f4f4f;
+    padding: 0.5rem 0.5rem;
+}
+
+button.search:hover {
+    background: #f6f7f9;
+    border-bottom-color: #c5c5c5;
+    background: linear-gradient(to bottom,#f9f9f9 0,#eeeff1 100%);
+    box-shadow: 0px 3px 5px -2px rgba(0, 0, 0, 0.25), 0px 1px 0px rgba(255, 255, 255, 0.75) inset;
+}
+
+.liste th{
+    padding: 0;
+}
+
+th button.sort{
+    padding: 0.25rem 0.5rem;
+}
+
+@media screen and (max-width: 960px){
+    .sidebar, main.container{
+        width: 100%;
+        max-width: 100%;
+        border-radius: 0;
+        border-left: none;
+        border-right: none;
+        margin-left: 0;
+        margin-right: 0;
+        padding-right: 0;
+        padding-left: 0;
+    }
+}

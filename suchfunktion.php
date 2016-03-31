@@ -2,7 +2,7 @@
 /* 
 Suchfunktion
 Bearbeiter: Daniel Högel
-Status: 26.03.2016, 16:00 Uhr
+Status: 31.03.2016, 16:00 Uhr
 */
 
 
@@ -26,13 +26,14 @@ function uppercase($string){
 	<meta charset='UTF-8'>
 	<meta name='viewport' content='width=device-width, initial-scale=1'>
 	<link rel='stylesheet' href='/wp-content/themes/twentyfourteen-child/style.css'/>
+	<link rel='stylesheet' href='style-suchfunktion.css'/>
 	<title>Suchfunktion</title>
 </head>
 <body>
-	<main style="max-width: 720px; margin: 0 auto 10rem;">
+	
 
-<!-- Suchfeld -->
-		<h1>Suche</h1>
+	<h1>Suche</h1>
+	<div class="panel full-width">
 		<form method="GET">
 			<table class="form">
 				<tr>
@@ -44,15 +45,21 @@ function uppercase($string){
 					</td>
 				</tr>
 			</table>
-			
-			<table style="margin: 1rem 0;">
-				<tr>
-					<th colspan="2">
-						Filter nach Ressort:<br>
-					</th>
-				</tr>
-				<tr>
-					<td>
+		</form>
+	</div><!-- /panel -->
+	<div class = "outer">
+	<div class = "sidebar">
+		<!-- panel 1: filter-ressort -->
+		<div class = "panel">
+			<form>
+				<table>
+					<tr>
+						<th colspan="2">
+							Filter nach Ressort:<br>
+						</th>
+					</tr>
+					<tr>
+						<td>
 
 <?php 
 	// Ressort Checkboxen
@@ -66,10 +73,41 @@ function uppercase($string){
 	}
 ?>	
 
-					</td>
-				</tr>
-			</table>		
-		</form>
+						</td>
+					</tr>
+				</table>
+			</form>
+		</div><!-- /panel -->
+
+		<!-- panel 2 -->
+		<div class = "panel">
+			<form>
+				<table>
+					<tr>
+						<th colspan="2">
+							Filter nach XYZ:<br>
+						</th>
+					</tr>
+					<tr>
+						<td>
+							<input type='checkbox' name='xyz' value='x' checked> X<br>
+							<input type='checkbox' name='xyz' value='y' checked> Y<br>
+							<input type='checkbox' name='xyz' value='z' checked> Z<br>
+						</td>
+						<td>
+							<input type='checkbox' name='xyz' value='x' checked> X<br>
+							<input type='checkbox' name='xyz' value='y' checked> Y<br>
+							<input type='checkbox' name='xyz' value='z' checked> Z<br>
+						</td>
+					</tr>
+				</table>
+			</form>
+		</div><!-- /panel -->
+	</div><!-- /sidebar -->
+	
+	<main class="container">
+
+<!-- Suchfeld -->
 
 <?php 
 	// Suchworte Trennen
@@ -159,9 +197,10 @@ function uppercase($string){
 
 	// Beginn Tabelle für Sucheregbnisse
 	echo "
-		<h2>Suchergebnisse</h2>
+		<div class='panel'>
 		<form method='POST'>
-			<table class='liste' style='width:720px;'>
+			<h2>Suchergebnisse</h2>
+			<table class='liste'>
 				<tr>
 		";
 
@@ -210,7 +249,9 @@ function uppercase($string){
 		
 			</table>
 		</form>
+		</div><!-- /panel -->
 	</main>
+	</div><!-- /outer -->
 
 </body>
 </html>
