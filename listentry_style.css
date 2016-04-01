@@ -1,0 +1,45 @@
+/*
+	CSS Datei von Alexander Schäfer
+	Diese Styles werden bisher ausschließlich von der Datei list_entry.php
+	genutzt
+*/
+
+.list_entry {
+    background: #23234C;
+    color: whitesmoke;
+    font-size: 26px;
+    font-family: monospace;
+    padding: 10px;
+    border-bottom: #ABA9CA 5px solid;
+    border-right: #ABA9CA 5px solid;
+}
+
+.number {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.profile {
+    padding: 3px;
+    border: white 2px dashed;
+}
+
+.contact_name {
+    padding-left: 30px;
+}
+
+.ressort {
+    padding-left: 30px;
+}
+
+.active {
+    padding-left: 30px;
+}
+
+.status {
+    padding-left: 30px;
+}
+
+.text_beitritt {
+    padding-left: 30px;
+}
