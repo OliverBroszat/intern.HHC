@@ -1,3 +1,5 @@
+/* --------- Allgemeine Styles --------- */
+
 * {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -18,6 +20,8 @@ h2{
     margin: 0 0 1rem;
 }
 
+
+/* --------- Tabellen --------- */
 form, table, table.form{
     background: auto;
     margin: 0;
@@ -36,6 +40,29 @@ th{
     color: #4f4f4f;
 
     border-bottom: 1px solid #cacaca;
+}
+
+table.liste th{
+    padding: 0;
+}
+
+table.list_entry{
+    border-collapse: collapse;
+    background-color: transparent;
+    border-style: hidden;
+}
+
+table.list_entry tr:nth-child(odd) {
+    background-color: transparent;
+}
+table.list_entry tr:nth-child(even) {
+    background-color: transparent;
+}
+
+
+/* --------- Struktur-Elemente --------- */
+.full-width{
+    width: 100%;
 }
 
 .outer{
@@ -64,7 +91,7 @@ main.container {
     margin-bottom: 2rem;
 }
 
-.full-width.panel {
+.panel.full-width{
     border-radius: 0;
     border-left: none;
     border-right: 0;
@@ -79,61 +106,54 @@ main.container {
     margin-top: 3.5rem;
 }
 
+
+/* --------- Buttons --------- */
 button {
     appearance: none;
     cursor: pointer;
 
-    border-radius: 3px;
-    border: 1px solid #dadbdc;
-
-    display: inline-block;
     font-family: inherit;
     font-size: 1rem;
     font-weight: bold;
-   
-    margin: 0;
+    text-decoration: none;
+    text-align: center;
+    vertical-align: middle; 
     
     position: relative;
-    text-align: center;
-    text-decoration: none;
-    vertical-align: middle;
-}
-button:hover {
-    box-shadow: 0px 3px 5px -2px rgba(0, 0, 0, 0.25), 0px 1px 0px rgba(255, 255, 255, 0.75) inset;
-    text-decoration: none;
-}
+    display: inline-block;
+    margin: 0;
+    padding: 0.25rem;
 
-button.search {
     background: #f6f7f9;
     background: linear-gradient(to bottom,#fefefe 0,#f6f7f9 100%);
-
-    border-color: #008a87;
+    color: #4f4f4f;
+    
+    border-radius: 3px;
+    border: 1px solid #dadbdc;
     border-color: #e0e0e0;
-
-    border-bottom-color: #006b69;
     border-bottom-color: #cacaca;
 
-    box-shadow: 0px 1px 1px -1px rgba(0, 0, 0, 0.12), 0px 1px 0px rgba(255, 255, 255, 0.32) inset;
-    color: #fff;
-    color: #4f4f4f;
-    padding: 0.5rem 0.5rem;
+    box-shadow: 0px 1px 1px -1px rgba(0, 0, 0, 0.12), 0px 1px 0px rgba(255, 255, 255, 0.32) inset;  
 }
 
-button.search:hover {
+button:hover {
+    text-decoration: none;
     background: #f6f7f9;
     border-bottom-color: #c5c5c5;
     background: linear-gradient(to bottom,#f9f9f9 0,#eeeff1 100%);
-    box-shadow: 0px 3px 5px -2px rgba(0, 0, 0, 0.25), 0px 1px 0px rgba(255, 255, 255, 0.75) inset;
+    box-shadow: px 1px 1px -1px rgba(0, 0, 0, 0.25), 0px 1px 0px rgba(255, 255, 255, 0.75) inset;  
 }
 
-.liste th{
-    padding: 0;
+button.search {
+    padding: 0.5rem 0.5rem;
 }
 
 th button.sort{
     padding: 0.25rem 0.5rem;
 }
 
+
+/*--------- Media Queries --------- */
 @media screen and (max-width: 960px){
     .sidebar, main.container{
         width: 100%;
