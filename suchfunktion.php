@@ -130,7 +130,7 @@ echo html_header('Suchfunktion');
 	foreach ($t_header as $value) {
 		
 		// Hinzufügen einer CSS-Klasse zur Identifizierung der Sortierspalte
-		if($order == $value[value]){
+		if($_POST['sort'] == $value[value]){
 			$active = ' active';
 		}else{
 			$active = "";
@@ -155,7 +155,7 @@ echo html_header('Suchfunktion');
 		<div class='panel'>
 			<form method='POST'>
 				<h2>Suchergebnisse</h2>
-				<table class='liste'>
+				<table class='liste search_results'>
 					<?php
 						// Print Search Results
 						foreach ($output as $row) {

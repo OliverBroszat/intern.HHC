@@ -27,8 +27,7 @@ function getImageHTML($contact_id) {
 }
 
 function getListEntryHTML($number, $dataset) {
-	//$image = getImageHTML($dataset['contact_id']);
-	$image = '[Bild]';
+	$image = getImageHTML($dataset->id);
 	return "
 	<table class='list_entry'>
 		<tr>
@@ -36,6 +35,7 @@ function getListEntryHTML($number, $dataset) {
 			<td class='profile' rowspan='3' width='19%'>$image</td>
 			<td class='contact_name' colspan='2' width='38%'><b>".$dataset->first_name.' '.$dataset->last_name."</b></td>
 			<td class='ressort' width='19%'><b>".$dataset->name."</b></td>
+			<td></td>
 		</tr>
 		<tr>
 			<td class='active'>".$dataset->active."</td>
@@ -53,6 +53,7 @@ function getListEntryHTML($number, $dataset) {
 			<td><button class='full-width'>MAIL</button></td>
 			<td><button class='full-width'>EDIT</button></td>
 			<td><button class='full-width'>DELETE</button></td>
+			<td></td>
 		</tr>
 	</table>";
 }

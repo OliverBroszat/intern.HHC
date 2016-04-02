@@ -26,8 +26,10 @@
 */
 
 
+
 // -------- HTML Header -------- 
 	function html_header($title){
+		// Für den HHC-Server muss "href='/wordpress/wp-content/..." zu "href='/wp-content/..." geändert werden
 		return "
 			<!DOCTYPE html>
 			<html>
