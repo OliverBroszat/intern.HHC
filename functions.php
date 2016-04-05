@@ -26,11 +26,22 @@
 */
 
 
-
 // -------- HTML Header -------- 
 	function html_header($title){
 		// Für den HHC-Server muss "href='/wordpress/wp-content/..." zu "href='/wp-content/..." geändert werden
-		return "
+		global $user_ID;
+		get_currentuserinfo();
+		if(!('' == $user_ID)){
+			$backend_button =  "<a href='/wordpress/wp-admin'><button class='loginout'>Backend</button></a>";
+		}
+
+		$loginout = wp_loginout($_SERVER['REQUEST_URI'], false);
+		$list_pages = wp_list_pages(array(
+			'title_li' => __( '' ),
+			'echo' => 0
+		));
+
+		$html = "
 			<!DOCTYPE html>
 			<html>
 			<head>
@@ -38,10 +49,21 @@
 				<meta name='viewport' content='width=device-width, initial-scale=1'>
 				<link rel='stylesheet' href='/wordpress/wp-content/themes/twentyfourteen-child/style.css'/>
 				<link rel='stylesheet' href='/wordpress/wp-content/themes/twentyfourteen-child/templates/style-suchfunktion.css'/>
+				<link rel='stylesheet' href='/wordpress/wp-content/themes/twentyfourteen-child/templates/style-home.css'/>
 				<title>$title</title>
 			</head>
 			<body>
+				<div class = 'admin-bar'>
+					$backend_button
+					<button class='loginout'>$loginout</button>
+				</div>
+				<nav class='nav panel full-width'>
+					$list_pages
+				</nav>
+				
 		";
+
+		return $html;
 	}
 
 
@@ -79,5 +101,14 @@
 			}
 		}
 	}
+
+// --------- Prüfe, ob ein Filter angewählt wurde ----------
+	if (!function_exists('ckeck')) {
+		function check($key, $value){
+			if(isset($_GET[$key]) && $_GET[$key] == $value){
+				return 'checked';
+			}
+		}
+	}	
 
 ?>

@@ -127,6 +127,16 @@ main.container {
     margin-top: 3.5rem;
 }
 
+.panel.filter{
+    padding: 0.75rem;
+}
+.filter td{
+    padding-left: 0;
+}
+.filter table, .filter button{
+    margin-top: 1rem;
+}
+
 
 /* --------- Buttons --------- */
 button {
