@@ -1,4 +1,0 @@
-function getListEntryHTML($number, $dataset) {
-	$image = getImageHTML($dataset['contact_id']);
-	$html = "<html><head><link rel='stylesheet' href='listentry.css'></head><body><table><tr><td class='number' rowspan='4' valign='top'>$number</td><td rowspan='3'>$image</td><td colspan='2'>".$dataset['first_name'].' '.$dataset['last_name'].'</td><td>'.$dataset['ressort'].'</td></tr><tr><td>'.$dataset['active'].'</td><td>'.$dataset['status'].'</td><td>Beitritt:</td><td>'.$dataset['date_join']</td></tr><tr><td colspan='2'></td><td>Austritt:</td><td>$dataset['date_leave']</td></tr><tr><td>DETAIL</td><td>MAIL</td><td>EDIT</td><td>DELETE</td></tr></table></body></html>";
-}

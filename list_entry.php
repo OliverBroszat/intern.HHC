@@ -1,13 +1,6 @@
 <?php
-/**
- * Template Name: ListEntry - Alex
- *
- * @package WordPress
- * @subpackage Twenty_Fourteen Child
- * @since Twenty Fourteen 1.0
- */
 
-require("../../../../wp-load.php");
+//require("../../../../wp-load.php");
 
 function getImageHTML($contact_id) {
 	/*
@@ -33,60 +26,64 @@ function getImageHTML($contact_id) {
 	return $imageHTML;
 }
 
-function getListEntryHTML($number, $dataset) {
-	$image = getImageHTML($dataset['contact_id']);
+function expandableContent($fix_html, $slide_html, $click_id) {
+	/*
+		Returns HTML code of two div tags. the first tag wil include the HTML code
+		from $fix_html, the other will include the code from $slide_html. The second
+		div will be invisible unless the element with id $click_id is clicked.
+		In this case the second div will expand with a slide animation. This
+		action can be reversed by clicking again on the action element.
+		
+		NOTE: This code only works properly if jquery is included in the document
+		NOTE: This code only works properly if $click_id is unique in the document
+		
+	*/
 	return "
+		<div id='fix_content_$click_id'>
+			$fix_html
+		</div>
+		<div id='slide_content_$click_id' style='display: none;overflow: hidden; position: relative;'>
+			$slide_html
+		</div>
+		<script>
+			$('#$click_id').click(function(){
+        		$('#slide_content_$click_id').slideToggle(300);
+    		});
+		</script>";
+}
+
+function getListEntryHTML($number, $dataset) {
+	$image = getImageHTML($dataset->id);
+	$overview = "
 	<table class='list_entry'>
-	<tr>
-		<td class='number' rowspan='4' valign='top'>$number</td>
-			<td class='profile' rowspan='3'>$image</td>
-			<td class='contact_name' colspan='2'>".$dataset['first_name'].' '.$dataset['last_name']."</td>
-			<td class='ressort'>".$dataset['ressort']."</td>
+		<tr>
+			<td class='number' rowspan='4' valign='top' width='5%'>$number</td>
+			<td class='profile' rowspan='3' width='19%'>$image</td>
+			<td class='contact_name' colspan='2' width='38%'><b>".$dataset->first_name.' '.$dataset->last_name."</b></td>
+			<td class='ressort' width='19%'><b>".$dataset->name."</b></td>
+			<td></td>
 		</tr>
 		<tr>
-			<td class='active'>".$dataset['active']."</td>
-			<td class='status'>".$dataset['status']."</td>
+			<td class='active'>".$dataset->active."</td>
+			<td class='status'>".$dataset->position."</td>
 			<td class='text_beitritt'>Beitritt:</td>
-			<td>".$dataset['date_join']."</td>
+			<td>".$dataset->joined."</td>
 		</tr>
 		<tr>
 			<td colspan='2'></td>
 			<td class='text_beitritt'>Austritt:</td>
-			<td>".$dataset['date_leave']."</td>
+			<td>".$dataset->left."</td>
 		</tr>
 		<tr>
-			<td>DETAIL</td
-			><td>MAIL</td>
-			<td>EDIT</td>
-			<td>DELETE</td>
+			<td><button id='show_detail_$number' class='full-width' type='button'>DETAIL</button></td>
+			<td><button class='full-width'>MAIL</button></td>
+			<td><button class='full-width'>EDIT</button></td>
+			<td><button class='full-width'>DELETE</button></td>
+			<td></td>
 		</tr>
 	</table>";
+	$detail_view = "<h1>DETAIL</h1>";
+	$button_id = "show_detail_$number";
+	return expandableContent($overview, $detail_view, $button_id);
 }
 ?>
-
-<!DOCTYPE html>
-<html>
-	<head>
-		<meta charset='UTF-8'>
-		<meta name='viewport' content='width=device-width, initial-scale=1'>
-		<link rel='stylesheet' href='/wp-content/themes/twentyfourteen-child/listentry_style.css'/>
-		<title>Listeneintrag</title>
-	</head>
-	<body>
-		<?php
-// Testlauf
-$dataset = array(
-	'contact_id' => 135,
-	'first_name' => 'Alexander',
-	'last_name' => 'Schäfer',
-	'ressort' => 'Vorstand',
-	'active' => 'Aktiv',
-	'status' => 'Ressortleiter',
-	'date_join' => 'August 2015',
-	'date_leave' => '-'
-);
-echo getListEntryHTML(4, $dataset);
-
-?>
-	</body>
-</html>
