@@ -41,7 +41,8 @@ button.loginout{
 }
 
 .admin-bar{
-	position: absolute;
 	top: 0;
-	right: 1rem;
+	background-color: #fff;
+	text-align: right;
+	padding-right: 1.5rem;
 }

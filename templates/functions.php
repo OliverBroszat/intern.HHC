@@ -48,8 +48,9 @@
 				<meta charset='UTF-8'>
 				<meta name='viewport' content='width=device-width, initial-scale=1'>
 				<link rel='stylesheet' href='/wordpress/wp-content/themes/twentyfourteen-child/style.css'/>
-				<link rel='stylesheet' href='/wordpress/wp-content/themes/twentyfourteen-child/templates/style-suchfunktion.css'/>
-				<link rel='stylesheet' href='/wordpress/wp-content/themes/twentyfourteen-child/templates/style-home.css'/>
+				<link rel='stylesheet' href='/wordpress/wp-content/themes/twentyfourteen-child/style_suche.css'/>
+				<link rel='stylesheet' href='/wordpress/wp-content/themes/twentyfourteen-child/style_home.css'/>
+				<script src='https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js'></script>
 				<title>$title</title>
 			</head>
 			<body>
@@ -105,8 +106,14 @@
 // --------- Prüfe, ob ein Filter angewählt wurde ----------
 	if (!function_exists('ckeck')) {
 		function check($key, $value){
-			if(isset($_GET[$key]) && $_GET[$key] == $value){
-				return 'checked';
+			global $filter;
+
+			if (!empty($filter[$key])) {	
+				$find = array_search($value, $filter[$key]);
+				
+				if ($find !== False) {
+					return " checked ";	
+				}
 			}
 		}
 	}	
