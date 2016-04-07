@@ -136,6 +136,11 @@ main.container {
     margin-top: 1rem;
 }
 
+.search-box-cell{
+   vertical-align: middle; 
+   position: relative;
+}
+
 
 /* --------- Buttons --------- */
 button {
@@ -180,6 +185,33 @@ button.search {
 
 th button.sort{
     padding: 0.25rem 0.5rem;
+}
+
+
+/*--------- Search Suggestions --------- */
+#suggests{
+    position:absolute;
+    bottom: calc(100% - 0.5rem);
+    width: calc(100% - 1rem);
+    padding: 0;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-bottom: none;
+    border-radius: 0.2rem;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    display: none; 
+}
+#suggests.show {
+    display: block;
+}
+
+.suggest{
+    padding: 0.2rem 0.5rem;
+}
+.suggest:hover{
+    cursor: default;
+    background-color: #eee;
 }
 
 

@@ -103,7 +103,7 @@ function where_sql($search_words, $search_range, $filter){
 
 // ----------------------------------------------------------
 
-	function member_search($search_range, $search_text, $filter, $sort){
+function member_search($select_sql, $search_range, $search_text, $filter, $sort){
 	global $wpdb;
 
 	// Spalten anzeigen
@@ -151,7 +151,7 @@ function where_sql($search_words, $search_range, $filter){
 
 
 	// Sortieren
-	if (isset($sort)){					
+	if (!empty($sort)){					
 		$order = $sort;
 	}
 	else{
@@ -163,7 +163,7 @@ function where_sql($search_words, $search_range, $filter){
 // ---------- Datenabankabfrage ---------- 
 	$sql = "
 		SELECT 
-			Contact.id, Contact.first_name, Contact.last_name, Contact.birth_date, Ressort.name, Member.active, Member.position, Member.joined, Member.left
+			$select_sql
 		FROM 
 			Contact
 		JOIN 
@@ -187,6 +187,8 @@ function where_sql($search_words, $search_range, $filter){
 	";
 	// echo "<br><br><b>SQL Anfrage: </b><br>";
 	// echo"$sql<br><br>";
+
+	// return $sql;
 
 	$results = $wpdb->get_results($sql);
 

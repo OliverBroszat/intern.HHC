@@ -2,25 +2,21 @@
 /**
  * Template Name: Suche
  * Author: Daniel
- * Status: 06.04.2016, 15:30 Uhr
+ * Status: 07.04.2016, 18:00 Uhr
  *
  * @package WordPress
  * @subpackage Twenty_Fourteen Child
  * @since Twenty Fourteen 1.0
  */
 
-
-require_once('wp-config.php');
-require_once('wp-load.php');
 require_once('wp-content/themes/twentyfourteen-child/templates/functions.php');
-require_once('wp-content/themes/twentyfourteen-child/templates/list_entry.php');
-require_once('wp-content/themes/twentyfourteen-child/templates/member_search.php');
-
 global $wpdb;
 
-// Spalten und Filter für die Suchanfrage vorbereiten
-//$columns = array('Contact.first_name', 'Contact.last_name');
 
+// Spalten, die ausgewählt werden
+$select_sql ='Contact.id, Contact.first_name, Contact.last_name, Contact.birth_date, Ressort.name, Member.active, Member.position, Member.joined, Member.left';
+
+// Spalten, nach denen gesucht werden kann
 $search_range = array(
 	'Contact' => array(
 		'first_name',
@@ -42,7 +38,7 @@ $search_range = array(
 	)
 );
 
-
+// Filter
 $filter = array(
 	"Ressort.name" => $_POST['f_ressort_list'],
 	"Member.position" => $_POST['f_position_list'],
@@ -50,26 +46,33 @@ $filter = array(
 );
 
 // Suchanfrage in SQL (member_search.php)
-$result = member_search($search_range, $_GET['search_text'], $filter, $_POST['sort']);
+$result = member_search($select_sql, $search_range, $_GET['search_text'], $filter, $_POST['sort']);
 
-
+// Start HTML-Dokument
 echo html_header('Suchfunktion');
 ?>
-
 
 <div class = "outer">
 	<h1>Suche</h1>
 
 <!-- Suchfeld + Suchbutton -->
 	<div class="panel">
-		<form method="GET">
+		<form method="GET" id="form-suche">
 			<table class="form">
 				<tr>
-					<td style="vertical-align: middle;">
-						<input type="text" name="search_text" value="<?php echo htmlspecialchars($_GET['search_text']);?>"placeholder="Suche...">
+					<td class="search-box-cell">
+						<input 
+							id='text-box' 
+							type="text" 
+							name="search_text" 
+							onkeyup="suggest(this.value)"
+							value="<?php echo htmlspecialchars($_GET['search_text']);?>"
+							placeholder="Suche..."
+						>
+						<div id="suggests"></div> 
 					</td>
 					<td>
-						<button class='search'>Suchen</button>
+						<button id="start-search" class='search'>Suchen</button>
 					</td>
 				</tr>
 			</table>

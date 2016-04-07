@@ -1,0 +1,248 @@
+<html>
+<head>
+	<meta charset='UTF-8'>
+	<meta name='viewport' content='width=device-width, initial-scale=1'>
+	<link rel='stylesheet' href='style.css'/>
+	<link rel='stylesheet' href='style_suche.css'/>
+	<script src='https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js'></script>
+	<title>List Entry Daniel</title>
+
+	<style type="text/css">
+		img.profile-image{
+			max-height: 100px;
+			transition: all 0.5s ease;
+			border: 2px solid #ccc;
+			border-radius: 0.25rem;
+		}
+		img.profile-image.active{
+			border-color: #8ca;
+		}
+
+		img.profile-image.not-active{
+			border-color: #da6;
+		}
+
+		/*img.profile-image.big{
+			max-height: 150px;
+			transition: all 0.35s ease;
+		}*/
+		.list_entry td{
+			vertical-align: top;
+			border: none;
+			font-size: 1rem;
+		}
+
+		td.contact_name b{
+			font-size: 1.5rem;
+		}
+		span.active{
+			width: 1rem;
+			height: 1rem;
+			border-radius: 100%;
+			background-color: #8ca;
+			display: inline-block;
+			margin-left: 1rem;
+		}
+		span.active.not{
+			background-color: #da6;
+		}
+		.toggle_button button:before {
+	    	content: '\25BC';
+		}
+		.toggle_button button.opened:before {
+	    	content: '\25B2';
+		}
+
+		.slide_content{
+			margin-bottom: 1rem;
+		}
+
+		.slide_content td{
+			border-top: 1px solid #eee;
+			padding: 1rem;
+		}
+
+		hr{
+			margin: 1.5rem 0;
+		}
+		table, td{
+			border-collapse: collapse;
+		}
+		button[id^="show_detail_"]{
+			border-top: none;
+			background: linear-gradient(to bottom,#fff 0,#f6f7f9 100%);
+			border-bottom-left-radius: 100px;
+			border-bottom-right-radius: 100px;
+		}
+		button[id^="show_detail_"]:hover{
+			background: linear-gradient(to bottom,#fff 0,#f0f1f3 100%);
+		}
+		pre{
+			white-space: pre-line;
+		    overflow: auto;
+
+		    max-height: 75px;
+		    padding-right: 2rem;
+}
+		}
+
+	</style>
+
+</head>
+<body>
+	<div class="outer">
+	<div class="panel"	>
+		<div id='fix_content_1'>
+			<table class='list_entry'>
+				<tr>
+					<td class='profile' rowspan='3' width="50"><img id="image_1"class="profile-image active" src="../../uploads/2016/03/Profilbild-1x1-01b-SW-150x150.jpg"></td>
+					<td class='contact_name'>
+						<b>Daniel Högel</b>
+						<span class = "active"/>
+					</td>
+				</tr>
+				<tr>
+					<td class='status'>Position: Mitglied</td>
+				</tr>
+				<tr>
+					<td class='ressort'>Ressort: Marketing</td>
+				</tr>
+			</table>
+		</div>
+		<div class='slide_content' id='slide_content_1' style='display: none;overflow: hidden; position: relative;'>
+			<table>
+				<tr>
+					<td>
+						Uerdinger Straße 17c<br>
+						40668, Meerbusch
+					</td>
+					<td>
+						<a href="mailto:hoegel.daniel@gmail.com">E-Mail senden</a>
+					</td>
+					<td>
+						Phone: 02150 / 7979
+					</td>
+				</tr>
+				<tr>
+					<td>
+						HHC Beitritt: 01.04.2015
+					</td>
+					<td>
+						HHC Austritt: -
+					</td>
+				</tr>
+				
+				<tr>
+					<td>Studienfach (1): Jura</td>
+					<td>Heinrich Heine Universität</td>
+					<td>Schwerpunkt: Zivilrecht</td>
+				</tr>
+				<tr>
+					<td colspan="3">
+						<pre>
+							Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. <br>Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.<br>
+							Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. <br>
+							At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+						</pre>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<button class='full-width'>EDIT</button></td>
+					</td>
+					<td>
+						<button class='full-width'>DELETE</button>
+					</td>
+				</tr>
+			</table>
+			
+			
+		</div>
+		<div class="toggle_button">
+			<button id='show_detail_1' class='full-width' type='button'></button>
+		</div>
+<div id='fix_content_1'>
+			<table class='list_entry'>
+				<tr>
+					<td class='profile' rowspan='3' width="50"><img id="image_1"class="profile-image not-active" src="../../uploads/2016/03/Profilbild-1x1-01b-SW-150x150.jpg"></td>
+					<td class='contact_name'>
+						<b>Daniel Högel</b>
+						<span class = "active not"/>
+					</td>
+				</tr>
+				<tr>
+					<td class='status'>Position: Mitglied</td>
+				</tr>
+				<tr>
+					<td class='ressort'>Ressort: Marketing</td>
+				</tr>
+			</table>
+		</div>
+		<div class='slide_content' id='slide_content_1' style='display: none;overflow: hidden; position: relative;'>
+			<table>
+				<tr>
+					<td>
+						Uerdinger Straße 17c<br>
+						40668, Meerbusch
+					</td>
+					<td>
+						<a href="mailto:hoegel.daniel@gmail.com">E-Mail senden</a>
+					</td>
+					<td>
+						Phone: 02150 / 7979
+					</td>
+				</tr>
+				<tr>
+					<td>
+						HHC Beitritt: 01.04.2015
+					</td>
+					<td>
+						HHC Austritt: -
+					</td>
+				</tr>
+				
+				<tr>
+					<td>Studienfach (1): Jura</td>
+					<td>Heinrich Heine Universität</td>
+					<td>Schwerpunkt: Zivilrecht</td>
+				</tr>
+				<tr>
+					<td colspan="3">
+						<pre>
+							Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. <br>
+							Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.<br><br>
+							Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. <br>
+							At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+						</pre>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<button class='full-width'>EDIT</button></td>
+					</td>
+					<td>
+						<button class='full-width'>DELETE</button>
+					</td>
+				</tr>
+			</table>
+			
+			
+		</div>
+		<div class="toggle_button">
+			<button id='show_detail_1' class='full-width' type='button'></button>
+		</div>
+
+		
+	</div>
+	</div>
+
+
+	<script>
+		$('#show_detail_1').click(function(){
+    		$('#slide_content_1').slideToggle(300);
+    		$('#show_detail_1').toggleClass("opened");
+		});
+	</script>
+
+</body>
+</html>
