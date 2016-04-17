@@ -1,0 +1,257 @@
+/*
+ Theme Name:   HHC - Twenty Fourteen Child
+ Theme URI:    http://hhc-duesseldorf.de
+ Description:  Twenty Fourteen Child Theme
+ Author:       Alexander Schaefer
+ Author URI:   http://hhc-duesseldorf.de
+ Template:     twentyfourteen
+ Version:      1.0.0
+ License:      GNU General Public License v2 or later
+ License URI:  http://www.gnu.org/licenses/gpl-2.0.html
+ Tags:         light, dark, two-columns, right-sidebar, responsive-layout, accessibility-ready
+ Text Domain:  twenty-fourteen-child
+*/
+
+/* Styles */
+@import url(https://fonts.googleapis.com/css?family=Lato:400,100,300,700,900,300italic,400italic);
+
+
+/* sql-register header ausblenden */
+.page-id-36 #masthead, .page-id-36 .site:before{
+	display: none;
+}
+
+* {
+	font-family: Lato, Verdana, Helvetica, sans-serif, Arial;
+	font-size: 1rem;
+}
+
+html{
+	font-size: 16px;
+}
+
+/* Responsive font-size */
+
+@media screen and (max-width: 720px){
+	html{ font-size: 14px; }
+}
+
+@media screen and (max-width: 640px){
+	html{ font-size: 12px; }
+}
+
+@media screen and (max-width: 480px){
+	html{ font-size: 10px; }
+}
+
+@media screen and (max-width: 340px){
+	html{ font-size: 8px; }
+}
+
+body{
+	background-color: #f9f9f9;
+    color: #444648;
+	margin: 0;
+}
+
+h1, h2{
+	text-align: center;
+    padding: 0;
+    color: #042a4f;
+    font-weight: 300;
+}
+
+h1{
+	font-size: 2.25rem;
+    text-transform: uppercase;
+    margin: 2rem 0 0.5rem;
+}
+
+h2{
+	font-size: 1.5rem;
+	margin: 2rem 0 0.5rem;
+}
+
+/* ------ TABLES ------ */
+
+table{  
+    margin: 0 auto;
+    padding: 1rem;	
+	font-size: 1rem;
+	box-shadow: 0px 2px 5px rgba(0,0,0,0.2);
+    background-color: #fff;
+}
+
+tr{
+	margin: 1rem;
+}
+
+td, th{
+	padding: 0.25rem 0.5rem;
+	vertical-align: bottom;
+}
+
+th{
+	font-weight: bold;
+    text-align: left;
+    background-color: #758A9E;
+    color: #fff;
+}
+
+/* Form */
+table.form{
+	width: 100%;
+	max-width: 720px;
+}
+table.form, table.form th, table.form td{
+	border:none;
+}
+
+
+/* Liste */
+table.liste{
+	max-width: none;
+	border-collapse: collapse;
+	box-shadow: none;
+}
+
+table.liste tr:nth-child(odd) {
+    background-color: #f6f7f9;
+}
+
+table.liste tr:nth-child(even) {
+    background-color: #fff;
+}
+
+table.liste th, table.liste td {
+    border: 1px solid #e0e0e0;
+    font-size: 0.85rem;
+    text-shadow: 0 1px 0 #fff;
+}
+table.liste th {
+    color: #4f4f4f;
+    font-weight: bold;
+    background: #f6f7f9;
+    background: linear-gradient(to bottom,#fefefe 0,#f6f7f9 100%);
+    box-shadow: 0 1px 0 #fff inset;
+    border-bottom-color: #cacaca;
+}
+table.liste td {
+    color: #696969;
+}
+
+
+/* ------ INPUTS ------ */
+
+input{
+	font-size: 1rem;
+	color: inherit;
+	box-sizing: border-box;
+}
+
+input[type='text'], input[type='email'], input[type='date']{
+	padding: 0.25rem 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 0.2rem;
+    width: 100%;
+	background-color: #fcfcfc;
+}
+
+input[type='file']{
+	padding: 0.25rem 0.5rem;
+}
+
+select {
+	width: 100%;
+	font-size: 1rem;
+	padding: 0.25rem 0.5rem;
+	border: 1px solid #ccc;
+	border-radius: 0.3rem;
+	color: inherit;
+	background-color: #fcfcfc;
+}
+
+fieldset {
+	border: none;
+	padding: 0;
+}
+
+fieldset input[type='radio']{
+	margin-bottom: 0.5rem;
+}
+
+button {
+	font-size: 1rem;
+	margin: 0.5rem auto;
+	display: block;
+	padding: 0.25rem 0.5rem;
+
+	color: inherit;
+    background-color: #fff;
+    font-weight: 400;
+    box-shadow: 0px 1px 2px rgba(0,0,0,0.2);
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 0.2rem;
+    transition: all 100ms ease;
+    text-decoration: none;
+    box-sizing: border-box;
+}
+
+button:hover {
+    background-color: #fafafa;
+    color: #6a6a6a;
+    border: 1px solid rgba(0,0,0,0.25);
+    cursor: pointer;
+}
+
+button.registrieren{
+	font-size: 1.25rem;
+    margin: 2rem auto;
+    display: block;
+    padding: 0.5rem 1.5rem;
+    
+}
+
+button.search{
+	width: 100%;
+}
+
+button.sort{
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+}
+
+button.sort.active::after{
+	content: "  \25BC";
+	position: absolute;
+	display: inline-block;
+	font-size: 0.8rem;
+	margin-left: 0.25rem;
+}
+
+
+.msg{
+	margin: 1rem auto;
+	padding: 2rem 0.5rem;
+	background-color: #a22;
+	color: #eee;
+	text-align: center;
+	width: 100%;
+	max-width: 720px;
+	font-size: 1.25rem;
+	line-height: 1.5;
+	box-sizing: border-box;
+	
+	border-radius: 0.25rem;
+}
+.msg.ok{
+	background-color: #2a2;
+}
+
+img.profile-picture {
+    height: 2rem;
+}

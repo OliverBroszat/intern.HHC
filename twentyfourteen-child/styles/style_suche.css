@@ -1,0 +1,231 @@
+/* --------- Allgemeine Styles --------- */
+
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #f2f2f2;
+    color: #545D63;
+    margin: 0;
+    width: 100%;
+}
+
+h1{
+    margin: 2rem 0 1rem;
+}
+h2{
+    margin: 0 0 1rem;
+}
+
+
+/* --------- Tabellen --------- */
+form, table, table.form{
+    background: auto;
+    margin: 0;
+    padding: 0;
+    box-shadow: none;
+}
+
+table, table.form{
+    margin: 0 auto;
+    width: 100%;
+}
+
+th{
+    background: #f6f7f9;
+    background: linear-gradient(to bottom,#fefefe 0,#f6f7f9 100%);
+    color: #4f4f4f;
+
+    border-bottom: 1px solid #cacaca;
+}
+
+table.liste th{
+    padding: 0;
+}
+
+.list_entry{
+    border-collapse: collapse;
+    background-color: transparent;
+    border-style: hidden;
+    border-bottom-width: 1px;
+    margin: 1rem 0;
+}
+
+
+.list_entry th, .list_entry td {
+    border: 1px solid #e0e0e0;
+    font-size: 0.85rem;
+    text-shadow: 0 1px 0 #fff;
+    vertical-align: middle;
+}
+
+.search_results .list_entry tr:nth-child(odd) {
+    /* background-color: #f6f7f9; */
+    background: transparent;
+}
+.search_results .list_entry tr:nth-child(even) {
+    /*background-color: #fff;*/
+    background: transparent;
+}
+
+.list_entry button{
+    font-size: 0.75rem;
+}
+
+.list_entry img.profile-picture {
+    height: auto;
+    width: 100%; 
+}
+
+
+/* --------- Struktur-Elemente --------- */
+.full-width{
+    width: 100%;
+}
+
+.outer{
+    width: 100%;
+    max-width: 960px;
+    margin: 0 auto;
+}
+
+main.container {
+    padding-left: 24px;
+    width: 70%;
+    margin: 0 0 10rem;
+    float: right;
+}
+
+
+.panel {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08);
+    padding: 1.5rem;
+}
+
+.panel:not(:last-child){
+    margin-bottom: 2rem;
+}
+
+.panel.full-width{
+    border-radius: 0;
+    border-left: none;
+    border-right: 0;
+}
+
+.panel:after{
+    clear: both;
+}
+.sidebar{
+    width: 30%;
+    float: left;
+}
+
+.panel.filter{
+    padding: 0.75rem;
+}
+.filter td{
+    padding-left: 0;
+}
+.filter table, .filter button{
+    margin-top: 1rem;
+}
+
+.search-box-cell{
+   vertical-align: middle; 
+   position: relative;
+}
+
+
+/* --------- Buttons --------- */
+button {
+    appearance: none;
+    cursor: pointer;
+
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: bold;
+    text-decoration: none;
+    text-align: center;
+    vertical-align: middle; 
+    
+    position: relative;
+    display: inline-block;
+    margin: 0;
+    padding: 0.25rem;
+
+    background: #f6f7f9;
+    background: linear-gradient(to bottom,#fefefe 0,#f6f7f9 100%);
+    color: #4f4f4f;
+    
+    border-radius: 3px;
+    border: 1px solid #dadbdc;
+    border-color: #e0e0e0;
+    border-bottom-color: #cacaca;
+
+    box-shadow: 0px 1px 1px -1px rgba(0, 0, 0, 0.12), 0px 1px 0px rgba(255, 255, 255, 0.32) inset;  
+}
+
+button:hover {
+    text-decoration: none;
+    background: #f6f7f9;
+    border-bottom-color: #c5c5c5;
+    background: linear-gradient(to bottom,#f9f9f9 0,#eeeff1 100%);
+    box-shadow: px 1px 1px -1px rgba(0, 0, 0, 0.25), 0px 1px 0px rgba(255, 255, 255, 0.75) inset;  
+}
+
+button.search {
+    padding: 0.5rem 0.5rem;
+}
+
+th button.sort{
+    padding: 0.25rem 0.5rem;
+}
+
+
+/*--------- Search Suggestions --------- */
+#suggests{
+    position:absolute;
+    bottom: calc(100% - 0.5rem);
+    width: calc(100% - 1rem);
+    padding: 0;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-bottom: none;
+    border-radius: 0.2rem;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    display: none; 
+}
+#suggests.show {
+    display: block;
+}
+
+.suggest{
+    padding: 0.2rem 0.5rem;
+}
+.suggest:hover{
+    cursor: default;
+    background-color: #eee;
+}
+
+
+/*--------- Media Queries --------- */
+@media screen and (max-width: 960px){
+    .sidebar, main.container{
+        width: 100%;
+        max-width: 100%;
+        border-radius: 0;
+        border-left: none;
+        border-right: none;
+        margin-left: 0;
+        margin-right: 0;
+        padding-right: 0;
+        padding-left: 0;
+    }
+}
