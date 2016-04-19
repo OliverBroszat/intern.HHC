@@ -1,0 +1,48 @@
+html{
+	height: 105%;
+}
+a, a:link, a:visited, a:active, a:focus, a:hover {
+	font-size: inherit;
+	text-decoration: none;
+	color: inherit;
+} 
+nav li{
+	list-style: none;
+	display: inline-block;
+	margin: 0 1rem;
+	font-size: 1.25rem;
+	font-weight: 300;
+    text-transform: uppercase;
+	padding: 0.5rem 0;
+	box-sizing: border-box;
+	transition: all 0.15s ease;
+	border-bottom: 2px solid transparent;
+}
+
+nav li:hover{
+	color: #042a4f;
+	cursor: pointer;
+	border-color: #042a4f;
+}
+
+nav, .nav.panel{
+	margin: 0;
+	text-align: center;
+	padding: 0.5rem;
+	border-top: none;
+}
+
+button.loginout{
+	padding: 0.5rem 2rem;
+	/*margin-top: 1rem;*/
+}
+button.loginout{
+	border-top: none;
+}
+
+.admin-bar{
+	top: 0;
+	background-color: #fff;
+	text-align: right;
+	padding-right: 1.5rem;
+}

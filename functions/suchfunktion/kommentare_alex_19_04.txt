@@ -1,0 +1,33 @@
+Fragen:
+
+-------- prepareSQL Z. 185
+
+// Sortieren
+if (empty($input['sort'])){					
+	$sort = "Contact.last_name";
+}
+
+wenn $input['sort'] nicht leer ist, wird $sort trotzdem gar nichts zugewiesen
+
+Korrektur:
+
+// Sortieren
+if (empty($input['sort'])){					
+	$sort = "Contact.last_name";
+}
+else {
+	$sort = $input['sort'];
+}
+
+SQL Anfragen müssen noch mit $wpdb->prepare escaped werden!
+
+-------- getData Z. 18
+
+- SQL Anfragen müssen noch mit $wpdb->prepare escaped werden!
+- SQL Fehler werden noch nicht abgefangen
+
+-------- create HTML
+
+Die Funktion getImageHTML führt selbst noch eine Datenbankanfrage durch, die
+eigentlich schon in getData gemacht werden müsste. Da haben wir letzten Freitag
+nicht dran gedacht.
