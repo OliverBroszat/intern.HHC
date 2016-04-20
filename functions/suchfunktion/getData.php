@@ -10,6 +10,7 @@
 		"phones" => ...
 		"addresses" => ...,
 		"studies" => ...
+		"image" => HMTML Code des Profilbilds (wird schon durch die Funktion getImageHTML bereitgestellt)
 	)
 
 */
@@ -59,7 +60,6 @@ function getDetail($contact_id) {
 	$detail_array['study'] = $wpdb->get_results("
 		SELECT * FROM Study WHERE contact=$contact_id;
 	");
-	$detail_array['image_html'] = getImageHTML($contact_id);
 	return $detail_array;
 }
 
@@ -93,7 +93,8 @@ function getData($queries){
 			'mails' => '',
 			'phones' => '',
 			'addresses' => '',
-			'studies' => ''
+			'studies' => '',
+			'image' => getImageHTML($contact_id)
 		);		
 	
 	}	

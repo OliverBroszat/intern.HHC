@@ -129,7 +129,7 @@ function getDetailView($number, $dataset) {
 
 function getListEntryHTML($number, $dataset_full) {
 	$dataset = $dataset_full['info'];
-	$image = $dataset_full['detail']['image_html'];
+	$image = $dataset_full['image'];
 	$overview = "
 	<table class='list_entry'>
 		<tr>

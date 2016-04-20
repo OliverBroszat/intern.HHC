@@ -37,6 +37,14 @@
 
 		<table class='form'>
 			<tr>
+				<td>
+					<select name='anrede'>
+						<option value='Herr'>Herr</option>
+						<option value='Frau'>Frau</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
 				<td width='50%'>	
 					<input type='text' name='vorname' placeholder='Vorname*'/>
 				</td>
