@@ -49,10 +49,10 @@ function getDetail($contact_id) {
 	global $wpdb;
 	$detail_array = array();
 	$detail_array['phone'] = $wpdb->get_results("
-		SELECT number FROM Phone WHERE contact=$contact_id;
+		SELECT description, number FROM Phone WHERE contact=$contact_id;
 	");
 	$detail_array['mail'] = $wpdb->get_results("
-		SELECT address FROM Mail WHERE contact=$contact_id;
+		SELECT description, address FROM Mail WHERE contact=$contact_id;
 	");
 	$detail_array['address'] = $wpdb->get_results("
 		SELECT * FROM Address WHERE contact=$contact_id;
@@ -90,10 +90,10 @@ function getData($queries){
 		$data[$contact_id] = array(
 			'info' => $row,
 			'detail' => $detail,
-			'mails' => '',
-			'phones' => '',
-			'addresses' => '',
-			'studies' => '',
+			'mails' => $detail['mail'],
+			'phones' => $detail['phone'],
+			'addresses' => $detail['address'],
+			'studies' => $detail['study'],
 			'image' => getImageHTML($contact_id)
 		);		
 	

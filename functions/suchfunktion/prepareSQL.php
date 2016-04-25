@@ -140,7 +140,8 @@ function prepareSQL_contact_search($input){
 			'id',
 			'first_name',
 			'last_name',
-			'birth_date'
+			'birth_date',
+			'comment'
 		),
 		'Ressort' => array(
 			'name'
