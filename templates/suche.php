@@ -252,16 +252,16 @@ echo html_header('Suchfunktion');
 		<div class='panel'>
 			<form method='POST'>
 				<h2>Suchergebnisse</h2>
-					<?php echo $html ?>
+					<div id='list-container'>
+						<!--<div class="modal"> Place at bottom of page </div>-->
+						<?php echo $html ?>
+					</div>
 			</form>
 		</div><!-- /panel -->	
 	</main>
 	</div><!-- /outer -->
 
-
-
-
-
+<div class="modal"> Place at bottom of page </div>
 
 <script type = "text/javascript">
 
@@ -274,10 +274,17 @@ function ajax_post() {
 	var hr = new XMLHttpRequest();
 	hr.onreadystatechange = function() {
 		if (hr.readyState == 4 && hr.status == 200) {
-			alert(hr.responseText);
+			setTimeout(function(){
+				document.getElementsByTagName('body')[0].classList.remove('modal');
+				//document.getElementById('list-container').classList.remove('modal');
+			    alert(hr.responseText);
+			}, 800);
 		}
 	};
 	hr.open("POST", "http://neu.hhc-duesseldorf.de/wp-content/themes/twentyfourteen-child/functions/suchfunktion/AcceptAjax.php", true);
+	var b = document.getElementsByTagName('body')[0];
+	//var b = document.getElementById('list-container');
+	b.className += " modal";
 	hr.send();
 }
 
@@ -289,3 +296,4 @@ function ajax_post() {
 	echo html_footer();
 
 ?>
+
