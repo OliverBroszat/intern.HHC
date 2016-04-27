@@ -197,7 +197,7 @@ echo html_header('Suchfunktion');
 				</table>
 
 
-				<button onclick="ajax_post();" class="full-width">Anwenden</button>
+				<button type="button" onclick="ajax_post();" class="full-width">Anwenden</button>
 		</form>
 	</div><!-- /panel -->
 </div><!-- /sidebar -->
@@ -265,27 +265,20 @@ echo html_header('Suchfunktion');
 
 <script type = "text/javascript">
 
-function ajax_post(){
+function ajax_post() {
 
- //   var hr = new XMLHttpRequest();
+	// http://stackoverflow.com/questions/9713058/sending-post-data-with-a-xmlhttprequest
+	// Gute Infoquelle für ein POST Beispiel mit Ajax
+	// Siehe vor allem die zweite Antwort mit FormData
 
- //   var rn = document.getElementById("f_ressort_list");
- //   var mp = document.getElementById("f_position_list");
- //   var ma = document.getElementById("f_status_list");
-    var huehue = "<?php echo $_POST?>";
-	// alert("asd"+huehue);
-
-    hr.open("POST", url, true);
-
-   /* hr.onreadystatechange = function() {
-	    if(hr.readyState == 4 && hr.status == 200) {
-		    var return_data = hr.responseText;
-			document.getElementById("status").innerHTML = return_data;
-	    }
-    }
-
-    hr.send(vars);
-    */
+	var hr = new XMLHttpRequest();
+	hr.onreadystatechange = function() {
+		if (hr.readyState == 4 && hr.status == 200) {
+			alert(hr.responseText);
+		}
+	};
+	hr.open("POST", "http://neu.hhc-duesseldorf.de/wp-content/themes/twentyfourteen-child/functions/suchfunktion/AcceptAjax.php", true);
+	hr.send();
 }
 
 </script>
