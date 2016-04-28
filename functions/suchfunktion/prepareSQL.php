@@ -140,7 +140,8 @@ function prepareSQL_contact_search($input){
 			'id',
 			'first_name',
 			'last_name',
-			'birth_date'
+			'birth_date',
+			'comment'
 		),
 		'Ressort' => array(
 			'name'
@@ -185,6 +186,9 @@ function prepareSQL_contact_search($input){
 	// Sortieren
 	if (empty($input['sort'])){					
 		$sort = "Contact.last_name";
+	}
+	else {
+		$sort = $input['sort'];
 	}
 
 	// ASC/DESC (wird in der SQL anfrage noch nicht berücksichtigt)

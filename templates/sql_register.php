@@ -51,6 +51,7 @@ if(
 	$wpdb->insert( 
 		'Contact', 
 		array(
+			'prefix' => $_POST['anrede'],
 			'first_name' => $_POST['vorname'],
 			'last_name' => $_POST['nachname'],
 			'birth_date' => $_POST['birth_date']
@@ -109,7 +110,7 @@ if(
 			'postal' => $_POST['postal'],
 			'city' => $_POST['city'],
 			'contact' => $Contactid, 
-			'description'=>" "
+			'description'=>"Privat"
 		)
 	);
 	$Addressid = $wpdb->insert_id;

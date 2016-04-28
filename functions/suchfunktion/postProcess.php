@@ -13,9 +13,7 @@ function postProcess($data){
 
 	// Inhalte umwandeln
 
-	foreach ($data as $row) {
-		
-		$id = $row->id;
+	foreach ($data as $id => $row) {
 
 		// Geburtsdatum in Alter umwandeln
 		$date1 = date_create($row['info']->birth_date);
@@ -40,6 +38,7 @@ function postProcess($data){
 		// Daten formatieren
 		$final[$id]['info']->joined = change_date_format($row['info']->joined);
 		$final[$id]['info']->left = change_date_format($row['info']->left);
+		$final[$id]['image'] = $data[$id]['image'];
 	}
 	
 	return $final;

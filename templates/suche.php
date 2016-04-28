@@ -24,7 +24,6 @@ require_once("$root/wp-content/themes/twentyfourteen-child/functions/suchfunktio
 require_once("$root/wp-content/themes/twentyfourteen-child/functions/suchfunktion/getData.php");
 require_once("$root/wp-content/themes/twentyfourteen-child/functions/suchfunktion/postProcess.php");
 require_once("$root/wp-content/themes/twentyfourteen-child/functions/suchfunktion/createHTML.php");
-require_once("$root/wp-content/themes/twentyfourteen-child/functions/suchfunktion/list_entry.php");
 
 
 // require_once("$root/wp-content/themes/twentyfourteen-child/functions/member_search.php");
@@ -36,21 +35,21 @@ require_once("$root/wp-content/themes/twentyfourteen-child/functions/suchfunktio
 ----------------------------------------
 */
 
-echo "<br><hr><b>DEBUGGING:</b><br>";
+// echo "<br><hr><b>DEBUGGING:</b><br>";
 
 
 // POST übertragen
 $input = AcceptPost($_POST, $_GET);
 // Debug Output
-echo "<br><br><b>Input:</b><br>";
-var_dump($input);
+// echo "<br><br><b>Input:</b><br>";
+// var_dump($input);
 
 
 // SQL-Abfrage vorbereiten
 $queries = prepareSQL($input);
 // Debug Output
-echo "<br><br><b>SQL:</b><br>";
-var_dump($queries);
+// echo "<br><br><b>SQL:</b><br>";
+// var_dump($queries);
 
 
 // Datenbankabfrage
@@ -74,7 +73,7 @@ $html = createHTML($final);
 // var_dump($html);
 
 
-echo "<hr><br>";
+// echo "<hr><br>";
 
 
 /* 
@@ -198,7 +197,7 @@ echo html_header('Suchfunktion');
 				</table>
 
 
-				<button onclick="ajax_post();" class="full-width">Anwenden</button>
+				<button type="button" onclick="ajax_post();" class="full-width">Anwenden</button>
 		</form>
 	</div><!-- /panel -->
 </div><!-- /sidebar -->
@@ -253,47 +252,48 @@ echo html_header('Suchfunktion');
 		<div class='panel'>
 			<form method='POST'>
 				<h2>Suchergebnisse</h2>
-					<?php echo $html ?>
+					<div id='list-container'>
+						<!--<div class="modal"> Place at bottom of page </div>-->
+						<?php echo $html ?>
+					</div>
 			</form>
 		</div><!-- /panel -->	
 	</main>
 	</div><!-- /outer -->
 
-
-
-
-
+<div class="modal"> Place at bottom of page </div>
 
 <script type = "text/javascript">
 
-function ajax_post(){
+function ajax_post() {
 
- //   var hr = new XMLHttpRequest();
+	// http://stackoverflow.com/questions/9713058/sending-post-data-with-a-xmlhttprequest
+	// Gute Infoquelle für ein POST Beispiel mit Ajax
+	// Siehe vor allem die zweite Antwort mit FormData
 
- //   var rn = document.getElementById("f_ressort_list");
- //   var mp = document.getElementById("f_position_list");
- //   var ma = document.getElementById("f_status_list");
-    var huehue = "<?php echo $_POST?>";
-	alert("asd"+huehue);
-
-    hr.open("POST", url, true);
-
-   /* hr.onreadystatechange = function() {
-	    if(hr.readyState == 4 && hr.status == 200) {
-		    var return_data = hr.responseText;
-			document.getElementById("status").innerHTML = return_data;
-	    }
-    }
-
-    hr.send(vars);
-    */
+	var hr = new XMLHttpRequest();
+	hr.onreadystatechange = function() {
+		if (hr.readyState == 4 && hr.status == 200) {
+			setTimeout(function(){
+				document.getElementsByTagName('body')[0].classList.remove('modal');
+				//document.getElementById('list-container').classList.remove('modal');
+			    alert(hr.responseText);
+			}, 800);
+		}
+	};
+	hr.open("POST", "http://neu.hhc-duesseldorf.de/wp-content/themes/twentyfourteen-child/functions/suchfunktion/AcceptAjax.php", true);
+	var b = document.getElementsByTagName('body')[0];
+	//var b = document.getElementById('list-container');
+	b.className += " modal";
+	hr.send();
 }
 
 </script>
  
 
 <?php 
-var_dump($filter);	
+	// var_dump($filter);	
 	echo html_footer();
 
 ?>
+

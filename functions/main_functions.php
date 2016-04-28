@@ -44,9 +44,9 @@ function html_header($title){
 			<meta charset='UTF-8'>
 			<meta name='viewport' content='width=device-width, initial-scale=1'>
 
-			<script src='https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js'></script>
-			<script src='http://code.jquery.com/ui/1.11.4/jquery-ui.js'></script>
-			<link rel='stylesheet' href='http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css'>
+			<script src='/wp-content/themes/twentyfourteen-child/import/1.12.0.jquery.min.js'></script>
+			<script src='/wp-content/themes/twentyfourteen-child/import/1.11.4.jquery-ui.min.js'></script>
+			<link rel='stylesheet' href='/wp-content/themes/twentyfourteen-child/import/1.11.4.jquery-ui.min.css'>
 
 			<link rel='stylesheet' href='/wp-content/themes/twentyfourteen-child/style.css'/>
 			<link rel='stylesheet' href='/wp-content/themes/twentyfourteen-child/styles/style_suche.css'/>
@@ -109,7 +109,10 @@ if (!function_exists('change_date_format')) {
 // --------- Prüfe, ob ein Filter angewählt wurde ----------
 if (!function_exists('check')) {
 	function check($key, $value){
-		global $filter;
+		global $input;
+
+		$filter = $input['filter'];
+
 
 		if (!empty($filter[$key])) {	
 			$find = array_search($value, $filter[$key]);

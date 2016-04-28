@@ -56,7 +56,7 @@ table.liste th{
 
 
 .list_entry th, .list_entry td {
-    border: 1px solid #e0e0e0;
+    border: 1px solid transparent;
     font-size: 0.85rem;
     text-shadow: 0 1px 0 #fff;
     vertical-align: middle;
@@ -228,4 +228,45 @@ th button.sort{
         padding-right: 0;
         padding-left: 0;
     }
+}
+
+/*--------- Verschiedenes --------- */
+div.Aktiv {
+    background: green;
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+}
+div.Passiv {
+    background: red;
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+}
+
+/* CSS für Lade-GIF wenn AJAX Call läuft */
+.modal {
+    display:    none;
+    position:   fixed;
+    z-index:    1000;
+    top:        0;
+    left:       0;
+    height:     100%;
+    width:      100%;
+    background: rgba( 255, 255, 255, .2 ) 
+                url('../resources/gif/ajax-loader.gif') 
+                50% 50% 
+                no-repeat;
+}
+
+/* When the body has the loading class, we turn
+   the scrollbar off with overflow:hidden */
+body.loading {
+    overflow: hidden;   
+}
+
+/* Anytime the body has the loading class, our
+   modal element will be visible */
+body.loading .modal {
+    display: block;
 }
