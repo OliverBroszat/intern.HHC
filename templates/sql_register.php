@@ -175,7 +175,7 @@ if(
 			'start'=>$_POST['start1'], 
 			'end'=>$_POST['end1'], 
 			'focus'=>$_POST['focus1'], 
-			'info_extra'=>$_POST['extra1']
+			'degree'=>$_POST['extra1']
 		)
 	);
 	$Study1id = $wpdb->insert_id;
@@ -198,7 +198,7 @@ if(
 					'start'=>$_POST['start2'], 
 					'end'=>$_POST['end2'], 
 					'focus'=>$_POST['focus2'], 
-					'info_extra'=>$_POST['extra2']
+					'degree'=>$_POST['extra2']
 				)
 			);
 			$Study2id = $wpdb->insert_id;
