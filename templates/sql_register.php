@@ -3,8 +3,8 @@
  * Template Name: SQL Register
  *
  * @package WordPress
- * @subpackage Twenty_Fourteen Child
- * @since Twenty Fourteen 1.0
+ * @subpackage intern-hhc
+ * @since intern-hhc
  */
 ?>
 

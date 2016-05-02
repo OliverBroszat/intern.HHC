@@ -1,32 +1,34 @@
 <?php
 /**
  * Template Name: Suche
- * Author: Daniel
- * Status: 07.04.2016, 18:00 Uhr
  *
  * @package WordPress
- * @subpackage Twenty_Fourteen Child
- * @since Twenty Fourteen 1.0
+ * @subpackage intern-hhc
+ * @since intern-hhc
  */
 
 
 // Server:
-$root = realpath($_SERVER["DOCUMENT_ROOT"]);
+// $root = realpath($_SERVER["DOCUMENT_ROOT"])."/wordpress";
 
 // localhost:
 // $root = realpath($_SERVER["DOCUMENT_ROOT"])."/wordpress";
 
 
-require_once("$root/wp-content/themes/twentyfourteen-child/functions/main_functions.php");
+get_header();
 
-require_once("$root/wp-content/themes/twentyfourteen-child/functions/suchfunktion/AcceptPost.php");
-require_once("$root/wp-content/themes/twentyfourteen-child/functions/suchfunktion/prepareSQL.php");
-require_once("$root/wp-content/themes/twentyfourteen-child/functions/suchfunktion/getData.php");
-require_once("$root/wp-content/themes/twentyfourteen-child/functions/suchfunktion/postProcess.php");
-require_once("$root/wp-content/themes/twentyfourteen-child/functions/suchfunktion/createHTML.php");
+// Server:
+// $root = realpath($_SERVER["DOCUMENT_ROOT"]);
 
+// localhost:
+$root = realpath($_SERVER["DOCUMENT_ROOT"])."/wordpress";
 
-// require_once("$root/wp-content/themes/twentyfourteen-child/functions/member_search.php");
+require_once("$root/wp-content/themes/intern-hhc/functions/main_functions.php");
+require_once("$root/wp-content/themes/intern-hhc/functions/suchfunktion/AcceptPost.php");
+require_once("$root/wp-content/themes/intern-hhc/functions/suchfunktion/prepareSQL.php");
+require_once("$root/wp-content/themes/intern-hhc/functions/suchfunktion/getData.php");
+require_once("$root/wp-content/themes/intern-hhc/functions/suchfunktion/postProcess.php");
+require_once("$root/wp-content/themes/intern-hhc/functions/suchfunktion/createHTML.php");
 
 
 /* 
@@ -35,54 +37,23 @@ require_once("$root/wp-content/themes/twentyfourteen-child/functions/suchfunktio
 ----------------------------------------
 */
 
-// echo "<br><hr><b>DEBUGGING:</b><br>";
-
-
 // POST übertragen
 $input = AcceptPost($_POST, $_GET);
-// Debug Output
-// echo "<br><br><b>Input:</b><br>";
-// var_dump($input);
-
-
 // SQL-Abfrage vorbereiten
 $queries = prepareSQL($input);
-// Debug Output
-// echo "<br><br><b>SQL:</b><br>";
-// var_dump($queries);
-
-
 // Datenbankabfrage
 $data = getData($queries);
-// Debug Output
-//echo "<br><br><b>Data:</b><br>";
-//var_dump($data);
-
-
 // Post-Processing
 $final = postProcess($data);
-// Debug Output
-// echo "<br><br><b>Final:</b><br>";
-// var_dump($final);
-
-
 // HTML-Tabelle
 $html = createHTML($final);
-// Debug Output
-// echo "<br><br><b>HTML-Tabelle:</b><br>";
-// var_dump($html);
-
-
-// echo "<hr><br>";
-
-
 /* 
 ----------------------------------------
 ---------- HTML-Seite ---------- 
 ----------------------------------------
 */
 
-echo html_header('Suchfunktion');
+// echo html_header('Suchfunktion');
 ?>
 
 <div class = "outer">
@@ -252,16 +223,15 @@ echo html_header('Suchfunktion');
 		<div class='panel'>
 			<form method='POST'>
 				<h2>Suchergebnisse</h2>
-					<div id='list-container'>
-						<!--<div class="modal"> Place at bottom of page </div>-->
-						<?php echo $html ?>
-					</div>
+				<div id='list-container'>
+					<!--<div class="modal"> Place at bottom of page </div>-->
+					<?php echo $html ?>
+				</div>
 			</form>
 		</div><!-- /panel -->	
 	</main>
 	</div><!-- /outer -->
 
-<div class="modal"> Place at bottom of page </div>
 
 <script type = "text/javascript">
 
@@ -275,15 +245,15 @@ function ajax_post() {
 	hr.onreadystatechange = function() {
 		if (hr.readyState == 4 && hr.status == 200) {
 			setTimeout(function(){
-				document.getElementsByTagName('body')[0].classList.remove('modal');
-				//document.getElementById('list-container').classList.remove('modal');
+				// document.getElementsByTagName('body')[0].classList.remove('modal');
+				document.getElementById('list-container').classList.remove('modal');
 			    alert(hr.responseText);
 			}, 800);
 		}
 	};
 	hr.open("POST", "http://neu.hhc-duesseldorf.de/wp-content/themes/twentyfourteen-child/functions/suchfunktion/AcceptAjax.php", true);
-	var b = document.getElementsByTagName('body')[0];
-	//var b = document.getElementById('list-container');
+	// var b = document.getElementsByTagName('body')[0];
+	var b = document.getElementById('list-container');
 	b.className += " modal";
 	hr.send();
 }

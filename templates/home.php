@@ -1,24 +1,22 @@
 <?php
 /**
  * Template Name: Home
- * Author: Daniel
- * Status: 05.04.2016, 19:00 Uhr
  *
  * @package WordPress
- * @subpackage Twenty_Fourteen Child
- * @since Twenty Fourteen 1.0
+ * @subpackage intern-hhc
+ * @since intern-hhc
  */
 
 // Server:
-$root = realpath($_SERVER["DOCUMENT_ROOT"]);
+// $root = realpath($_SERVER["DOCUMENT_ROOT"]);
 
 // localhost:
-// $root = realpath($_SERVER["DOCUMENT_ROOT"])."/wordpress";
+$root = realpath($_SERVER["DOCUMENT_ROOT"])."/wordpress";
 
 
-require_once("$root/wp-content/themes/twentyfourteen-child/functions/main_functions.php");
+require_once("$root/wp-content/themes/intern-hhc/functions/main_functions.php");
 
-echo html_header('Home');
+get_header();
 
 echo html_footer();
 ?>

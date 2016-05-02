@@ -245,18 +245,21 @@ div.Passiv {
 }
 
 /* CSS für Lade-GIF wenn AJAX Call läuft */
-.modal {
-    display:    none;
-    position:   fixed;
-    z-index:    1000;
-    top:        0;
-    left:       0;
-    height:     100%;
-    width:      100%;
-    background: rgba( 255, 255, 255, .2 ) 
+.modal:after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 2rem;
+    background-color: red;
+    background: 
                 url('../resources/gif/ajax-loader.gif') 
                 50% 50% 
                 no-repeat;
+    margin: 2rem auto;
+}
+
+.modal * {
+    display: none;
 }
 
 /* When the body has the loading class, we turn

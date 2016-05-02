@@ -3,20 +3,12 @@
  * Template Name: Registrieren
  *
  * @package WordPress
- * @subpackage Twenty_Fourteen Child
- * @since Twenty Fourteen 1.0
+ * @subpackage intern-hhc
+ * @since intern-hhc
  */
 
+get_header();
 ?>
-
-<html>
-<head>
-	<meta charset='UTF-8'>
-	<meta name='viewport' content='width=device-width, initial-scale=1'>
-	<link rel='stylesheet' href='/wp-content/themes/twentyfourteen-child/style.css'/>
-	<title>Neu registrieren!</title>
-</head>
-<body>
 
 	<h1>Mitgliederdatenbank</h1>
 	
