@@ -49,10 +49,10 @@ function getDetail($contact_id) {
 	global $wpdb;
 	$detail_array = array();
 	$detail_array['phone'] = $wpdb->get_results("
-		SELECT description, number FROM Phone WHERE contact=$contact_id;
+		SELECT number FROM Phone WHERE contact=$contact_id;
 	");
 	$detail_array['mail'] = $wpdb->get_results("
-		SELECT description, address FROM Mail WHERE contact=$contact_id;
+		SELECT address FROM Mail WHERE contact=$contact_id;
 	");
 	$detail_array['address'] = $wpdb->get_results("
 		SELECT * FROM Address WHERE contact=$contact_id;
@@ -78,8 +78,7 @@ function getData($queries){
 	$query_contact_search = $queries['contact_search'];
 
 	// $wpdb->prepare wird noch nicht verwendet
-	$results = $wpdb->get_results($query_contact_search);
-
+        $results = $wpdb->get_results($query_contact_search);
 	
 	$data = array();
 
@@ -98,6 +97,20 @@ function getData($queries){
 		);		
 	
 	}	
+	
+	//if($wpdb->last_error !== '') :
+        //    $wpdb->print_error()
+        //endif;
+        
+        $root = realpath($_SERVER["DOCUMENT_ROOT"]);
+
+        
+        function error_found(){
+            header("Location: ../home.php");
+        }
+        set_error_handler('error_found');
+
+
 
 	return $data;
 }

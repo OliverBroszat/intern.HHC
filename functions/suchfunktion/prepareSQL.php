@@ -78,7 +78,10 @@ function sql_where_filter($filter){
 
 
 // ---------- prepare searchwords for WHERE ----------
-function sql_where_search($search_words, $search_range){		
+function sql_where_search($search_words, $search_range){	
+
+	global $wpdb;
+
 	/*
 		Hiermit soll eine Abfrage folgenden Schemas generiert werden:
 			
@@ -111,7 +114,8 @@ function sql_where_search($search_words, $search_range){
 					$sql .= ' OR ';
 				}
 				$first_loop_b = false;
-				$sql .= "$table.$column LIKE '%".$word."%'";
+				
+				$sql .= $wpdb->prepare("$table.$column LIKE %s", '%'.$word.'%');
 			}
 		}
 		$sql .= ')';
@@ -131,6 +135,9 @@ function sql_where_search($search_words, $search_range){
 
 
 function prepareSQL_contact_search($input){
+
+	global $wpdb;
+
 
 	// ---------- Vordefinierte Werte ---------- 
 
@@ -198,9 +205,10 @@ function prepareSQL_contact_search($input){
 
    
 	// ---------- Datenabankabfrage vorbereiten ---------- 
-
-	$sql = "
-		SELECT 
+	
+        
+        	$sql = "
+		SELET 
 			".sql_select($search_select)."
 		FROM 
 			Contact
@@ -224,6 +232,7 @@ function prepareSQL_contact_search($input){
 		ORDER BY 
 			$sort, Contact.last_name, Contact.first_name, Ressort.name
 	";
+
 
 
 	return $sql;
