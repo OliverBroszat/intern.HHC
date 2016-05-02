@@ -78,9 +78,9 @@ function getDetailView($number, $dataset) {
 	//foreach($dataset['studies'] as $row) {
 	foreach($dataset['detail']['study'] as $row) {
 		$tr = '<tr><td>';
-		 $status = $row->status;
-		 switch($status) {
-		 	case 'active':
+		$status = $row->status;
+		switch($status) {
+			case 'active':
 		 		$tr .= '<span class="study_status_active">Aktuell</span>';
 		 		break;
 		 	case 'cancelled':
@@ -89,10 +89,14 @@ function getDetailView($number, $dataset) {
 		 	case 'done':
 		 		$tr .= '<span class="study_status_done">Abgeschlossen</span>';
 		 		break;
-		 }
-		 $tr .= '</td><td><b>'.$row->course.'</b></td></tr>';
-		 $tr .= '<tr><td colspan="2">'.$row->school.'</td>';
-		 $study_table .= $tr;
+		}
+		$tr .= '</td><td><b>'.$row->course.'</b></td></tr>';
+		$tr .= '<tr><td colspan="2">'.$row->school.'</td></tr>';
+		$tr .= '<tr><td colspan="2">Abschluss: '.$row->degree.'</td></tr>';
+		$tr .= '<tr><td>Beginn</td><td>'.$row->start.'</td></tr>';
+		$tr .= '<tr><td>Ende</td><td>'.$row->end.'</td></tr>';
+		$tr .= '<tr><td style="vertical-align: top;">Schwerpunkt</td><td>'.$row->focus.'</td></tr>';
+		$study_table .= $tr;
 	}
 	$study_table .= '</table>';
 
