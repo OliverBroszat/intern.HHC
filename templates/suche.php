@@ -251,7 +251,7 @@ function ajax_post() {
 			}, 800);
 		}
 	};
-	hr.open("POST", "http://neu.hhc-duesseldorf.de/wp-content/themes/twentyfourteen-child/functions/suchfunktion/AcceptAjax.php", true);
+	hr.open("POST", "http://neu.hhc-duesseldorf.de/wp-content/themes/twentyfourteen-child/functions/suchfunktion/AcceptAjax.php", TRUE);
 	// var b = document.getElementsByTagName('body')[0];
 	var b = document.getElementById('list-container');
 	b.className += " modal";

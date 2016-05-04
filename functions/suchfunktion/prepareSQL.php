@@ -44,6 +44,7 @@ function sql_select($search_select){
 
 // ---------- prepare filter for WHERE----------
 function sql_where_filter($filter){
+	global $wpdb;
 	if (array_filter($filter)) {
 		$sql = '';
 
@@ -64,7 +65,8 @@ function sql_where_filter($filter){
 					}
 					$first_call_b = False;
 					
-					$sql .= "$key = '$value'";
+					$sql .= $wpdb->prepare("%s = '%s'", $key, $value);
+					//$sql .= "$key = '$value'";
 				}
 				$sql .= ")";
 			}
@@ -72,7 +74,6 @@ function sql_where_filter($filter){
 	} else{
 		$sql = 'True';
 	}
-
 	return $sql;
 }
 
@@ -87,6 +88,9 @@ function sql_where_search($search_words, $search_range){
 			(c1 LIKE '%w%3' OR c2 LIKE '%w%3' OR c3 LIKE '%w%3' ...)
 			...
 	*/
+	
+	global $wpdb;
+
 
 	$sql = '';
 
@@ -111,8 +115,8 @@ function sql_where_search($search_words, $search_range){
 					$sql .= ' OR ';
 				}
 				$first_loop_b = false;
-				$sql .= "$table.$column LIKE '%".$word."%'";
-			}
+                                $sql .= $wpdb->prepare("$table.$column LIKE %s", '%'.$word.'%');			
+                        }
 		}
 		$sql .= ')';
 	}
