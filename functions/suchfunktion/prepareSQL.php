@@ -204,7 +204,7 @@ function prepareSQL_contact_search($input){
 	// ---------- Datenabankabfrage vorbereiten ---------- 
 
 	$sql = "
-		SELEC 
+		SELECT 
 			".sql_select($search_select)."
 		FROM 
 			Contact

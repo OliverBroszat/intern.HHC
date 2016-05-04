@@ -25,8 +25,8 @@ echo html_footer();
 <div class="outer">
 	<h1 style="text-transform: none;">intern.HHC</h1>
 	<div class="panel">
-		ERROR 
-		 <?php $wpdb->print_error() ?>
+		ERROR <br>
+		Es ist ein Fehler aufgetreten. Versuch es bitte nochmal oder benachrichtige das IT-Ressort.
 	</div>
 </div>
 
