@@ -22,7 +22,7 @@ function expandableContent($fix_html, $slide_html, $click_id) {
 		<div id='fix_content_$click_id'>
 			$fix_html
 		</div>
-		<div id='slide_content_$click_id' style='display: none;overflow: hidden; position: relative;'>
+		<div id='slide_content_$click_id' class='detail-content' style='display: none;overflow: hidden; position: relative;'>
 			$slide_html
 		</div>
 		<script>
@@ -41,8 +41,7 @@ function getDetailView($number, $dataset) {
 	}
 	else {
 		foreach($dataset['phones'] as $row) {
-			//$phone_html .= '<tr><td>'.$row['description'].'</td><td>'.$row['number'].'</td></tr>';
-			$phone_html .= '<tr><td>'.$row->description.'</td><td>'.$row->number.'</td></tr>';
+			$phone_html .= "<tr><td width='10%'>".$row->description."</td><td>".$row->number."</td></tr>";
 		}
 	}
 	
@@ -53,10 +52,8 @@ function getDetailView($number, $dataset) {
 	}
 	else {
 		foreach($dataset['addresses'] as $row) {
-			//$address_html .= "<tr><td rowspan='2' style='vertical-align: top;'>".$row['description'] .
-			//'</td><td>'.$row['street'].' '.$row['nr'].'</td></tr><tr><td>'.$row['postal'].' '.$row['city'].'</td></tr>';
-			$address_html .= "<tr><td rowspan='2' style='vertical-align: top;'>".$row->description .
-			'</td><td>'.$row->street.' '.$row->number.' '.$row->addr_extra.'</td></tr><tr><td>'.$row->postal.' '.$row->city.'</td></tr>';
+			$address_html .= "<tr><td width='10%'>".$row->description .
+			"</td><td>".$row->street." ".$row->number." ".$row->addr_extra."<br>".$row->postal." ".$row->city."</td></tr>";
 		}
 	}
 	
@@ -68,8 +65,8 @@ function getDetailView($number, $dataset) {
 	else {
 		foreach($dataset['mails'] as $row) {
 			//$mail_html .= '<tr><td>'.$row['description'].'</td><td>'.$row['address'].'</td></tr>';
-			$mail_html .= '<tr><td>'.$row->description
-			.'</td><td>'.$row->address.'</td></tr>';
+			$mail_html .= "<tr><td width='10%'>".$row->description
+			."</td><td><a href='mailto:".$row->address."'>".$row->address."</a></td></tr>";
 		}
 	}
 
@@ -110,48 +107,47 @@ function getDetailView($number, $dataset) {
 	}
 	
 	return "
-<div class='info-list' style='display: block;'>
-	<table>
-		<tr>
-			<td style='vertical-align: top;' width='33%'>
-				Hinterlegte Adressen
-				<div class='scroll_list' style='max-height: 150px; overflow-y: scroll;'>
-					<table>".
-						$address_html
-					."</table>
-				</div>
-			</td>
-			<td style='vertical-align: top;' width='33%'>
-				E-Mail
-				<div class='scroll_list' style='max-height: 150px; overflow-y: scroll;'>
-					<table>".
-						$mail_html
-					."</table>
-				</div>
-			</td>
-			<td style='vertical-align: top;' width='33%'>
-				Telefonnummern
-				<div class='scroll_list' style='max-height: 150px; overflow-y: scroll;'>
-					<table>".
-						$phone_html
-					."</table>
-				</div>
-			</td>
-		</tr>
-		<tr>
-			<td style='vertical-align: top;'>
-				<div class='join' style='display: inline-block;'>
-					Beitritt: ".$dataset['info']->joined."
-				</div>
-			</td>
-			<td style='vertical-align: top;'>
-				<div class='left' style='display: inline-block; margin-left: 100px;'>
-					Austritt: ".$dataset['info']->left."
-				</div>
-			</td>
-		</tr>
-	</table>
+<div class='info-list'>
+	<div class='data-block'>
+		<div class='data-set'>
+			<span class='data-set-title'>Hinterlegte Adressen</span>
+			<div class='scroll-list'>
+				<table>$address_html</table>
+			</div>
+		</div>
+		<div class='data-set'>
+			<span class='data-set-title'>E-Mail</span>
+			<div class='scroll-list'>
+				<table>$mail_html</table>
+			</div>
+		</div>
+		<div class='data-set'>
+			<span class='data-set-title'>Telefonnummern</span>
+			<div class='scroll-list'>
+				<table>$phone_html</table>
+			</div>
+		</div>
+	</div>
+	<div class='data-block'>
+		<div class='data-set'>
+			<span class='data-set-title'>Beitritt</span>
+			<div class='scroll-list'>
+				<table>
+					<tr>
+						<td width='10%'>Beitritt</td>
+						<td>".$dataset['info']->joined."</td>
+					</tr>
+					<tr>
+						<td width='10%'>Austritt</td>
+						<td>".$dataset['info']->left."</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
 </div>
+
+
 <div id='tabs-$number'>
 	<ul>
 		<li><a href='#tabs-$number-1'>Studiengänge und Praktika</a></li>
@@ -178,7 +174,7 @@ function getListEntryHTML($number, $dataset_full) {
 	<table class='list_entry'>
 		<tr>
 			<td class='number' rowspan='4' style='vertical-align: top;' width='5%'>$number</td>
-			<td class='profile' rowspan='3' width='19%'>$image</td>
+			<td class='profile' rowspan='4' width='19%'>$image</td>
 			<td class='contact_name' width='38%'><b>".$dataset->first_name.' '.$dataset->last_name."</b></td>
 			<td align='right'><div class='".$dataset->active."'></div></td>
 		</tr>
