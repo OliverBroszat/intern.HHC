@@ -12,7 +12,7 @@
 // $root = realpath($_SERVER["DOCUMENT_ROOT"]);
 
 // localhost:
-// $root = realpath($_SERVER["DOCUMENT_ROOT"])."/wordpress";
+$root = realpath($_SERVER["DOCUMENT_ROOT"])."/wordpress";
 
 
 // require_once("$root/wp-content/themes/twentyfourteen-child/functions/main_functions.php");

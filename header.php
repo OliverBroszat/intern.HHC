@@ -7,11 +7,12 @@
 
 $dir = get_stylesheet_directory_uri();
 
-// Server:
-// $root = realpath($_SERVER["DOCUMENT_ROOT"]);
+$root = realpath($_SERVER["DOCUMENT_ROOT"]);
+if (strpos($root, '\\')){
+	// localhost
+	$root .= "/wordpress";
+}
 
-// localhost:
-$root = realpath($_SERVER["DOCUMENT_ROOT"])."/wordpress";
 
 require_once("$root/wp-content/themes/intern-hhc/functions/main_functions.php");
 

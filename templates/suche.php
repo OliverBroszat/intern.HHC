@@ -7,21 +7,13 @@
  * @since intern-hhc
  */
 
-
-// Server:
-// $root = realpath($_SERVER["DOCUMENT_ROOT"])."/wordpress";
-
-// localhost:
-// $root = realpath($_SERVER["DOCUMENT_ROOT"])."/wordpress";
-
-
 get_header();
 
-// Server:
-// $root = realpath($_SERVER["DOCUMENT_ROOT"]);
-
-// localhost:
-$root = realpath($_SERVER["DOCUMENT_ROOT"])."/wordpress";
+$root = realpath($_SERVER["DOCUMENT_ROOT"]);
+if (strpos($root, '\\')){
+	// localhost
+	$root .= "/wordpress";
+}
 
 require_once("$root/wp-content/themes/intern-hhc/functions/main_functions.php");
 require_once("$root/wp-content/themes/intern-hhc/functions/suchfunktion/AcceptPost.php");
@@ -65,6 +57,7 @@ $html = createHTML($final);
 			<table class="form">
 				<tr>
 					<td class="search-box-cell">
+						<!-- onkeyup="suggest(this.value)" -->
 						<input 
 							id='text-box' 
 							type="text" 
@@ -83,20 +76,57 @@ $html = createHTML($final);
 		</form>
 	</div><!-- /panel -->
 
-<!-- Filter -->
-<div class = "sidebar">
-	<div class = "panel filter">
-		<form method="POST">
-			<h2>Filtern nach...</h2>
-		<!-- Ressort -->
-			<table>
-				<tr>
-					<th colspan="2">
-						Ressort<br>
-					</th>
-				</tr>
-				<tr>
-					<td>
+
+
+	<div class = "sidebar">
+		
+	<!-- Sortieren -->
+		<div class='panel'>
+			<form method='POST'>
+				<h2>Sortieren nach:</h2>
+
+				<select name="sort" id="sort" onchange="ajax_post()">
+
+<?php
+	// Sortieren
+	$t_header = array(
+		array('value' => 'Contact.id', 'name' => 'ID'),
+		array('value' => 'Contact.first_name', 'name' => 'Vorname'),
+		array('value' => 'Contact.last_name', 'name' => 'Nachname'), 
+		array('value' => 'Contact.birth_date', 'name' => 'Alter'), 
+		array('value' => 'Ressort.name', 'name' => 'Ressort'),
+		array('value' => 'Member.active', 'name' => 'Status')
+	);	
+
+	// Print Sortieren
+	foreach ($t_header as $value) {	
+		echo "
+			<option value='".$value[value]."'>
+				".$value[name]."
+			</option>
+		";
+	}
+?>
+
+				</select>
+			</form>
+		</div><!-- /panel -->
+	
+
+	
+	<!-- Filter -->
+		<div class = "panel filter">
+			<form method="POST">
+				<h2>Filtern nach:</h2>
+			<!-- Ressort -->
+				<table>
+					<tr>
+						<th colspan="2">
+							Ressort<br>
+						</th>
+					</tr>
+					<tr>
+						<td>
 
 <?php 
 	// Ressort Checkboxen
@@ -167,57 +197,52 @@ $html = createHTML($final);
 					</tr>
 				</table>
 
+			<!-- Uni -->
+				<table>
+					<tr>
+						<th colspan="2">
+							Universität<br>
+						</th>
+					</tr>
+					
+					<?php					
+						$result = $wpdb->get_results("SELECT school FROM Study");
+						
+						$result_array = array();
+						foreach ($result as $key) {
+							array_push($result_array, $key->school);
+						}
+
+						$uni = array_unique($result_array);
+
+						foreach ($uni as $value) {
+							echo "
+								<tr>
+									<td width='10%'>
+										<input
+											type='checkbox'
+											name='f_uni_list'
+											value='$value'
+											".check('Study.school',$value).">
+									</td>
+									<td>
+										$value
+									</td>
+								</tr>
+							";
+						}
+					?>
+						
+				</table>
+
 
 				<button type="button" onclick="ajax_post();" class="full-width">Anwenden</button>
-		</form>
-	</div><!-- /panel -->
-</div><!-- /sidebar -->
-	
+			</form>
+		</div><!-- /panel -->
+	</div><!-- /sidebar -->
 	
 
 	<main class="container">
-		<div class='panel'>
-			<form method='POST'>
-				<h2>Sortieren nach:</h2>
-				<table class='liste'>
-					<tr>
-
-<?php
-	// Sortieren
-	$t_header = array(
-		array('value' => 'Contact.id', 'name' => 'ID'),
-		array('value' => 'Contact.first_name', 'name' => 'Vorname'),
-		array('value' => 'Contact.last_name', 'name' => 'Nachname'), 
-		array('value' => 'Contact.birth_date', 'name' => 'Alter'), 
-		array('value' => 'Ressort.name', 'name' => 'Ressort'),
-		array('value' => 'Member.active', 'name' => 'Status')
-	);	
-
-	// Print Sortieren
-	foreach ($t_header as $value) {	
-		// Hinzufügen einer CSS-Klasse zur Identifizierung der Sortierspalte
-		if($_POST['sort'] == $value[value]){
-			$active = ' active';
-		}else{
-			$active = "";
-		}
-
-		// Print einzelne Sortierfelder
-		echo "
-			<th>
-				<button type='submit' name='sort' value='".$value[value]."' class='sort$active'>
-					".$value[name]."
-				</button>
-			</th>
-		";
-	}
-?>
-
-					</tr>
-				</table>
-			</form>
-		</div><!-- /panel -->
-
 
 <!--  Suchergebnisse -->
 		<div class='panel'>
@@ -251,7 +276,7 @@ function ajax_post() {
 			}, 800);
 		}
 	};
-	hr.open("POST", "http://neu.hhc-duesseldorf.de/wp-content/themes/twentyfourteen-child/functions/suchfunktion/AcceptAjax.php", true);
+	hr.open("POST", "/wordpress/wp-content/themes/intern-hhc/functions/suchfunktion/AcceptAjax.php", true);
 	// var b = document.getElementsByTagName('body')[0];
 	var b = document.getElementById('list-container');
 	b.className += " modal";
