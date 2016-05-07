@@ -290,47 +290,28 @@ function ajax_post() {
 	data.append('f_status_list[]', document.getElementsByName('f_status_list[]')[0].checked);
 	data.append('f_status_list[]', document.getElementsByName('f_status_list[]')[1].checked);
 
-
-
-
-/*	var hr = new XMLHttpRequest();
-	hr.onreadystatechange = function() {
-		if (hr.readyState == 4 && hr.status == 200) {
-			setTimeout(function(){
-				document.getElementsByTagName('body')[0].classList.remove('modal');
-				//document.getElementById('list-container').classList.remove('modal');
-			    alert(hr.responseText);
-			}, 800);
-		}
-	};
-	hr.open("POST", "http://neu.hhc-duesseldorf.de/wp-content/themes/twentyfourteen-child/functions/suchfunktion/AcceptAjax.php", true);
 	var b = document.getElementsByTagName('body')[0];
-	//var b = document.getElementById('list-container');
 	b.className += " modal";
-	hr.send(data);
-*/
 
-
-$.ajax({
-  url: 'http://neu.hhc-duesseldorf.de/wp-content/themes/twentyfourteen-child/functions/suchfunktion/AcceptAjax.php',
-  data: data,
-  processData: false,
-  contentType: false,
-  type: 'POST',
-  success: function(data){
-    alert(data);
-  }
-});
-
-
-
+	$.ajax({
+	  url: 'http://neu.hhc-duesseldorf.de/wp-content/themes/twentyfourteen-child/functions/suchfunktion/AcceptAjax.php',
+	  data: data,
+	  processData: false,
+	  contentType: false,
+	  type: 'POST',
+	  success: function(data){
+	  	setTimeout(function(){
+				document.getElementsByTagName('body')[0].classList.remove('modal');
+				alert(data);;
+			}, 600);
+	  }
+	});
 }
 
 </script>
  
 
-<?php 
-	// var_dump($filter);	
+<?php 	
 	echo html_footer();
 
 ?>
