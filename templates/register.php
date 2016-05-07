@@ -107,8 +107,8 @@
 				<td width='50%'>
 					Status*:
 					<select name='active'>
-						<option value='true'>Aktiv</option>
-						<option value='false'>Inaktiv</option>
+						<option value='0'>Aktiv</option>
+						<option value='1'>Inaktiv</option>
 					</select>
 				</td>
 				<td colspan='2'>

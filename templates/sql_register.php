@@ -136,15 +136,15 @@ if(
 	$Memberid = $wpdb->insert_id;
 
 	// Mail Privat
-	$wpdb->insert( 'Mail', array('address'=>$_POST['mail_privat'], 'contact' => $Contactid));
+	$wpdb->insert( 'Mail', array('description'=>'Privat', 'address'=>$_POST['mail_privat'], 'contact' => $Contactid));
 	$Mail1id = $wpdb->insert_id;
 
 	// Mail HHC
-	$wpdb->insert( 'Mail', array('address'=>$_POST['mail_hhc'], 'contact' => $Contactid));
+	$wpdb->insert( 'Mail', array('description'=>'HHC', 'address'=>$_POST['mail_hhc'], 'contact' => $Contactid));
 	$Mail2id = $wpdb->insert_id;
 
 	// Phone
-	$wpdb->insert( 'Phone', array('number'=>$_POST['phone1'], 
+	$wpdb->insert( 'Phone', array('description'=>'Mobil', 'number'=>$_POST['phone1'], 
 	'contact' => $Contactid));
 	$Phone_mobileid = $wpdb->insert_id;
 
@@ -152,7 +152,7 @@ if(
 	if($_POST['phone2'] != ''){
 		$wpdb->insert( 
 			'Phone', 
-				array('number'=>$_POST['phone2'], 
+				array('description'=>'Privat', 'number'=>$_POST['phone2'], 
 					'contact' => $Contactid));
 					 $phone_id = $wpdb->insert_id;
 	};

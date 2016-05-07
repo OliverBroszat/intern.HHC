@@ -1,5 +1,5 @@
 <?php
 
-echo 'It Works!';
+var_dump($_POST);
 
 ?>

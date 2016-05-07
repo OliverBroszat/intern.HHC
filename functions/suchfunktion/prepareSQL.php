@@ -44,6 +44,7 @@ function sql_select($search_select){
 
 // ---------- prepare filter for WHERE----------
 function sql_where_filter($filter){
+	global $wpdb;
 	if (array_filter($filter)) {
 		$sql = '';
 
@@ -64,7 +65,8 @@ function sql_where_filter($filter){
 					}
 					$first_call_b = False;
 					
-					$sql .= "$key = '$value'";
+					$sql .= $wpdb->prepare("%s = '%s'", $key, $value);
+					//$sql .= "$key = '$value'";
 				}
 				$sql .= ")";
 			}
@@ -72,16 +74,12 @@ function sql_where_filter($filter){
 	} else{
 		$sql = 'True';
 	}
-
 	return $sql;
 }
 
 
 // ---------- prepare searchwords for WHERE ----------
-function sql_where_search($search_words, $search_range){	
-
-	global $wpdb;
-
+function sql_where_search($search_words, $search_range){		
 	/*
 		Hiermit soll eine Abfrage folgenden Schemas generiert werden:
 			
@@ -90,6 +88,9 @@ function sql_where_search($search_words, $search_range){
 			(c1 LIKE '%w%3' OR c2 LIKE '%w%3' OR c3 LIKE '%w%3' ...)
 			...
 	*/
+	
+	global $wpdb;
+
 
 	$sql = '';
 
@@ -114,9 +115,8 @@ function sql_where_search($search_words, $search_range){
 					$sql .= ' OR ';
 				}
 				$first_loop_b = false;
-				
-				$sql .= $wpdb->prepare("$table.$column LIKE %s", '%'.$word.'%');
-			}
+                                $sql .= $wpdb->prepare("$table.$column LIKE %s", '%'.$word.'%');			
+                        }
 		}
 		$sql .= ')';
 	}
@@ -135,9 +135,6 @@ function sql_where_search($search_words, $search_range){
 
 
 function prepareSQL_contact_search($input){
-
-	global $wpdb;
-
 
 	// ---------- Vordefinierte Werte ---------- 
 
@@ -205,10 +202,9 @@ function prepareSQL_contact_search($input){
 
    
 	// ---------- Datenabankabfrage vorbereiten ---------- 
-	
-        
-        	$sql = "
-		SELET 
+
+	$sql = "
+		SELECT 
 			".sql_select($search_select)."
 		FROM 
 			Contact
@@ -232,7 +228,6 @@ function prepareSQL_contact_search($input){
 		ORDER BY 
 			$sort, Contact.last_name, Contact.first_name, Ressort.name
 	";
-
 
 
 	return $sql;
