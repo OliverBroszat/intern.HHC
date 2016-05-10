@@ -15,6 +15,10 @@
 
 */
 
+// Server:
+$root = realpath($_SERVER["DOCUMENT_ROOT"]);
+require_once("$root/wp-content/themes/twentyfourteen-child/functions/main_functions.php");
+
 /*
 	Selects the wordpress attachment ID of the users currently selected
 	image from the wordpress media database and returns an HTML image
@@ -34,7 +38,7 @@ function getImageHTML($contact_id) {
 		$imageHTML = "<a href='$imgsrc' target='_blank'><img src='$imgsrc_thumb' class='profile-picture' alt='Profilbild' /></a>";
 	}
 	else {
-		$imageHTML = "<img class='profile-picture'>";
+		$imageHTML = "<img class='profile-picture' src='$root/wp-content/themes/twentyfourteen-child/resources/images/profile_placeholder.png'>";
 	}
 	return $imageHTML;
 }
