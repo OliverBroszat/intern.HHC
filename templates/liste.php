@@ -24,6 +24,17 @@ if (!function_exists('change_date_format')) {
 	}
 }
 
+// Server:
+$root = realpath($_SERVER["DOCUMENT_ROOT"]);
+
+// localhost:
+// $root = realpath($_SERVER["DOCUMENT_ROOT"])."/wordpress";
+
+
+require_once("$root/wp-content/themes/twentyfourteen-child/functions/main_functions.php");
+
+echo html_header('Liste');
+
 ?>
 
 <html>

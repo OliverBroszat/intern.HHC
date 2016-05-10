@@ -38,6 +38,7 @@ button.loginout{
 }
 button.loginout{
 	border-top: none;
+	float: right;
 }
 
 .admin-bar{

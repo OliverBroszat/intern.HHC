@@ -18,9 +18,8 @@ $root = realpath($_SERVER["DOCUMENT_ROOT"]);
 
 require_once("$root/wp-content/themes/twentyfourteen-child/functions/main_functions.php");
 
-echo html_header('Home');
+echo html_header('Fehler');
 
-echo html_footer();
 ?>
 <div class="outer">
 	<h1 style="text-transform: none;">intern.HHC</h1>
@@ -30,3 +29,6 @@ echo html_footer();
 	</div>
 </div>
 
+<?php
+echo html_footer();
+?>

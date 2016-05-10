@@ -20,8 +20,8 @@ require_once("$root/wp-content/themes/twentyfourteen-child/functions/main_functi
 
 echo html_header('Home');
 
-echo html_footer();
 ?>
+
 <div class="outer">
 	<h1 style="text-transform: none;">intern.HHC</h1>
 	<div class="panel">
@@ -30,4 +30,76 @@ echo html_footer();
 		<?php $wpdb->print_error() ?>
 	</div>
 </div>
+
+<?php
+echo html_footer();
+?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
