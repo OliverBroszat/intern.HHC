@@ -116,16 +116,12 @@
 					<select name='ressort'>
 						<option value='unbekannt'>Kein Ressort</option>
 						<option value='vorstand'>Vorstand</option>
-						<option value='alumni'>Alumni</option>
 						<option value='it'>IT</option>
-						<option value='training'>Training</option>
-						<option value='event'>Event</option>
-						<option value='pr'>PR</option>
-						<option value='hr'>HR</option>
+						<option value='mpr'>Marketing und PR</option>
+						<option value='ope'>Organisation und Personalentwicklung</option>
 						<option value='sales'>Sales</option>
-						<option value='marketing'>Marketing</option>
 						<option value='finance'>Finanzen und Recht</option>
-						<option value='quality'>Qualität</option>
+						<option value='qm'>Qualitäts- und Alumnimanagement</option>
 					</select>
 				</td>
 			</tr>
