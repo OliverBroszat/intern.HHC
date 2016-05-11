@@ -6,59 +6,80 @@
 */
 
 
+$root = realpath($_SERVER["DOCUMENT_ROOT"]);
+if (strpos($root, '\\')){
+	// localhost
+	$root .= "/wordpress";
+}
 
-require_once('../main_functions.php');
-global $wpdb;
+require_once("$root/wp-config.php");
 
-$search_select = 
-$search_range = array(
-	'Contact' => array(
-		'first_name',
-		'last_name'
-	),
-	'Ressort' => array(
-		'name'
-	),
-	'Address' => array(
-		'city',
-		'postal'
-	),
-	'Phone' => array(
-		'number'
-	),
-	'Study' => array(
-		'school',
-		'course'
-	)
-);
-$filter = array();
-$search_order = '';
 
-$search_text=$_GET["q"];
+$search_text = explode(" ", trim($_GET["search_text"]));
 
-// SQL-Abfrage
-$result = member_search($search_select, $search_range, $search_text, $filter, $search_order);
 
-// Transform result to final output
-$output = array();
-foreach ($result as $key) {
-	foreach ($key['info'] as $value) {
-		array_push($output, trim($value));
+// ---------- SQL Abfrage ---------- 
+
+$query = "
+		SELECT INSTR(res.first_name, '%1\$s') AS erg, res.first_name, last_name, id
+		FROM (
+			SELECT * 
+			FROM (
+				SELECT first_name, last_name, id FROM Contact 
+				UNION 
+				SELECT last_name, first_name, last_name FROM Contact
+				UNION 
+				SELECT city, NULL, NULL FROM Address
+				UNION 
+				SELECT school, NULL, NULL FROM Study
+				UNION 
+				SELECT course, NULL, NULL FROM Study
+				UNION 
+				SELECT number, NULL, NULL FROM Phone
+			) AS text
+			WHERE 
+				text.first_name LIKE '%%%1\$s%%'
+		) AS res 
+		ORDER BY erg, res.first_name;
+  	";
+$query_escaped = $wpdb->prepare($query, $search_text[0]);
+$result = $wpdb->get_results( $query_escaped );
+
+
+// ---------- Ergebnis der Abfrage auswerten: "Vorname Nachname", "Nachname, Vorname", "Value" ---------- 
+
+$suggest = array();
+foreach ($result as $index) {
+	if ($index->erg < 16) {
+		if (!empty($index->last_name)) {
+			if (is_numeric($index->id)) {
+				$value = $index->first_name." ".$index->last_name;
+			}
+			else{
+				$value = $index->first_name.", ".$index->last_name;
+			}
+		}
+		else{
+			$value = $index->first_name;
+		}
+		array_push($suggest, $value);
 	}
 }
-//Suche nach Suchwörtern in output
-$suggest = preg_grep("/.*$search_text.*/i", $output);
-// Lösche Dublikate
-$suggest = array_unique($suggest);
 
-$suggest = array_slice($suggest,0,4);
-// Liste umkehren, damit die besten Einträge ganz unten, also direkt über dem Suchfeld sind
-$suggest = array_reverse($suggest);
+
+// ---------- Suchwort in Suchvorschlag markieren und ausgeben ---------- 
 
 foreach ($suggest as $value) {
-	echo "<div class = 'suggest' onclick='add_to_search_box(this.innerHTML)'>$value</div>";
+
+	$pos = stripos($value, $search_text[0]);
+	$pos_end = $pos + strlen($search_text[0]);
+
+	$value = substr_replace($value, '</b>', $pos_end, 0);
+	$value = substr_replace($value, '<b>', $pos, 0);
+
+	echo "<div class = 'suggest' onclick='add_to_search_box(this.innerHTML)'>".strip_tags($value)."</div>";
+
 }
 
-// var_dump($result);
 
 ?>

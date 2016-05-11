@@ -3,48 +3,31 @@
  * Template Name: Liste
  *
  * @package WordPress
- * @subpackage Twenty_Fourteen Child
- * @since Twenty Fourteen 1.0
+ * @subpackage intern-hhc
+ * @since intern-hhc
  */
 
 
 //******* functions *******
 
 // change the date from YYYY-MM-DD to DD.MM.YYYY
-if (!function_exists('change_date_format')) {
-	function change_date_format($origDate){
-		if($origDate == "0000-00-00"){
-			return "-";
-		}elseif ($origDate == "") {
-			return "";
-		}else{
-			$newDate = date("d.m.Y", strtotime($origDate));
-			return $newDate;
-		}
-	}
-}
+// if (!function_exists('change_date_format')) {
+// 	function change_date_format($origDate){
+// 		if($origDate == "0000-00-00"){
+// 			return "-";
+// 		}elseif ($origDate == "") {
+// 			return "";
+// 		}else{
+// 			$newDate = date("d.m.Y", strtotime($origDate));
+// 			return $newDate;
+// 		}
+// 	}
+// }
 
-// Server:
-$root = realpath($_SERVER["DOCUMENT_ROOT"]);
+get_header();
 
-// localhost:
-// $root = realpath($_SERVER["DOCUMENT_ROOT"])."/wordpress";
-
-
-require_once("$root/wp-content/themes/twentyfourteen-child/functions/main_functions.php");
-
-echo html_header('Liste');
 
 ?>
-
-<html>
-<head>
-	<meta charset='UTF-8'>
-	<meta name='viewport' content='width=device-width, initial-scale=1'>
-	<link rel='stylesheet' href='/wp-content/themes/twentyfourteen-child/style.css'/>
-	<title>Liste</title>
-</head>
-<body>
 	<main>
 		<h1>Liste</h1>
 		<table class='liste'>

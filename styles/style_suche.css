@@ -57,7 +57,6 @@ table.liste th{
 
 .list_entry th, .list_entry td {
     border: 1px solid transparent;
-    font-size: 0.85rem;
     text-shadow: 0 1px 0 #fff;
     vertical-align: middle;
 }
@@ -77,7 +76,7 @@ table.liste th{
 
 .list_entry img.profile-picture {
     height: auto;
-    width: 100%; 
+    width: 100%;
 }
 
 
@@ -130,7 +129,8 @@ main.container {
     padding: 0.75rem;
 }
 .filter td{
-    padding-left: 0;
+    padding: 0.15rem 0;
+    vertical-align: middle;
 }
 .filter table, .filter button{
     margin-top: 1rem;
@@ -141,6 +141,15 @@ main.container {
    position: relative;
 }
 
+
+
+/* Search-Results */
+table.liste .list_entry td{
+    border: none;
+}
+table.liste.search_results > tbody > tr {
+    border-bottom: 4px double #BABEC4;
+}
 
 /* --------- Buttons --------- */
 button {
@@ -179,6 +188,10 @@ button:hover {
     box-shadow: px 1px 1px -1px rgba(0, 0, 0, 0.25), 0px 1px 0px rgba(255, 255, 255, 0.75) inset;  
 }
 
+button:focus{
+    outline: 0;
+}
+
 button.search {
     padding: 0.5rem 0.5rem;
 }
@@ -193,6 +206,8 @@ th button.sort{
     position:absolute;
     bottom: calc(100% - 0.5rem);
     width: calc(100% - 1rem);
+    max-height: 7rem;
+    overflow-y: auto;
     padding: 0;
     background-color: #fff;
     border: 1px solid #ccc;
@@ -200,7 +215,7 @@ th button.sort{
     border-radius: 0.2rem;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
-    display: none; 
+    display: none;
 }
 #suggests.show {
     display: block;
@@ -230,33 +245,41 @@ th button.sort{
     }
 }
 
+
+
 /*--------- Verschiedenes --------- */
 div.Aktiv {
-    background: green;
-    width: 20px;
-    height: 20px;
+    background: #88B688;
+    width: 1rem;
+    height: 1rem;
     border-radius: 10px;
 }
 div.Passiv {
-    background: red;
+    background: #B68888;
     width: 20px;
     height: 20px;
     border-radius: 10px;
 }
 
+
+
+
 /* CSS für Lade-GIF wenn AJAX Call läuft */
-.modal {
-    display:    none;
-    position:   fixed;
-    z-index:    1000;
-    top:        0;
-    left:       0;
-    height:     100%;
-    width:      100%;
-    background: rgba( 255, 255, 255, .2 ) 
+.modal:after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 2rem;
+    background-color: red;
+    background: 
                 url('../resources/gif/ajax-loader.gif') 
                 50% 50% 
                 no-repeat;
+    margin: 2rem auto;
+}
+
+.modal * {
+    display: none;
 }
 
 /* When the body has the loading class, we turn
@@ -269,4 +292,113 @@ body.loading {
    modal element will be visible */
 body.loading .modal {
     display: block;
+}
+
+
+
+
+/* Detail-Content */
+
+.detail-content table{
+    border-collapse: collapse;
+    border: none;
+    background: transparent;
+}
+
+.detail-content .data-block{
+
+}
+
+.detail-content .data-set{
+    margin-bottom: 1rem;
+    background-color: #fff;
+    padding: 0.5rem;
+    border: 1px solid #e0e0e0;
+}
+
+table.liste tr:nth-child(even) .detail-content .data-set{
+    background-color: #f6f7f9;
+}
+
+.detail-content .data-set tr:nth-child(even){
+    background-color: transparent;
+}
+
+.detail-content .data-set tr:nth-child(odd){
+    background-color: transparent;
+}
+
+.detail-content .data-set tr:not(:last-child){
+    border-bottom: 1px solid #e0e0e0;
+}
+
+
+.detail-content .data-set td{
+    border: none;
+    vertical-align: top;
+}
+
+
+
+.detail-content .data-set-title{
+    display: block;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.detail-content .scroll-list{
+    max-height: 4rem;
+    overflow-y: auto;
+}
+.detail-content .data-row{
+
+}
+
+.detail-content a:hover{
+    text-decoration: underline;
+}
+
+/* Detail Content Tabs */
+
+.ui-widget-content{
+    border-radius: 0;
+    border: 0;
+    margin: 0;
+    padding: 0;
+    background-color: transparent;
+    margin-bottom: 1rem;
+}
+
+
+.ui-widget-header{
+    border-radius: 0;
+    border: none;
+    background-color: transparent;
+    margin: 0;
+    padding: 0;
+}
+.ui-tabs .ui-tabs-nav{
+    padding: 0;
+}
+
+.ui-tabs .ui-tabs-panel{
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    min-height: 10rem;
+}
+
+table.liste tr:nth-child(even) .ui-tabs-panel {
+    background-color: #f6f7f9;
+}
+
+table.liste tr:nth-child(even) .ui-tabs-active{
+    background-color: #f6f7f9;
+}
+
+.ui-widget-header .ui-state-default{
+    border: 1px solid #e0e0e0;
+}
+
+.ui-state-default a:focus{
+    outline: 0;
 }

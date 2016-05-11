@@ -1,24 +1,16 @@
 <?php
 /**
  * Template Name: Home
- * Author: Daniel
- * Status: 05.04.2016, 19:00 Uhr
  *
  * @package WordPress
- * @subpackage Twenty_Fourteen Child
- * @since Twenty Fourteen 1.0
+ * @subpackage intern-hhc
+ * @since intern-hhc
  */
 
-// Server:
-$root = realpath($_SERVER["DOCUMENT_ROOT"]);
+require_once(get_template_directory()."/functions/main_functions.php");
+get_header();
 
-// localhost:
-// $root = realpath($_SERVER["DOCUMENT_ROOT"])."/wordpress";
-
-
-require_once("$root/wp-content/themes/twentyfourteen-child/functions/main_functions.php");
-
-echo html_header('Home');
+echo html_footer();
 
 ?>
 
@@ -26,80 +18,5 @@ echo html_header('Home');
 	<h1 style="text-transform: none;">intern.HHC</h1>
 	<div class="panel">
 		Das ist die intern.HHC Startseite
-		
-		<?php $wpdb->print_error() ?>
 	</div>
 </div>
-
-<?php
-echo html_footer();
-?>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -1,15 +1,10 @@
 /*
- Theme Name:   HHC - Twenty Fourteen Child
+ Theme Name:   intern.HHC
  Theme URI:    http://hhc-duesseldorf.de
- Description:  Twenty Fourteen Child Theme
- Author:       Alexander Schaefer
- Author URI:   http://hhc-duesseldorf.de
- Template:     twentyfourteen
- Version:      1.0.0
- License:      GNU General Public License v2 or later
- License URI:  http://www.gnu.org/licenses/gpl-2.0.html
- Tags:         light, dark, two-columns, right-sidebar, responsive-layout, accessibility-ready
- Text Domain:  twenty-fourteen-child
+ Author:       Daniel Hoegel
+ Version:	   1.0.0 
+ Tags:         hhc, intern
+ Text Domain:  intern-hhc
 */
 
 /* Styles */
@@ -125,7 +120,6 @@ table.liste tr:nth-child(even) {
 
 table.liste th, table.liste td {
     border: 1px solid #e0e0e0;
-    font-size: 0.85rem;
     text-shadow: 0 1px 0 #fff;
 }
 table.liste th {

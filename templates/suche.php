@@ -1,32 +1,22 @@
 <?php
 /**
  * Template Name: Suche
- * Author: Daniel
- * Status: 07.04.2016, 18:00 Uhr
  *
  * @package WordPress
- * @subpackage Twenty_Fourteen Child
- * @since Twenty Fourteen 1.0
+ * @subpackage intern-hhc
+ * @since intern-hhc
  */
 
+get_header();
 
-// Server:
-$root = realpath($_SERVER["DOCUMENT_ROOT"]);
+$root = get_template_directory();
 
-// localhost:
-// $root = realpath($_SERVER["DOCUMENT_ROOT"])."/wordpress";
-
-
-require_once("$root/wp-content/themes/twentyfourteen-child/functions/main_functions.php");
-
-require_once("$root/wp-content/themes/twentyfourteen-child/functions/suchfunktion/AcceptPost.php");
-require_once("$root/wp-content/themes/twentyfourteen-child/functions/suchfunktion/prepareSQL.php");
-require_once("$root/wp-content/themes/twentyfourteen-child/functions/suchfunktion/getData.php");
-require_once("$root/wp-content/themes/twentyfourteen-child/functions/suchfunktion/postProcess.php");
-require_once("$root/wp-content/themes/twentyfourteen-child/functions/suchfunktion/createHTML.php");
-
-
-// require_once("$root/wp-content/themes/twentyfourteen-child/functions/member_search.php");
+require_once("$root/functions/main_functions.php");
+require_once("$root/functions/suchfunktion/AcceptPost.php");
+require_once("$root/functions/suchfunktion/prepareSQL.php");
+require_once("$root/functions/suchfunktion/getData.php");
+require_once("$root/functions/suchfunktion/postProcess.php");
+require_once("$root/functions/suchfunktion/createHTML.php");
 
 
 /* 
@@ -35,54 +25,23 @@ require_once("$root/wp-content/themes/twentyfourteen-child/functions/suchfunktio
 ----------------------------------------
 */
 
-// echo "<br><hr><b>DEBUGGING:</b><br>";
-
-
 // POST übertragen
 $input = AcceptPost($_POST, $_GET);
-// Debug Output
-// echo "<br><br><b>Input:</b><br>";
-// var_dump($input);
-
-
 // SQL-Abfrage vorbereiten
 $queries = prepareSQL($input);
-// Debug Output
-// echo "<br><br><b>SQL:</b><br>";
-// var_dump($queries);
-
-
 // Datenbankabfrage
 $data = getData($queries);
-// Debug Output
-//echo "<br><br><b>Data:</b><br>";
-//var_dump($data);
-
-
 // Post-Processing
 $final = postProcess($data);
-// Debug Output
-// echo "<br><br><b>Final:</b><br>";
-// var_dump($final);
-
-
 // HTML-Tabelle
 $html = createHTML($final);
-// Debug Output
-// echo "<br><br><b>HTML-Tabelle:</b><br>";
-// var_dump($html);
-
-
-// echo "<hr><br>";
-
-
 /* 
 ----------------------------------------
 ---------- HTML-Seite ---------- 
 ----------------------------------------
 */
 
-echo html_header('Suchfunktion');
+// echo html_header('Suchfunktion');
 ?>
 
 <div class = "outer">
@@ -94,6 +53,7 @@ echo html_header('Suchfunktion');
 			<table class="form">
 				<tr>
 					<td class="search-box-cell">
+						<!-- onkeyup="suggest(this.value)" -->
 						<input 
 							id='text-box' 
 							type="text" 
@@ -112,20 +72,57 @@ echo html_header('Suchfunktion');
 		</form>
 	</div><!-- /panel -->
 
-<!-- Filter -->
-<div class = "sidebar">
-	<div class = "panel filter">
-		<form method="POST">
-			<h2>Filtern nach...</h2>
-		<!-- Ressort -->
-			<table>
-				<tr>
-					<th colspan="2">
-						Ressort<br>
-					</th>
-				</tr>
-				<tr>
-					<td>
+
+
+	<div class = "sidebar">
+		
+	<!-- Sortieren -->
+		<div class='panel'>
+			<form method='POST'>
+				<h2>Sortieren nach:</h2>
+
+				<select name="sort" id="sort" onchange="ajax_post()">
+
+<?php
+	// Sortieren
+	$t_header = array(
+		array('value' => 'Contact.id', 'name' => 'ID'),
+		array('value' => 'Contact.first_name', 'name' => 'Vorname'),
+		array('value' => 'Contact.last_name', 'name' => 'Nachname'), 
+		array('value' => 'Contact.birth_date', 'name' => 'Alter'), 
+		array('value' => 'Ressort.name', 'name' => 'Ressort'),
+		array('value' => 'Member.active', 'name' => 'Status')
+	);	
+
+	// Print Sortieren
+	foreach ($t_header as $value) {	
+		echo "
+			<option value='".$value[value]."'>
+				".$value[name]."
+			</option>
+		";
+	}
+?>
+
+				</select>
+			</form>
+		</div><!-- /panel -->
+	
+
+	
+	<!-- Filter -->
+		<div class = "panel filter">
+			<form method="POST">
+				<h2>Filtern nach:</h2>
+			<!-- Ressort -->
+				<table>
+					<tr>
+						<th colspan="2">
+							Ressort<br>
+						</th>
+					</tr>
+					<tr>
+						<td>
 
 <?php 
 	// Ressort Checkboxen
@@ -196,72 +193,66 @@ echo html_header('Suchfunktion');
 					</tr>
 				</table>
 
+			<!-- Uni -->
+				<table>
+					<tr>
+						<th colspan="2">
+							Universität<br>
+						</th>
+					</tr>
+					
+					<?php					
+						$result = $wpdb->get_results("SELECT school FROM Study");
+						
+						$result_array = array();
+						foreach ($result as $key) {
+							array_push($result_array, $key->school);
+						}
+
+						$uni = array_unique($result_array);
+
+						foreach ($uni as $value) {
+							echo "
+								<tr>
+									<td width='10%'>
+										<input
+											type='checkbox'
+											name='f_uni_list'
+											value='$value'
+											".check('Study.school',$value).">
+									</td>
+									<td>
+										$value
+									</td>
+								</tr>
+							";
+						}
+					?>
+						
+				</table>
+
 
 				<button type="button" onclick="ajax_post();" class="full-width">Anwenden</button>
-		</form>
-	</div><!-- /panel -->
-</div><!-- /sidebar -->
-	
+			</form>
+		</div><!-- /panel -->
+	</div><!-- /sidebar -->
 	
 
 	<main class="container">
-		<div class='panel'>
-			<form method='POST'>
-				<h2>Sortieren nach:</h2>
-				<table class='liste'>
-					<tr>
-
-<?php
-	// Sortieren
-	$t_header = array(
-		array('value' => 'Contact.id', 'name' => 'ID'),
-		array('value' => 'Contact.first_name', 'name' => 'Vorname'),
-		array('value' => 'Contact.last_name', 'name' => 'Nachname'), 
-		array('value' => 'Contact.birth_date', 'name' => 'Alter'), 
-		array('value' => 'Ressort.name', 'name' => 'Ressort'),
-		array('value' => 'Member.active', 'name' => 'Status')
-	);	
-
-	// Print Sortieren
-	foreach ($t_header as $value) {	
-		// Hinzufügen einer CSS-Klasse zur Identifizierung der Sortierspalte
-		if($_POST['sort'] == $value[value]){
-			$active = ' active';
-		}else{
-			$active = "";
-		}
-
-		// Print einzelne Sortierfelder
-		echo "
-			<th>
-				<button type='submit' name='sort' value='".$value[value]."' class='sort$active'>
-					".$value[name]."
-				</button>
-			</th>
-		";
-	}
-?>
-
-					</tr>
-				</table>
-			</form>
-		</div><!-- /panel -->
-
 
 <!--  Suchergebnisse -->
 		<div class='panel'>
 			<form method='POST'>
 				<h2>Suchergebnisse</h2>
-					<div id='list-container'>
-						<!--<div class="modal"> Place at bottom of page </div>-->
-						<?php echo $html ?>
-					</div>
+				<div id='list-container'>
+					<!--<div class="modal"> Place at bottom of page </div>-->
+					<?php echo $html ?>
+				</div>
 			</form>
 		</div><!-- /panel -->	
 	</main>
 	</div><!-- /outer -->
 
-<div class="modal"> Place at bottom of page </div>
 
 <script type = "text/javascript">
 
@@ -271,47 +262,28 @@ function ajax_post() {
 	// Gute Infoquelle für ein POST Beispiel mit Ajax
 	// Siehe vor allem die zweite Antwort mit FormData
 
-	var data = new FormData();
-
-	var ressorts = <?php echo json_encode($ressort); ?>;
-	var huehue = 0;
-
-
-	for (i = 0; i < ressorts.length; i++) { 
-	data.append('f_ressort_list[]', document.getElementsByName('f_ressort_list[]')[huehue].checked);
-	huehue++;
-}
-
-	data.append('f_position_list[]', document.getElementsByName('f_position_list[]')[0].checked);
-	data.append('f_position_list[]', document.getElementsByName('f_position_list[]')[1].checked);
-	data.append('f_position_list[]', document.getElementsByName('f_position_list[]')[2].checked);
-	data.append('f_position_list[]', document.getElementsByName('f_position_list[]')[3].checked);
-
-	data.append('f_status_list[]', document.getElementsByName('f_status_list[]')[0].checked);
-	data.append('f_status_list[]', document.getElementsByName('f_status_list[]')[1].checked);
-
-	var b = document.getElementsByTagName('body')[0];
+	var hr = new XMLHttpRequest();
+	hr.onreadystatechange = function() {
+		if (hr.readyState == 4 && hr.status == 200) {
+			setTimeout(function(){
+				// document.getElementsByTagName('body')[0].classList.remove('modal');
+				document.getElementById('list-container').classList.remove('modal');
+			    alert(hr.responseText);
+			}, 800);
+		}
+	};
+	hr.open("POST", "/wordpress/wp-content/themes/intern-hhc/functions/suchfunktion/AcceptAjax.php", true);
+	// var b = document.getElementsByTagName('body')[0];
+	var b = document.getElementById('list-container');
 	b.className += " modal";
-
-	$.ajax({
-	  url: 'http://neu.hhc-duesseldorf.de/wp-content/themes/twentyfourteen-child/functions/suchfunktion/AcceptAjax.php',
-	  data: data,
-	  processData: false,
-	  contentType: false,
-	  type: 'POST',
-	  success: function(data){
-	  	setTimeout(function(){
-				document.getElementsByTagName('body')[0].classList.remove('modal');
-				alert(data);;
-			}, 600);
-	  }
-	});
+	hr.send();
 }
 
 </script>
  
 
-<?php 	
+<?php 
+	// var_dump($filter);	
 	echo html_footer();
 
 ?>

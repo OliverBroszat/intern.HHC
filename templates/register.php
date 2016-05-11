@@ -1,35 +1,14 @@
 <?php
 /**
  * Template Name: Registrieren
- * Author: Daniel
- * Status: 05.04.2016, 19:00 Uhr
  *
  * @package WordPress
- * @subpackage Twenty_Fourteen Child
- * @since Twenty Fourteen 1.0
+ * @subpackage intern-hhc
+ * @since intern-hhc
  */
 
-// Server:
-$root = realpath($_SERVER["DOCUMENT_ROOT"]);
-
-// localhost:
-// $root = realpath($_SERVER["DOCUMENT_ROOT"])."/wordpress";
-
-
-require_once("$root/wp-content/themes/twentyfourteen-child/functions/main_functions.php");
-
-echo html_header('Registrieren');
-
+get_header();
 ?>
-
-<html>
-<head>
-	<meta charset='UTF-8'>
-	<meta name='viewport' content='width=device-width, initial-scale=1'>
-	<link rel='stylesheet' href='/wp-content/themes/twentyfourteen-child/style.css'/>
-	<title>Neu registrieren!</title>
-</head>
-<body>
 
 	<h1>Mitgliederdatenbank</h1>
 	
@@ -120,8 +99,8 @@ echo html_header('Registrieren');
 				<td width='50%'>
 					Status*:
 					<select name='active'>
-						<option value='0'>Aktiv</option>
-						<option value='1'>Inaktiv</option>
+						<option value='true'>Aktiv</option>
+						<option value='false'>Inaktiv</option>
 					</select>
 				</td>
 				<td colspan='2'>
@@ -129,12 +108,16 @@ echo html_header('Registrieren');
 					<select name='ressort'>
 						<option value='unbekannt'>Kein Ressort</option>
 						<option value='vorstand'>Vorstand</option>
+						<option value='alumni'>Alumni</option>
 						<option value='it'>IT</option>
-						<option value='mpr'>Marketing und PR</option>
-						<option value='ope'>Organisation und Personalentwicklung</option>
+						<option value='training'>Training</option>
+						<option value='event'>Event</option>
+						<option value='pr'>PR</option>
+						<option value='hr'>HR</option>
 						<option value='sales'>Sales</option>
+						<option value='marketing'>Marketing</option>
 						<option value='finance'>Finanzen und Recht</option>
-						<option value='qm'>Qualitäts- und Alumnimanagement</option>
+						<option value='quality'>Qualität</option>
 					</select>
 				</td>
 			</tr>
@@ -255,6 +238,6 @@ echo html_header('Registrieren');
 
 	</form>
 
-<?php
-echo html_footer();
-?>
+</body>
+
+</html>
