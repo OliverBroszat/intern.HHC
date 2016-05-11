@@ -138,6 +138,7 @@ function prepareSQL_contact_search($input){
 	$search_select = array(
 		'Contact' => array(
 			'id',
+			'prefix',
 			'first_name',
 			'last_name',
 			'birth_date',

@@ -34,7 +34,15 @@ function getImageHTML($contact_id) {
 		$imageHTML = "<a href='$imgsrc' target='_blank'><img src='$imgsrc_thumb' class='profile-picture' alt='Profilbild' /></a>";
 	}
 	else {
-		$imageHTML = "<img class='profile-picture'>";
+		$gender = $wpdb->get_row($wpdb->prepare('SELECT prefix FROM Contact WHERE id=%d', $contact_id));
+		if ($gender->prefix == 'Herr') {
+			$path = get_template_directory_uri().'/resources/images/profile_placeholder_male.png';
+		}
+		else {
+			// WICHTIG: Wenn prefix NICHT 'Herr' ist, dann wird immer der female Placeholder angezeigt
+			$path = get_template_directory_uri().'/resources/images/profile_placeholder_female.png';
+		}
+		$imageHTML = "<img class='profile-picture' src='$path'>";
 	}
 	return $imageHTML;
 }
