@@ -262,21 +262,41 @@ function ajax_post() {
 	// Gute Infoquelle für ein POST Beispiel mit Ajax
 	// Siehe vor allem die zweite Antwort mit FormData
 
-	var hr = new XMLHttpRequest();
-	hr.onreadystatechange = function() {
-		if (hr.readyState == 4 && hr.status == 200) {
-			setTimeout(function(){
-				// document.getElementsByTagName('body')[0].classList.remove('modal');
-				document.getElementById('list-container').classList.remove('modal');
-			    alert(hr.responseText);
-			}, 800);
-		}
-	};
-	hr.open("POST", "/wordpress/wp-content/themes/intern-hhc/functions/suchfunktion/AcceptAjax.php", true);
-	// var b = document.getElementsByTagName('body')[0];
+	var data = new FormData();
+
+	var ressorts = <?php echo json_encode($ressort); ?>;
+	var huehue = 0;
+
+
+	for (i = 0; i < ressorts.length; i++) { 
+	data.append('f_ressort_list[]', document.getElementsByName('f_ressort_list[]')[huehue].checked);
+	huehue++;
+}
+
+	data.append('f_position_list[]', document.getElementsByName('f_position_list[]')[0].checked);
+	data.append('f_position_list[]', document.getElementsByName('f_position_list[]')[1].checked);
+	data.append('f_position_list[]', document.getElementsByName('f_position_list[]')[2].checked);
+	data.append('f_position_list[]', document.getElementsByName('f_position_list[]')[3].checked);
+
+	data.append('f_status_list[]', document.getElementsByName('f_status_list[]')[0].checked);
+	data.append('f_status_list[]', document.getElementsByName('f_status_list[]')[1].checked);
+
 	var b = document.getElementById('list-container');
 	b.className += " modal";
-	hr.send();
+
+	$.ajax({
+	  url: 'http://neu.hhc-duesseldorf.de/wp-content/themes/intern-hhc/functions/suchfunktion/AcceptAjax.php',
+	  data: data,
+	  processData: false,
+	  contentType: false,
+	  type: 'POST',
+	  success: function(data){
+	  	setTimeout(function(){
+				document.getElementById('list-container').classList.remove('modal');
+				alert(data);;
+			}, 600);
+	  }
+	});
 }
 
 </script>
