@@ -6,16 +6,7 @@
  * @subpackage intern-hhc
  * @since intern-hhc
  */
-?>
-
-<head>
-	<meta charset='UTF-8'>
-	<meta name='viewport' content='width=device-width, initial-scale=1'>
-	<link rel='stylesheet' href='/wp-content/themes/twentyfourteen-child/style.css'/>
-	<title>SQL Register</title>
-</head>
-
-<?php 
+  
 
 if(
 	$_POST['vorname'] != '' &&

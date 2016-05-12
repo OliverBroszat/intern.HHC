@@ -8,6 +8,7 @@
  */
 
 get_header();
+
 ?>
 
 	<h1>Mitgliederdatenbank</h1>

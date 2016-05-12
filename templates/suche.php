@@ -35,13 +35,14 @@ $data = getData($queries);
 $final = postProcess($data);
 // HTML-Tabelle
 $html = createHTML($final);
+
+
 /* 
 ----------------------------------------
 ---------- HTML-Seite ---------- 
 ----------------------------------------
 */
 
-// echo html_header('Suchfunktion');
 ?>
 
 <div class = "outer">
@@ -285,7 +286,7 @@ function ajax_post() {
 	b.className += " modal";
 
 	$.ajax({
-	  url: 'http://neu.hhc-duesseldorf.de/wp-content/themes/intern-hhc/functions/suchfunktion/AcceptAjax.php',
+	  url: '<?php echo get_template_directory_uri(); ?>/functions/suchfunktion/AcceptAjax.php',
 	  data: data,
 	  processData: false,
 	  contentType: false,
@@ -300,11 +301,7 @@ function ajax_post() {
 }
 
 </script>
- 
 
-<?php 
-	// var_dump($filter);	
-	echo html_footer();
 
-?>
+<?php get_footer(); ?>
 

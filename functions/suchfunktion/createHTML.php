@@ -176,7 +176,7 @@ function getListEntryHTML($number, $dataset_full) {
 			<td class='number' rowspan='4' style='vertical-align: top;' width='5%'>$number</td>
 			<td class='profile' rowspan='4' width='19%'>$image</td>
 			<td class='contact_name' width='38%'><b>".$dataset->first_name.' '.$dataset->last_name."</b></td>
-			<td align='right'><div class='".$dataset->active."'></div></td>
+			<td align='right'><div class='status ".$dataset->active."'></div></td>
 		</tr>
 		<tr>
 			<td class='status'> Position: ".$dataset->position."</td>
