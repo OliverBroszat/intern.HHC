@@ -5,16 +5,19 @@
  * @since intern-HHC
  */
 
-$dir = get_stylesheet_directory_uri();
+$dir = get_stylesheet_directory_uri(); 
 
+/*
 $root = realpath($_SERVER["DOCUMENT_ROOT"]);
 if (strpos($root, '\\')){
 	// localhost
 	$root .= "/wordpress";
 }
+*/
+$root = get_template_directory();
 
-
-require_once("$root/wp-content/themes/intern-hhc/functions/main_functions.php");
+// require_once("$root/wp-content/themes/intern-hhc/functions/main_functions.php");
+require_once("$root/functions/main_functions.php");
 
 global $user_ID;
 get_currentuserinfo();
