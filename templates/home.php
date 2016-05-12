@@ -8,9 +8,8 @@
  */
 
 require_once(get_template_directory()."/functions/main_functions.php");
-get_header();
 
-echo html_footer();
+get_header();
 
 ?>
 
@@ -20,3 +19,5 @@ echo html_footer();
 		Das ist die intern.HHC Startseite
 	</div>
 </div>
+
+<?php get_footer(); ?>

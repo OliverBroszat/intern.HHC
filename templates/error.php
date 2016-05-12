@@ -1,24 +1,15 @@
 <?php
 /**
- * Template Name: Home
- * Author: Daniel
- * Status: 05.04.2016, 19:00 Uhr
+ * Template Name: Error
  *
  * @package WordPress
- * @subpackage Twenty_Fourteen Child
- * @since Twenty Fourteen 1.0
+ * @subpackage intern-hhc
+ * @since intern-hhc
  */
 
-// Server:
-$root = realpath($_SERVER["DOCUMENT_ROOT"]);
+require_once(get_template_directory()."/functions/main_functions.php");
 
-// localhost:
-// $root = realpath($_SERVER["DOCUMENT_ROOT"])."/wordpress";
-
-
-require_once("$root/wp-content/themes/twentyfourteen-child/functions/main_functions.php");
-
-echo html_header('Fehler');
+get_header();
 
 ?>
 <div class="outer">
@@ -29,6 +20,4 @@ echo html_header('Fehler');
 	</div>
 </div>
 
-<?php
-echo html_footer();
-?>
+<?php get_footer(); ?>

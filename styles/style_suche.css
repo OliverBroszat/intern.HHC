@@ -74,6 +74,10 @@ table.liste th{
     font-size: 0.75rem;
 }
 
+table.liste .list_entry td.profile{
+    padding: 0;
+}
+
 .list_entry img.profile-picture {
     height: auto;
     width: 100%;
@@ -248,20 +252,18 @@ th button.sort{
 
 
 /*--------- Verschiedenes --------- */
-div.Aktiv {
-    background: #88B688;
+.status{
     width: 1rem;
     height: 1rem;
-    border-radius: 10px;
+    border-radius: 50%;
 }
-div.Passiv {
+
+.status.Aktiv {
+    background: #88B688;   
+}
+.status.Passiv {
     background: #B68888;
-    width: 20px;
-    height: 20px;
-    border-radius: 10px;
 }
-
-
 
 
 /* CSS für Lade-GIF wenn AJAX Call läuft */

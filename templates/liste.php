@@ -7,25 +7,7 @@
  * @since intern-hhc
  */
 
-
-//******* functions *******
-
-// change the date from YYYY-MM-DD to DD.MM.YYYY
-// if (!function_exists('change_date_format')) {
-// 	function change_date_format($origDate){
-// 		if($origDate == "0000-00-00"){
-// 			return "-";
-// 		}elseif ($origDate == "") {
-// 			return "";
-// 		}else{
-// 			$newDate = date("d.m.Y", strtotime($origDate));
-// 			return $newDate;
-// 		}
-// 	}
-// }
-
 get_header();
-
 
 ?>
 	<main>
@@ -134,6 +116,7 @@ get_header();
 ?> 
 		</table>
 	</main>
-</body>
-</html>
+
+
+<?php get_footer(); ?>
 

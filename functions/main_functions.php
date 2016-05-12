@@ -1,21 +1,13 @@
 <?php 
 /*
-	Hier werden verschiedene kleinere Funktionen ausgelagert.
+	Hier werden verschiedene universelle Funktionen ausgelagert.
 */
-
-// --------- HTML Footer --------
-function html_footer(){
-	return "
-			</body>
-		</html>
-	";
-}
 
 
 // -------- Erster Buchstabe uppercase, bei Wörtern < 3 Zeichen alles uppercase ---------
 if (!function_exists('uppercase')) {
 	function uppercase($string){
-		if(strlen($string)<3){
+		if(strlen($string)<4){
 			return strtoupper($string);
 		} else{
 			return ucfirst($string);
