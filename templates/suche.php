@@ -131,7 +131,8 @@ $html = createHTML($final);
 		echo "
 			<label>
 				<input 
-					type='checkbox' 
+					type='checkbox'
+					class='filtercheckbox_ressort'
 					name='f_ressort_list[]' 
 					value='".$ressort[$i]->name."'
 					".check('Ressort.name', $ressort[$i]->name).">
@@ -143,7 +144,8 @@ $html = createHTML($final);
 		echo "
 			<label>
 				<input 
-					type='checkbox' 
+					type='checkbox'
+					class='filtercheckbox_ressort'
 					name='f_ressort_list[]' 
 					value='".$ressort[$i]->name."'
 					".check('Ressort.name', $ressort[$i]->name).">
@@ -166,12 +168,12 @@ $html = createHTML($final);
 					</tr>
 					<tr>
 						<td>
-							<label><input type='checkbox' name='f_position_list[]' value='anwärter' <?php echo check('Member.position', 'anwärter'); ?>> Anwärter</label><br>
-							<label><input type='checkbox' name='f_position_list[]' value='mitglied' <?php echo check('Member.position', 'mitglied'); ?>> Mitglied</label><br>
+							<label><input type='checkbox' class='filtercheckbox_position' name='f_position_list[]' value='anwärter' <?php echo check('Member.position', 'anwärter'); ?>> Anwärter</label><br>
+							<label><input type='checkbox' class='filtercheckbox_position' name='f_position_list[]' value='mitglied' <?php echo check('Member.position', 'mitglied'); ?>> Mitglied</label><br>
 						</td>
 						<td>
-							<label><input type='checkbox' name='f_position_list[]' value='ressortleiter' <?php echo check('Member.position', 'ressortleiter'); ?>> Ressortleiter</label><br>
-							<label><input type='checkbox' name='f_position_list[]' value='alumni' <?php echo check('Member.position', 'alumni'); ?>> Alumni</label><br>
+							<label><input type='checkbox' class='filtercheckbox_position' name='f_position_list[]' value='ressortleiter' <?php echo check('Member.position', 'ressortleiter'); ?>> Ressortleiter</label><br>
+							<label><input type='checkbox' class='filtercheckbox_position' name='f_position_list[]' value='alumni' <?php echo check('Member.position', 'alumni'); ?>> Alumni</label><br>
 						</td>
 					</tr>
 				</table>
@@ -264,15 +266,31 @@ function ajax_post() {
 
 	var data = new FormData();
 
-	var ressorts = <?php echo json_encode($ressort); ?>;
+	//var ressorts = <?php echo json_encode($ressort); ?>;
+	//var ressort_lem = <?php echo sizeof($ressort); ?>;
 	var huehue = 0;
 
-
+	var ressorts = document.getElementsByClassName('filtercheckbox_ressort');
+	var ressort_checklist = new Array();
 	for (i = 0; i < ressorts.length; i++) { 
-	data.append('f_ressort_list[]', document.getElementsByName('f_ressort_list[]')[huehue].checked);
-	huehue++;
-}
+		if (ressorts[i].checked) {
+			ressort_checklist.push(ressorts[i].value);
+		}
+	}
+	console.log(ressort_checklist);
+	data.append('ressort_list', ressort_checklist);
 
+	var positions = document.getElementsByClassName('filtercheckbox_position');
+	var position_checklist = new Array();
+	for (i = 0; i < positions.length; i++) { 
+		if (positions[i].checked) {
+			position_checklist.push(positions[i].value);
+		}
+	}
+	console.log(position_checklist);
+	data.append('position_list', position_checklist);
+
+	/*
 	data.append('f_position_list[]', document.getElementsByName('f_position_list[]')[0].checked);
 	data.append('f_position_list[]', document.getElementsByName('f_position_list[]')[1].checked);
 	data.append('f_position_list[]', document.getElementsByName('f_position_list[]')[2].checked);
@@ -280,6 +298,7 @@ function ajax_post() {
 
 	data.append('f_status_list[]', document.getElementsByName('f_status_list[]')[0].checked);
 	data.append('f_status_list[]', document.getElementsByName('f_status_list[]')[1].checked);
+	*/
 
 	var b = document.getElementById('list-container');
 	b.className += " modal";
