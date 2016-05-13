@@ -20,7 +20,7 @@ function suggest(suchbegriff) {
 	}
 	else {
 		//URL vorbereiten, Zufallszahl umgeht den Browsercache	
-		var aufruf="/wordpress/wp-content/themes/intern-hhc/functions/suchfunktion/suggests.php"+"?search_text="+suchbegriff+"&sid="+Math.random();
+		var aufruf="/wp-content/themes/intern-hhc/functions/suchfunktion/suggests.php"+"?search_text="+suchbegriff+"&sid="+Math.random();
 		xmlHttp.onreadystatechange=stateChanged;
 		xmlHttp.open("GET",aufruf,true);
 		xmlHttp.send(null);
