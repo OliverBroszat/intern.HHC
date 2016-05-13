@@ -14,7 +14,7 @@ global $user_ID;
 
 get_currentuserinfo();
 if(!('' == $user_ID)){
-	$backend_button =  "<a href='/wp-admin'><button class='loginout'>Backend</button></a>";
+	$backend_button =  "<a href='".admin_url()."'><button class='loginout'>Backend</button></a>";
 }
 
 $loginout = wp_loginout($_SERVER['REQUEST_URI'], false);
