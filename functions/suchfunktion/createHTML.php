@@ -19,7 +19,7 @@ function expandableContent($fix_html, $slide_html, $click_id) {
 		
 	*/
 	return "
-		<div id='fix_content_$click_id'>
+		<div id='fix_content_$click_id' class='fix-content'>
 			$fix_html
 		</div>
 		<div id='slide_content_$click_id' class='detail-content' style='display: none;overflow: hidden; position: relative;'>
@@ -130,7 +130,7 @@ function getDetailView($number, $dataset) {
 	</div>
 	<div class='data-block'>
 		<div class='data-set'>
-			<span class='data-set-title'>Beitritt</span>
+			<span class='data-set-title'>HHC-Mitgliedschaft</span>
 			<div class='scroll-list'>
 				<table>
 					<tr>
@@ -171,9 +171,9 @@ function getListEntryHTML($number, $dataset_full) {
 	$dataset = $dataset_full['info'];
 	$image = $dataset_full['image'];
 	$overview = "
-	<table class='list_entry'>
+	<table>
 		<tr>
-			<td class='number' rowspan='4' style='vertical-align: top;' width='5%'>$number</td>
+			<td class='number' rowspan='4' style='vertical-align: top;' width='5%'>$number <br>----<br>".$dataset->id."</td>
 			<td class='profile' rowspan='4' width='19%'>$image</td>
 			<td class='contact_name' width='38%'><b>".$dataset->first_name.' '.$dataset->last_name."</b></td>
 			<td align='right'><div class='status ".$dataset->active."'></div></td>
@@ -186,6 +186,7 @@ function getListEntryHTML($number, $dataset_full) {
 		</tr>
 		<tr>
 			<td><button id='show_detail_$number' class='full-width' type='button'>DETAIL</button></td>
+			<td><button value='".$dataset->id."' onclick='edit(this.value);' class='full-width' type='button'>EDIT</button></td>
 		</tr>
 	</table>";
 	$button_id = "show_detail_$number";
@@ -202,7 +203,7 @@ function createHTML($final){
 		// var_dump($row);
 		// echo "<br><br>";
 
-		$entries .= "<tr><td>".getListEntryHTML($number, $row)."</td></tr>";
+		$entries .= "<tr><td class='list-entry'>".getListEntryHTML($number, $row)."</td></tr>";
 		$number ++;
 	}
 	

@@ -87,36 +87,38 @@ function sql_where_search($search_words, $search_range){
 			(c1 LIKE '%w%3' OR c2 LIKE '%w%3' OR c3 LIKE '%w%3' ...)
 			...
 	*/
+	if (array_filter($search_range)) {
+		$sql = '';
 
-	$sql = '';
-
-	// Jedes Suchwort
-	$first_loop_a = true;
-	foreach($search_words as $word) {
-		
-		if(!$first_loop_a) {
-			$sql .= ' AND ';
-		}
-		$first_loop_a = false;
-
-		$sql .= '(';
-		// Jede Tabelle
-		$first_loop_b = true;
-		foreach($search_range as $table => $columns) {
+		// Jedes Suchwort
+		$first_loop_a = true;
+		foreach($search_words as $word) {
 			
-			// Jede Spalte der Tabelle
-			foreach($columns as $column) {
-				
-				if(!$first_loop_b) {
-					$sql .= ' OR ';
-				}
-				$first_loop_b = false;
-				$sql .= "$table.$column LIKE '%".$word."%'";
+			if(!$first_loop_a) {
+				$sql .= ' AND ';
 			}
-		}
-		$sql .= ')';
-	}
+			$first_loop_a = false;
 
+			$sql .= '(';
+			// Jede Tabelle
+			$first_loop_b = true;
+			foreach($search_range as $table => $columns) {
+				
+				// Jede Spalte der Tabelle
+				foreach($columns as $column) {
+					
+					if(!$first_loop_b) {
+						$sql .= ' OR ';
+					}
+					$first_loop_b = false;
+					$sql .= "$table.$column LIKE '%".$word."%'";
+				}
+			}
+			$sql .= ')';
+		}
+	} else {
+		$sql = 'True';
+	}
 	return $sql;
 }
 
@@ -130,54 +132,7 @@ function sql_where_search($search_words, $search_range){
 */
 
 
-function prepareSQL_contact_search($input){
-
-	// ---------- Vordefinierte Werte ---------- 
-
-	// Spalten, die ausgewählt werden
-	$search_select = array(
-		'Contact' => array(
-			'id',
-			'prefix',
-			'first_name',
-			'last_name',
-			'birth_date',
-			'comment'
-		),
-		'Ressort' => array(
-			'name'
-		),
-		'Member' => array(
-			'active',
-			'position',
-			'joined',
-			'left'
-		)
-	);
-
-
-	// Spalten, nach denen gesucht werden kann
-	$search_range = array(
-		'Contact' => array(
-			'first_name',
-			'last_name'
-		),
-		'Ressort' => array(
-			'name'
-		),
-		'Address' => array(
-			'city',
-			'postal'
-		),
-		'Phone' => array(
-			'number'
-		),
-		'Study' => array(
-			'school',
-			'course'
-		)
-	);
-
+function prepareSQL_contact_search($input, $search_select, $search_range){
 
 	// ---------- Übergebene Werte ---------- 
 
@@ -237,10 +192,10 @@ function prepareSQL_contact_search($input){
 ----------------------------------------
 */
 
-function prepareSQL($input){
+function prepareSQL($input, $search_select, $search_range){
 	
 	$queries = array(
-		'contact_search' => prepareSQL_contact_search($input),
+		'contact_search' => prepareSQL_contact_search($input, $search_select, $search_range),
 		'mail' => '',
 		'phone' => '',
 		'address' => '',

@@ -1,6 +1,14 @@
 <?php
+/**
+ * Template Name: Output
+ *
+ * @package WordPress
+ * @subpackage intern-hhc
+ * @since intern-hhc
+ */
 
 get_header();
+
 
 $status = $_GET['status'];
 

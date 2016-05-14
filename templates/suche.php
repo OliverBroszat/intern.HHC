@@ -25,10 +25,55 @@ require_once("$root/functions/suchfunktion/createHTML.php");
 ----------------------------------------
 */
 
+// Spalten, die ausgewählt werden
+$search_select = array(
+	'Contact' => array(
+		'id',
+		'prefix',
+		'first_name',
+		'last_name',
+		'birth_date',
+		'comment'
+	),
+	'Ressort' => array(
+		'name'
+	),
+	'Member' => array(
+		'active',
+		'position',
+		'joined',
+		'left'
+	)
+);
+
+
+// Spalten, nach denen gesucht werden kann
+$search_range = array(
+	'Contact' => array(
+		'first_name',
+		'last_name'
+	),
+	'Ressort' => array(
+		'name'
+	),
+	'Address' => array(
+		'city',
+		'postal'
+	),
+	'Phone' => array(
+		'number'
+	),
+	'Study' => array(
+		'school',
+		'course'
+	)
+);
+
+
 // POST übertragen
 $input = AcceptPost($_POST, $_GET);
 // SQL-Abfrage vorbereiten
-$queries = prepareSQL($input);
+$queries = prepareSQL($input, $search_select, $search_range);
 // Datenbankabfrage
 $data = getData($queries);
 // Post-Processing
