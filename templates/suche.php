@@ -6,7 +6,7 @@
  * @subpackage intern-hhc
  * @since intern-hhc
  */
-
+//test danielm
 get_header();
 
 $root = get_template_directory();
