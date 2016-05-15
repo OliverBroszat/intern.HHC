@@ -1,11 +1,8 @@
 <?php
-/**
+/*
  * Template Name: Edit
- *
- * @package WordPress
- * @subpackage intern-hhc
- * @since intern-hhc
  */
+
 
 // $root = get_template_directory();
 
