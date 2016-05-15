@@ -145,12 +145,12 @@ $html = createHTML($final);
 		echo "
 			<label>
 				<input 
-					type='chec	kbo	x'
-					cl	ass='filtercheckbox_ressort'
-					name='	f_r	es	sort_list[]' 
-						value='".$ressort[$i]->name."	'
-					".check('Ressort.	name', $ressort[$i]->name).	">
-						".uppercase	($ressort[$i	]->name)."	
+					type='checkbox'
+					class='filtercheckbox_ressort'
+					name='f_ressort_list[]' 
+					value='".$ressort[$i]->name."'
+					".check('Ressort.name', $ressort[$i]->name).">
+					".uppercase	($ressort[$i]->name)."	
 				</label><br>";
 	}
 	?>	
@@ -268,9 +268,6 @@ function ajax_post() {
 
 	var data = new FormData();
 
-	//var ressorts = <?php echo json_encode($ressort); ?>;
-	//var ressort_lem = <?php echo sizeof($ressort); ?>;
-
 	var ressorts = document.getElementsByClassName('filtercheckbox_ressort');
 	var ressort_checklist = new Array();
 	for (i = 0; i < ressorts.length; i++) { 
@@ -313,17 +310,6 @@ function ajax_post() {
 	}
 	console.log(uni_checklist);
 	data.append('uni_list', uni_checklist);
-
-
-	/*
-	data.append('f_position_list[]', document.getElementsByName('f_position_list[]')[0].checked);
-	data.append('f_position_list[]', document.getElementsByName('f_position_list[]')[1].checked);
-	data.append('f_position_list[]', document.getElementsByName('f_position_list[]')[2].checked);
-	data.append('f_position_list[]', document.getElementsByName('f_position_list[]')[3].checked);
-
-	data.append('f_status_list[]', document.getElementsByName('f_status_list[]')[0].checked);
-	data.append('f_status_list[]', document.getElementsByName('f_status_list[]')[1].checked);
-	*/
 
 	var b = document.getElementById('list-container');
 	b.className += " modal";
