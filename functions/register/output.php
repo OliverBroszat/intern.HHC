@@ -1,14 +1,15 @@
 <?php
-/**
- * Template Name: Output
- *
- * @package WordPress
- * @subpackage intern-hhc
- * @since intern-hhc
- */
+
+// Load WP-Functions
+$root = realpath($_SERVER["DOCUMENT_ROOT"]);  
+if (strpos($root, '\\')){  
+  // localhost  
+  $root .= "/wordpress";  
+}  
+require_once("$root/wp-load.php");
+
 
 get_header();
-
 
 $status = $_GET['status'];
 

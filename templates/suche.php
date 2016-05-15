@@ -1,10 +1,6 @@
 <?php
 /**
  * Template Name: Suche
- *
- * @package WordPress
- * @subpackage intern-hhc
- * @since intern-hhc
  */
 
 get_header();

@@ -1,12 +1,13 @@
 <?php
-/**
- * Template Name: SQL Register
- *
- * @package WordPress
- * @subpackage intern-hhc
- * @since intern-hhc
- */
-  
+
+// Load WP-Functions
+$root = realpath($_SERVER["DOCUMENT_ROOT"]);  
+if (strpos($root, '\\')){  
+  // localhost  
+  $root .= "/wordpress";  
+}  
+require_once("$root/wp-load.php");
+
 
 if(
 	$_POST['vorname'] != '' &&
@@ -201,11 +202,11 @@ else {
 }
 
 if($status == 'ok') {
-	echo"<script> window.location='http://neu.hhc-duesseldorf.de/wp-content/themes/twentyfourteen-child/functions/output.php?status=ok'</script>";
+	echo"<script> window.location='".get_template_directory_uri()."/functions/register/output.php?status=ok'</script>";
 }
 else {
 	if($status == 'invalid') {
-		echo"<script> window.location='http://neu.hhc-duesseldorf.de/wp-content/themes/twentyfourteen-child/functions/output.php?status=failed'</script>";
+		echo"<script> window.location='".get_template_directory_uri()."/functions/register/output.php?status=failed'</script>";
 	}
 }
 

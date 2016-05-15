@@ -1,13 +1,13 @@
 <?php
-/**
- * Template Name: Error
- *
- * @package WordPress
- * @subpackage intern-hhc
- * @since intern-hhc
- */
 
-require_once(get_template_directory()."/functions/main_functions.php");
+// Load WP-Functions
+$root = realpath($_SERVER["DOCUMENT_ROOT"]);  
+if (strpos($root, '\\')){  
+  // localhost  
+  $root .= "/wordpress";  
+}  
+require_once("$root/wp-load.php");
+
 
 get_header();
 

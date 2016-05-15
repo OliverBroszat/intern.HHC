@@ -67,6 +67,24 @@ h2{
 	margin: 2rem 0 0.5rem;
 }
 
+a, a:link, a:visited, a:active, a:focus, a:hover {
+	font-size: inherit;
+	text-decoration: none;
+	color: inherit;
+} 
+
+p a, p a:visited{
+	color: #667F99;
+}
+p a:hover{
+	text-decoration: underline;
+}
+
+p{
+	line-height: 1.5;
+}
+
+
 /* ------ TABLES ------ */
 
 table{  

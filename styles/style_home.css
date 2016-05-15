@@ -1,11 +1,7 @@
 html{
 	height: 105%;
 }
-a, a:link, a:visited, a:active, a:focus, a:hover {
-	font-size: inherit;
-	text-decoration: none;
-	color: inherit;
-} 
+
 nav li{
 	list-style: none;
 	display: inline-block;
@@ -23,6 +19,10 @@ nav li:hover{
 	color: #042a4f;
 	cursor: pointer;
 	border-color: #042a4f;
+}
+
+nav li a:hover{
+	text-decoration: none;
 }
 
 nav, .nav.panel{
