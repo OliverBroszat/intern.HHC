@@ -387,7 +387,7 @@ function ajax_post() {
 		$('#popup-edit').toggleClass("modal",true);
 
 		$.ajax({
-	  		url: '/wordpress/edit',
+	  		url: '<?php echo home_url(); ?>/edit',
 		  	data: data,
 			processData: false,
 			contentType: false,

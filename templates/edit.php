@@ -4,9 +4,7 @@
  */
 
 
-// $root = get_template_directory();
-
-$root = 'C:\Users\Daniel\Dropbox\xampp\htdocs/wordpress/wp-content/themes/intern-hhc';
+$root = get_template_directory();
 
 require_once("$root/functions/main_functions.php");
 require_once("$root/functions/suchfunktion/AcceptPost.php");
