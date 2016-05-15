@@ -237,14 +237,14 @@ function createHTML($final){
 
 	if (empty($final)) {
 		$info = new stdClass;
-		$info->id = 'test-id';
-		$info->prefix = 'test-prefix';
-		$info->first_name = 'test-fn';
-		$info->last_name = 'test-ln';
-		$info->birth_date = 'test-bd';
-		$info->name = 'test-ressort';
-		$info->active = 'test-status';
-		$info->position = 'test-pos';
+		$info->id = '';
+		$info->prefix = '';
+		$info->first_name = '';
+		$info->last_name = '';
+		$info->birth_date = '';
+		$info->name = '';
+		$info->active = '';
+		$info->position = '';
 
 		$final = array(
 			'0' => array(

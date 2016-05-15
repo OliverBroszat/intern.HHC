@@ -387,7 +387,7 @@ function ajax_post() {
 		$('#popup-edit').toggleClass("modal",true);
 
 		$.ajax({
-	  		url: '<?php echo home_url(); ?>/edit',
+	  		url: '<?php echo get_template_directory_uri(); ?>/functions/edit/edit.php',
 		  	data: data,
 			processData: false,
 			contentType: false,
