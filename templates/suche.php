@@ -314,6 +314,10 @@ $html = createHTML($final);
 
 <script type = "text/javascript">
 
+function expandContent(value) {
+	$(value).slideToggle(300);
+}
+
 function ajax_post() {
 
 	// http://stackoverflow.com/questions/9713058/sending-post-data-with-a-xmlhttprequest
@@ -346,16 +350,6 @@ function ajax_post() {
 	console.log(position_checklist);
 	data.append('position_list', position_checklist);
 
-	/*
-	data.append('f_position_list[]', document.getElementsByName('f_position_list[]')[0].checked);
-	data.append('f_position_list[]', document.getElementsByName('f_position_list[]')[1].checked);
-	data.append('f_position_list[]', document.getElementsByName('f_position_list[]')[2].checked);
-	data.append('f_position_list[]', document.getElementsByName('f_position_list[]')[3].checked);
-
-	data.append('f_status_list[]', document.getElementsByName('f_status_list[]')[0].checked);
-	data.append('f_status_list[]', document.getElementsByName('f_status_list[]')[1].checked);
-	*/
-
 	var b = document.getElementById('list-container');
 	b.className += " modal";
 
@@ -369,7 +363,7 @@ function ajax_post() {
 	  	setTimeout(function(){
 				document.getElementById('list-container').classList.remove('modal');
 				alert(data);;
-			}, 600);
+			}, 200);
 	  }
 	});
 }
