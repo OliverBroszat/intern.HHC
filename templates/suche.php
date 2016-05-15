@@ -109,6 +109,9 @@ $html = createHTML($final);
 					<td>
 						<button id="start-search" class='search'>Suchen</button>
 					</td>
+					<td>
+						<button value='".$dataset->id."' onclick='edit(this.value);' class='full-width' type='button'>NEU</button>
+					</td>
 				</tr>
 			</table>
 		</form>
@@ -295,7 +298,18 @@ $html = createHTML($final);
 			</form>
 		</div><!-- /panel -->	
 	</main>
-	</div><!-- /outer -->
+	
+</div><!-- /outer -->
+
+<div id="popup-blende"></div>
+<div id="popup-edit" class="panel">
+	<h2>Eintrag bearbeiten</h2>
+	<div id="popup-content"></div>
+	<div id="popup-footer">
+		<button> Speichern </button> 
+		<button onclick="popup_close()"> Abbrechen </button> 
+	</div>
+</div>
 
 
 <script type = "text/javascript">
@@ -359,6 +373,39 @@ function ajax_post() {
 	  }
 	});
 }
+
+</script>
+
+<script>	
+	function edit(id){
+		var data = new FormData();
+		data.append('id', id);
+
+		$('body').toggleClass("popup");
+		$('#popup-blende').fadeToggle(300);
+		$('#popup-edit').fadeToggle(50);
+		$('#popup-edit').toggleClass("modal",true);
+
+		$.ajax({
+	  		url: '/wordpress/edit',
+		  	data: data,
+			processData: false,
+			contentType: false,
+			type: 'POST',
+			success: function(data){
+				setTimeout(function(){
+					$('#popup-edit').toggleClass("modal",false);
+					$('#popup-edit #popup-content').html(data);
+				}, 600);
+			}
+		});
+	}
+
+	function popup_close(){
+		$('body').toggleClass("popup", false);
+		$('#popup-blende').fadeToggle(0);
+		$('#popup-edit').fadeToggle(0);
+	}
 
 </script>
 
