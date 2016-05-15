@@ -145,21 +145,21 @@ $html = createHTML($final);
 		echo "
 			<label>
 				<input 
-					type='checkbox'
-					class='filtercheckbox_ressort'
-					name='f_ressort_list[]' 
-					value='".$ressort[$i]->name."'
-					".check('Ressort.name', $ressort[$i]->name).">
-						".uppercase($ressort[$i]->name)."
+					type='chec	kbo	x'
+					cl	ass='filtercheckbox_ressort'
+					name='	f_r	es	sort_list[]' 
+						value='".$ressort[$i]->name."	'
+					".check('Ressort.	name', $ressort[$i]->name).	">
+						".uppercase	($ressort[$i	]->name)."	
 				</label><br>";
 	}
-?>	
+	?>	
 
 
 						</td>
-					</tr>
-				</table>
-
+						</tr>
+					</table>
+	
 			<!-- Position -->
 				<table>
 					<tr>
@@ -188,10 +188,10 @@ $html = createHTML($final);
 					</tr>
 					<tr>
 						<td>
-							<label><input type='checkbox' name='f_status_list[]' value='0' <?php echo check('Member.active', '0'); ?>> Aktiv</label><br>
+							<label><input type='checkbox' class='filtercheckbox_status' name='f_status_list[]' value='0' <?php echo check('Member.active', '0'); ?>> Aktiv</label><br>
 						</td>
 						<td>
-							<label><input type='checkbox' name='f_status_list[]' value='1' <?php echo check('Member.active', '1'); ?>> Inaktiv</label><br>
+							<label><input type='checkbox' class='filtercheckbox_status' name='f_status_list[]' value='1' <?php echo check('Member.active', '1'); ?>> Inaktiv</label><br>
 						</td>
 					</tr>
 				</table>
@@ -220,6 +220,7 @@ $html = createHTML($final);
 									<td width='10%'>
 										<input
 											type='checkbox'
+											class='filtercheckbox_uni'
 											name='f_uni_list'
 											value='$value'
 											".check('Study.school',$value).">
@@ -269,7 +270,6 @@ function ajax_post() {
 
 	//var ressorts = <?php echo json_encode($ressort); ?>;
 	//var ressort_lem = <?php echo sizeof($ressort); ?>;
-	var huehue = 0;
 
 	var ressorts = document.getElementsByClassName('filtercheckbox_ressort');
 	var ressort_checklist = new Array();
@@ -281,6 +281,7 @@ function ajax_post() {
 	console.log(ressort_checklist);
 	data.append('ressort_list', ressort_checklist);
 
+
 	var positions = document.getElementsByClassName('filtercheckbox_position');
 	var position_checklist = new Array();
 	for (i = 0; i < positions.length; i++) { 
@@ -290,6 +291,29 @@ function ajax_post() {
 	}
 	console.log(position_checklist);
 	data.append('position_list', position_checklist);
+
+
+	var statuss = document.getElementsByClassName('filtercheckbox_status');
+	var status_checklist = new Array();
+	for (i = 0; i < statuss.length; i++) { 
+		if (statuss[i].checked) {
+			status_checklist.push(statuss[i].value);
+		}
+	}
+	console.log(status_checklist);
+	data.append('status_list', status_checklist);
+
+
+	var unis = document.getElementsByClassName('filtercheckbox_uni');
+	var uni_checklist = new Array();
+	for (i = 0; i < unis.length; i++) { 
+		if (unis[i].checked) {
+			uni_checklist.push(unis[i].value);
+		}
+	}
+	console.log(uni_checklist);
+	data.append('uni_list', uni_checklist);
+
 
 	/*
 	data.append('f_position_list[]', document.getElementsByName('f_position_list[]')[0].checked);
@@ -313,7 +337,7 @@ function ajax_post() {
 	  success: function(data){
 	  	setTimeout(function(){
 				document.getElementById('list-container').classList.remove('modal');
-				alert(data);;
+				alert(data);
 			}, 600);
 	  }
 	});
@@ -323,4 +347,3 @@ function ajax_post() {
 
 
 <?php get_footer(); ?>
-
