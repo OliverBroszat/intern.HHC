@@ -27,20 +27,20 @@ html{
 
 /* Responsive font-size */
 
+@media screen and (min-width: 1650px){
+	html{ font-size: 20px; }
+}
+
 @media screen and (max-width: 720px){
 	html{ font-size: 14px; }
 }
 
-@media screen and (max-width: 640px){
-	html{ font-size: 12px; }
-}
-
 @media screen and (max-width: 480px){
-	html{ font-size: 10px; }
+	html{ font-size: 14px; }
 }
 
 @media screen and (max-width: 340px){
-	html{ font-size: 8px; }
+	html{ font-size: 12px; }
 }
 
 body{
@@ -66,6 +66,24 @@ h2{
 	font-size: 1.5rem;
 	margin: 2rem 0 0.5rem;
 }
+
+a, a:link, a:visited, a:active, a:focus, a:hover {
+	font-size: inherit;
+	text-decoration: none;
+	color: inherit;
+} 
+
+p a, p a:visited{
+	color: #667F99;
+}
+p a:hover{
+	text-decoration: underline;
+}
+
+p{
+	line-height: 1.5;
+}
+
 
 /* ------ TABLES ------ */
 
@@ -120,7 +138,6 @@ table.liste tr:nth-child(even) {
 
 table.liste th, table.liste td {
     border: 1px solid #e0e0e0;
-    font-size: 0.85rem;
     text-shadow: 0 1px 0 #fff;
 }
 table.liste th {

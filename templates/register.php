@@ -1,13 +1,10 @@
 <?php
 /**
  * Template Name: Registrieren
- *
- * @package WordPress
- * @subpackage intern-hhc
- * @since intern-hhc
  */
 
 get_header();
+
 ?>
 
 	<h1>Mitgliederdatenbank</h1>
@@ -23,7 +20,7 @@ get_header();
 		Das Profilbild sollte <b>quadratisch</b> und <b>kleiner als 10 MB</b> sein.<br>
 	</div>
 
-	<form action='../sql-register' method='POST' enctype='multipart/form-data'>	
+	<form action="<?php echo get_template_directory_uri(); ?>/functions/register/sql_register.php" method='POST' enctype='multipart/form-data'>	
 		
 		<h2>Persönliche Angaben</h2>
 

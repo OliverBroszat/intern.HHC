@@ -7,19 +7,12 @@
  * @since intern-hhc
  */
 
-// Server:
-// $root = realpath($_SERVER["DOCUMENT_ROOT"]);
-
-// localhost:
-$root = realpath($_SERVER["DOCUMENT_ROOT"])."/wordpress";
-
-
-require_once("$root/wp-content/themes/intern-hhc/functions/main_functions.php");
+require_once(get_template_directory()."/functions/main_functions.php");
 
 get_header();
 
-echo html_footer();
 ?>
+
 <div class="outer">
 	<h1 style="text-transform: none;">intern.HHC</h1>
 	<div class="panel">
@@ -27,3 +20,4 @@ echo html_footer();
 	</div>
 </div>
 
+<?php get_footer(); ?>

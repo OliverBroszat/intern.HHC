@@ -42,11 +42,7 @@ th{
     border-bottom: 1px solid #cacaca;
 }
 
-table.liste th{
-    padding: 0;
-}
-
-.list_entry{
+.fix-content table{
     border-collapse: collapse;
     background-color: transparent;
     border-style: hidden;
@@ -55,29 +51,33 @@ table.liste th{
 }
 
 
-.list_entry th, .list_entry td {
+.fix-content th, .fix-content td {
     border: 1px solid transparent;
-    font-size: 0.85rem;
     text-shadow: 0 1px 0 #fff;
     vertical-align: middle;
 }
 
-.search_results .list_entry tr:nth-child(odd) {
+.search_results .fix-content tr:nth-child(odd) {
     /* background-color: #f6f7f9; */
     background: transparent;
 }
-.search_results .list_entry tr:nth-child(even) {
+.search_results .fix-content tr:nth-child(even) {
     /*background-color: #fff;*/
     background: transparent;
 }
 
-.list_entry button{
+.fix-content button{
     font-size: 0.75rem;
 }
 
-.list_entry img.profile-picture {
+table.liste .fix-content td.profile{
+    padding: 0;
+    vertical-align: top;
+}
+
+.fix-content img.profile-picture {
     height: auto;
-    width: 100%; 
+    width: 100%;
 }
 
 
@@ -90,6 +90,12 @@ table.liste th{
     width: 100%;
     max-width: 960px;
     margin: 0 auto;
+}
+
+@media screen and (min-width: 1650px){
+    .outer{
+        max-width: 1280px;
+    }
 }
 
 main.container {
@@ -130,7 +136,8 @@ main.container {
     padding: 0.75rem;
 }
 .filter td{
-    padding-left: 0;
+    padding: 0.15rem 0;
+    vertical-align: middle;
 }
 .filter table, .filter button{
     margin-top: 1rem;
@@ -141,6 +148,15 @@ main.container {
    position: relative;
 }
 
+
+
+/* Search-Results */
+table.liste .fix-content td{
+    border: none;
+}
+table.liste.search_results > tbody > tr:not(:last-child) {
+    border-bottom: 4px double #BABEC4;
+}
 
 /* --------- Buttons --------- */
 button {
@@ -157,7 +173,7 @@ button {
     position: relative;
     display: inline-block;
     margin: 0;
-    padding: 0.25rem;
+    padding: 0.25rem 0.75rem;
 
     background: #f6f7f9;
     background: linear-gradient(to bottom,#fefefe 0,#f6f7f9 100%);
@@ -179,6 +195,10 @@ button:hover {
     box-shadow: px 1px 1px -1px rgba(0, 0, 0, 0.25), 0px 1px 0px rgba(255, 255, 255, 0.75) inset;  
 }
 
+button:focus{
+    outline: 0;
+}
+
 button.search {
     padding: 0.5rem 0.5rem;
 }
@@ -193,6 +213,8 @@ th button.sort{
     position:absolute;
     bottom: calc(100% - 0.5rem);
     width: calc(100% - 1rem);
+    max-height: 7rem;
+    overflow-y: auto;
     padding: 0;
     background-color: #fff;
     border: 1px solid #ccc;
@@ -200,7 +222,7 @@ th button.sort{
     border-radius: 0.2rem;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
-    display: none; 
+    display: none;
 }
 #suggests.show {
     display: block;
@@ -230,19 +252,22 @@ th button.sort{
     }
 }
 
+
+
 /*--------- Verschiedenes --------- */
-div.Aktiv {
-    background: green;
-    width: 20px;
-    height: 20px;
-    border-radius: 10px;
+.status{
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
 }
-div.Passiv {
-    background: red;
-    width: 20px;
-    height: 20px;
-    border-radius: 10px;
+
+.status.Aktiv {
+    background: #88B688;   
 }
+.status.Passiv {
+    background: #B68888;
+}
+
 
 /* CSS für Lade-GIF wenn AJAX Call läuft */
 .modal:after {
@@ -272,4 +297,113 @@ body.loading {
    modal element will be visible */
 body.loading .modal {
     display: block;
+}
+
+
+
+
+/* Detail-Content */
+
+.list-entry table{
+    border-collapse: collapse;
+    border: none;
+    background: transparent;
+}
+
+.list-entry .data-block{
+
+}
+
+.list-entry .data-set{
+    margin-bottom: 1rem;
+    background-color: #fff;
+    padding: 0.5rem;
+    border: 1px solid #e0e0e0;
+}
+
+table.liste tr:nth-child(even) .list-entry .data-set{
+    background-color: #f6f7f9;
+}
+
+.list-entry .data-set tr:nth-child(even){
+    background-color: transparent;
+}
+
+.list-entry .data-set tr:nth-child(odd){
+    background-color: transparent;
+}
+
+.list-entry .data-set tr:not(:last-child){
+    border-bottom: 1px solid #e0e0e0;
+}
+
+
+.list-entry .data-set td, .list-entry .data-set th{
+    border: none;
+    vertical-align: top;
+}
+
+
+
+.list-entry .data-set-title{
+    display: inline-block;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.list-entry .scroll-list{
+    max-height: 4rem;
+    overflow-y: auto;
+}
+.list-entry .data-row{
+
+}
+
+.list-entry a:hover{
+    text-decoration: underline;
+}
+
+/* Detail Content Tabs */
+
+.ui-widget-content{
+    border-radius: 0;
+    border: 0;
+    margin: 0;
+    padding: 0;
+    background-color: transparent;
+    margin-bottom: 1rem;
+}
+
+
+.ui-widget-header{
+    border-radius: 0;
+    border: none;
+    background-color: transparent;
+    margin: 0;
+    padding: 0;
+}
+.ui-tabs .ui-tabs-nav{
+    padding: 0;
+}
+
+.ui-tabs .ui-tabs-panel{
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    min-height: 10rem;
+}
+
+table.liste tr:nth-child(even) .ui-tabs-panel {
+    background-color: #f6f7f9;
+}
+
+table.liste tr:nth-child(even) .ui-tabs-active{
+    background-color: #f6f7f9;
+}
+
+.ui-widget-header .ui-state-default{
+    border: 1px solid #e0e0e0;
+}
+
+.ui-state-default a:focus{
+    outline: 0;
 }
