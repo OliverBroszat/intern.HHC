@@ -40,8 +40,6 @@ $list_pages = wp_list_pages(array(
 	<link rel='stylesheet' href='<?php echo $root_uri; ?>/styles/style_suche.css'/>
 	<link rel='stylesheet' href='<?php echo $root_uri; ?>/styles/style_home.css'/>
 	<link rel='stylesheet' href='<?php echo $root_uri; ?>/styles/style_edit.css'/>
-	
-	<script src='<?php echo $root_uri; ?>/js/search.js'></script>
 
 	<title><?php echo $title; ?></title>
 

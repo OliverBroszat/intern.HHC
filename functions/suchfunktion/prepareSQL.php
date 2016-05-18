@@ -44,8 +44,18 @@ function sql_select($search_select){
 
 // ---------- prepare filter for WHERE----------
 function sql_where_filter($filter){
-	global $wpdb;
-	if (array_filter($filter)) {
+
+	$all_empty = true;
+	foreach ($filter as $key => $value) {
+		if (empty($value[0])) {
+			$filter[$key] = NULL;
+		}
+		else{
+			$all_empty = false;
+		}
+	}
+
+	if (!$all_empty) {
 		$sql = '';
 
 		$first_call_a = True;
