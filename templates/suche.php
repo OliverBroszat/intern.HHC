@@ -6,68 +6,32 @@
  * @subpackage intern-hhc
  * @since intern-hhc
  */
-//test danielm
+
 get_header();
-
-$root = get_template_directory();
-
-require_once("$root/functions/main_functions.php");
-require_once("$root/functions/suchfunktion/AcceptPost.php");
-require_once("$root/functions/suchfunktion/prepareSQL.php");
-require_once("$root/functions/suchfunktion/getData.php");
-require_once("$root/functions/suchfunktion/postProcess.php");
-require_once("$root/functions/suchfunktion/createHTML.php");
-
-
-/* 
-----------------------------------------
----------- Suchfunktionen ---------- 
-----------------------------------------
-*/
-
-// POST übertragen
-$input = AcceptPost($_POST, $_GET);
-// SQL-Abfrage vorbereiten
-$queries = prepareSQL($input);
-// Datenbankabfrage
-$data = getData($queries);
-// Post-Processing
-$final = postProcess($data);
-// HTML-Tabelle
-$html = createHTML($final);
-
-
-/* 
-----------------------------------------
----------- HTML-Seite ---------- 
-----------------------------------------
-*/
 
 ?>
 
-<div class = "outer">
+<div class = "outer clearfix">
 	<h1>Suche</h1>
 
 <!-- Suchfeld + Suchbutton -->
 	<div class="panel">
-		<form method="GET" id="form-suche">
+		<form method="POST" id="form-suche">
 			<table class="form">
 				<tr>
 					<td class="search-box-cell">
-						<!-- onkeyup="suggest(this.value)" -->
 						<input 
 							id='text-box' 
 							type="text" 
 							name="search_text" 
 							class="searchinput"
-							onkeyup="suggest(this.value)"
-							value="<?php echo htmlspecialchars($_GET['search_text']);?>"
+							onkeyup="ajax_search_suggestions(this.value)"
 							placeholder="Suche..."
 						>
-						<div id="suggests"></div> 
+						<div id="suggestions"></div> 
 					</td>
 					<td>
-						<button id="start-search" class='search'>Suchen</button>
+						<button type="button" id="start-search" class='search' onclick="ajax_post();">Suchen</button>
 					</td>
 				</tr>
 			</table>
@@ -88,12 +52,12 @@ $html = createHTML($final);
 <?php
 	// Sortieren
 	$t_header = array(
-		array('value' => 'Contact.id', 'name' => 'ID'),
-		array('value' => 'Contact.first_name', 'name' => 'Vorname'),
 		array('value' => 'Contact.last_name', 'name' => 'Nachname'), 
+		array('value' => 'Contact.first_name', 'name' => 'Vorname'),
 		array('value' => 'Contact.birth_date', 'name' => 'Alter'), 
 		array('value' => 'Ressort.name', 'name' => 'Ressort'),
-		array('value' => 'Member.active', 'name' => 'Status')
+		array('value' => 'Member.active', 'name' => 'Status'),
+		array('value' => 'Contact.id', 'name' => 'ID')
 	);	
 
 	// Print Sortieren
@@ -235,9 +199,10 @@ $html = createHTML($final);
 					?>
 						
 				</table>
+				
+				<input type="hidden" name="templateDirectory" id="templateDirectory" value="<?php echo get_template_directory_uri(); ?>">
 
-
-				<button type="button" onclick="ajax_post();" class="full-width">Anwenden</button>
+				<button type="button" onclick="ajax_post();" class="full-width">Aktualisieren</button>
 			</form>
 		</div><!-- /panel -->
 	</div><!-- /sidebar -->
@@ -259,95 +224,14 @@ $html = createHTML($final);
 	</div><!-- /outer -->
 
 
-<script type = "text/javascript">
+<!-- AJAX Search -->
+<script src="<?php echo get_template_directory_uri(); ?>/js/ajax_search.js"></script>
 
-function ajax_post() {
+<!-- Call AJAX Search on page load -->
+<script type="text/javascript">window.onload=ajax_post;</script>
 
-	// http://stackoverflow.com/questions/9713058/sending-post-data-with-a-xmlhttprequest
-	// Gute Infoquelle für ein POST Beispiel mit Ajax
-	// Siehe vor allem die zweite Antwort mit FormData
-
-
-	//endvariable, die als POST weitergegeben wird
-	var data = new FormData();
-
-	//suchinputvariable als Objekt erstellen
-	var searchData = document.getElementsByClassName('searchinput');
-
-	//filterdatenerfassung als Objekt erstellen
-	var filterData = new FormData();
-
-	var ressorts = document.getElementsByClassName('filtercheckbox_ressort');
-	var ressort_checklist = new Array();
-	for (i = 0; i < ressorts.length; i++) { 
-		if (ressorts[i].checked) {
-			ressort_checklist.push(ressorts[i].value);
-		}
-	}
-	console.log(ressort_checklist);
-	filterData.append('ressort_list', ressort_checklist);
-
-
-	var positions = document.getElementsByClassName('filtercheckbox_position');
-	var position_checklist = new Array();
-	for (i = 0; i < positions.length; i++) { 
-		if (positions[i].checked) {
-			position_checklist.push(positions[i].value);
-		}
-	}
-	console.log(position_checklist);
-	filterData.append('position_list', position_checklist);
-
-
-	var statuss = document.getElementsByClassName('filtercheckbox_status');
-	var status_checklist = new Array();
-	for (i = 0; i < statuss.length; i++) { 
-		if (statuss[i].checked) {
-			status_checklist.push(statuss[i].value);
-		}
-	}
-	console.log(status_checklist);
-	filterData.append('status_list', status_checklist);
-
-
-	var unis = document.getElementsByClassName('filtercheckbox_uni');
-	var uni_checklist = new Array();
-	for (i = 0; i < unis.length; i++) { 
-		if (unis[i].checked) {
-			uni_checklist.push(unis[i].value);
-		}
-	}
-	console.log(uni_checklist);
-	filterData.append('uni_list', uni_checklist);
-
-	//sortierinput als Objekt erstellen
-	var sortData = document.getElementsById('sort');
-
-	//Einfügen aller erstellten Objekte in das "data" Objekt
-
-	data.append('search', searchData);
-	data.append('filter', filterData);
-	data.append('sort', sortData);
-
-	var b = document.getElementById('list-container');
-	b.className += " modal";
-
-	$.ajax({
-	  url: '<?php echo get_template_directory_uri(); ?>/functions/suchfunktion/AcceptAjax.php',
-	  data: data,
-	  processData: false,
-	  contentType: false,
-	  type: 'POST',
-	  success: function(data){
-	  	setTimeout(function(){
-				document.getElementById('list-container').classList.remove('modal');
-				alert(data);
-			}, 600);
-	  }
-	});
-}
-
-</script>
+<!-- AJAX Search Suggestions -->
+<script src="<?php echo get_template_directory_uri(); ?>/js/ajax_search_suggestions.js"></script>
 
 
 <?php get_footer(); ?>

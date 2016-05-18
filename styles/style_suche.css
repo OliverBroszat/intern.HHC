@@ -92,7 +92,13 @@ table.liste .list_entry td.profile{
 .outer{
     width: 100%;
     max-width: 960px;
-    margin: 0 auto;
+    margin: 0 auto 50px;
+}
+
+.clearfix:after {
+    content: "";
+    display: table;
+    clear: both;
 }
 
 @media screen and (min-width: 1650px){
@@ -107,6 +113,7 @@ main.container {
     margin: 0 0 10rem;
     float: right;
 }
+
 
 
 .panel {
@@ -212,7 +219,7 @@ th button.sort{
 
 
 /*--------- Search Suggestions --------- */
-#suggests{
+#suggestions{
     position:absolute;
     bottom: calc(100% - 0.5rem);
     width: calc(100% - 1rem);
@@ -227,14 +234,14 @@ th button.sort{
     border-bottom-right-radius: 0;
     display: none;
 }
-#suggests.show {
+#suggestions.show {
     display: block;
 }
 
-.suggest{
+.suggestion{
     padding: 0.2rem 0.5rem;
 }
-.suggest:hover{
+.suggestion:hover{
     cursor: default;
     background-color: #eee;
 }

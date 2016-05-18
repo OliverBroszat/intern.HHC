@@ -1,6 +1,6 @@
 <?php
 /* 
-	suggest.php 
+	search_suggestions.php 
 
 	Suchvorschläge beim eintippen der Suchworte
 */
@@ -15,7 +15,7 @@ if (strpos($root, '\\')){
 require_once("$root/wp-config.php");
 
 
-$search_text = explode(" ", trim($_GET["search_text"]));
+$search_text = explode(" ", trim($_POST["search_text"]));
 
 
 // ---------- SQL Abfrage ---------- 
@@ -77,7 +77,7 @@ foreach ($suggest as $value) {
 	$value = substr_replace($value, '</b>', $pos_end, 0);
 	$value = substr_replace($value, '<b>', $pos, 0);
 
-	echo "<div class = 'suggest' onclick='add_to_search_box(this.innerHTML)'>".strip_tags($value)."</div>";
+	echo "<div class = 'suggestion' onclick='add_to_search_box(this.innerHTML)'>".strip_tags($value)."</div>";
 
 }
 
