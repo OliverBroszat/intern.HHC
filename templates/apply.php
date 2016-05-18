@@ -10,7 +10,34 @@ get_header();
 <!-- Radio Buttons werden für dieses Formular ein bisschen schöner gemacht :) -->
 <style>input[type="radio"] { margin-bottom: 10px; }</style>
 
-	<h1>Bewerbung</h1>
+<style>
+
+.expandablecontent-list {
+	list-style:none;
+	padding-left:0;
+}
+
+.expandablecontent-bar {
+	margin: 0 auto;
+    max-width: 720px;
+    border-top: 2px solid #dddddd;
+    text-align: right;
+    border-bottom: 2px solid #dddddd;
+    padding: 2px;
+    background-color: white;
+}
+
+.expandablecontent-content {
+	margin: 0 auto;
+    max-width: 720px;
+    text-align: right;
+    padding: 5px;
+    background-color: white;
+}
+
+</style>
+
+	<h1>Bewerbung ROBIN!</h1>
 
 	<form action="<?php echo get_template_directory_uri(); ?>/functions/register/sql_register.php" method='POST' enctype='multipart/form-data'>	
 		
@@ -125,95 +152,102 @@ get_header();
 		<br>
 		<h2>Studium</h2>
 		
-		<table class='form'>
-			<tr>
-				<td style='vertical-align: top;'>
-					Status
-				</td>
-				<td style='vertical-align: top;'>
-					<select name='status1'>
-						<option value='active'>Aktiv</option>
-						<option value='done'>Abgeschlossen</option>
-						<option value='cancelled'>Abgebrochen</option>
-					</select>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					Abschluss
-				</td>
-				<td>
-					<select name='abschluss' onChange='showDiv(this)'>
-						<option value='b sc'>Bachelor of Science</option>
-						<option value='m sc'>Master of Science</option>
-						<option value='b a'>Bachelor of Arts</option>
-						<option value='m a'>Master of Arts</option>
-						<option value='examen'>Staatsexamen</option>
-						<option value='diplom'>Diplom</option>
-						<option value='other'>anderer Abschluss...</option>
-					</select>
-				</td>
-				<td>
-					<input id='hidden_div' type='text' name='anderer_abschluss' placeholder='anderer Abschluss...' style='visibility: hidden;'/>
-				</td>
-				<script>
-					function showDiv(elem){
-						if(elem.value == 'other') {
-							document.getElementById('hidden_div').style.visibility = "visible";
-						}
-						else {
-							document.getElementById('hidden_div').style.visibility = "hidden";
-						}
-					}
-				</script>
-			</tr>
-			<tr>
-				<td>
-					Fach
-				</td>
-				<td>
-					<input type='text' name='course1' placeholder='Fach'/>
-				</td>
-				<td>
-					<input type='text' name='focus1' placeholder='(Schwerpunkt)' />
-				</td>
-			</tr>
-			<tr>
-				<td width ='20%' style='vertical-align: top;'>
-					Universität
-				</td>
-				<fieldset id="uni">
-					<td width='40%' style='vertical-align: top;'>
-    <input type="radio" name="uni1" value="Heinrich-Heine-Universität"><label for="hhu"> Heinrich-Heine-Universität</label><br> 
-	<input type="radio" name="uni1" value="FH Düsseldorf"><label for="hhu"> FH Düsseldorf</label><br> 
-	<input type="radio" name="uni1" value="Universität Duisburg-Essen"><label for="hhu"> Universität Duisburg-Essen</label><br>
-	<input type="radio" name="uni1" value="Universität Köln"><label for="hhu"> Universität Köln</label><br>
-					</td>
-					<td width='40%' style='vertical-align: top;'>
-	<input type="radio" name="uni1" value="FOM"><label for="hhu"> FOM</label><br>
-	<input type="radio" name="uni1" value="Bergische Universität Wuppertal"><label for="hhu"> Bergische Universität Wuppertal</label><br>
-	<input type="radio" name="uni1" value="andere"><label for="hhu"> andere:</label> <input type='text' name='school1' placeholder='andere Hochschule...'/><br> 
-					</td>
-				</fieldset>
-			</tr>
-			<tr>
-				<td>
-					Beginn / Ende
-				</td>
+		<ul class='expandablecontent-list' style=''>
+			<li>
+				<div class='expandablecontent-bar'><a href='' class='expandablecontent-bar-delete'>Löschen</a></div>
+				<table class='form'>
+					<tr>
+						<td style='vertical-align: top;'>
+							Status
+						</td>
+						<td style='vertical-align: top;'>
+							<select name='status1'>
+								<option value='active'>Aktiv</option>
+								<option value='done'>Abgeschlossen</option>
+								<option value='cancelled'>Abgebrochen</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Abschluss
+						</td>
+						<td>
+							<select name='abschluss' onChange='showDiv(this)'>
+								<option value='b sc'>Bachelor of Science</option>
+								<option value='m sc'>Master of Science</option>
+								<option value='b a'>Bachelor of Arts</option>
+								<option value='m a'>Master of Arts</option>
+								<option value='examen'>Staatsexamen</option>
+								<option value='diplom'>Diplom</option>
+								<option value='other'>anderer Abschluss...</option>
+							</select>
+						</td>
+						<td>
+							<input id='hidden_div' type='text' name='anderer_abschluss' placeholder='anderer Abschluss...' style='visibility: hidden;'/>
+						</td>
+						<script>
+							function showDiv(elem){
+								if(elem.value == 'other') {
+									document.getElementById('hidden_div').style.visibility = "visible";
+								}
+								else {
+									document.getElementById('hidden_div').style.visibility = "hidden";
+								}
+							}
+						</script>
+					</tr>
+					<tr>
+						<td>
+							Fach
+						</td>
+						<td>
+							<input type='text' name='course1' placeholder='Fach'/>
+						</td>
+						<td>
+							<input type='text' name='focus1' placeholder='(Schwerpunkt)' />
+						</td>
+					</tr>
+					<tr>
+						<td width ='20%' style='vertical-align: top;'>
+							Universität
+						</td>
+						<fieldset id="uni">
+							<td width='40%' style='vertical-align: top;'>
+		    <input type="radio" name="uni1" value="Heinrich-Heine-Universität"><label for="hhu"> Heinrich-Heine-Universität</label><br> 
+			<input type="radio" name="uni1" value="FH Düsseldorf"><label for="hhu"> FH Düsseldorf</label><br> 
+			<input type="radio" name="uni1" value="Universität Duisburg-Essen"><label for="hhu"> Universität Duisburg-Essen</label><br>
+			<input type="radio" name="uni1" value="Universität Köln"><label for="hhu"> Universität Köln</label><br>
+							</td>
+							<td width='40%' style='vertical-align: top;'>
+			<input type="radio" name="uni1" value="FOM"><label for="hhu"> FOM</label><br>
+			<input type="radio" name="uni1" value="Bergische Universität Wuppertal"><label for="hhu"> Bergische Universität Wuppertal</label><br>
+			<input type="radio" name="uni1" value="andere"><label for="hhu"> andere:</label> <input type='text' name='school1' placeholder='andere Hochschule...'/><br> 
+							</td>
+						</fieldset>
+					</tr>
+					<tr>
+						<td>
+							Beginn / Ende
+						</td>
 
-				<td style='vertical-align: top;'>
-					<input type='date' name='start' placeholder='YYYY-MM'/>
-				</td>
-				<td>
-					<input type='date' name='end' placeholder='YYYY-MM'/>
-				</td>
-			</tr>
-			<tr>
-				
-				
-			</tr>
-		</table>
+						<td style='vertical-align: top;'>
+							<input type='date' name='start' placeholder='YYYY-MM'/>
+						</td>
+						<td>
+							<input type='date' name='end' placeholder='YYYY-MM'/>
+						</td>
+					</tr>
+					<tr>
+						
+						
+					</tr>
+				</table>
+			</li>
+		</ul>
 
+		<div id='meineerste_expandablecontent'>
+		</div>
 
 		
 		<button type='submit' class='registrieren'>Bewerbung abschicken!</button>
@@ -221,5 +255,57 @@ get_header();
 	</form>
 
 </body>
+
+<script>
+
+bar_template_edit = "<a href='' "+
+	"class='expandablecontent-bar-delete'>Löschen</a>";
+
+bar_template_append = "<a href=''"+
+	"class='expandablecontent-bar-add'>Einfügen</a>";
+
+function createEditBar() {
+	var bottom_bar = document.createElement('li');
+	bottom_bar.classList.add('expandablecontent-bar');
+	bottom_bar.innerHTML = bar_template_edit;
+}
+
+function createAppendBar() {
+	var bottom_bar = document.createElement('li');
+	bottom_bar.classList.add('expandablecontent-bar');
+	bottom_bar.innerHTML = bar_template_append;
+	return bottom_bar;
+}
+
+function createContentElement(html) {
+	var li = document.createElement('li');
+	var edit_bar = document.createElement('div');
+	edit_bar.classList.add('expandablecontent-bar');
+	edit_bar.innerHTML = bar_template_edit;
+	var content = document.createElement('div');
+	content.classList.add('expandablecontent-content');
+	content.innerHTML = html;
+	li.appendChild(edit_bar);
+	li.appendChild(content);
+	return li;
+}
+
+function setup_expandablecontent(container_id, list_id, html_template) {
+	// Setup list
+	var ul = document.createElement('ul');
+	ul.id = String(list_id);
+	ul.classList.add('expandablecontent-list');
+	// Setup content (jeder content ist ein li element mit einer bar und dem content div drin)
+	if (html_template != '') {
+		ul.appendChild(createContentElement(html_template));
+	}
+	// Assemble
+	ul.appendChild(createAppendBar());
+	document.getElementById(container_id).appendChild(ul);
+}
+
+setup_expandablecontent('meineerste_expandablecontent', 'listID', 'TEXT!');
+
+</script>
 
 </html>

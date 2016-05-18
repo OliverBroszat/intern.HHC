@@ -314,6 +314,10 @@ $html = createHTML($final);
 
 <script type = "text/javascript">
 
+function test_robin() {
+	alert('Hallo Robin!');
+}
+
 function expandContent(value) {
 	$(value).slideToggle(300);
 }
