@@ -59,6 +59,7 @@ $html = createHTML($final);
 							id='text-box' 
 							type="text" 
 							name="search_text" 
+							class="searchinput"
 							onkeyup="suggest(this.value)"
 							value="<?php echo htmlspecialchars($_GET['search_text']);?>"
 							placeholder="Suche..."
@@ -266,7 +267,15 @@ function ajax_post() {
 	// Gute Infoquelle für ein POST Beispiel mit Ajax
 	// Siehe vor allem die zweite Antwort mit FormData
 
+
+	//endvariable, die als POST weitergegeben wird
 	var data = new FormData();
+
+	//suchinputvariable als Objekt erstellen
+	var searchData = document.getElementsByClassName('searchinput');
+
+	//filterdatenerfassung als Objekt erstellen
+	var filterData = new FormData();
 
 	var ressorts = document.getElementsByClassName('filtercheckbox_ressort');
 	var ressort_checklist = new Array();
@@ -276,7 +285,7 @@ function ajax_post() {
 		}
 	}
 	console.log(ressort_checklist);
-	data.append('ressort_list', ressort_checklist);
+	filterData.append('ressort_list', ressort_checklist);
 
 
 	var positions = document.getElementsByClassName('filtercheckbox_position');
@@ -287,7 +296,7 @@ function ajax_post() {
 		}
 	}
 	console.log(position_checklist);
-	data.append('position_list', position_checklist);
+	filterData.append('position_list', position_checklist);
 
 
 	var statuss = document.getElementsByClassName('filtercheckbox_status');
@@ -298,7 +307,7 @@ function ajax_post() {
 		}
 	}
 	console.log(status_checklist);
-	data.append('status_list', status_checklist);
+	filterData.append('status_list', status_checklist);
 
 
 	var unis = document.getElementsByClassName('filtercheckbox_uni');
@@ -309,7 +318,16 @@ function ajax_post() {
 		}
 	}
 	console.log(uni_checklist);
-	data.append('uni_list', uni_checklist);
+	filterData.append('uni_list', uni_checklist);
+
+	//sortierinput als Objekt erstellen
+	var sortData = document.getElementsById('sort');
+
+	//Einfügen aller erstellten Objekte in das "data" Objekt
+
+	data.append('search', searchData);
+	data.append('filter', filterData);
+	data.append('sort', sortData);
 
 	var b = document.getElementById('list-container');
 	b.className += " modal";
