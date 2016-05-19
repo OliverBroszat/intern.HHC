@@ -92,7 +92,7 @@ get_header();
 		$liste[$i]['start1'] = change_date_format($study[0]->start);
 		$liste[$i]['end1'] = change_date_format($study[0]->end);
 		$liste[$i]['focus1'] = $study[0]->focus;
-		$liste[$i]['info_extra1'] = $study[0]->info_extra;
+		$liste[$i]['info_extra1'] = $study[0]->degree;
 
 		$liste[$i]['status2'] = $study[1]->status;
 		$liste[$i]['school2'] = $study[1]->school;
@@ -100,7 +100,7 @@ get_header();
 		$liste[$i]['start2'] = change_date_format($study[1]->start);
 		$liste[$i]['end2'] = change_date_format($study[1]->end);
 		$liste[$i]['focus2'] = $study[1]->focus;
-		$liste[$i]['info_extra2'] = $study[1]->info_extra;
+		$liste[$i]['info_extra2'] = $study[1]->degree;
 
 		$i ++;
 	}

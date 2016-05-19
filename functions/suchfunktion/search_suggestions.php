@@ -68,6 +68,8 @@ foreach ($result as $index) {
 	}
 }
 
+// Delete Duplicates
+$suggest = array_unique($suggest);
 
 // ---------- Suchwort in Suchvorschlag markieren und ausgeben ---------- 
 
@@ -76,10 +78,10 @@ foreach ($suggest as $value) {
 	$pos = stripos($value, $search_text[0]);
 	$pos_end = $pos + strlen($search_text[0]);
 
-	$value = substr_replace($value, '</b>', $pos_end, 0);
-	$value = substr_replace($value, '<b>', $pos, 0);
+	$value_marked = substr_replace($value, '</b>', $pos_end, 0);
+	$value_marked = substr_replace($value_marked, '<b>', $pos, 0);
 
-	echo "<div class = 'suggestion' onclick='add_to_search_box(this.innerHTML)'>".strip_tags($value)."</div>";
+	echo "<div class='suggestion' id='$value' onclick='add_to_search_box(this.id)'>$value_marked</div>";
 
 }
 

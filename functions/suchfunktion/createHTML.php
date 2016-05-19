@@ -85,7 +85,10 @@ function getDetailView($number, $dataset) {
 		 }
 		 $tr .= '</td><td><b>'.$row->course.'</b></td></tr>';
 		 $tr .= '<tr><td colspan="2">'.$row->school.'</td>';
-		 $study_table .= $tr;
+		 if (!empty($row->degree)) {
+		 	$tr .= '<tr><td>Abschluss: </td><td>'.$row->degree.'</td>';
+		 }	 
+		 $study_table .= $tr;	
 	}
 	$study_table .= '</table>';
 
