@@ -43,7 +43,8 @@ function setup_expandablecontent(container_id, list_id, html_template) {
 	if (html_template != '') {
 		ul.appendChild(createContentElement(html_template));
 	}
-	// Assemble
-	ul.appendChild(createAppendBar());
+	var bottom = createAppendBar()
+	bottom.classList.add('expandablecontent-last');
+	ul.appendChild(bottom);
 	document.getElementById(container_id).appendChild(ul);
 }
