@@ -98,7 +98,7 @@ table.liste .fix-content td.profile{
     clear: both;
 }
 
-@media screen and (min-width: 1650px){
+@media screen and (min-width: 1920px){
     .outer{
         max-width: 1280px;
     }
@@ -111,8 +111,6 @@ main.container {
     float: right;
 }
 
-
-
 .panel {
     background-color: #fff;
     border: 1px solid #ddd;
@@ -122,7 +120,7 @@ main.container {
 }
 
 .panel:not(:last-child){
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
 }
 
 .panel.full-width{
@@ -137,6 +135,7 @@ main.container {
 .sidebar{
     width: 30%;
     float: left;
+    margin-bottom: 1rem;
 }
 
 .panel.filter{
@@ -214,6 +213,11 @@ th button.sort{
     padding: 0.25rem 0.5rem;
 }
 
+#sidebar-toggle{
+    margin-bottom: 1rem;
+    display: none;
+}
+
 
 select#sort{
     width: calc(70% - 2*1px);
@@ -249,23 +253,6 @@ select#order{
     cursor: default;
     background-color: #eee;
 }
-
-
-/*--------- Media Queries --------- */
-@media screen and (max-width: 960px){
-    .sidebar, main.container{
-        width: 100%;
-        max-width: 100%;
-        border-radius: 0;
-        border-left: none;
-        border-right: none;
-        margin-left: 0;
-        margin-right: 0;
-        padding-right: 0;
-        padding-left: 0;
-    }
-}
-
 
 
 /*--------- Verschiedenes --------- */
@@ -420,4 +407,36 @@ table.liste tr:nth-child(even) .ui-tabs-active{
 
 .ui-state-default a:focus{
     outline: 0;
+}
+
+
+/*--------- Media Queries --------- */
+@media screen and (max-width: 960px){
+    .sidebar, main.container{
+        width: 100%;
+        max-width: 100%;
+        border-radius: 0;
+        border-left: none;
+        border-right: none;
+        margin-left: 0;
+        margin-right: 0;
+        padding-right: 0;
+        padding-left: 0;
+    }
+    .sidebar{
+        display: none;
+    }
+    #sidebar-toggle{
+        display: block;
+    }
+}
+
+@media screen and (max-width: 360px) {
+    select#sort, select#order{
+        width: 100%;
+    }
+
+    #form-suche td{
+        display: block;
+    }
 }

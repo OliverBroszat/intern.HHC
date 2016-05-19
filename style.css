@@ -27,7 +27,7 @@ html{
 
 /* Responsive font-size */
 
-@media screen and (min-width: 1650px){
+@media screen and (min-width: 1920px){
 	html{ font-size: 20px; }
 }
 
