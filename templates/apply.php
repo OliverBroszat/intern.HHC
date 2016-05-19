@@ -246,7 +246,7 @@ get_header();
 			</li>
 		</ul>
 
-		<div id='meineerste_expandablecontent'>
+		<div id='container_id' class='expandablecontent-container'>
 		</div>
 
 		
@@ -256,56 +256,9 @@ get_header();
 
 </body>
 
+<script src='js/expandable_list.js'></script>
 <script>
-
-bar_template_edit = "<a href='' "+
-	"class='expandablecontent-bar-delete'>Löschen</a>";
-
-bar_template_append = "<a href=''"+
-	"class='expandablecontent-bar-add'>Einfügen</a>";
-
-function createEditBar() {
-	var bottom_bar = document.createElement('li');
-	bottom_bar.classList.add('expandablecontent-bar');
-	bottom_bar.innerHTML = bar_template_edit;
-}
-
-function createAppendBar() {
-	var bottom_bar = document.createElement('li');
-	bottom_bar.classList.add('expandablecontent-bar');
-	bottom_bar.innerHTML = bar_template_append;
-	return bottom_bar;
-}
-
-function createContentElement(html) {
-	var li = document.createElement('li');
-	var edit_bar = document.createElement('div');
-	edit_bar.classList.add('expandablecontent-bar');
-	edit_bar.innerHTML = bar_template_edit;
-	var content = document.createElement('div');
-	content.classList.add('expandablecontent-content');
-	content.innerHTML = html;
-	li.appendChild(edit_bar);
-	li.appendChild(content);
-	return li;
-}
-
-function setup_expandablecontent(container_id, list_id, html_template) {
-	// Setup list
-	var ul = document.createElement('ul');
-	ul.id = String(list_id);
-	ul.classList.add('expandablecontent-list');
-	// Setup content (jeder content ist ein li element mit einer bar und dem content div drin)
-	if (html_template != '') {
-		ul.appendChild(createContentElement(html_template));
-	}
-	// Assemble
-	ul.appendChild(createAppendBar());
-	document.getElementById(container_id).appendChild(ul);
-}
-
-setup_expandablecontent('meineerste_expandablecontent', 'listID', 'TEXT!');
-
+	setup_expandablecontent('container_id', 'unique_ID', 'Template Nr %s');
 </script>
 
 </html>
