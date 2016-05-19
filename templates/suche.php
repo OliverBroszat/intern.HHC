@@ -61,14 +61,15 @@ get_header();
 
 	// Print Sortieren
 	foreach ($t_header as $value) {	
-		echo "
-			<option value='".$value[value]."'>
-				".$value[name]."
-			</option>
-		";
+		echo "<option value='".$value[value]."'>".$value[name]."</option>";
 	}
 ?>
 
+				</select>
+
+				<select name="order" id="order" onchange="ajax_post()">
+					<option value="asc">ASC</option>
+					<option value="desc">DESC</option>
 				</select>
 			</form>
 		</div><!-- /panel -->
