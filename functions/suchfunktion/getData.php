@@ -86,9 +86,7 @@ function getData($queries){
 	$query_contact_search = $queries['contact_search'];
 
 	// $wpdb->prepare wird noch nicht verwendet
-	$results = $wpdb->get_results($query_contact_search);
-
-	
+	$results = $wpdb->get_results($query_contact_search);	
 	$data = array();
 
 	foreach ($results as $row) {

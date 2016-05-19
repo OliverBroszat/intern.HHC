@@ -45,9 +45,10 @@ function sql_select($search_select){
 // ---------- prepare filter for WHERE----------
 function sql_where_filter($filter){
 
+	//WICHTIG: empty() wird auch für '0' true! Ersetze also durch == ''
 	$all_empty = true;
 	foreach ($filter as $key => $value) {
-		if (empty($value[0])) {
+		if ($value[0]=='') { // <-- Hier verändert!
 			$filter[$key] = NULL;
 		}
 		else{
@@ -56,27 +57,27 @@ function sql_where_filter($filter){
 	}
 
 	if (!$all_empty) {
+		global $wpdb;
 		$sql = '';
 
-		$first_call_a = True;
+		$first_call_a = true;
 		foreach ($filter as $key => $list) {
 			if ($list !== NULL) {
 				if (!$first_call_a) {
 					$sql .= " AND ";
 				}
-				$first_call_a = False;
+				$first_call_a = false;
 
 				$sql .= "(";
 
-				$first_call_b = True;
+				$first_call_b = true;
 				foreach ($list as $value) {
 					if (!$first_call_b) {
 						$sql .= " OR ";
 					}
-					$first_call_b = False;
-					
-					$sql .= $wpdb->prepare("%s = '%s'", $key, $value);
-					//$sql .= "$key = '$value'";
+					$first_call_b = false;
+					//$sql .= $wpdb->prepare("%s = '%s'", $key, $value);
+					$sql .= "$key = '$value'";
 				}
 				$sql .= ")";
 			}
@@ -191,8 +192,6 @@ function prepareSQL_contact_search($input, $search_select, $search_range){
 		ORDER BY 
 			$sort, Contact.last_name, Contact.first_name, Ressort.name
 	";
-
-
 	return $sql;
 }
 

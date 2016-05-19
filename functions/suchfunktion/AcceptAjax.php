@@ -41,12 +41,40 @@
 	require_once("$root/functions/suchfunktion/postProcess.php");
 	require_once("$root/functions/suchfunktion/createHTML.php");
 
+	// Für den SELECT Operator
+	$search_select = array(
+		'Contact' => array(
+			'id',
+			'prefix',
+			'first_name',
+			'last_name',
+			'birth_date',
+			'comment'
+		),
+		'Ressort' => array(
+			'name'
+		),
+		'Member' => array(
+			'active',
+			'position',
+			'joined',
+			'left'
+		)
+	);
 
+	// Für den LIKE Operator
+	$search_range = array(
+		'Contact' => array(
+			'id',
+			'first_name',
+			'last_name',
+		)
+	);
 
 
 
 	// SQL-Abfrage vorbereiten
-	$queries = prepareSQL($input);
+	$queries = prepareSQL($input, $search_select, $search_range);
 	// Datenbankabfrage
 	$data = getData($queries);
 	// Post-Processing
