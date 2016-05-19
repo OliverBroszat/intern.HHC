@@ -10,32 +10,7 @@ get_header();
 <!-- Radio Buttons werden für dieses Formular ein bisschen schöner gemacht :) -->
 <style>input[type="radio"] { margin-bottom: 10px; }</style>
 
-<style>
-
-.expandablecontent-list {
-	list-style:none;
-	padding-left:0;
-}
-
-.expandablecontent-bar {
-	margin: 0 auto;
-    max-width: 720px;
-    border-top: 2px solid #dddddd;
-    text-align: right;
-    border-bottom: 2px solid #dddddd;
-    padding: 2px;
-    background-color: white;
-}
-
-.expandablecontent-content {
-	margin: 0 auto;
-    max-width: 720px;
-    text-align: right;
-    padding: 5px;
-    background-color: white;
-}
-
-</style>
+<style type='text/css'></style>
 
 	<h1>Bewerbung ROBIN!</h1>
 
@@ -256,7 +231,8 @@ get_header();
 
 </body>
 
-<script src='js/expandable_list.js'></script>
+<!-- JavaScript einbinden -->
+<script src="<?php echo get_template_directory_uri(); ?>/js/expandable_list.js"></script>
 <script>
 	setup_expandablecontent('container_id', 'unique_ID', 'Template Nr %s');
 </script>
