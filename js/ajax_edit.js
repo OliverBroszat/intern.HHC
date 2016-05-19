@@ -19,7 +19,7 @@ function edit(id){
 			setTimeout(function(){
 				$('#popup-edit').toggleClass("modal",false);
 				$('#popup-edit #popup-content').html(data);
-			}, 600);
+			}, 100);
 		}
 	});
 }

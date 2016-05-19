@@ -281,7 +281,7 @@ get_header();
 		$('#popup-blende').fadeToggle(300);
 		$('#popup-image').fadeToggle(50);
 
-		var data = "<img src='"+href+"' onclick='image_popup(this, event);'>";
+		var data = "<img src='"+href+"' onclick='image_popup(this, event);'><div class='close' onclick='image_popup(this, event)'>&#215;</div>";
 
 		$('#popup-image').html(data);
 
