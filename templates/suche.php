@@ -110,7 +110,7 @@ $html = createHTML($final);
 						<button id="start-search" class='search'>Suchen</button>
 					</td>
 					<td>
-						<button value='".$dataset->id."' onclick='edit(this.value);' class='full-width' type='button'>NEU</button>
+						<button value='new' onclick='edit(this.value);' class='full-width' type='button'>NEU</button>
 					</td>
 				</tr>
 			</table>
@@ -277,7 +277,8 @@ $html = createHTML($final);
 					?>
 						
 				</table>
-
+				
+				<input type="hidden" name="templateDirectory" id="templateDirectory" value="<?php echo get_template_directory_uri(); ?>"> 
 
 				<button type="button" onclick="ajax_post();" class="full-width">Anwenden</button>
 			</form>
@@ -311,103 +312,8 @@ $html = createHTML($final);
 	</div>
 </div>
 
-
-<script type = "text/javascript">
-
-function ajax_post() {
-
-	// http://stackoverflow.com/questions/9713058/sending-post-data-with-a-xmlhttprequest
-	// Gute Infoquelle für ein POST Beispiel mit Ajax
-	// Siehe vor allem die zweite Antwort mit FormData
-
-	var data = new FormData();
-
-	//var ressorts = <?php echo json_encode($ressort); ?>;
-	//var ressort_lem = <?php echo sizeof($ressort); ?>;
-	var huehue = 0;
-
-	var ressorts = document.getElementsByClassName('filtercheckbox_ressort');
-	var ressort_checklist = new Array();
-	for (i = 0; i < ressorts.length; i++) { 
-		if (ressorts[i].checked) {
-			ressort_checklist.push(ressorts[i].value);
-		}
-	}
-	console.log(ressort_checklist);
-	data.append('ressort_list', ressort_checklist);
-
-	var positions = document.getElementsByClassName('filtercheckbox_position');
-	var position_checklist = new Array();
-	for (i = 0; i < positions.length; i++) { 
-		if (positions[i].checked) {
-			position_checklist.push(positions[i].value);
-		}
-	}
-	console.log(position_checklist);
-	data.append('position_list', position_checklist);
-
-	/*
-	data.append('f_position_list[]', document.getElementsByName('f_position_list[]')[0].checked);
-	data.append('f_position_list[]', document.getElementsByName('f_position_list[]')[1].checked);
-	data.append('f_position_list[]', document.getElementsByName('f_position_list[]')[2].checked);
-	data.append('f_position_list[]', document.getElementsByName('f_position_list[]')[3].checked);
-
-	data.append('f_status_list[]', document.getElementsByName('f_status_list[]')[0].checked);
-	data.append('f_status_list[]', document.getElementsByName('f_status_list[]')[1].checked);
-	*/
-
-	var b = document.getElementById('list-container');
-	b.className += " modal";
-
-	$.ajax({
-	  url: '<?php echo get_template_directory_uri(); ?>/functions/suchfunktion/AcceptAjax.php',
-	  data: data,
-	  processData: false,
-	  contentType: false,
-	  type: 'POST',
-	  success: function(data){
-	  	setTimeout(function(){
-				document.getElementById('list-container').classList.remove('modal');
-				alert(data);;
-			}, 600);
-	  }
-	});
-}
-
-</script>
-
-<script>	
-	function edit(id){
-		var data = new FormData();
-		data.append('id', id);
-
-		$('body').toggleClass("popup");
-		$('#popup-blende').fadeToggle(300);
-		$('#popup-edit').fadeToggle(50);
-		$('#popup-edit').toggleClass("modal",true);
-
-		$.ajax({
-	  		url: '<?php echo get_template_directory_uri(); ?>/functions/edit/edit.php',
-		  	data: data,
-			processData: false,
-			contentType: false,
-			type: 'POST',
-			success: function(data){
-				setTimeout(function(){
-					$('#popup-edit').toggleClass("modal",false);
-					$('#popup-edit #popup-content').html(data);
-				}, 600);
-			}
-		});
-	}
-
-	function popup_close(){
-		$('body').toggleClass("popup", false);
-		$('#popup-blende').fadeToggle(0);
-		$('#popup-edit').fadeToggle(0);
-	}
-
-</script>
+// AJAX Edit
+<script src="<?php echo get_template_directory_uri(); ?>/js/ajax_edit.js"></script> 
 
 
 <?php get_footer(); ?>
