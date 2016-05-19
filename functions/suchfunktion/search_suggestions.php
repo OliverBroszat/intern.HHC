@@ -15,7 +15,7 @@ if (strpos($root, '\\')){
 require_once("$root/wp-config.php");
 
 
-$search_text = explode(" ", trim($_POST["search_text"]));
+$search_text = preg_split("/[\s,]+/", trim($_POST["search_text"]));
 
 
 // ---------- SQL Abfrage ---------- 
@@ -30,6 +30,8 @@ $query = "
 				SELECT last_name, first_name, last_name FROM Contact
 				UNION 
 				SELECT city, NULL, NULL FROM Address
+				UNION 
+				SELECT postal, NULL, NULL FROM Address
 				UNION 
 				SELECT school, NULL, NULL FROM Study
 				UNION 

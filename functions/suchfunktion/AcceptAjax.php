@@ -54,14 +54,22 @@ $search_select = array(
 );
 
 // Für den LIKE Operator
-$search_range = array(
-	'Contact' => array(
-		'id',
-		'first_name',
-		'last_name'
-	)
-);
-
+$search_range = array( 
+  'Contact' => array( 
+    'first_name', 
+    'last_name' 
+  ), 
+  'Address' => array( 
+    'city', 
+    'postal' 
+  ), 
+  'Phone' => array( 
+    'number' 
+  ), 
+  'Study' => array( 
+    'course' 
+  ) 
+); 
 
 
 // --------- Suchfunktionen ---------

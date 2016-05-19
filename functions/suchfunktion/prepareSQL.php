@@ -150,7 +150,7 @@ function prepareSQL_contact_search($input, $search_select, $search_range){
 	// ---------- Übergebene Werte ---------- 
 
 	// prepare searchwords
-	$search_words = explode(" ", trim($input['search']));
+	$search_words = preg_split("/[\s,]+/", trim($input['search']));
 
 	// Sortieren
 	if (empty($input['sort'])){					
