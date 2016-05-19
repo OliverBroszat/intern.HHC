@@ -20,13 +20,19 @@
 
 
 	// Load WP-Functions
-	$root = realpath($_SERVER["DOCUMENT_ROOT"]);  
+	$root = realpath($_SERVER["CONTEXT_DOCUMENT_ROOT"]);
 	if (strpos($root, '\\')){  
 	 // localhost  
 	 $root .= "/wordpress";  
 	}  
+	$whitelist = array(
+	    '127.0.0.1',
+	    '::1'
+	);
+	if(in_array($_SERVER['REMOTE_ADDR'], $whitelist)){
+	    $root = $root."/wordpress";
+	}
 	require_once("$root/wp-load.php");
-
 	$root = get_template_directory();
 
 	require_once("$root/functions/main_functions.php");
