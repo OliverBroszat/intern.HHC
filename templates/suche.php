@@ -30,7 +30,7 @@ get_header();
 						<button type="button" id="start-search" class='search' onclick="ajax_post();">Suchen</button>
 					</td>
 					<td>
-						<button value='".$dataset->id."' onclick='edit(this.value);' class='full-width' type='button'>NEU</button>
+						<button value='new' onclick='edit(this.value);' class='full-width' type='button'>NEU</button>
 					</td>
 				</tr>
 			</table>
@@ -234,6 +234,7 @@ get_header();
 	</div>
 </div>
 
+
 <!-- AJAX Search -->
 <script src="<?php echo get_template_directory_uri(); ?>/js/ajax_search.js"></script>
 
@@ -242,6 +243,9 @@ get_header();
 
 <!-- AJAX Search Suggestions -->
 <script src="<?php echo get_template_directory_uri(); ?>/js/ajax_search_suggestions.js"></script>
+
+ <!-- AJAX Edit -->
+<script src="<?php echo get_template_directory_uri(); ?>/js/ajax_edit.js"></script> 
 
 
 <?php get_footer(); ?>
