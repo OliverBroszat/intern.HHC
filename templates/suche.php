@@ -38,16 +38,18 @@ get_header();
 	</div><!-- /panel -->
 
 
-	<button id="sidebar-toggle" class="search" onclick="$('.sidebar').slideToggle(300)">Suchoptionen</button>
+	<button id="sidebar-toggle" class="search" onclick="$(this).toggleClass('show'); $('.sidebar').slideToggle(300);">Suchoptionen</button>
 
 	<div class = "sidebar">
 		
 	<!-- Sortieren -->
 		<div class='panel'>
-			<form method='POST'>
+			<form method='POST' id='form-sortieren'>
 				<h2>Sortieren nach:</h2>
-
-				<select name="sort" id="sort" onchange="ajax_post()">
+				<table >
+					<tr>
+						<td>
+						<select name="sort" id="sort" onchange="ajax_post()">
 
 <?php
 	// Sortieren
@@ -66,12 +68,16 @@ get_header();
 	}
 ?>
 
-				</select>
-
-				<select name="order" id="order" onchange="ajax_post()" style='width:'>
-					<option value="asc">A-Z</option>
-					<option value="desc">Z-A</option>
-				</select>
+							</select>
+						</td>
+						<td>
+							<select name="order" id="order" onchange="ajax_post()" style='width:'>
+								<option value="asc">A-Z</option>
+								<option value="desc">Z-A</option>
+							</select>
+						</td>
+					</tr>
+				</table>
 			</form>
 		</div><!-- /panel -->
 	
@@ -234,6 +240,7 @@ get_header();
 		<button onclick="popup_close()"> Abbrechen </button> 
 	</div>
 </div>
+<div id="popup-image" class="panel"></div>
 
 
 <!-- Import ajax_post() function -->
@@ -262,6 +269,22 @@ get_header();
 <script>
 	function expand_content(value){
 		$('#slide_content_show_detail_'+value).slideToggle(300);
+	}
+</script>
+
+<!-- Image Popup -->
+<script>
+	function image_popup(href, event){
+		event.preventDefault();
+
+		$('body').toggleClass("popup");
+		$('#popup-blende').fadeToggle(300);
+		$('#popup-image').fadeToggle(50);
+
+		var data = "<img src='"+href+"' onclick='image_popup(this, event);'>";
+
+		$('#popup-image').html(data);
+
 	}
 </script>
 

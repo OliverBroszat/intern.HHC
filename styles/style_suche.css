@@ -80,6 +80,10 @@ table.liste .fix-content td.profile{
     width: 100%;
 }
 
+#form-suche td, #form-sortieren td{
+    padding: 0.25rem;
+}
+
 
 /* --------- Struktur-Elemente --------- */
 .full-width{
@@ -201,29 +205,18 @@ button:hover {
     box-shadow: px 1px 1px -1px rgba(0, 0, 0, 0.25), 0px 1px 0px rgba(255, 255, 255, 0.75) inset;  
 }
 
-button:focus{
+/*button:focus{
     outline: 0;
-}
+}*/
 
-button.search {
-    padding: 0.5rem 0.5rem;
-}
 
 th button.sort{
     padding: 0.25rem 0.5rem;
 }
 
 #sidebar-toggle{
-    margin-bottom: 1rem;
+    /* margin-bottom: 1rem; */
     display: none;
-}
-
-
-select#sort{
-    width: calc(70% - 2*1px);
-}
-select#order{
-    width: calc(30% - 2*1px);
 }
 
 /*--------- Search Suggestions --------- */
@@ -409,9 +402,33 @@ table.liste tr:nth-child(even) .ui-tabs-active{
     outline: 0;
 }
 
+/*--------- Popup Image --------- */
+#popup-image{
+
+	background-color: #fff;
+	position: fixed;
+	z-index: 100;
+	top: calc(50%);
+	left: calc(50%);
+	-webkit-transform: translate(-50%, -50%);
+	display: none;
+	overflow: hidden;
+}
+
+#popup-image img{
+	max-width: 640px;
+	max-height: 640px;
+	width: auto;
+	height: auto;
+}
+
+
 
 /*--------- Media Queries --------- */
 @media screen and (max-width: 960px){
+    .outer{
+        max-width: 720px;
+    }
     .sidebar, main.container{
         width: 100%;
         max-width: 100%;
@@ -423,20 +440,67 @@ table.liste tr:nth-child(even) .ui-tabs-active{
         padding-right: 0;
         padding-left: 0;
     }
+}
+
+@media screen and (max-width: 720px){
+    .outer{
+        width: 100%;
+        padding: 0 0.5rem;
+    }
     .sidebar{
         display: none;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-top: 0;
+        border-radius: 4px;
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08);
+        padding: 1.5rem;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+    }
+    .sidebar .panel{
+        border: none;
+        box-shadow: none;
+        border-radius: 0;
     }
     #sidebar-toggle{
         display: block;
+        margin-bottom: 1rem
     }
+    #sidebar-toggle.show{
+        margin-bottom: 0;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    #popup-image{
+		width: 90%;
+		padding: 1rem;
+	}
+
+	#popup-image img{
+		max-width: none;
+	    max-height: 100%;
+	    width: 100%;
+	}
+
 }
 
-@media screen and (max-width: 360px) {
+@media screen and (max-width: 480px) {
+    .panel{
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    table.liste th, table.liste td{
+        border-left: 0;
+        border-right: 0;
+    }
+
     select#sort, select#order{
         width: 100%;
     }
-
-    #form-suche td{
+    #form-suche td, #form-sortieren td{
         display: block;
     }
 }
