@@ -215,6 +215,13 @@ th button.sort{
 }
 
 
+select#sort{
+    width: calc(70% - 2*1px);
+}
+select#order{
+    width: calc(30% - 2*1px);
+}
+
 /*--------- Search Suggestions --------- */
 #suggestions{
     position:absolute;

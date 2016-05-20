@@ -8,7 +8,7 @@ get_header();
 ?>
 
 <div class = "outer clearfix">
-	<h1>Suche</h1>
+	<h1>Mitgliederliste</h1>
 
 <!-- Suchfeld + Suchbutton -->
 	<div class="panel">
@@ -27,10 +27,10 @@ get_header();
 						<div id="suggestions"></div> 
 					</td>
 					<td>
-						<button type="button" id="start-search" class='search' onclick="ajax_post();">Suchen</button>
+						<button type='submit' id='start-search' class='search' >Suchen</button>
 					</td>
 					<td>
-						<button value='".$dataset->id."' onclick='edit(this.value);' class='full-width' type='button'>NEU</button>
+						<button type='button' id='new-entry' class='search' value='new' onclick='edit(this.value);'>NEU</button>
 					</td>
 				</tr>
 			</table>
@@ -61,14 +61,15 @@ get_header();
 
 	// Print Sortieren
 	foreach ($t_header as $value) {	
-		echo "
-			<option value='".$value[value]."'>
-				".$value[name]."
-			</option>
-		";
+		echo "<option value='".$value[value]."'>".$value[name]."</option>";
 	}
 ?>
 
+				</select>
+
+				<select name="order" id="order" onchange="ajax_post()" style='width:'>
+					<option value="asc">A-Z</option>
+					<option value="desc">Z-A</option>
 				</select>
 			</form>
 		</div><!-- /panel -->
@@ -233,14 +234,30 @@ get_header();
 	</div>
 </div>
 
+
 <!-- AJAX Search -->
 <script src="<?php echo get_template_directory_uri(); ?>/js/ajax_search.js"></script>
 
 <!-- Call AJAX Search on page load -->
 <script type="text/javascript">window.onload=ajax_post;</script>
 
+<!-- Call AJAX Search on #form-suche submit -->
+<script type="text/javascript">
+	$("#form-suche").submit(function(e){
+	    e.preventDefault();
+	    $("#start-search").focus();
+	    ajax_post();
+
+	});
+</script>
+
+
+
 <!-- AJAX Search Suggestions -->
 <script src="<?php echo get_template_directory_uri(); ?>/js/ajax_search_suggestions.js"></script>
+
+ <!-- AJAX Edit -->
+<script src="<?php echo get_template_directory_uri(); ?>/js/ajax_edit.js"></script> 
 
 
 <?php get_footer(); ?>

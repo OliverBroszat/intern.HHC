@@ -105,8 +105,9 @@ function getData($queries){
 	
 	}	
 	
-	if($wpdb->last_error !== '')
-	    header("Location: http://neu.hhc-duesseldorf.de/wp-content/themes/twentyfourteen-child/templates/error.php");
+	if($wpdb->last_error !== ''){
+	    header("Location: ".get_template_directory()."/templates/error.php");
+	}
 
 	return $data;
 }

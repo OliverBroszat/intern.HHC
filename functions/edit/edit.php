@@ -3,6 +3,14 @@
  * Template Name: Edit
  */
 
+// Load WP-Functions
+$root = realpath($_SERVER["DOCUMENT_ROOT"]);  
+if (strpos($root, '\\')){  
+  // localhost  
+  $root .= "/wordpress";  
+}  
+require_once("$root/wp-load.php");
+
 
 $root = get_template_directory();
 

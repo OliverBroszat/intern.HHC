@@ -3,12 +3,14 @@ function ajax_post() {
 	// Gute Infoquelle für ein POST Beispiel mit Ajax
 	// Siehe vor allem die zweite Antwort mit FormData
 
-
+	console.log('----------')
+	
 	//endvariable, die als POST weitergegeben wird
 	var data = new FormData();
 
-
-	data.append('search_text', document.getElementById('text-box').value);
+	var search_text = document.getElementById('text-box').value
+	console.log('search_text: '+search_text);
+	data.append('search_text', search_text);
 
 	var ressorts = document.getElementsByClassName('filtercheckbox_ressort');
 	var ressort_checklist = new Array();
@@ -17,7 +19,7 @@ function ajax_post() {
 			ressort_checklist.push(ressorts[i].value);
 		}
 	}
-	console.log(ressort_checklist);
+	console.log('ressort_checklist: '+ressort_checklist);
 	data.append('ressort_list', ressort_checklist);
 
 
@@ -28,7 +30,7 @@ function ajax_post() {
 			position_checklist.push(positions[i].value);
 		}
 	}
-	console.log(position_checklist);
+	console.log('position_checklist: '+position_checklist);
 	data.append('position_list', position_checklist);
 
 
@@ -39,7 +41,7 @@ function ajax_post() {
 			status_checklist.push(statuss[i].value);
 		}
 	}
-	console.log(status_checklist);
+	console.log('status_checklist: '+status_checklist);
 	data.append('status_list', status_checklist);
 
 
@@ -50,20 +52,26 @@ function ajax_post() {
 			uni_checklist.push(unis[i].value);
 		}
 	}
-	console.log(uni_checklist);
+	console.log('uni_checklist: '+uni_checklist);
 	data.append('uni_list', uni_checklist);
 
 	//sortierinput als Objekt erstellen
-	data.append('sort', document.getElementById('sort').value);
+	var sort = document.getElementById('sort').value;
+	console.log('sort: '+sort);
+	data.append('sort', sort);
 
-	//Einfügen aller erstellten Objekte in das "data" Objekt
+
+	var order = document.getElementById('order').value;
+	console.log('order: '+order);
+	data.append('order', order);
+
 
 	var b = document.getElementById('list-container');
 	b.className += " modal";
 
-
-	// var templateDirectory = $('#templateDirectory').value;
 	var templateDirectory = document.getElementById('templateDirectory').value;
+
+	console.log('----------')
 
 	$.ajax({
 	  url: templateDirectory+'/functions/suchfunktion/AcceptAjax.php',
