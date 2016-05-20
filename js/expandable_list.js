@@ -1,16 +1,22 @@
+/*
+
+ExpandableContent
+
+*/
+
 option_edit = "<a href='' "+
 	"class='expandablecontent-option-delete'>Löschen</a>";
 
 option_append = "<a href=''"+
 	"class='expandablecontent-option-add'>Einfügen</a>";
 
-function createEditBar() {
+function createEditBar(withID) {
 	var bottom_bar = document.createElement('li');
 	bottom_bar.classList.add('expandablecontent-bar');
 	bottom_bar.innerHTML = option_edit;
 }
 
-function createAppendBar() {
+function createAppendBar(withID) {
 	var bottom_bar = document.createElement('li');
 	bottom_bar.classList.add('expandablecontent-listitem-bar');
 	var bar_div = document.createElement('div');
@@ -20,7 +26,7 @@ function createAppendBar() {
 	return bottom_bar;
 }
 
-function createContentElement(html) {
+function createContentElement(withID, html) {
 	var li = document.createElement('li');
 	li.classList.add('expandablecontent-listitem-content')
 	var edit_bar = document.createElement('div');
