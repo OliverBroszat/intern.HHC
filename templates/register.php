@@ -6,7 +6,9 @@
 get_header();
 
 ?>
-
+<!--Seite zum registrieren für neue Mitglieder.
+	 Enthält ein Formular, wo Mitglieder ihre Informationen eintragen,
+	 zum Beispiel Name, Uni, Kontaktinformationen, Anschrift, Ressort-->
 	<h1>Mitgliederdatenbank</h1>
 	
 	<div class="msg">

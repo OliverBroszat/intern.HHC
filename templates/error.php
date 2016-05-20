@@ -9,7 +9,7 @@
  * @since Twenty Fourteen 1.0
  */
 
-// Server:
+// Serverwurzelverzeichnis setzen:
 $root = realpath($_SERVER["DOCUMENT_ROOT"]);
 
 // localhost:
@@ -22,6 +22,7 @@ echo html_header('Home');
 
 echo html_footer();
 ?>
+<!--Fehlerseite für 404-->
 <div class="outer">
 	<h1 style="text-transform: none;">intern.HHC</h1>
 	<div class="panel">

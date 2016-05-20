@@ -2,6 +2,7 @@
 /* 
 	prepareSQL.php 
 
+	Überführt die Suchanfrage in ein SQL Statement und führt dieses aus.
 	Enthält die Funktion prepareSQL($input), welche aus den Daten SQL Queries generiert.
 	Zurückgegeben wird ein Array, der Form
 

@@ -15,10 +15,8 @@ require_once("$root/functions/suchfunktion/postProcess.php");
 require_once("$root/functions/suchfunktion/createHTML.php");
 
 
-/* 
-----------------------------------------
----------- Suchfunktionen ---------- 
-----------------------------------------
+/* 	Suchfunktion!
+	Liste der HHC mitglieder nach beliebigen Kriterien durchsuchen.
 */
 
 // Spalten, die ausgewählt werden
@@ -89,7 +87,7 @@ $html = createHTML($final);
 <div class = "outer">
 	<h1>Suche</h1>
 
-<!-- Suchfeld + Suchbutton -->
+<!-- Suchfeld zum eintippen mit Suchbutton -->
 	<div class="panel">
 		<form method="GET" id="form-suche">
 			<table class="form">
@@ -328,7 +326,7 @@ function ajax_post() {
 
 	//var ressorts = <?php echo json_encode($ressort); ?>;
 	//var ressort_lem = <?php echo sizeof($ressort); ?>;
-	var huehue = 0;
+	//var huehue = 0; DAFUQ?
 
 	var ressorts = document.getElementsByClassName('filtercheckbox_ressort');
 	var ressort_checklist = new Array();

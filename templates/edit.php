@@ -14,10 +14,9 @@ require_once("$root/functions/suchfunktion/postProcess.php");
 require_once("$root/functions/edit/createHTML.php");
 
 
-/* 
-----------------------------------------
----------- Suchfunktionen ---------- 
-----------------------------------------
+/*	Fenster zum Bearbeiten von Mitgliederinformationen.
+	Enthält quasi die gleichen Informationen wie ein Eintrag aus der Mitgliederliste.
+	Kann jedoch bearbeitet werden.
 */
 
 $get = array('search_text' => $_POST['id']);

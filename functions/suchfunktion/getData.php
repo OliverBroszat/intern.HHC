@@ -1,8 +1,9 @@
 <?php 
 /* 
 	getData.php 
-
-	Enthält die Funktion getData($queries), welche das Query-Array annimmt und die Anfragen entsprechend durchführt. Zurückgegeben wird ein Array folgender Struktur:
+	
+	Holt die Ergebnisse der Suche aus der Datenbank
+	Enthält die Funktion getData($queries), welche das Query-Array annimmt und die Datenbankanfragen entsprechend durchführt. Zurückgegeben wird ein Array folgender Struktur:
 
 	Contact_ID =>	array(
 		"info" => Ergebnis der "contact_search" Query, FÜR DIESEN CONTACT,

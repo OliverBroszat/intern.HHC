@@ -7,7 +7,10 @@ get_header();
 
 ?>
 
-<!-- Radio Buttons werden für dieses Formular ein bisschen schöner gemacht :) -->
+<!--Bewerbungsformular für interressierte.
+	Bewerber können ihre Daten wie Name, Uni, Kontakt, Anschrift hier angeben.
+
+	Radio Buttons werden für dieses Formular ein bisschen schöner gemacht :) -->
 <style>input[type="radio"] { margin-bottom: 10px; }</style>
 
 	<h1>Bewerbung</h1>
@@ -184,15 +187,15 @@ get_header();
 				</td>
 				<fieldset id="uni">
 					<td width='40%' style='vertical-align: top;'>
-    <input type="radio" name="uni1" value="Heinrich-Heine-Universität"><label for="hhu"> Heinrich-Heine-Universität</label><br> 
-	<input type="radio" name="uni1" value="FH Düsseldorf"><label for="hhu"> FH Düsseldorf</label><br> 
-	<input type="radio" name="uni1" value="Universität Duisburg-Essen"><label for="hhu"> Universität Duisburg-Essen</label><br>
-	<input type="radio" name="uni1" value="Universität Köln"><label for="hhu"> Universität Köln</label><br>
+  						<input type="radio" name="uni1" value="Heinrich-Heine-Universität"><label for="hhu"> Heinrich-Heine-Universität</label><br> 
+						<input type="radio" name="uni1" value="FH Düsseldorf"><label for="hhu"> FH Düsseldorf</label><br> 
+						<input type="radio" name="uni1" value="Universität Duisburg-Essen"><label for="hhu"> Universität Duisburg-Essen</label><br>
+						<input type="radio" name="uni1" value="Universität Köln"><label for="hhu"> Universität Köln</label><br>
 					</td>
 					<td width='40%' style='vertical-align: top;'>
-	<input type="radio" name="uni1" value="FOM"><label for="hhu"> FOM</label><br>
-	<input type="radio" name="uni1" value="Bergische Universität Wuppertal"><label for="hhu"> Bergische Universität Wuppertal</label><br>
-	<input type="radio" name="uni1" value="andere"><label for="hhu"> andere:</label> <input type='text' name='school1' placeholder='andere Hochschule...'/><br> 
+						<input type="radio" name="uni1" value="FOM"><label for="hhu"> FOM</label><br>
+						<input type="radio" name="uni1" value="Bergische Universität Wuppertal"><label for="hhu"> Bergische Universität Wuppertal</label><br>
+						<input type="radio" name="uni1" value="andere"><label for="hhu"> andere:</label> <input type='text' name='school1' placeholder='andere Hochschule...'/><br> 
 					</td>
 				</fieldset>
 			</tr>
@@ -200,7 +203,6 @@ get_header();
 				<td>
 					Beginn / Ende
 				</td>
-
 				<td style='vertical-align: top;'>
 					<input type='date' name='start' placeholder='YYYY-MM'/>
 				</td>
@@ -208,18 +210,8 @@ get_header();
 					<input type='date' name='end' placeholder='YYYY-MM'/>
 				</td>
 			</tr>
-			<tr>
-				
-				
-			</tr>
 		</table>
-
-
-		
 		<button type='submit' class='registrieren'>Bewerbung abschicken!</button>
-
 	</form>
-
 </body>
-
 </html>

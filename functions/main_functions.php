@@ -4,10 +4,11 @@
 */
 
 
-// -------- Erster Buchstabe uppercase, bei Wörtern < 3 Zeichen alles uppercase ---------
+//	Funktion um einen String in Großbuchstaben zu übertragen.
+//	Erster Buchstabe uppercase, bei Wörtern < 3 Zeichen alles zu uppercase setzen
 if (!function_exists('uppercase')) {
-	function uppercase($string){
-		if(strlen($string)<4){
+	function uppercase($string) {
+		if(strlen($string)<4) {
 			return strtoupper($string);
 		} else{
 			return ucfirst($string);
@@ -15,11 +16,11 @@ if (!function_exists('uppercase')) {
 	}
 }
 
-
-// --------- change the date from YYYY-MM-DD to DD.MM.YYYY ----------
+//	Funktion um das Datum umzuformatieren
+//	von YYYY-MM-DD zu DD.MM.YYYY umwandeln
 if (!function_exists('change_date_format')) {
-	function change_date_format($origDate){
-		if($origDate == "0000-00-00"){
+	function change_date_format($origDate) {
+		if($origDate == "0000-00-00") {
 			return "-";
 		}elseif ($origDate == "") {
 			return "";
@@ -30,17 +31,14 @@ if (!function_exists('change_date_format')) {
 	}
 }
 
-// --------- Prüfe, ob ein Filter angewählt wurde ----------
+//	Funktion um zu testen ob ein Filterkriterium ausgewählt wurde.
+//	 ......... mehr beschreibung!!!!
 if (!function_exists('check')) {
 	function check($key, $value){
 		global $input;
-
 		$filter = $input['filter'];
-
-
 		if (!empty($filter[$key])) {	
 			$find = array_search($value, $filter[$key]);
-			
 			if ($find !== False) {
 				return " checked ";	
 			}

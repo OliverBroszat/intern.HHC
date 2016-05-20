@@ -12,6 +12,10 @@ require_once("$root/functions/main_functions.php");
 
 global $user_ID;
 
+/*	Headerzeile für die Seite.
+	Zur Navigation auf der Seite genutzt.
+	Einträge z.B. Home, Bewerben, Suche, Registrieren*/	
+
 get_currentuserinfo();
 if(!('' == $user_ID)){
 	$backend_button =  "<a href='".admin_url()."'><button class='loginout'>Backend</button></a>";

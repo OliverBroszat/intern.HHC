@@ -1,5 +1,9 @@
 <?php
 
+/*	Funktion um die Daten einer Registrierung in die Datenbank zu überführen.
+	Die eingegebenen Daten werden über die wp-Anbindung in die Datenbank eingetragen.
+	Gibt danach eine Meldung aus ob der Vorgang erfolgreich war.*/
+
 // Load WP-Functions
 $root = realpath($_SERVER["DOCUMENT_ROOT"]);  
 if (strpos($root, '\\')){  
@@ -8,7 +12,7 @@ if (strpos($root, '\\')){
 }  
 require_once("$root/wp-load.php");
 
-
+// alle ausgefüllten Felder übertragen
 if(
 	$_POST['vorname'] != '' &&
 	$_POST['nachname'] != '' &&
@@ -36,10 +40,9 @@ if(
 		$status = 'invalid';
 	}
 	
-
 	global $wpdb;
 
-	// Contact
+	// neuen Kontakt in der Datenbank erstellen
 	$wpdb->insert( 
 		'Contact', 
 		array(
@@ -65,21 +68,21 @@ if(
 	$imageid = $wpdb->insert_id;*/
 
 	if (isset( $_POST['my_image_upload_nonce']) && wp_verify_nonce( $_POST['my_image_upload_nonce'], 'my_image_upload' )) {
-			// The nonce was valid and the user has the capabilities, it is safe to continue.
+			// Nonce überprüfen und testen ob der Nutzer etwas hochladen darf, falls ja weitermachen
 
-			// These files need to be included as dependencies when on the front end.
+			// Abhängigkeiten die das Frontend benötigt
 			require_once( ABSPATH . 'wp-admin/includes/image.php' );
 			require_once( ABSPATH . 'wp-admin/includes/file.php' );
 			require_once( ABSPATH . 'wp-admin/includes/media.php' );
 			
-			// Let WordPress handle the upload.
-			// Remember, 'my_image_upload' is the name of our file input in our form above.
+			// WordPress Medienupload aufrufen 
+			// 'my_image_upload' is the name of our file input in our form above.
 			$attachment_id = media_handle_upload( 'my_image_upload',0);
 			
 			if ( is_wp_error( $attachment_id ) ) {
-				// There was an error uploading the image.
+				// Falls es zu einem Fehler beim Upload kam, nichts tun
 			} else {
-				// The image was uploaded successfully!
+				// Falls das Bild erfolgreich hochgeladen wurde, an Datenbank binden
 				$wpdb->insert(
 					'Image',
 					array(
@@ -89,10 +92,10 @@ if(
 				);
 			}
 	} else {
-		// The security check failed, maybe show the user an error.
+		// Falls bei der Überprüfung der Nonce etwas schiefging
 	}
 
-	// Adress
+	// Adresse einfügen
 	$wpdb->insert( 
 		'Address', 
 		array(
@@ -107,13 +110,13 @@ if(
 	);
 	$Addressid = $wpdb->insert_id;
 
-	// Ressort
+	// Ressort id rausfinden und anhand dieser einfügen
 	$ressort = $_POST['ressort'];
 	$ressortidtmp = $wpdb->get_results("SELECT id FROM Ressort WHERE name='$ressort'");
 
 	$ressortid = $ressortidtmp[0]->id;
 
-	// Member
+	// Member einfügen 
 	$wpdb->insert( 
 		'Member', 
 		array(

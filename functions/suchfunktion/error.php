@@ -1,5 +1,7 @@
 <?php
 
+//	Fehlermeldung für die Suchseite
+
 // Load WP-Functions
 $root = realpath($_SERVER["DOCUMENT_ROOT"]);  
 if (strpos($root, '\\')){  

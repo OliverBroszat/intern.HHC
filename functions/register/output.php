@@ -8,8 +8,9 @@ if (strpos($root, '\\')){
 }  
 require_once("$root/wp-load.php");
 
-
 get_header();
+
+//	Meldung ob die Übertragung der Daten zu der Datenbank funktioniert hat
 
 $status = $_GET['status'];
 

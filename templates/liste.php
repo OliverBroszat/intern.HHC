@@ -10,16 +10,19 @@
 get_header();
 
 ?>
+<!--Erstellen und Anzeigen der Mitgliederliste des HHC.
+	Es werden die Mitglieder aus der Datenbank abgefragt
+	und in eine html table übertragen und angezeigt-->
 	<main>
 		<h1>Liste</h1>
 		<table class='liste'>
 			<tr>
 				<th>Nr.</th>
 <?php
-	// Define Columns
+	// Spalten für die Mitgliederinfos definieren
 	$cols = array("ID", "Vorname", "Nachname", "Geburtstag", "Bild", "Mail 1 (privat)", "Mail 2 (HHC)", "Phone 1 (Handy)", "Phone 2", "Straße", "Nummer", "Zusatz", "PLZ", "HHC Status", "HHC Position", "HHC Beitritt", "HHC Austritt", "HHC Ressort", "Studium Status", "Hochschule", "Studiengang", "Beginn", "Ende", "Schwerpunkt", "Abschluss", "Studium Status (2)", "Schule (2)", "Studiengang (2)", "Beginn (2)", "Ende (2)", "Schwerpunkt (2)", "Abschluss (2)");
 
-	// print Table Header
+	// Tabellenüberschriften ausgeben
 	foreach ($cols as $value) {
 		echo "<th>$value</th>";
 	}
@@ -31,11 +34,12 @@ get_header();
 	$liste = array();
 	$i = 0;
 
-	// $liste mit Daten aus den Tabellen füllen
+	// $liste wird als Grundlage für das erstellen der html table genutzt
+	// wird im folgenden befüllt und dann in html übertragen
 	foreach ($contact as $value) {
 		$contact_id = $value->id;
 		
-		// Datenbankabfragen
+		// Datenbankabfragen für Kontaktinformationen
 		$image = $wpdb->get_row("SELECT * FROM Image WHERE id = $value->image");
 		$mail = $wpdb->get_results("SELECT * FROM Mail WHERE contact = $contact_id");
 		$phone = $wpdb->get_results("SELECT * FROM Phone WHERE contact = $contact_id");
@@ -45,7 +49,7 @@ get_header();
 		$study = $wpdb->get_results("SELECT * FROM Study WHERE contact = $contact_id");
 		$attachment_id = $wpdb->get_results("SELECT * FROM Image WHERE contact_id = $contact_id")[0]->id;
 		
-		// Profilbild
+		// Profilbild von WP holen oder Platzhalter einfügen
 		if($attachment_id != ""){
 			$imgsrc = wp_get_attachment_image_src($attachment_id, $size='')[0];
 			$imgsrc_thumb = wp_get_attachment_image_src($attachment_id, $size='thumbnail')[0];
@@ -54,7 +58,7 @@ get_header();
 			$image = "<img class='profile-picture'>";
 		};
 		
-		// Array $liste mit den Daten füllen
+		// Array $liste mit den Daten der Mitglieder füllen
 		$liste[$i]['nr'] = $i + 1;
 		$liste[$i]['id'] = $value->id; 
 		$liste[$i]['first_name'] = $value->first_name;
@@ -105,7 +109,7 @@ get_header();
 		$i ++;
 	}
 	
-	// print $liste		
+	// Die fertige Liste der Mitglieder ausgeben		
 	foreach ($liste as $row) {
 		echo "<tr>";
 		foreach ($row as $col) {
