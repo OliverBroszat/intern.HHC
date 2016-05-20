@@ -45,18 +45,10 @@ function sql_select($search_select){
 // ---------- prepare filter for WHERE----------
 function sql_where_filter($filter){
 
-<<<<<<< HEAD
 	//WICHTIG: empty() wird auch für '0' true! Ersetze also durch == ''
 	$all_empty = true;
 	foreach ($filter as $key => $value) {
-		if ($value[0]=='') { // <-- Hier verändert!
-=======
-	global $wpdb;
-
-	$all_empty = true;
-	foreach ($filter as $key => $value) {
 		if ($value[0]=='') {
->>>>>>> master
 			$filter[$key] = NULL;
 		}
 		else{
@@ -83,14 +75,9 @@ function sql_where_filter($filter){
 					if (!$first_call_b) {
 						$sql .= " OR ";
 					}
-<<<<<<< HEAD
-					$first_call_b = false;
-					//$sql .= $wpdb->prepare("%s = '%s'", $key, $value);
-=======
 					$first_call_b = False;
 					
 					// $sql .= $wpdb->prepare("%s = '%s'", $key, $value);
->>>>>>> master
 					$sql .= "$key = '$value'";
 				}
 				$sql .= ")";
