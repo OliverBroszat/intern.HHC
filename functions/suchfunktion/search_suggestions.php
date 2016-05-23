@@ -33,8 +33,6 @@ $query = "
 				UNION 
 				SELECT postal, NULL, NULL FROM Address
 				UNION 
-				SELECT school, NULL, NULL FROM Study
-				UNION 
 				SELECT course, NULL, NULL FROM Study
 				UNION 
 				SELECT number, NULL, NULL FROM Phone

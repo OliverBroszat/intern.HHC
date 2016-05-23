@@ -169,7 +169,7 @@ get_header();
 <!--  Suchergebnisse -->
 		<div class='panel'>
 			<form method='POST'>
-				<h2>Suchergebnisse</h2>
+				<h2 id='search-results-title'>Suchergebnisse (0)</h2>
 				<div id='list-container'>
 					<!--<div class="modal"> Place at bottom of page </div>-->
 					<?php echo $html ?>

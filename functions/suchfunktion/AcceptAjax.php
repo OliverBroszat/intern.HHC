@@ -83,6 +83,8 @@ $final = postProcess($data);
 // HTML-Tabelle
 $html = createHTML($final);
 
-echo $html;
+$number = count($final);
+
+echo $number.'\\n'.$html;
 
 ?>
