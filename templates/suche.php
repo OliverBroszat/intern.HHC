@@ -126,13 +126,14 @@ get_header();
 			$count = count($data)/$cols;
 			// Problem: doppelte Einträge, wenn $count einen Rest hat
 
-			echo "<td><table>";
+			$width = 100/$cols;
+			echo "<td style='width:".$width."%'><table>";
 			
 			for ($j=0; $j < $count; $j++) { 					
-				$value = $data[$j + $i * $count];			
+				$value = $data[$j + $i * $count];
 				echo "
 					<tr>
-						<td width='10%'>
+						<td width='1px'>
 							<input 
 								type='checkbox'
 								name='f_".$name."_list[]'
@@ -142,7 +143,7 @@ get_header();
 							>
 						</td>
 						<td>
-							<label for='f_".$name."_".$value."'>".uppercase(bool_to_lbl($value))."</label>
+							<label for='f_".$name."_".$value."'>&nbsp;".uppercase(bool_to_lbl($value))."</label>
 						</td>
 					</tr>
 				";

@@ -156,7 +156,7 @@ main.container {
 }
 .filter td{
 	padding: 0.15rem 0;
-	vertical-align: middle;
+	vertical-align: top;
 }
 .filter table, .filter button{
 	margin-top: 1rem;
