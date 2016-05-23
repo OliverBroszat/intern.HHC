@@ -8,7 +8,12 @@ get_header();
 ?>
 
 <!-- Radio Buttons werden für dieses Formular ein bisschen schöner gemacht :) -->
-<style>input[type="radio"] { margin-bottom: 10px; }</style>
+<style>
+input[type="radio"] { margin-bottom: 10px; }
+td {
+	vertical-align: top;
+}
+</style>
 
 <style type='text/css'></style>
 
@@ -57,7 +62,8 @@ get_header();
 					Telefonnummer
 				</td>
 				<td>
-					<input type='text' name='phone1' placeholder='Telefonnummer'/>
+					<div id='expandablecontent-phone' class='expandablecontent-container'>
+					</div>
 				</td>
 			</tr>
 			<tr>
@@ -96,33 +102,9 @@ get_header();
 		<br>
 		<h2>Anschrift</h2>
 
-		<table class='form'>
-			<tr>
-				<td width='20%'>
-					Straße / Nr.
-				</td>
-				<td width='30%'>
-					<input type='text' name='street' placeholder='Straße'/>
-				</td>
-				<td width='30%'>
-					<input type='text' name='number' placeholder='Nr.'/>
-				</td>
-				<td width='20%'>
-					<input type='text' name='addr_extra' placeholder=' (Zusatz)'/>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					Wohnort
-				</td>
-				<td>
-					<input type='text' name='postal' placeholder='PLZ'/>
-				</td>
-				<td>
-					<input type='text' name='city' placeholder='Stadt' />
-				</td>
-			</tr>
-		</table>
+		<div id='expandablecontent-address' class='expandablecontent-container'>
+		</div>
+
 		
 		<br>
 		<h2>Studium</h2>
@@ -215,10 +197,6 @@ get_header();
 				
 			</tr>
 		</table>
-
-		<div id='container_id' class='expandablecontent-container'>
-		</div>
-
 		
 		<button type='submit' class='registrieren'>Bewerbung abschicken!</button>
 
@@ -229,9 +207,13 @@ get_header();
 <!-- JavaScript einbinden -->
 <script src="<?php echo get_template_directory_uri(); ?>/js/expandable_list.js"></script>
 <script>
-var template = "<h3 style='text-align: center;'>Tabelle %s</h3><table><tr><td>1</td><td>2</td><td>3</td></tr><tr><td>4</td><td colspan='2'>%s</td></tr></table>";
+var template = "<h3 style='text-align: center;'>Tabelle %ELEMENT-ID%</h3><table><tr><td>1</td><td>2</td><td>3</td></tr><tr><td>4</td><td colspan='2'>%FULL-ID%</td></tr></table>";
 
-setup_expandablecontent('container_id', 'unique_ID', template);
+var tmp_phone = "<input id='phone-%ELEMENT-ID%' type='text' name='phone[]' placeholder='Telefonnummer'/>";
+setup_expandablecontent('expandablecontent-phone', 'phone', tmp_phone);
+
+var tmp_address = "<table class='form'><tr><td width='20%'>Straße / Nr.</td><td width='30%'><input type='text' name='street[]' placeholder='Straße'/><td><td width='30%'><input type='text' name='number[]' placeholder='Nr.'/></td><td width='20%'><input type='text' name='addr_extra[]' placeholder=' (Zusatz)'/></td></tr><tr><td>Wohnort</td><td><input type='text' name='postal[]' placeholder='PLZ'/></td><td><input type='text' name='city[]' placeholder='Stadt' /></td></tr></table>";
+setup_expandablecontent('expandablecontent-address', 'address', tmp_address);
 </script>
 
 </html>
