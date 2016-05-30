@@ -136,4 +136,18 @@ function getContactEditTemplate($data) {
 	return $resl;
 }
 
+
+function getAddressEditTemplate($data) {
+	$resl = "<h2>Anschrift</h2>
+
+		<div id='expandablecontent-address' class='expandablecontent-container'>
+		</div>
+		<script src='".get_template_directory_uri()."/js/expandable_list.js'></script>
+		<script>
+		var tmp_address = \"<table class='form'><tr><td width='20%'>Straße / Nr.</td><td width='30%'><input type='text' name='street[]' placeholder='Straße' value='%%DATA-street%%'/></td><td width='30%'><input type='text' name='number[]' placeholder='Nr.' value='%%DATA-number%%'/></td><td width='20%'><input type='text' name='addr_extra[]' placeholder=' (Zusatz)' value='%%DATA-addr_extra%%'/></td></tr><tr><td>Wohnort</td><td><input type='text' name='postal[]' placeholder='PLZ' value='%%DATA-postal%%'/></td><td><input type='text' name='city[]' placeholder='Stadt' value='%%DATA-city%%'/></td></tr></table>\";
+		setup_expandablecontent('expandablecontent-address', 'address', tmp_address, ".toJSArrayString($data['phone']).", 1);
+		</script>";
+	return $resl;
+}
+
 ?>

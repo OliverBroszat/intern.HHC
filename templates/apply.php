@@ -6,7 +6,7 @@
 get_header();
 
 $root = get_template_directory();
-require_once("$root/functions/view/user_view.php");
+require_once("$root/functions/html_templates/userdata.php");
 ?>
 <!-- Radio Buttons werden für dieses Formular ein bisschen schöner gemacht :) -->
 <style>
@@ -23,13 +23,9 @@ td {
 	<form action="<?php echo get_template_directory_uri(); ?>/functions/register/sql_register.php" method='POST' enctype='multipart/form-data'>	
 		
 		<?php echo getContactEditTemplate(null); ?>
-		<?php echo getAddressEditTemplate(null); ?>
-
 		<br>
-		<h2>Anschrift</h2>
-
-		<div id='expandablecontent-address' class='expandablecontent-container'>
-		</div>
+		<?php echo getAddressEditTemplate(null); ?>
+		
 
 		
 		<br>
@@ -129,14 +125,5 @@ td {
 	</form>
 
 </body>
-
-<!-- JavaScript einbinden -->
-
-<script>
-
-
-var tmp_address = "<table class='form'><tr><td width='20%'>Straße / Nr.</td><td width='30%'><input type='text' name='street[]' placeholder='Straße'/></td><td width='30%'><input type='text' name='number[]' placeholder='Nr.'/></td><td width='20%'><input type='text' name='addr_extra[]' placeholder=' (Zusatz)'/></td></tr><tr><td>Wohnort</td><td><input type='text' name='postal[]' placeholder='PLZ'/></td><td><input type='text' name='city[]' placeholder='Stadt' /></td></tr></table>";
-setup_expandablecontent('expandablecontent-address', 'address', tmp_address, []);
-</script>
 
 </html>
