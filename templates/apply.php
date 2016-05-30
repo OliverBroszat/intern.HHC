@@ -5,8 +5,9 @@
 
 get_header();
 
+$root = get_template_directory();
+require_once("$root/functions/view/user_view.php");
 ?>
-
 <!-- Radio Buttons werden für dieses Formular ein bisschen schöner gemacht :) -->
 <style>
 input[type="radio"] { margin-bottom: 10px; }
@@ -21,7 +22,8 @@ td {
 
 	<form action="<?php echo get_template_directory_uri(); ?>/functions/register/sql_register.php" method='POST' enctype='multipart/form-data'>	
 		
-		<?php getContactEdit(); ?>
+		<?php echo getContactEditTemplate(null); ?>
+		<?php echo getAddressEditTemplate(null); ?>
 
 		<br>
 		<h2>Anschrift</h2>
@@ -129,15 +131,12 @@ td {
 </body>
 
 <!-- JavaScript einbinden -->
-<script src="<?php echo get_template_directory_uri(); ?>/js/expandable_list.js"></script>
-<script>
-var template = "<h3 style='text-align: center;'>Tabelle %ELEMENT-ID%</h3><table><tr><td>1</td><td>2</td><td>3</td></tr><tr><td>4</td><td colspan='2'>%FULL-ID%</td></tr></table>";
 
-var tmp_phone = "<input id='phone-%ELEMENT-ID%' type='text' name='phone[]' placeholder='Telefonnummer'/>";
-setup_expandablecontent('expandablecontent-phone', 'phone', tmp_phone);
+<script>
+
 
 var tmp_address = "<table class='form'><tr><td width='20%'>Straße / Nr.</td><td width='30%'><input type='text' name='street[]' placeholder='Straße'/></td><td width='30%'><input type='text' name='number[]' placeholder='Nr.'/></td><td width='20%'><input type='text' name='addr_extra[]' placeholder=' (Zusatz)'/></td></tr><tr><td>Wohnort</td><td><input type='text' name='postal[]' placeholder='PLZ'/></td><td><input type='text' name='city[]' placeholder='Stadt' /></td></tr></table>";
-setup_expandablecontent('expandablecontent-address', 'address', tmp_address);
+setup_expandablecontent('expandablecontent-address', 'address', tmp_address, []);
 </script>
 
 </html>

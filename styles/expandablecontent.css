@@ -13,10 +13,18 @@
     background-color: white;
 }
 
+.expandablecontent-bar.small {
+    margin: 0 auto;
+    max-width: 720px;
+    text-align: right;
+    background-color: white;
+    float: right;
+    border: none;
+}
+
 .expandablecontent-content {
 	margin: 0 auto;
     max-width: 720px;
-    text-align: right;
     padding: 5px;
     background-color: white;
 }
