@@ -28,7 +28,6 @@ function add_content(list_ID, withData) {
 	for (key in withData) {
 		//alert('Ersetze '+data);
 		var regex = new RegExp("%%DATA-" + key + "%%",'g');
-		console.log(regex);
 		current_template = current_template.replace(regex, withData[key]);
 	}
 	current_template = current_template.replace(/%%.*?%%/g,'');

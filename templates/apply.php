@@ -25,100 +25,10 @@ td {
 		<?php echo getContactEditTemplate(null); ?>
 		<br>
 		<?php echo getAddressEditTemplate(null); ?>
-		
-
-		
 		<br>
-		<h2>Studium</h2>
-		
-		<table class='form'>
-			<tr>
-				<td style='vertical-align: top;'>
-					Status
-				</td>
-				<td style='vertical-align: top;'>
-					<select name='status1'>
-						<option value='active'>Aktiv</option>
-						<option value='done'>Abgeschlossen</option>
-						<option value='cancelled'>Abgebrochen</option>
-					</select>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					Abschluss
-				</td>
-				<td>
-					<select name='abschluss' onChange='showDiv(this)'>
-						<option value='b sc'>Bachelor of Science</option>
-						<option value='m sc'>Master of Science</option>
-						<option value='b a'>Bachelor of Arts</option>
-						<option value='m a'>Master of Arts</option>
-						<option value='examen'>Staatsexamen</option>
-						<option value='diplom'>Diplom</option>
-						<option value='other'>anderer Abschluss...</option>
-					</select>
-				</td>
-				<td>
-					<input id='hidden_div' type='text' name='anderer_abschluss' placeholder='anderer Abschluss...' style='visibility: hidden;'/>
-				</td>
-				<script>
-					function showDiv(elem){
-						if(elem.value == 'other') {
-							document.getElementById('hidden_div').style.visibility = "visible";
-						}
-						else {
-							document.getElementById('hidden_div').style.visibility = "hidden";
-						}
-					}
-				</script>
-			</tr>
-			<tr>
-				<td>
-					Fach
-				</td>
-				<td>
-					<input type='text' name='course1' placeholder='Fach'/>
-				</td>
-				<td>
-					<input type='text' name='focus1' placeholder='(Schwerpunkt)' />
-				</td>
-			</tr>
-			<tr>
-				<td width ='20%' style='vertical-align: top;'>
-					Universität
-				</td>
-				<fieldset id="uni">
-					<td width='40%' style='vertical-align: top;'>
-    <input type="radio" name="uni1" value="Heinrich-Heine-Universität"><label for="hhu"> Heinrich-Heine-Universität</label><br> 
-	<input type="radio" name="uni1" value="FH Düsseldorf"><label for="hhu"> FH Düsseldorf</label><br> 
-	<input type="radio" name="uni1" value="Universität Duisburg-Essen"><label for="hhu"> Universität Duisburg-Essen</label><br>
-	<input type="radio" name="uni1" value="Universität Köln"><label for="hhu"> Universität Köln</label><br>
-					</td>
-					<td width='40%' style='vertical-align: top;'>
-	<input type="radio" name="uni1" value="FOM"><label for="hhu"> FOM</label><br>
-	<input type="radio" name="uni1" value="Bergische Universität Wuppertal"><label for="hhu"> Bergische Universität Wuppertal</label><br>
-	<input type="radio" name="uni1" value="andere"><label for="hhu"> andere:</label> <input type='text' name='school1' placeholder='andere Hochschule...'/><br> 
-					</td>
-				</fieldset>
-			</tr>
-			<tr>
-				<td>
-					Beginn / Ende
-				</td>
+		<?php echo getStudyEditTemplate(null); ?>
 
-				<td style='vertical-align: top;'>
-					<input type='date' name='start' placeholder='YYYY-MM'/>
-				</td>
-				<td>
-					<input type='date' name='end' placeholder='YYYY-MM'/>
-				</td>
-			</tr>
-			<tr>
-				
-				
-			</tr>
-		</table>
+		
 		
 		<button type='submit' class='registrieren'>Bewerbung abschicken!</button>
 
