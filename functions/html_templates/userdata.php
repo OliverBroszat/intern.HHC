@@ -23,6 +23,28 @@ function extractData($data, $key) {
 	}
 }
 
+function createBirthdaySelector($withID) {
+	$resl = "<select id='day-$withID' name='birth_day[]' style='width: 3em; float: left; margin-right:10px'>";
+	for ($i=1; $i<=31; $i++) {
+		$resl .= "<option value='$i'>$i</option>";
+	}
+	$resl .= "</select>
+				<select id='month-$withID' name='birth_month[]' style='width: 5.5em; float: left;  margin-right:10px;'>";
+	$months = array('Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember');
+	for ($i=0; $i<12; $i++) {
+		$resl .= "<option value='$i'>".$months[$i]."</option>";
+	}
+	$resl .= "</select>
+				<select id='year-$withID' name='birth_year[]' style='width: 5em; float: left;  margin-right:10px;'>";
+	$min = date('Y')-18;
+	$max = $min-30;
+	for ($i=$min; $i>=$max; $i--) {
+		$resl .= "<option value='$i'>$i</option>";
+	}
+	$resl .= "</select>";
+	return $resl;
+}
+
 // Wandelt ein PHP Array mit nativen Datentypen in einen Strin um, der eine
 // JS Form eines Arrays mit den selben Daten repräsentiert
 function toJSArrayString($data) {
@@ -104,24 +126,9 @@ function getContactEditTemplate($data) {
 				Geburtstag
 			</td>
 			<td colspan='3'>
-				<select name='birth_day' style='width: 3em; float: left; margin-right:10px'>";
-	for ($i=1; $i<=31; $i++) {
-		$resl .= "<option value='$i'>$i</option>";
-	}
-	$resl .= "</select>
-				<select name='birth_month' style='width: 5.5em; float: left;  margin-right:10px;'>";
-	$months = array('Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember');
-	for ($i=0; $i<12; $i++) {
-		$resl .= "<option value='$i'>".$months[$i]."</option>";
-	}
-	$resl .= "</select>
-				<select name='birth_year' style='width: 5em; float: left;  margin-right:10px;'>";
-	$min = date('Y')-18;
-	$max = $min-30;
-	for ($i=$min; $i>=$max; $i--) {
-		$resl .= "<option value='$i'>$i</option>";
-	}
-	$resl .= "</select>
+				<select name='birth_day' style='width: 3em; float: left; margin-right:10px'><option value='1'>1</option><option value='2'>2</option><option value='3'>3</option><option value='4'>4</option><option value='5'>5</option><option value='6'>6</option><option value='7'>7</option><option value='8'>8</option><option value='9'>9</option><option value='10'>10</option><option value='11'>11</option><option value='12'>12</option><option value='13'>13</option><option value='14'>14</option><option value='15'>15</option><option value='16'>16</option><option value='17'>17</option><option value='18'>18</option><option value='19'>19</option><option value='20'>20</option><option value='21'>21</option><option value='22'>22</option><option value='23'>23</option><option value='24'>24</option><option value='25'>25</option><option value='26'>26</option><option value='27'>27</option><option value='28'>28</option><option value='29'>29</option><option value='30'>30</option><option value='31'>31</option></select>
+				<select name='birth_month' style='width: 5.5em; float: left;  margin-right:10px;'><option value='1'>Januar</option><option value='2'>Februar</option><option value='3'>März</option><option value='4'>April</option><option value='5'>Mai</option><option value='6'>Juni</option><option value='7'>Juli</option><option value='8'>August</option><option value='9'>September</option><option value='10'>Oktober</option><option value='11'>November</option><option value='12'>Dezember</option></select>
+				<select name='birth_year' style='width: 5em; float: left;  margin-right:10px;'><option value='1998'>1998</option><option value='1997'>1997</option><option value='1996'>1996</option><option value='1995'>1995</option><option value='1994'>1994</option><option value='1993'>1993</option><option value='1992'>1992</option><option value='1991'>1991</option><option value='1990'>1990</option><option value='1989'>1989</option><option value='1988'>1988</option><option value='1987'>1987</option><option value='1986'>1986</option><option value='1985'>1985</option><option value='1984'>1984</option><option value='1983'>1983</option><option value='1982'>1982</option><option value='1981'>1981</option><option value='1980'>1980</option><option value='1979'>1979</option><option value='1978'>1978</option><option value='1977'>1977</option><option value='1976'>1976</option><option value='1975'>1975</option><option value='1974'>1974</option><option value='1973'>1973</option><option value='1972'>1972</option><option value='1971'>1971</option><option value='1970'>1970</option><option value='1969'>1969</option><option value='1968'>1968</option></select>
 			</td>
 		</tr>
 	</table>
@@ -167,7 +174,7 @@ function getAddressEditTemplate($data) {
 
 
 function getStudyEditTemplate($data) {
-	///*
+	/*
 	// TEST WERTE FÜR DATA
 	$data['study'] = array(
 		array(
@@ -181,16 +188,28 @@ function getStudyEditTemplate($data) {
 			'examen' => '',
 			'diplom' => '',
 			'other' => 'selected',
-			'other_extra' => 'Grundschule'
-
-		),
-		array(
-			'status_active' => '',
-			'status_done' => 'selected',
-			'status_cancelled' => ''
+			'other_extra' => 'Grundschule',
+			'other_visibility' => 'visible',
+			'course' => 'Informatik',
+			'focus' => 'Deine Mutter',
+			'checked-HHU' => '',
+			'checked-FH' => '',
+			'checked-DUE' => 'checked=\"checked\"',
+			'checked-KOELN' => '',
+			'checked-FOM' => '',
+			'checked-WUPPERTAL' => '',
+			'checked-OTHER' => '',
+			'other-text' => '',
+			'start-date' => '2007-06-01',
+			'end-date' => ''
 		)
 	);
-	//*/
+	*/
+	$root = get_template_directory_uri();
+	$study_tmp = file_get_contents("$root/functions/html_templates/study_edit.html");
+	$study_tmp = trim(preg_replace('/\s\s+/', ' ', $study_tmp));
+	$study_tmp = str_replace(array("\r\n", "\r", "\n"), "", $study_tmp);
+
 	$resl = "<h2>Studium</h2>
 
 		<div id='expandablecontent-study' class='expandablecontent-container'>
@@ -198,8 +217,17 @@ function getStudyEditTemplate($data) {
 		<script src='".get_template_directory_uri()."/js/expandable_list.js'></script>
 
 		<script>
-		var tmp_study = \"<h2>Studium</h2><table class='form'><tr><td style='vertical-align: top;'>Status</td><td style='vertical-align: top;'><select name='study_status[]' id='study_status_%%FULL-ID%%'><option value='active' %%DATA-status_active%%>Aktiv</option><option value='done' %%DATA-status_done%%>Abgeschlossen</option><option value='cancelled' %%DATA-status_cancelled%%>Abgebrochen</option></select></td></tr><tr><td>Abschluss</td><td><select name='abschluss[]' onChange='showDiv(this)'><option value='b sc' %%DATA-b_sc%%>Bachelor of Science</option><option value='m sc' %%DATA-m_sc%%>Master of Science</option><option value='b a' %%DATA-b_a%%>Bachelor of Arts</option><option value='m a' %%DATA-m_a%%>Master of Arts</option><option value='examen' %%DATA-examen%%>Staatsexamen</option><option value='diplom' %%DATA-diplom%%>Diplom</option><option value='other' %%DATA-other%%>anderer Abschluss...</option></select></td><td><input id='hidden_div' type='text' name='anderer_abschluss' placeholder='anderer Abschluss...' value='%%DATA-other_extra%%' style='visibility: hidden;'/></td>\u003cscript\u003efunction showDiv(elem){if(elem.value == 'other') {document.getElementById('hidden_div').style.visibility = 'visible';}else {document.getElementById('hidden_div').style.visibility = 'hidden';}}\u003c/script\u003e</tr><tr><td>Fach</td><td><input type='text' name='course1' placeholder='Fach'/></td><td><input type='text' name='focus1' placeholder='(Schwerpunkt)' /></td></tr><tr><td width ='20%' style='vertical-align: top;'>Universität</td><fieldset id='uni'><td width='40%' style='vertical-align: top;'><input type='radio' name='uni1' value='Heinrich-Heine-Universität'><label for='hhu'> Heinrich-Heine-Universität</label><br><input type='radio' name='uni1' value='FH Düsseldorf'><label for='hhu'> FH Düsseldorf</label><br> <input type='radio' name='uni1'value='Universität Duisburg-Essen'><label for='hhu'> Universität Duisburg-Essen</label><br><input type='radio' name='uni1'value='Universität Köln'><label for='hhu'> Universität Köln</label><br></td><td width='40%' style='vertical-align:top;'><input type='radio' name='uni1' value='FOM'><label for='hhu'> FOM</label><br><input type='radio' name='uni1'value='Bergische Universität Wuppertal'><label for='hhu'> Bergische Universität Wuppertal</label><br><input type='radio'name='uni1' value='andere'><label for='hhu'> andere:</label> <input type='text' name='school1'placeholder='andere Hochschule...'/><br> </td></fieldset></tr><tr><td>Beginn / Ende</td><td style='vertical-align:top;'><input type='date' name='start' placeholder='YYYY-MM'/></td><td><input type='date' name='end' placeholder='YYYY-MM'/></td></tr><tr></tr></table>\";
-		setup_expandablecontent('expandablecontent-study', 'study', tmp_study, ".toJSArrayString($data['study']).", 0);</script>";
+		var tmp_study = \"$study_tmp\";
+		setup_expandablecontent('expandablecontent-study', 'study', tmp_study, ".toJSArrayString($data['study']).", 1);
+
+		function showDiv(elem) {
+			if(elem.value == 'other') {
+				document.getElementById('hidden_div'+elem.id).style.visibility = 'visible';
+			} else {
+				document.getElementById('hidden_div'+elem.id).style.visibility = 'hidden';
+			}
+		}
+		</script>";
 	return $resl;
 }
 

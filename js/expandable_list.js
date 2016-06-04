@@ -100,7 +100,7 @@ function setup_expandablecontent(container_id, list_id, html_template, withData,
 	meta.value = '2';
 	ul.appendChild(meta);
 
-	var template = document.createElement('input');
+	var template = document.createElement('div');
 	template.name = 'template';
 	template.type = 'hidden';
 	template.value = html_template;

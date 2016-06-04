@@ -20,7 +20,7 @@ td {
 
 	<h1>Bewerbung</h1>
 
-	<form action="<?php echo get_template_directory_uri(); ?>/functions/register/sql_register.php" method='POST' enctype='multipart/form-data'>	
+	<form action="<?php echo get_template_directory_uri(); ?>/functions/apply/sql_apply.php" method='POST' enctype='multipart/form-data'>	
 		
 		<?php echo getContactEditTemplate(null); ?>
 		<br>
