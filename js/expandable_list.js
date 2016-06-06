@@ -2,6 +2,8 @@
 
 ExpandableContent
 
+KOMMENTARE WERDEN NOCH HINZUGEFÜGT!!
+
 */
 
 var option_delete = "<button type='button' name='expandablecontent-link'"+
@@ -94,7 +96,7 @@ function setup_expandablecontent(container_id, list_id, html_template, withData,
 	if (small) {
 		ul.classList.add('small');
 	}
-	var meta = document.createElement('input');
+	var meta = document.createElement('div');
 	meta.name = 'expandablecontent-counter';
 	meta.type = 'hidden';
 	meta.value = '2';
