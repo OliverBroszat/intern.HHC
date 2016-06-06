@@ -235,8 +235,26 @@ get_header();
 </div>
 
 
+<<<<<<< HEAD
 <!-- AJAX Search -->
 <script src="<?php echo get_template_directory_uri(); ?>/js/ajax_search.js"></script>
+=======
+<script type = "text/javascript">
+
+function test_robin() {
+	alert('Hallo Robin!');
+}
+
+function expandContent(value) {
+	$(value).slideToggle(300);
+}
+
+function ajax_post() {
+
+	// http://stackoverflow.com/questions/9713058/sending-post-data-with-a-xmlhttprequest
+	// Gute Infoquelle für ein POST Beispiel mit Ajax
+	// Siehe vor allem die zweite Antwort mit FormData
+>>>>>>> Bewerbungsformular
 
 <!-- Call AJAX Search on page load -->
 <script type="text/javascript">window.onload=ajax_post;</script>
@@ -248,6 +266,44 @@ get_header();
 	    $("#start-search").focus();
 	    ajax_post();
 
+<<<<<<< HEAD
+=======
+	var ressorts = document.getElementsByClassName('filtercheckbox_ressort');
+	var ressort_checklist = new Array();
+	for (i = 0; i < ressorts.length; i++) { 
+		if (ressorts[i].checked) {
+			ressort_checklist.push(ressorts[i].value);
+		}
+	}
+	console.log(ressort_checklist);
+	data.append('ressort_list', ressort_checklist);
+
+	var positions = document.getElementsByClassName('filtercheckbox_position');
+	var position_checklist = new Array();
+	for (i = 0; i < positions.length; i++) { 
+		if (positions[i].checked) {
+			position_checklist.push(positions[i].value);
+		}
+	}
+	console.log(position_checklist);
+	data.append('position_list', position_checklist);
+
+	var b = document.getElementById('list-container');
+	b.className += " modal";
+
+	$.ajax({
+	  url: '<?php echo get_template_directory_uri(); ?>/functions/suchfunktion/AcceptAjax.php',
+	  data: data,
+	  processData: false,
+	  contentType: false,
+	  type: 'POST',
+	  success: function(data){
+	  	setTimeout(function(){
+				document.getElementById('list-container').classList.remove('modal');
+				alert(data);;
+			}, 200);
+	  }
+>>>>>>> Bewerbungsformular
 	});
 </script>
 

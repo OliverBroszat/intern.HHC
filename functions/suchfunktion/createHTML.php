@@ -24,12 +24,7 @@ function expandableContent($fix_html, $slide_html, $click_id) {
 		</div>
 		<div id='slide_content_$click_id' class='detail-content' style='display: none;overflow: hidden; position: relative;'>
 			$slide_html
-		</div>
-		<script>
-			$('#$click_id').click(function(){
-        		$('#slide_content_$click_id').slideToggle(300);
-    		});
-		</script>";
+		</div>";
 }
 
 function getDetailView($number, $dataset) {
@@ -185,7 +180,7 @@ function getListEntryHTML($number, $dataset_full) {
 			<td class='ressort' width='19%'>Ressort: ".$dataset->name."</td>
 		</tr>
 		<tr>
-			<td><button id='show_detail_$number' class='full-width' type='button'>DETAIL</button></td>
+			<td><button id='show_detail_$number' value='#slide_content_show_detail_$number' onClick='expandContent(this.value)' class='full-width' type='button'>DETAIL</button></td>
 			<td><button value='".$dataset->id."' onclick='edit(this.value);' class='full-width' type='button'>EDIT</button></td>
 		</tr>
 	</table>";

@@ -1,0 +1,35 @@
+.expandablecontent-list {
+    margin-top: 0px;
+	list-style:none;
+	padding-left:0;
+}
+
+.expandablecontent-bar {
+	margin: 0 auto;
+    max-width: 720px;
+    border-top: 2px solid #dddddd;
+    text-align: right;
+    border-bottom: 2px solid #dddddd;
+    padding: 2px;
+    background-color: white;
+}
+
+.expandablecontent-bar.small {
+    margin: 0 auto;
+    max-width: 720px;
+    text-align: right;
+    background-color: white;
+    float: right;
+    border: none;
+}
+
+.expandablecontent-content {
+	margin: 0 auto;
+    max-width: 720px;
+    padding: 5px;
+    background-color: white;
+}
+
+.expandablecontent-last {
+    
+}
