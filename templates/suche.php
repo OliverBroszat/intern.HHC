@@ -5,6 +5,85 @@
 
 get_header();
 
+$root = get_template_directory();
+
+require_once("$root/functions/main_functions.php");
+require_once("$root/functions/suchfunktion/AcceptPost.php");
+require_once("$root/functions/suchfunktion/prepareSQL.php");
+require_once("$root/functions/suchfunktion/getData.php");
+require_once("$root/functions/suchfunktion/postProcess.php");
+require_once("$root/functions/suchfunktion/createHTML.php");
+
+
+/* 
+----------------------------------------
+---------- Suchfunktionen ---------- 
+----------------------------------------
+*/
+
+// Spalten, die ausgewählt werden
+$search_select = array(
+	'Contact' => array(
+		'id',
+		'prefix',
+		'first_name',
+		'last_name',
+		'birth_date',
+		'comment'
+	),
+	'Ressort' => array(
+		'name'
+	),
+	'Member' => array(
+		'active',
+		'position',
+		'joined',
+		'left'
+	)
+);
+
+
+// Spalten, nach denen gesucht werden kann
+$search_range = array(
+	'Contact' => array(
+		'first_name',
+		'last_name'
+	),
+	'Ressort' => array(
+		'name'
+	),
+	'Address' => array(
+		'city',
+		'postal'
+	),
+	'Phone' => array(
+		'number'
+	),
+	'Study' => array(
+		'school',
+		'course'
+	)
+);
+
+
+// POST übertragen
+$input = AcceptPost($_POST, $_GET);
+// SQL-Abfrage vorbereiten
+$queries = prepareSQL($input, $search_select, $search_range);
+// Datenbankabfrage
+$data = getData($queries);
+// Post-Processing
+$final = postProcess($data);
+// HTML-Tabelle
+$html = createHTML($final);
+
+
+/* 
+----------------------------------------
+---------- HTML-Seite ---------- 
+----------------------------------------
+*/
+
 ?>
 
 <div class = "outer clearfix">
@@ -235,26 +314,8 @@ get_header();
 </div>
 
 
-<<<<<<< HEAD
 <!-- AJAX Search -->
 <script src="<?php echo get_template_directory_uri(); ?>/js/ajax_search.js"></script>
-=======
-<script type = "text/javascript">
-
-function test_robin() {
-	alert('Hallo Robin!');
-}
-
-function expandContent(value) {
-	$(value).slideToggle(300);
-}
-
-function ajax_post() {
-
-	// http://stackoverflow.com/questions/9713058/sending-post-data-with-a-xmlhttprequest
-	// Gute Infoquelle für ein POST Beispiel mit Ajax
-	// Siehe vor allem die zweite Antwort mit FormData
->>>>>>> Bewerbungsformular
 
 <!-- Call AJAX Search on page load -->
 <script type="text/javascript">window.onload=ajax_post;</script>
@@ -266,44 +327,6 @@ function ajax_post() {
 	    $("#start-search").focus();
 	    ajax_post();
 
-<<<<<<< HEAD
-=======
-	var ressorts = document.getElementsByClassName('filtercheckbox_ressort');
-	var ressort_checklist = new Array();
-	for (i = 0; i < ressorts.length; i++) { 
-		if (ressorts[i].checked) {
-			ressort_checklist.push(ressorts[i].value);
-		}
-	}
-	console.log(ressort_checklist);
-	data.append('ressort_list', ressort_checklist);
-
-	var positions = document.getElementsByClassName('filtercheckbox_position');
-	var position_checklist = new Array();
-	for (i = 0; i < positions.length; i++) { 
-		if (positions[i].checked) {
-			position_checklist.push(positions[i].value);
-		}
-	}
-	console.log(position_checklist);
-	data.append('position_list', position_checklist);
-
-	var b = document.getElementById('list-container');
-	b.className += " modal";
-
-	$.ajax({
-	  url: '<?php echo get_template_directory_uri(); ?>/functions/suchfunktion/AcceptAjax.php',
-	  data: data,
-	  processData: false,
-	  contentType: false,
-	  type: 'POST',
-	  success: function(data){
-	  	setTimeout(function(){
-				document.getElementById('list-container').classList.remove('modal');
-				alert(data);;
-			}, 200);
-	  }
->>>>>>> Bewerbungsformular
 	});
 </script>
 
