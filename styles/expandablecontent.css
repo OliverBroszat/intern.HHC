@@ -1,0 +1,79 @@
+.expandablecontent-list {
+    margin-top: 0px;
+	list-style:none;
+	padding-left:0;
+}
+
+.expandablecontent-bar {
+	margin: 0 auto;
+    max-width: 720px;
+    border-top: 2px solid #dddddd;
+    text-align: right;
+    border-bottom: 2px solid #dddddd;
+    padding: 2px;
+    background-color: white;
+}
+
+.expandablecontent-bar.small {
+    margin: 0 auto;
+    max-width: 720px;
+    text-align: right;
+    background-color: white;
+    float: right;
+    border: none;
+}
+
+.expandablecontent-content {
+	margin: 0 auto;
+    max-width: 720px;
+    padding: 5px;
+    background-color: white;
+}
+
+.expandablecontent-last {
+    
+}
+
+.expandablecontent-container:not(.small) .expandablecontent-bar-option-delete {
+    max-width: none;
+    border: none;
+    background: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 1rem;
+}
+
+.expandablecontent-container:not(.small) .expandablecontent-listitem-content {
+    position: relative;
+    border: 1px solid #ccc;
+    max-width: 720px;
+    margin: 0 auto 0.75rem;
+}
+
+.expandablecontent-bar-option-add,
+.expandablecontent-bar-option-add.small{
+    background: none;
+    border: none;
+    /*text-align: center;*/
+    /*float:none;*/
+    
+}
+
+button.expandablecontent-option-add:before {
+     /*content: "Profil Hinzufügen"; */
+}
+
+
+button.expandablecontent-option-add {
+    /*padding: 0.25rem 3rem;*/
+}
+
+.expandablecontent-list:not(.small) .expandablecontent-listitem-content .expandablecontent-content {
+    padding: 0;
+}
+
+.expandablecontent-list:not(.small) .expandablecontent-listitem-content {
+    padding: 1rem;
+    background: #fff;
+}

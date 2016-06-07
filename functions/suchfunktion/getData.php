@@ -109,6 +109,18 @@ function getData($queries){
 	    header("Location: ".get_template_directory()."/templates/error.php");
 	}
 
+	if($wpdb->last_error !== ''){
+
+		$root = realpath($_SERVER["DOCUMENT_ROOT"]);  
+		if (strpos($root, '\\')){  
+		  // localhost  
+		  $root .= "/wordpress";  
+		}  
+		require_once("$root/wp-load.php");
+	    $root = get_template_directory();
+
+	    header("Location: $root/templates/error.php?$wpdb->last_error");
+	}
 	return $data;
 }
 

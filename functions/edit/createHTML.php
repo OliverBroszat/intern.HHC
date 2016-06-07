@@ -5,6 +5,15 @@
 	Nimmt die fertigen Daten von postProcess entgegen und generiert HMTL Code, welcher dann per echo ausgegeben werden kann.
 */
 
+$root = realpath($_SERVER["DOCUMENT_ROOT"]);  
+	if (strpos($root, '\\')){  
+	  // localhost  
+	  $root .= "/wordpress";  
+	}  
+require_once("$root/wp-load.php");
+$root = get_template_directory();
+require_once("$root/functions/html_templates/userdata.php");
+
 
 function expandableContent($fix_html, $slide_html) {
 	/*
@@ -64,33 +73,17 @@ function getDetailView($number, $dataset) {
 		}
 	}
 
-	// Get Studies
-	$study_table = '<table><tr><td colspan="2" style="text-align: center;"><b>Studiengänge</b></td></tr>';
-	//foreach($dataset['studies'] as $row) {
-	foreach($dataset['detail']['study'] as $row) {
-		$tr = '<tr><td>';
-		 $status = $row->status;
-		 switch($status) {
-		 	case 'active':
-		 		$tr .= '<span class="study_status_active">Aktuell</span>';
-		 		break;
-		 	case 'cancelled':
-		 		$tr .= '<span class="study_status_cancelled">Abgebrochen</span>';
-		 		break;
-		 	case 'done':
-		 		$tr .= '<span class="study_status_done">Abgeschlossen</span>';
-		 		break;
-		 }
-		 $tr .= '</td><td><b>'.$row->course.'</b></td></tr>';
-		 $tr .= '<tr><td colspan="2">'.$row->school.'</td>';
-		 $study_table .= $tr;
-	}
-	$study_table .= '</table>';
+echo ";
+	<form action='".get_template_directory_uri()."/functions/apply/sql_apply.php' method='POST' enctype='multipart/form-data'>	
+		".getContactEditTemplate($data)."
+		<br>
+		".getAddressEditTemplate($data)."
+		<br>
+		".getStudyEditTemplate($data)."
 
-	$internships_table = '<span><i>Praktika werden noch nicht unterstützt</i></span>';
+	</form>
 
-	$html_studies_internship = '<div style="display: inline-block; width: 50%;">'.$study_table.'</div>';
-	$html_studies_internship .= '<div style="display: inline-block; width: 50%; vertical-align: top; text-align: center;">'.$internships_table.'</div>';
+";
 
 	// Get notes
 	$html_notes = $dataset['info']->comment;
@@ -163,8 +156,6 @@ function getDetailView($number, $dataset) {
 
 <div id='tabs-$number'>
 	<ul>
-		<li><a href='#tabs-$number-1'>Studiengänge und Praktika</a></li>
-		<li><a href='#tabs-$number-2'>Fähigkeiten</a></li>
 		<li><a href='#tabs-$number-3'>Notizen</a></li>
 	</ul>
 	<div id='tabs-$number-1'>".
@@ -231,7 +222,7 @@ function getListEntryHTML($dataset_full) {
 	return expandableContent($overview, getDetailView($number, $dataset_full));
 }
 
-function createHTML($final){
+function createHTML1($final){
 	
 	// var_dump($final);
 
@@ -265,6 +256,12 @@ function createHTML($final){
 	";
 
 	return $html;
+}
+
+function createHTML($data){
+	echo getContactEditTemplate($data).'<br>';
+	echo getAddressEditTemplate($data).'<br>';
+	echo getStudyEditTemplate($data);
 }
 
 ?>

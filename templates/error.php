@@ -9,18 +9,8 @@
  * @since Twenty Fourteen 1.0
  */
 
-// Server:
-$root = realpath($_SERVER["DOCUMENT_ROOT"]);
+get_header();
 
-// localhost:
-// $root = realpath($_SERVER["DOCUMENT_ROOT"])."/wordpress";
-
-
-require_once("$root/wp-content/themes/twentyfourteen-child/functions/main_functions.php");
-
-echo html_header('Home');
-
-echo html_footer();
 ?>
 <div class="outer">
 	<h1 style="text-transform: none;">intern.HHC</h1>

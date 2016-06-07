@@ -1,3 +1,7 @@
+h3 {
+	margin-top: 0;
+}
+
 #popup-edit{
 	width: 100%;
 	max-width: 960px;
@@ -50,6 +54,14 @@ body.popup{
 
 #popup-edit input[type='text'], #popup-edit input[type='email'], #popup-edit input[type='date'], #popup-edit select {
     background-color: #eee;
+}
+
+input[type="radio"] { 
+	margin-bottom: 10px; 
+}
+
+td { 
+	vertical-align: top; 
 }
 
 
