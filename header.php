@@ -12,17 +12,6 @@ require_once("$root/functions/main_functions.php");
 
 global $user_ID;
 
-get_currentuserinfo();
-if(!('' == $user_ID)){
-	$backend_button =  "<a href='".admin_url()."'><button class='loginout'>Backend</button></a>";
-}
-
-$loginout = wp_loginout($_SERVER['REQUEST_URI'], false);
-$list_pages = wp_list_pages(array(
-	'title_li' => __( '' ),
-	'echo' => 0
-));
-
 ?>
 
 
@@ -47,9 +36,27 @@ $list_pages = wp_list_pages(array(
 </head>
 <body>
 	<div class = 'admin-bar'>
-		<?php echo $backend_button; ?>
-		<button class='loginout'><?php echo $loginout; ?></button>
+		<?php 
+			// Login-Button and Backend-Button
+			$loginout = "<a href='" . wp_login_url( get_permalink() ) . "'><button class='loginout'>Anmelden</button></a>";
+
+			get_currentuserinfo();
+			if(!('' == $user_ID)){
+				$backend_button =  "<a href='" . admin_url() . "'><button class='loginout'>Backend</button></a>";
+				$loginout = "<a href='" . wp_logout_url( get_permalink() ) . "'><button class='loginout'>Abmelden</button></a>";
+			}
+
+			echo $backend_button;
+			echo $loginout;
+		?>
 	</div>
 	<nav class='nav panel full-width'>
-		<?php echo $list_pages; ?>
+		<?php 
+			$list_pages = wp_list_pages(array(
+				'title_li' => __( '' ),
+				'echo' => 0
+			));
+
+			echo $list_pages; 
+		?>
 	</nav>
