@@ -9,6 +9,13 @@
 
 get_header();
 
+//Falls der Besucher nicht eingeloggt ist, wird er auf die Startseite zurückgeleitet
+if(!is_user_logged_in() )
+{
+	wp_redirect( home_url( '' ) );
+	exit();
+}
+
 ?>
 	<main>
 		<h1>Liste</h1>
