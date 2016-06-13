@@ -7,25 +7,32 @@ get_header();
 
 
 if($_GET){
-	$vorname = $_GET['vorname'];
-	$nachname = $_GET['nachname'];
-	$geschlecht = $_GET['geschlecht'];
-	$geburtsdatum = $_GET['geburtsdatum'];
-	$anfangsdatum = $_GET['anfangsdatum'];
-	$enddatum = $_GET['enddatum'];	
-	$ressort = $_GET['ressort'];
-	$aufgaben = $_GET['aufgaben'];
-	$interneProjekte = $_GET['interneProjekte'];
-	$workshops = $_GET['workshops'];
-	$externeProjekte = $_GET['externeProjekte'];
-	$anmerkungen = $_GET['anmerkungen'];
-	
+
+    $query = "SELECT c.id, prefix, first_name, last_name, birth_date, joined, m.left, ressort, aufgaben,
+                interneProjekte, workshops, externeProjekte, anmerkungen
+	        	from contact c
+	        	  join member m on c.id = m.contact
+	        	  join zeugnisse z on z.contact = c.id
+	        	where c.id = $userid LIMIT 1";
+
+	$result = $wpdb->get_row($query);
+
+	if($result->prefix == "Herr"){
+	    $geschlecht = "Männlich";
 	} else {
-		$vorname = "Vorname";
-		$nachname = "Nachname";
-		$geschlecht = "Geschlecht";
-		$geburtsdatum = "Geburtsdatum";
-		$ressort = "Ressort";
+	    $geschlecht = "Weiblich";
+	}
+
+	$geburtsdatum = $result->birth_date;
+	$anfangsdatum = $result->joined;
+	$enddatum = $result->left;
+	$ressort = $result->ressort;
+	$aufgaben = $result->aufgaben;
+	$interneProjekte = $result->interneProjekte;
+	$workshops = $result->workshops;
+	$externeProjekte = $result->externeProjekte;
+	$anmerkungen = $result->anmerkungen;
+	
 	}
 
 ?>
@@ -38,66 +45,16 @@ if($_GET){
 
 		<table class='form'>
 			<tr>
-				<td width='50%'>
-					Vorname:
-					<input type='text' name='vorname' placeholder="<?php echo $vorname; ?>"/>
-				</td>
-				<td colspan='2'>
-					Nachname:
-					<input type='text' name='nachname' placeholder="<?php echo $vorname; ?>"/>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					Geschlecht:
-					<select name='geschlecht'>
-						<option value='Männlich'>Männlich</option>
-						<option value='Weiblich'>Weiblich</option>
-					</select>
-				</td>
-				<td>
-					Geburtsdatum:
-					<input name="geburtsdatum" type="date">
-				</td>
-			</tr>
-			<tr>
-				<td>
-					Beschäftigungszeit bei HHC:
-				</td>
-			</tr>
-			<tr>
-				<td>
-					Beginn der Mitgleidschaft:
-					<input name="anfangsdatum" type="date" placeholder='YYYY-MM-DD'>
-				</td>
-				<td>
-					Ende der Migliedschaft:
-					<input name="enddatum" type="date" placeholder='YYYY-MM-DD'>
-				</td>
-			</tr>
-			<tr>
-				<td>
-                    Ressort*: 
-					<select name='ressort'>
-						<option value='vorstand'>Vorstand</option>
-						<option value='alumni'>Alumni</option>
-						<option value='it'>IT</option>
-						<option value='sales'>Sales</option>
-						<option value='ope'>OPE</option>
-						<option value='finance'>Finanzen und Recht</option>
-						<option value='mpr'>MPR</option>
-						<option value='qm'>QM</option>
-					</select>
-				</td>
-			</tr>
-			<tr>
 				<td>
 					Aufgaben im Ressort:
 				</td>
 			</tr>
 			<tr>
 				<td>
-					<textarea name="aufgaben" cols="40" rows="5" style="resize: none" placeholder="Beschreibe die Aufgaben, die du in deinem Ressort übernommen hast in Aussagekräftigen Sätzen."></textarea>
+					<textarea name="aufgaben" cols="40" rows="5" style="resize: none"
+					placeholder="Beschreibe die Aufgaben, die du in deinem Ressort übernommen hast in Aussagekräftigen Sätzen.">
+					    <?php $aufgaben ?>
+                    </textarea>
 				</td>
 			</tr>
 			<tr>
@@ -107,7 +64,10 @@ if($_GET){
 			</tr>
 			<tr>
 				<td>
-					<textarea name="interneProjekte" cols="40" rows="5" style="resize: none" placeholder="Beschreibe die Projekte, die du in deinem Ressort übernommen hast in Aussagekräftigen Sätzen."></textarea>
+					<textarea name="interneProjekte" cols="40" rows="5" style="resize: none"
+					placeholder="Beschreibe die Projekte, die du in deinem Ressort übernommen hast in Aussagekräftigen Sätzen.">
+					    <?php $interneProjekte ?>
+                    </textarea>
 				</td>
 			</tr>
 			<tr>
@@ -117,7 +77,10 @@ if($_GET){
 			</tr>
 			<tr>
 				<td>
-					<textarea name="workshops" cols="40" rows="5" style="resize: none" placeholder="Nenne uns die Workshops an denen du teilgenommen hast, wer den Workshop gehalten hat und welche Themen behandelt wurden."></textarea>
+					<textarea name="workshops" cols="40" rows="5" style="resize: none"
+					placeholder="Nenne uns die Workshops an denen du teilgenommen hast, wer den Workshop gehalten hat und welche Themen behandelt wurden.">
+					    <?php $workshops ?>
+                    </textarea>
 				</td>
 			</tr>
 			<tr>
@@ -127,7 +90,10 @@ if($_GET){
 			</tr>
 			<tr>
 				<td>
-					<textarea name="externeProjekte" cols="40" rows="5" style="resize: none" placeholder="Beschreibe die Externen Projekte an denen du teilgenommen hast, und welche Aufgaben du übernommen hast."></textarea>
+					<textarea name="externeProjekte" cols="40" rows="5" style="resize: none"
+					placeholder="Beschreibe die Externen Projekte an denen du teilgenommen hast, und welche Aufgaben du übernommen hast.">
+					    <?php $externeProjekte ?>
+                    </textarea>
 				</td>
 			</tr>
 			<tr>
@@ -137,7 +103,10 @@ if($_GET){
 			</tr>
 			<tr>
 				<td>
-					<textarea name="anmerkungen" cols="40" rows="5" style="resize: none" placeholder="Anmerkungen"></textarea>
+					<textarea name="anmerkungen" cols="40" rows="5" style="resize: none"
+					placeholder="Anmerkungen">
+					    <?php $anmerkungen ?>
+                    </textarea>
 				</td>
 			</tr>
 		</table>

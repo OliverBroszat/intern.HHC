@@ -3,18 +3,22 @@
 *	Template Name: ZeugnisSpeichernMailSenden
 */
 	get_currentuserinfo();
-	echo "Userid: $current_user->ID";
-	
+
+	//webserver
+	//$userid = $current_user->ID";
+
+	//local
+	$userid = 134;
+
+	$query = "SELECT c.id, prefix, first_name, last_name, birth_date, joined, m.left, ressort
+				from contact c join member m on c.id = m.contact where c.id = $userid LIMIT 1";
+
+	$result = $wpdb->get_row($query);
+
 	$wpdb->insert( 
-		'Zeugnis', 
+		'zeugnisse',
 		array(
-			'vorname' => $current_user->user_firstname,
-			'nachname' => $current_user->user_lastname,
-			'geschlecht' => $_POST['geschlecht'],
-			'geburtsdatum' => $_POST['geburtsdatum'],
-			'anfangsdatum' => $_POST['anfangsdatum'],
-			'enddatum' => $_POST['enddatum'],
-			'$ressort' => $_POST['ressort'],
+			'contact' => $result->id,
 			'aufgaben' => $_POST['aufgaben'],
 			'interneProjekte' => $_POST['interneProjekte'],
 			'workshops' => $_POST['workshops'],
@@ -22,6 +26,9 @@
 			'anmerkungen' => $_POST['anmerkungen']
 		)
 	);
-	
+
+	$to =
+	$subject
+	$message
 	
 ?>
