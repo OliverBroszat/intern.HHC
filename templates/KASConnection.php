@@ -84,13 +84,13 @@ if ($_POST['action'] == 'create') {
 		$username = createAccount($_POST['mail_prefix'], $_POST['mail_password']);
 		$loginID = $_POST['mail_prefix'] . '@hhc-duesseldorf.de';
 
-		$message = "Anmeldung erfolgreich. Du kannst dich unter<br><a href='mail.hhc-duesseldorf.de'>mail.hhc-duesseldorf.de</a><br>anmelden.<br>All deine Mails werden von nun an auf dieses Konto gesendet!";
+		$message = "Anmeldung erfolgreich. Du kannst dich unter mail.hhc-duesseldorf.de anmelden All deine Mails werden von nun an auf dieses Konto gesendet!";
 
 		$password = $_POST['mail_password'];
-		$login_data = " Deine Logindaten lauten wie folgt: $loginID $password";
+		$login_data = "\n\nDeine Logindaten lauten wie folgt: \nBenutzername: $loginID \nPasswort: $password";
+		$mail_footer = "\n\nSolltest du Probleme oder Fragen haben melde dich bitte bei IT@hhc-duesseldorf.de";
 
-
-		if(@mail($_POST['mail_alternative'], "HHC-Account", $message . $login_data))
+		if(@mail($_POST['mail_alternative'], "HHC-Account", $message . $login_data . $mail_footer))
 		{
 			$status = "<div class='msg' style='background-color: green;'>$message</div>";
 		}else{
