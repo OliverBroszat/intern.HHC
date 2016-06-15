@@ -44,7 +44,7 @@ function createAccount($prefix, $password) {
               'KasRequestType' => 'add_mailaccount',     // API-Funktion
               'KasRequestParams' => $Params           // Parameter an die API-Funktion
               )));
-	return $req['Respone']['ReturnInfo'];
+	return $req['Response']['ReturnInfo'];
 }
 
 get_header();
@@ -82,7 +82,21 @@ if ($_POST['action'] == 'create' && ($_POST['mail_prefix']=='' || $_POST['mail_p
 if ($_POST['action'] == 'create') {
 	try {
 		$username = createAccount($_POST['mail_prefix'], $_POST['mail_password']);
-		$status = "<div class='msg' style='background-color: green;'>Anmeldung erfolgreich. Du kannst dich unter<br><a href='mail.hhc-duesseldorf.de'>mail.hhc-duesseldorf.de</a><br>anmelden.<br>All deine Mails werden von nun an auf dieses Konto gesendet!</div>";
+		$loginID = $_POST['mail_prefix'] . '@hhc-duesseldorf.de';
+
+		$message = "Anmeldung erfolgreich. Du kannst dich unter<br><a href='mail.hhc-duesseldorf.de'>mail.hhc-duesseldorf.de</a><br>anmelden.<br>All deine Mails werden von nun an auf dieses Konto gesendet!";
+
+		$password = $_POST['mail_password'];
+		$login_data = " Deine Logindaten lauten wie folgt: $loginID $password";
+
+
+		if(@mail($_POST['mail_alternative'], "HHC-Account", $message . $login_data))
+		{
+			$status = "<div class='msg' style='background-color: green;'>$message</div>";
+		}else{
+			$status = "<div class='msg'>Fehler : Die Bestätigungsemail konnte nicht versandt werden.</div>";
+		}
+
 	}
 	catch (Exception $e) {
 		$status = "<div class='msg'>Fehler : ".$e->getMessage()."</div>";
