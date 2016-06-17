@@ -7,7 +7,6 @@ get_header();
 
 
 if($_GET){
-
     $query = "SELECT c.id, prefix, first_name, last_name, birth_date, joined, m.left, ressort, aufgaben,
                 interneProjekte, workshops, externeProjekte, anmerkungen
 	        	from contact c
@@ -34,7 +33,6 @@ if($_GET){
 	$anmerkungen = $result->anmerkungen;
 	
 	}
-
 ?>
 
 	<h1>Arbeitszeugnis</h1>
@@ -51,10 +49,7 @@ if($_GET){
 			</tr>
 			<tr>
 				<td>
-					<textarea name="aufgaben" cols="40" rows="5" style="resize: none"
-					placeholder="Beschreibe die Aufgaben, die du in deinem Ressort übernommen hast in Aussagekräftigen Sätzen.">
-					    <?php $aufgaben ?>
-                    </textarea>
+					<textarea name="aufgaben" cols="40" rows="5" style="width: 100%; resize: none" placeholder="Beschreibe die Aufgaben, die du in deinem Ressort übernommen hast in Aussagekräftigen Sätzen."><?php echo $aufgaben ?></textarea>
 				</td>
 			</tr>
 			<tr>
@@ -64,10 +59,7 @@ if($_GET){
 			</tr>
 			<tr>
 				<td>
-					<textarea name="interneProjekte" cols="40" rows="5" style="resize: none"
-					placeholder="Beschreibe die Projekte, die du in deinem Ressort übernommen hast in Aussagekräftigen Sätzen.">
-					    <?php $interneProjekte ?>
-                    </textarea>
+					<textarea name="interneProjekte" cols="40" rows="5" style="width: 100%; resize: none" placeholder="Beschreibe die Projekte, die du in deinem Ressort übernommen hast in Aussagekräftigen Sätzen."><?php echo $interneProjekte ?></textarea>
 				</td>
 			</tr>
 			<tr>
@@ -77,10 +69,7 @@ if($_GET){
 			</tr>
 			<tr>
 				<td>
-					<textarea name="workshops" cols="40" rows="5" style="resize: none"
-					placeholder="Nenne uns die Workshops an denen du teilgenommen hast, wer den Workshop gehalten hat und welche Themen behandelt wurden.">
-					    <?php $workshops ?>
-                    </textarea>
+					<textarea name="workshops" cols="40" rows="5" style="width: 100%; resize: none" placeholder="Nenne uns die Workshops an denen du teilgenommen hast, wer den Workshop gehalten hat und welche Themen behandelt wurden."><?php echo $workshops ?></textarea>
 				</td>
 			</tr>
 			<tr>
@@ -90,10 +79,7 @@ if($_GET){
 			</tr>
 			<tr>
 				<td>
-					<textarea name="externeProjekte" cols="40" rows="5" style="resize: none"
-					placeholder="Beschreibe die Externen Projekte an denen du teilgenommen hast, und welche Aufgaben du übernommen hast.">
-					    <?php $externeProjekte ?>
-                    </textarea>
+					<textarea name="externeProjekte" cols="40" rows="5" style="width: 100%; resize: none" placeholder="Beschreibe die Externen Projekte an denen du teilgenommen hast, und welche Aufgaben du übernommen hast."><?php echo $externeProjekte ?></textarea>
 				</td>
 			</tr>
 			<tr>
@@ -103,19 +89,22 @@ if($_GET){
 			</tr>
 			<tr>
 				<td>
-					<textarea name="anmerkungen" cols="40" rows="5" style="resize: none"
-					placeholder="Anmerkungen">
-					    <?php $anmerkungen ?>
-                    </textarea>
+					<textarea name="anmerkungen" cols="40" rows="5" style="width: 100%; resize: none" placeholder="Anmerkungen"><?php echo $anmerkungen ?></textarea>
 				</td>
 			</tr>
 		</table>
-		
-		<button type='submit' name='submit' class='registrieren'> Submit </button>
+
+
+		<?php if(!$_GET){
+		    echo "<button type='submit' name='submit' class='registrieren'> Submit </button>";
+		}
+		?>
+
 				
 				<h2> Bewertungsbogen </h2>
-				
-		<table class='form'>
+
+		<?php if($_GET){
+		echo "<table class='form'>
 			<tr>
 				<td>
 				</td>
@@ -138,18 +127,18 @@ if($_GET){
 				<td>
 					Ungenügend
 				</td>
-			</tr>
+			</tr>";
 			
-			<?php printBewertungsReihe("Leistungsbereitschaft") ?>
-			<?php printBewertungsReihe("Weiterbildung") ?>
-			<?php printBewertungsReihe("Arbeitsweise") ?>
-			<?php printBewertungsReihe("Arbeitsergebnis") ?>
-			<?php printBewertungsReihe("Sozialverhalten") ?>
-			<?php printBewertungsReihe("Zuverlässigkeit") ?>
-		</table>
+			printBewertungsReihe("Leistungsbereitschaft");
+			printBewertungsReihe("Weiterbildung");
+			printBewertungsReihe("Arbeitsweise");
+			printBewertungsReihe("Arbeitsergebnis");
+			printBewertungsReihe("Sozialverhalten");
+			printBewertungsReihe("Zuverlässigkeit");
+		echo"</table>
 		
-		<button type='submit' class='registrieren'>Registrieren!</button>
-
+		<button type='submit' class='registrieren'>Absenden</button>";
+        } ?>
 	</form>
 
 </body>
