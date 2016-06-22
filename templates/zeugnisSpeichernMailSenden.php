@@ -52,6 +52,6 @@
 	  			  des Mitglieds aus.\n\n
 	  			  $zeugnis_url";
 
-echo "Mess: $message";
+    mail($to, $subject, $message);
 
 ?>
