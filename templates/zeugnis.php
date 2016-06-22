@@ -7,12 +7,14 @@ get_header();
 
 
 if($_GET){
-    $query = "SELECT c.id, prefix, first_name, last_name, birth_date, joined, m.left, ressort, aufgaben,
+    $zeungisID = $_GET['ID'];
+    $query = "SELECT c.id, prefix, first_name, last_name, birth_date, joined, m.left, r.name as ressort, aufgaben,
                 interneProjekte, workshops, externeProjekte, anmerkungen
 	        	from contact c
 	        	  join member m on c.id = m.contact
 	        	  join zeugnisse z on z.contact = c.id
-	        	where c.id = $userid LIMIT 1";
+	        	  join ressort r on m.ressort = r.id
+	        	where zeugnisID = $zeungisID";
 
 	$result = $wpdb->get_row($query);
 
@@ -22,6 +24,8 @@ if($_GET){
 	    $geschlecht = "Weiblich";
 	}
 
+    $vorname = $result->first_name;
+    $nachname = $result->last_name;
 	$geburtsdatum = $result->birth_date;
 	$anfangsdatum = $result->joined;
 	$enddatum = $result->left;
@@ -31,7 +35,6 @@ if($_GET){
 	$workshops = $result->workshops;
 	$externeProjekte = $result->externeProjekte;
 	$anmerkungen = $result->anmerkungen;
-	
 	}
 ?>
 
@@ -42,6 +45,62 @@ if($_GET){
 		<h2>Persönliche Angaben</h2>
 
 		<table class='form'>
+		    <tr>
+		        <td width='50%'>
+                      Vorname:
+                      <input type='text' name='vorname' placeholder="Vorname" value="<?php echo $vorname ?>"/>
+                    </td>
+                    <td colspan='2'>
+                      Nachname:
+                      <input type='text' name='nachname' placeholder="Nachname" value="<?php echo $nachname; ?>"/>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      Geschlecht:
+                      <select name='geschlecht'>
+                        <option selected disabled hidden> <?php echo $geschlecht ?></option>
+                        <option value='Mänkkkkknlich'>Männlich</option>
+                        <option value='Weiblich'>Weiblich</option>
+                      </select>
+                    </td>
+                    <td>
+                      Geburtsdatum:
+                      <input name="geburtsdatum" type="date" value="<?php echo $geburtsdatum?>">
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      Beschäftigungszeit bei HHC:
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      Beginn der Mitgleidschaft:
+                      <input name="anfangsdatum" type="date" value="<?php echo $anfangsdatum?>">
+                    </td>
+                    <td>
+                      Ende der Migliedschaft:
+                      <input name="enddatum" type="date" value="<?php echo $enddatum?>">
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                                Ressort*:
+                      <select name='ressort'>
+                        <option selected disabled hidden> <?php echo $ressort ?></option>
+                        <option value='vorstand'>Vorstand</option>
+                        <option value='alumni'>Alumni</option>
+                        <option value='it'>IT</option>
+                        <option value='sales'>Sales</option>
+                        <option value='ope'>OPE</option>
+                        <option value='finance'>Finanzen und Recht</option>
+                        <option value='mpr'>MPR</option>
+                        <option value='qm'>QM</option>
+                      </select>
+                    </td>
+                  </tr>
+                  <tr>
 			<tr>
 				<td>
 					Aufgaben im Ressort:
@@ -100,11 +159,10 @@ if($_GET){
 		}
 		?>
 
-				
-				<h2> Bewertungsbogen </h2>
+		<?php if($_GET['ID']){
+		echo" <h2> Bewertungsbogen </h2>
 
-		<?php if($_GET){
-		echo "<table class='form'>
+		  <table class='form'>
 			<tr>
 				<td>
 				</td>
