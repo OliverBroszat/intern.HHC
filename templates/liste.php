@@ -9,6 +9,13 @@
 
 get_header();
 
+//Falls der Besucher nicht eingeloggt ist, wird er auf die Startseite zurückgeleitet
+if(!is_user_logged_in() )
+{
+	wp_redirect( home_url( '' ) );
+	exit();
+}
+
 ?>
 <!--Erstellen und Anzeigen der Mitgliederliste des HHC.
 	Es werden die Mitglieder aus der Datenbank abgefragt
