@@ -51,7 +51,11 @@
 	  			  Bitte klicke auf den folgenden Link und fülle das Formular bezüglich der Mitarbeit
 	  			  des Mitglieds aus.\n\n
 	  			  $zeugnis_url";
-
-    mail($to, $subject, $message);
+	  $header = "From: WebForm <no-reply@hhc-duesseldorf.de>" . PHP_EOL . 
+      	"Reply-To: WebForm <no-reply@hhc-duesseldorf.de>" . PHP_EOL . 
+      	"X-Mailer: PHP/" . phpversion() . PHP_EOL . 
+      	"MIME-Version: 1.0" . PHP_EOL . 
+      	"Content-Type: text/plain; charset=utf-8"; 
+    mail($to, $subject, $message, $header);
 
 ?>
