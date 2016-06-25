@@ -4,6 +4,7 @@
  */
 
 get_header();
+// <script src='https://www.google.com/recaptcha/api.js'></script> // Head Script Import für Recaptcha
 
 $root = get_template_directory();
 require_once("$root/functions/html_templates/userdata.php");
@@ -28,7 +29,8 @@ td {
 		<br>
 		<?php echo getStudyEditTemplate(null); ?>
 
-		
+		<!--<div class="g-recaptcha" data-sitekey="6LfSgyMTAAAAABEiRTJfFR_z6YiWBxwTr9rD9iZy"></div> 
+			Element für Recaptcha-->
 		
 		<button type='submit' class='registrieren'>Bewerbung abschicken!</button>
 	</form>
