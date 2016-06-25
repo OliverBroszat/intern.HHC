@@ -27,8 +27,8 @@ td {
 		<?php echo getAddressEditTemplate(null); ?>
 		<br>
 		<?php echo getStudyEditTemplate(null); ?>
-
-		
+		<br>
+		<?php echo getFileEditTemplate(null); ?>
 		
 		<button type='submit' class='registrieren'>Bewerbung abschicken!</button>
 

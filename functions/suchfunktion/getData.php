@@ -86,9 +86,7 @@ function getData($queries){
 	$query_contact_search = $queries['contact_search'];
 
 	// $wpdb->prepare wird noch nicht verwendet
-	$results = $wpdb->get_results($query_contact_search);
-
-	
+	$results = $wpdb->get_results($query_contact_search);	
 	$data = array();
 
 	foreach ($results as $row) {
@@ -107,8 +105,9 @@ function getData($queries){
 	
 	}	
 	
-	if($wpdb->last_error !== '')
-	    header("Location: http://neu.hhc-duesseldorf.de/wp-content/themes/twentyfourteen-child/templates/error.php");
+	if($wpdb->last_error !== ''){
+	    header("Location: ".get_template_directory()."/templates/error.php");
+	}
 
 	return $data;
 }

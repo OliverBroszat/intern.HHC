@@ -25,7 +25,8 @@ function AcceptPost($post, $get){
 	$filter = array(
 		"Ressort.name" => $post['f_ressort_list'],
 		"Member.position" => $post['f_position_list'],
-		"Member.active" => $post['f_status_list']
+		"Member.active" => $post['f_status_list'],
+		"Study.school" => $post['f_uni_list']
 	);
 
 	// Suchworte

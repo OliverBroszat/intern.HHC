@@ -31,7 +31,7 @@ function getDetailView($number, $dataset) {
 	// Get phone numbers
 	$phone_html = '';
 	if (empty($dataset['phones'])) {
-		$phone_html = '<i>Kein Eintrag</i><button>Hinzufügen</button>';
+		$phone_html = '<i>Kein Eintrag</i>';
 	}
 	else {
 		foreach($dataset['phones'] as $row) {
@@ -42,7 +42,7 @@ function getDetailView($number, $dataset) {
 	// Get Addresses
 	$address_html = '';
 	if (empty($dataset['addresses'])) {
-		$address_html = '<i>Kein Eintrag</i><button>Hinzufügen</button>';
+		$address_html = '<i>Kein Eintrag</i>';
 	}
 	else {
 		foreach($dataset['addresses'] as $row) {
@@ -54,7 +54,7 @@ function getDetailView($number, $dataset) {
 	// Get Mail Addresses
 	$mail_html = '';
 	if (empty($dataset['mails'])) {
-		$mail_html = '<i>Kein Eintrag</i><button>Hinzufügen</button>';
+		$mail_html = '<i>Kein Eintrag</i>';
 	}
 	else {
 		foreach($dataset['mails'] as $row) {
@@ -237,14 +237,14 @@ function createHTML($final){
 
 	if (empty($final)) {
 		$info = new stdClass;
-		$info->id = 'test-id';
-		$info->prefix = 'test-prefix';
-		$info->first_name = 'test-fn';
-		$info->last_name = 'test-ln';
-		$info->birth_date = 'test-bd';
-		$info->name = 'test-ressort';
-		$info->active = 'test-status';
-		$info->position = 'test-pos';
+		$info->id = '';
+		$info->prefix = '';
+		$info->first_name = '';
+		$info->last_name = '';
+		$info->birth_date = '';
+		$info->name = '';
+		$info->active = '';
+		$info->position = '';
 
 		$final = array(
 			'0' => array(
