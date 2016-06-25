@@ -9,8 +9,23 @@
  * @since Twenty Fourteen 1.0
  */
 
+<<<<<<< HEAD
 // Serverwurzelverzeichnis setzen:
 $root = realpath($_SERVER["DOCUMENT_ROOT"]);
+=======
+// Server:
+$localhost = array(
+    '127.0.0.1',
+    '::1'
+);
+
+$root = realpath($_SERVER["DOCUMENT_ROOT"]); 
+if(in_array($_SERVER['REMOTE_ADDR'], $localhost)){
+    $root = realpath($_SERVER["CONTEXT_DOCUMENT_ROOT"]).'/wordpress';
+    if (strpos($root, '\\')){ $root .= "/wordpress"; }
+}
+require_once("$root/wp-load.php");
+>>>>>>> Oliver_Zeugnis
 
 // localhost:
 // $root = realpath($_SERVER["DOCUMENT_ROOT"])."/wordpress";

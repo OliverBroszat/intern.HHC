@@ -1,4 +1,5 @@
 <?php
+<<<<<<< HEAD
 	var_dump($_POST);
 	/*
 	ALTERNATIVE: recaptcha lib Beispiel von Google auf Github nutzen
@@ -30,4 +31,11 @@
 		Hier Verarbeitung der Bewerbung einfügen
 	}
 	 */
+=======
+	var_dump($_FILES);
+?>
+<br><br>
+<?php
+	var_dump($_FILES);
+>>>>>>> Oliver_Zeugnis
 ?>

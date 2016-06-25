@@ -2,6 +2,8 @@
 
 ExpandableContent
 
+KOMMENTARE WERDEN NOCH HINZUGEFÜGT!!
+
 */
 
 var option_delete = "<button type='button' name='expandablecontent-link'"+
@@ -37,7 +39,7 @@ function add_content(list_ID, withData) {
 }
 
 function replace_with_ID(template, list_ID, element_ID) {
-	var full_id = String(list_ID)+'$'+String(element_ID);
+	var full_id = String(list_ID)+'--'+String(element_ID);
 	return template.replace(/%%FULL-ID%%/g, full_id).replace(/%%LIST-ID%%/g, list_ID).replace(/%%ELEMENT-ID%%/g, element_ID);
 }
 
@@ -94,7 +96,7 @@ function setup_expandablecontent(container_id, list_id, html_template, withData,
 	if (small) {
 		ul.classList.add('small');
 	}
-	var meta = document.createElement('input');
+	var meta = document.createElement('div');
 	meta.name = 'expandablecontent-counter';
 	meta.type = 'hidden';
 	meta.value = '2';
@@ -115,7 +117,9 @@ function setup_expandablecontent(container_id, list_id, html_template, withData,
 	for (var i=0; i<withData.length; i++) {
 		add_content(ul.id, withData[i]);
 	}
-	for (var i=0; i<blankTemplates; i++) {
-		add_content(ul.id, null);
+	if (withData.length == 0) {
+		for (var i=0; i<blankTemplates; i++) {
+			add_content(ul.id, null);
+		}
 	}
 }

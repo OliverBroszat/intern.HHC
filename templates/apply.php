@@ -28,9 +28,14 @@ td {
 		<?php echo getAddressEditTemplate(null); ?>
 		<br>
 		<?php echo getStudyEditTemplate(null); ?>
+<<<<<<< HEAD
 
 		<!--<div class="g-recaptcha" data-sitekey="6LfSgyMTAAAAABEiRTJfFR_z6YiWBxwTr9rD9iZy"></div> 
 			Element für Recaptcha-->
+=======
+		<br>
+		<?php echo getFileEditTemplate(null); ?>
+>>>>>>> Oliver_Zeugnis
 		
 		<button type='submit' class='registrieren'>Bewerbung abschicken!</button>
 	</form>
