@@ -2,20 +2,79 @@ h3 {
 	margin-top: 0;
 }
 
-#popup-edit{
-	width: 100%;
+body.popup-on{
+	overflow-y:hidden;
+}
+
+.popup {
+    z-index: 100;
+}
+
+.popup-wrapper {
+	    display: none;
+}
+
+.popup-blende {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.popup-content-outer {
+    min-height: 48px;
+    /*width: 100%;*/
+    min-width: 360px;
 	max-width: 960px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    box-shadow: 2px 4px 30px 1px rgba(0,0,0,0.4);
+}
 
-	background-color: #fff;
+.popup-title {
+	display: block;
+	width: 100%;
+	width: calc(100% + 2* 1.5rem);
+	margin-left: -1.5rem;
+	margin-top: -1.5rem;
+	margin-bottom: 1rem;
 
-	position: fixed;
-	z-index: 100;
+	height: 2rem;
+	text-align: center;
+	padding: 0.25rem 0.5rem;
+	background-color: #ddd;
+	border-radius: 4px 4px 0 0;    
+}
 
-	top: calc(50% - 800px/2);
-	left: calc(50% - 960px/2);
-
+.popup-title.hide {
 	display: none;
 }
+
+/* DIALOG */
+
+.dialog .popup-content {
+	text-align: center;
+}
+
+.dialog .popup-content h2 {
+	text-align: left;
+	margin-bottom: 2rem;
+}
+
+.dialog .popup-content button{
+	display: inline-block;
+	margin: 0.5rem;
+	min-width: 120px;
+}
+
+
+
+/* EDIT */
+
 
 #popup-content{
 	max-height: 560px;
@@ -27,25 +86,6 @@ h3 {
 
 #popup-footer{
 	text-align: center;
-}
-
-#popup-blende{
-	width: 100%;
-	height: 100%;
-
-	z-index:99;
-
-	background-color: rgba(0,0,0,0.5);
-
-	position: fixed;
-	top:0;
-	bottom:0;
-
-	display:none;
-}
-
-body.popup{
-	overflow-y:hidden;
 }
 
 #popup-edit .list-entry {
@@ -65,6 +105,52 @@ td {
 }
 
 
+.edit-image{
+	max-width: 720px;
+	margin: 0 auto;
+}
+
+.edit-image img, .edit-image a{
+	float:left;
+	height:auto;
+	max-height: 180px;
+}
+
+.edit-image-buttons{
+	float:left;
+}
+
+
+.edit .popup-content-outer {
+    width: 100%;
+	max-width: 720px;
+}
+
+#edit #popup-content{
+	background-color: #f6f7f9;
+	padding: 1rem;
+}
+
+.edit .edit-image,
+#edit table.form, 
+#edit .expandablecontent-list:not(.small) .expandablecontent-listitem-content {
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    padding: 0.75rem;
+}
+
+#edit .expandablecontent-list:not(.small) .expandablecontent-listitem-content{
+    margin-bottom: 0.5rem;
+}
+
+#edit .expandablecontent-listitem-content table.form {
+    border: none;
+    padding: 0;
+}
+
+#edit .expandablecontent-container:not(.small) .expandablecontent-bar-option-delete{
+	padding: 0.5rem;
+}
 
 @media screen and (max-width: 960px){
 	#popup-edit {
@@ -72,5 +158,11 @@ td {
 	    top: 0;
 	    height: 100%;
 	    border-radius: 0;
+	}
+}
+
+@media screen and (min-width: 1920px){
+	.edit .popup-content-outer {
+	    max-width: 960px;
 	}
 }

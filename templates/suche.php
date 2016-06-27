@@ -225,18 +225,6 @@ get_header();
 	
 </div><!-- /outer -->
 
-<div id="popup-blende"></div>
-<div id="popup-edit" class="panel">
-	<form method='POST' action="<?php echo get_template_directory_uri(); ?>/functions/apply/sql_apply.php">
-		<h2>Eintrag bearbeiten</h2>
-		<div id="popup-content"></div>
-		<div id="popup-footer">
-			<button type='submit'> Speichern </button> 
-			<button type='button' onclick="popup_close(event)"> Abbrechen </button> 
-		</div>
-	</form>
-</div>
-
 
 <!-- Import ajax_post() function -->
 <script src="<?php echo get_template_directory_uri(); ?>/js/ajax_search.js"></script>

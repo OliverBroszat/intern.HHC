@@ -1,20 +1,86 @@
 <?php
+
 // Load WP-Functions
-$root = realpath($_SERVER["DOCUMENT_ROOT"]);  
-if (strpos($root, '\\')){  
-  // localhost  
-  $root .= "/wordpress";  
-}  
+$localhost = array( '127.0.0.1', '::1' ); 
+		 
+$root = realpath($_SERVER["DOCUMENT_ROOT"]); 
+
+if(in_array($_SERVER['REMOTE_ADDR'], $localhost)){ 
+    $root = realpath($_SERVER["CONTEXT_DOCUMENT_ROOT"]).'/wordpress'; 
+} 
+
 require_once("$root/wp-load.php");
 
 
+// Wandele POST in einen geordneteren Array um
+$data = array();
+foreach ($_POST as $key => $value) {	
+	$temp = explode('-', $key);	
 
-// kvtbl($_POST);
+	$data[$temp[0]][$temp[1]] = $value;
+}
 
-arr_to_tbl($_POST);
+
+// Funktion, um einen SQL-INSERT Befehl zu erstellen
+function create_sql_insert($table, $cols, $i=NULL) {
+	$sql = '';
+	$sql .= "INSERT INTO $table (";
+	foreach ($cols as $col => $value) {
+		$sql .= "$col, ";
+	}
+	$sql .= ')';
+	
+	$sql .= '<br> VALUES(';
+	foreach ($cols as $col => $value) {
+		if(is_null($i)){
+			$sql .= $value.', ';
+		}
+		else{
+			$sql .= $value[$i].', ';
+		}
+	}
+	$sql .= ')<br><br>';
+
+	return $sql;
+}
+
+
+
+foreach ($data as $key => $table) {
+	
+	$is_array = array('bool'=>false,'count'=>0);
+	
+	foreach ($table as $col => $value) {
+		if (is_array($value)) {		
+			
+			$is_array['bool'] = true;
+
+			$count = count($value);
+			if ($count > $is_array['count']) {
+				$is_array['count'] = $count;
+			}
+		}
+	}
+
+	if ($is_array['bool']) {			
+		for ($i=0; $i < $is_array['count']; $i++) {		
+			$sql .= create_sql_insert($key, $table, $i);
+		}
+	}
+	else {
+		$sql .= create_sql_insert($key, $table);
+	}
+}
+
+
+
+// DEBUG Output
+echo "$sql";
 
 echo "<hr>";
+arr_to_list($data);
 
-var_dump($_FILES);
+echo "<hr>";
+arr_to_list($_FILES);
 
 ?>

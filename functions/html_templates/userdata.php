@@ -24,18 +24,18 @@ function extractData($data, $key) {
 }
 
 function createBirthdaySelector($withID) {
-	$resl = "<select id='day-$withID' name='birth_day[]' style='width: 3em; float: left; margin-right:10px'>";
+	$resl = "<select id='day-$withID' name='Contact-birth-day[]' style='width: 3em; float: left; margin-right:10px'>";
 	for ($i=1; $i<=31; $i++) {
 		$resl .= "<option value='$i'>$i</option>";
 	}
 	$resl .= "</select>
-				<select id='month-$withID' name='birth_month[]' style='width: 5.5em; float: left;  margin-right:10px;'>";
+				<select id='month-$withID' name='Contact-birth_month[]' style='width: 5.5em; float: left;  margin-right:10px;'>";
 	$months = array('Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember');
 	for ($i=0; $i<12; $i++) {
 		$resl .= "<option value='$i'>".$months[$i]."</option>";
 	}
 	$resl .= "</select>
-				<select id='year-$withID' name='birth_year[]' style='width: 5em; float: left;  margin-right:10px;'>";
+				<select id='year-$withID' name='Contact-birth_year[]' style='width: 5em; float: left;  margin-right:10px;'>";
 	$min = date('Y')-18;
 	$max = $min-30;
 	for ($i=$min; $i>=$max; $i--) {
@@ -77,7 +77,7 @@ function getContactEditTemplate($data) {
 				Anrede
 			</td>
 			<td width='40%'>
-				<select name='prefix'>";
+				<select name='Contact-prefix'>";
 	if (extractData($data['info'], 'prefix') != 'Frau') {
 		$resl .= "<option value='Herr' selected='selected'>Herr</option><option value='Frau'>Frau</option>";
 	}
@@ -92,10 +92,10 @@ function getContactEditTemplate($data) {
 				Name
 			</td>
 			<td>	
-				<input type='text' name='first_name' placeholder='Vorname' value='".extractData($data['info'], 'first_name')."'/>
+				<input type='text' name='Contact-first_name' placeholder='Vorname' value='".extractData($data['info'], 'first_name')."'/>
 			</td>
 			<td width='40%'>
-				<input type='text' name='last_name' placeholder='Nachname' value='".extractData($data['info'], 'last_name')."'/>
+				<input type='text' name='Contact-last_name' placeholder='Nachname' value='".extractData($data['info'], 'last_name')."'/>
 			</td>
 		</tr>
 		<tr>
@@ -103,18 +103,18 @@ function getContactEditTemplate($data) {
 				Geburtstag
 			</td>
 			<td colspan='3'>
-				<select name='birth_day' style='width: 3em; float: left; margin-right:10px'>";
+				<select name='Contact-birth_day' style='width: 3em; float: left; margin-right:10px'>";
 	for ($i=1; $i<=31; $i++) {
 		$resl .= "<option value='$i'>$i</option>";
 	}
 	$resl .= "</select>
-				<select name='birth_month' style='width: 5.5em; float: left;  margin-right:10px;'>";
+				<select name='Contact-birth_month' style='width: 5.5em; float: left;  margin-right:10px;'>";
 	$months = array('Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember');
 	for ($i=1; $i<13; $i++) {
 		$resl .= "<option value='$i'>".$months[$i-1]."</option>";
 	}
 	$resl .= "</select>
-				<select name='birth_year' style='width: 5em; float: left;  margin-right:10px;'>";
+				<select name='Contact-birth_year' style='width: 5em; float: left;  margin-right:10px;'>";
 	$min = date('Y')-18;
 	$max = $min-30;
 	for ($i=$min; $i>=$max; $i--) {
@@ -151,10 +151,10 @@ function getContactEditTemplate($data) {
 	</table>
 	<script src='".get_template_directory_uri()."/js/expandable_list.js'></script>
 	<script>
-	var tmp_mail = \"<td><input id='mail_description-%%FULL-ID%%' class='mail_content' type='text' name='mail_description[]' placeholder='Beschreibung' value='%%DATA-description%%' style='width: 45%; margin-right: 10px;'/></td><td><input id='mail_content_%%FULL-ID%%' class='mail_content' type='email' name='email[]' placeholder='E-Mail' value='%%DATA-address%%' style='width: 45%;'/></td>\";
+	var tmp_mail = \"<td><input id='mail_description-%%FULL-ID%%' class='mail_content' type='text' name='Mail-mail_description[]' placeholder='Beschreibung' value='%%DATA-description%%' style='width: 45%; margin-right: 10px;'/></td><td><input id='mail_content_%%FULL-ID%%' class='mail_content' type='email' name='Mail-address[]' placeholder='E-Mail' value='%%DATA-address%%' style='width: 45%;'/></td>\";
 	setup_expandablecontent('expandablecontent-mail', 'mail', tmp_mail, ".toJSArrayString($data['mails']).", 1);
 
-	var tmp_phone = \"<td><input id='phone_description-%%FULL-ID%%' class='phone_content' type='text' name='phone_description[]' placeholder='Beschreibung' value='%%DATA-description%%' style='width: 45%; margin-right: 10px;'/></td><td><input id='phone_content_%%FULL-ID%%' class='phone_content' type='text' name='phone[]' placeholder='Telefonnummer' value='%%DATA-number%%' style='width: 45%;'/></td>\";
+	var tmp_phone = \"<td><input id='phone_description-%%FULL-ID%%' class='phone_content' type='text' name='Phone-description[]' placeholder='Beschreibung' value='%%DATA-description%%' style='width: 45%; margin-right: 10px;'/></td><td><input id='phone_content_%%FULL-ID%%' class='phone_content' type='text' name='Phone-number[]' placeholder='Telefonnummer' value='%%DATA-number%%' style='width: 45%;'/></td>\";
 	setup_expandablecontent('expandablecontent-phone', 'phone', tmp_phone, ".toJSArrayString($data['phones']).", 1);
 	</script>";
 	return $resl;
@@ -188,7 +188,7 @@ function getAddressEditTemplate($data) {
 		<script src='".get_template_directory_uri()."/js/expandable_list.js'>
 		</script>
 		<script>
-			var tmp_address = \"<table class='form'><tr><td colspan='2'><input type='text' name='address_description[]' placeholder='Beschreibung'></td></tr><tr><td width='20%'>Straße / Nr.</td><td width='30%'><input type='text'name='street[]' placeholder='Straße' value='%%DATA-street%%'/></td><td width='30%'><input type='text' name='number[]'placeholder='Nr.' value='%%DATA-number%%'/></td><td width='20%'><input type='text' name='addr_extra[]' placeholder='(Zusatz)' value='%%DATA-addr_extra%%'/></td></tr><tr><td>Wohnort</td><td><input type='text' name='postal[]'placeholder='PLZ' value='%%DATA-postal%%'/></td><td><input type='text' name='city[]' placeholder='Stadt'value='%%DATA-city%%'/></td></tr></table>\";
+			var tmp_address = \"<table class='form'><tr><td colspan='2'><input type='text' name='Address-description[]' placeholder='Beschreibung'></td></tr><tr><td width='20%'>Straße / Nr.</td><td width='30%'><input type='text'name='Address-street[]' placeholder='Straße' value='%%DATA-street%%'/></td><td width='30%'><input type='text' name='Address-number[]'placeholder='Nr.' value='%%DATA-number%%'/></td><td width='20%'><input type='text' name='Address-addr_extra[]' placeholder='(Zusatz)' value='%%DATA-addr_extra%%'/></td></tr><tr><td>Wohnort</td><td><input type='text' name='Address-postal[]'placeholder='PLZ' value='%%DATA-postal%%'/></td><td><input type='text' name='Address-city[]' placeholder='Stadt'value='%%DATA-city%%'/></td></tr></table>\";
 		setup_expandablecontent('expandablecontent-address', 'address', tmp_address, ".toJSArrayString($data['addresses']).", 1);
 		</script>";
 	return $resl;
@@ -263,7 +263,7 @@ function getFileEditTemplate($data) {
 		</table>
 		<script src='".get_template_directory_uri()."/js/expandable_list.js'></script>
 		<script>
-		var tmp_files = \"<input id='%%desc_FULL-ID%%' type='text'name='filedescription[]' placeholder='Bezeichnung' value='%%DATA-filedescription%%' style='width: 45%;'/><input id='file_%%FULL-ID%%' type='file' style='width: 45%;'/>\";
+		var tmp_files = \"<input id='%%desc_FULL-ID%%' type='text'name='File-filedescription[]' placeholder='Bezeichnung' value='%%DATA-filedescription%%' style='width: 45%;'/><input id='file_%%FULL-ID%%' type='file' name='File-apply_file[]' style='width: 45%;'/>\";
 		setup_expandablecontent('expandablecontent-files', 'files', tmp_files, ".toJSArrayString($data['files']).", 1);
 		</script>";
 	return $resl;

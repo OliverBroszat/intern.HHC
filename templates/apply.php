@@ -9,30 +9,30 @@ $root = get_template_directory();
 require_once("$root/functions/html_templates/userdata.php");
 
 ?>
+	<div class="outer clearfix">
+		<h1>Bewerbung</h1>
 
-	<h1>Bewerbung</h1>
+			
+		<form action="<?php echo get_template_directory_uri(); ?>/functions/apply/sql_apply.php" method='POST' enctype='multipart/form-data'>	
 
-		
-	<form action="<?php echo get_template_directory_uri(); ?>/functions/apply/sql_apply.php" method='POST' enctype='multipart/form-data'>	
+			<?php 
+				// require_once("$root/functions/suchfunktion/prepareSQL.php");
+				// $queries = prepareSQL('192');
+				// require_once("$root/functions/suchfunktion/getData.php");
+				// $data = getData($queries)['192'];
 
-		<?php 
-			// require_once("$root/functions/suchfunktion/prepareSQL.php");
-			// $queries = prepareSQL('192');
-			// require_once("$root/functions/suchfunktion/getData.php");
-			// $data = getData($queries)['192'];
+				// arr_to_list($data);
 
-			// arr_to_list($data);
+				echo "<div class='panel'>".getContactEditTemplate(null)."</div><br>";
+				echo "<div class='panel'>".getAddressEditTemplate(null)."</div><br>";
+				echo "<div class='panel'>".getStudyEditTemplate(null)."</div><br>";
+				echo "<div class='panel'>".getFileEditTemplate(null)."</div><br>"; 
 
-			echo getContactEditTemplate(null).'<br>';
-			echo getAddressEditTemplate(null).'<br>';
-			echo getStudyEditTemplate(null).'<br>';
-			echo getFileEditTemplate(null).'<br>'; 
+			?>		
+			<button type='submit' class='registrieren'>Bewerbung abschicken!</button>
 
-		?>		
-		<button type='submit' class='registrieren'>Bewerbung abschicken!</button>
-
-	</form>
-
+		</form>
+	</div>
 </body>
 
 </html>

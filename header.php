@@ -24,6 +24,9 @@ global $user_ID;
 	<script src='<?php echo $root_uri; ?>/import/1.12.0.jquery.min.js'></script>
 	<script src='<?php echo $root_uri; ?>/import/1.11.4.jquery-ui.min.js'></script>
 	<link rel='stylesheet' href='<?php echo $root_uri; ?>/import/1.11.4.jquery-ui.min.css'>
+	
+	<script src='<?php echo $root_uri; ?>/js/functions.js'></script>
+	<script src='<?php echo $root_uri; ?>/js/popup.js'></script>
 
 	<link rel='stylesheet' href='<?php echo $root_uri; ?>/style.css'/>
 	<link rel='stylesheet' href='<?php echo $root_uri; ?>/styles/style_suche.css'/>
