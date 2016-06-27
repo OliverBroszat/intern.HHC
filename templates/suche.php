@@ -117,6 +117,7 @@ $html = createHTML($final);
 	</div><!-- /panel -->
 
 
+	<button id="sidebar-toggle" class="search" onclick="$('.sidebar').slideToggle(300)">Suchoptionen</button>
 
 	<div class = "sidebar">
 		
@@ -303,18 +304,8 @@ $html = createHTML($final);
 	
 </div><!-- /outer -->
 
-<div id="popup-blende"></div>
-<div id="popup-edit" class="panel">
-	<h2>Eintrag bearbeiten</h2>
-	<div id="popup-content"></div>
-	<div id="popup-footer">
-		<button> Speichern </button> 
-		<button onclick="popup_close()"> Abbrechen </button> 
-	</div>
-</div>
 
-
-<!-- AJAX Search -->
+<!-- Import ajax_post() function -->
 <script src="<?php echo get_template_directory_uri(); ?>/js/ajax_search.js"></script>
 
 <!-- Call AJAX Search on page load -->
@@ -330,13 +321,18 @@ $html = createHTML($final);
 	});
 </script>
 
-
-
 <!-- AJAX Search Suggestions -->
 <script src="<?php echo get_template_directory_uri(); ?>/js/ajax_search_suggestions.js"></script>
 
  <!-- AJAX Edit -->
 <script src="<?php echo get_template_directory_uri(); ?>/js/ajax_edit.js"></script> 
+
+<!-- Expand Detail Content -->
+<script>
+	function expand_content(value){
+		$('#slide_content_show_detail_'+value).slideToggle(300);
+	}
+</script>
 
 
 <?php get_footer(); ?>
