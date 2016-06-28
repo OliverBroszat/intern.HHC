@@ -303,21 +303,6 @@ $html = createHTML($final);
 	}
 </script>
 
-<!-- Image Popup -->
-<script>
-	function image_popup(href, event){
-		event.preventDefault();
-
-		$('body').toggleClass("popup");
-		$('#popup-blende').fadeToggle(300);
-		$('#popup-image').fadeToggle(50);
-
-		var data = "<img src='"+href+"' onclick='image_popup(this, event);'><div class='close' onclick='image_popup(this, event)'>&#215;</div>";
-
-		$('#popup-image').html(data);
-
-	}
-</script>
 
 
 <?php get_footer(); ?>

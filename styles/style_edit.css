@@ -114,6 +114,7 @@ td {
 	float:left;
 	height:auto;
 	max-height: 180px;
+	margin-right: 0.5rem;
 }
 
 .edit-image-buttons{
