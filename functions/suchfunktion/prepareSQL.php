@@ -150,6 +150,7 @@ function prepareSQL_contact_search($input, $search_select, $search_range){
 	// ---------- Übergebene Werte ---------- 
 
 	// prepare searchwords
+	
 	if (!is_array($input)) {
 		// if $input is not an array, it is assumed that it should only be searched by ID
 		$input = array(
@@ -160,9 +161,9 @@ function prepareSQL_contact_search($input, $search_select, $search_range){
 			'ajax_call' => false
 		);
 	}
+	
+	$search_words = preg_split("/[\s,]+/", trim($input['search']));
 
-	$search_words = explode(" ", trim($input['search']));
-		
 	// Sortieren
 	if (empty($input['sort'])){					
 		$sort = "Contact.last_name";

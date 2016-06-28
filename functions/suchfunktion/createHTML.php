@@ -85,11 +85,16 @@ function getDetailView($number, $dataset) {
 		 }
 		 $tr .= '</td><td><b>'.$row->course.'</b></td></tr>';
 		 $tr .= '<tr><td colspan="2">'.$row->school.'</td>';
-		 $study_table .= $tr;
+		 if (!empty($row->degree)) {
+		 	$tr .= '<tr><td>Abschluss: </td><td>'.$row->degree.'</td>';
+		 }	 
+		 $study_table .= $tr;	
 	}
 	$study_table .= '</table>';
 
-	$internships_table = '<span><i>Praktika werden noch nicht unterstützt</i></span>';
+	// $internships_table = '<span><i>Praktika werden noch nicht unterstützt</i></span>';
+	$internships_table = '';
+
 
 	$html_studies_internship = '<div style="display: inline-block; width: 50%;">'.$study_table.'</div>';
 	$html_studies_internship .= '<div style="display: inline-block; width: 50%; vertical-align: top; text-align: center;">'.$internships_table.'</div>';
@@ -146,7 +151,7 @@ function getDetailView($number, $dataset) {
 
 <div id='tabs-$number'>
 	<ul>
-		<li><a href='#tabs-$number-1'>Studiengänge und Praktika</a></li>
+		<li><a href='#tabs-$number-1'>Studiengänge</a></li>
 		<li><a href='#tabs-$number-2'>Fähigkeiten</a></li>
 		<li><a href='#tabs-$number-3'>Notizen</a></li>
 	</ul>

@@ -81,9 +81,14 @@ function ajax_post() {
 	  type: 'POST',
 	  success: function(result){
 	  	setTimeout(function(){
-				document.getElementById('list-container').classList.remove('modal');
-				$('#list-container').html(result);
-			}, 100);
+			var array_data = result.split('\\n');
+			var number = array_data[0];
+			var suchergebnisse = array_data[1];
+
+			document.getElementById('list-container').classList.remove('modal');
+			$('#list-container').html(suchergebnisse);
+			$('#search-results-title').html('Suchergebnisse ('+number+')');
+		}, 100);
 	  }
 	});
 }

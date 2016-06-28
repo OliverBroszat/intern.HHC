@@ -115,16 +115,18 @@ $html = createHTML($final);
 	</div><!-- /panel -->
 
 
-	<button id="sidebar-toggle" class="search" onclick="$('.sidebar').slideToggle(300)">Suchoptionen</button>
+	<button id="sidebar-toggle" class="search" onclick="$(this).toggleClass('show'); $('.sidebar').slideToggle(300);">Suchoptionen</button>
 
 	<div class = "sidebar">
 		
 	<!-- Sortieren -->
 		<div class='panel'>
-			<form method='POST'>
+			<form method='POST' id='form-sortieren'>
 				<h2>Sortieren nach:</h2>
-
-				<select name="sort" id="sort" onchange="ajax_post()">
+				<table >
+					<tr>
+						<td>
+						<select name="sort" id="sort" onchange="ajax_post()">
 
 <?php
 	// Sortieren
@@ -137,18 +139,23 @@ $html = createHTML($final);
 		array('value' => 'Contact.id', 'name' => 'ID')
 	);	
 
+
 	// Print Sortieren
 	foreach ($t_header as $value) {	
 		echo "<option value='".$value[value]."'>".$value[name]."</option>";
 	}
 ?>
 
-				</select>
-
-				<select name="order" id="order" onchange="ajax_post()" style='width:'>
-					<option value="asc">A-Z</option>
-					<option value="desc">Z-A</option>
-				</select>
+							</select>
+						</td>
+						<td>
+							<select name="order" id="order" onchange="ajax_post()" style='width:'>
+								<option value="asc">A-Z</option>
+								<option value="desc">Z-A</option>
+							</select>
+						</td>
+					</tr>
+				</table>
 			</form>
 		</div><!-- /panel -->
 	
@@ -158,126 +165,74 @@ $html = createHTML($final);
 		<div class = "panel filter">
 			<form method="POST">
 				<h2>Filtern nach:</h2>
-			<!-- Ressort -->
-				<table>
-					<tr>
-						<th colspan="2">
-							Ressort<br>
-						</th>
-					</tr>
-					<tr>
-						<td>
-
-<?php 
-	// Ressort Checkboxen
-	$ressort = $wpdb->get_results("SELECT name FROM Ressort");
-	for ($i = 0; $i < (sizeof($ressort)/2); $i++) {
-		echo "
-			<label>
-				<input 
-					type='checkbox'
-					class='filtercheckbox_ressort'
-					name='f_ressort_list[]' 
-					value='".$ressort[$i]->name."'
-					".check('Ressort.name', $ressort[$i]->name).">
-						 ".uppercase($ressort[$i]->name)."
-			</label><br>";
-	}
-	echo "</td><td>";
-	for ($i; $i < (sizeof($ressort)); $i++) {
-		echo "
-			<label>
-				<input 
-					type='checkbox'
-					class='filtercheckbox_ressort'
-					name='f_ressort_list[]' 
-					value='".$ressort[$i]->name."'
-					".check('Ressort.name', $ressort[$i]->name).">
-					".uppercase	($ressort[$i]->name)."	
-				</label><br>";
-	}
-	?>	
 
 
-						</td>
-						</tr>
-					</table>
-	
-			<!-- Position -->
-				<table>
-					<tr>
-						<th colspan="2">
-							HHC Position<br>
-						</th>
-					</tr>
-					<tr>
-						<td>
-							<label><input type='checkbox' class='filtercheckbox_position' name='f_position_list[]' value='anwärter' <?php echo check('Member.position', 'anwärter'); ?>> Anwärter</label><br>
-							<label><input type='checkbox' class='filtercheckbox_position' name='f_position_list[]' value='mitglied' <?php echo check('Member.position', 'mitglied'); ?>> Mitglied</label><br>
-						</td>
-						<td>
-							<label><input type='checkbox' class='filtercheckbox_position' name='f_position_list[]' value='ressortleiter' <?php echo check('Member.position', 'ressortleiter'); ?>> Ressortleiter</label><br>
-							<label><input type='checkbox' class='filtercheckbox_position' name='f_position_list[]' value='alumni' <?php echo check('Member.position', 'alumni'); ?>> Alumni</label><br>
-						</td>
-					</tr>
-				</table>
+<?php
 
-			<!-- Status -->
-				<table>
-					<tr>
-						<th colspan="2">
-							HHC Status<br>
-						</th>
-					</tr>
-					<tr>
-						<td>
-							<label><input type='checkbox' class='filtercheckbox_status' name='f_status_list[]' value='0' <?php echo check('Member.active', '0'); ?>> Aktiv</label><br>
-						</td>
-						<td>
-							<label><input type='checkbox' class='filtercheckbox_status' name='f_status_list[]' value='1' <?php echo check('Member.active', '1'); ?>> Inaktiv</label><br>
-						</td>
-					</tr>
-				</table>
+// Filter-Data
+	$ressorts = res_to_array($wpdb->get_results("SELECT name FROM Ressort"));
+	$positions = res_to_array($wpdb->get_results("SELECT position FROM Member"));
+	$status = array('0', '1');
+	$schools = res_to_array($wpdb->get_results("SELECT school FROM Study"));
 
-			<!-- Uni -->
-				<table>
-					<tr>
-						<th colspan="2">
-							Universität<br>
-						</th>
-					</tr>
-					
-					<?php					
-						$result = $wpdb->get_results("SELECT school FROM Study");
-						
-						$result_array = array();
-						foreach ($result as $key) {
-							array_push($result_array, $key->school);
-						}
+	$filter = array(
+		array('name' => 'ressort', 'title' => 'Ressort', 'data' => $ressorts, 'cols' => 2),
+		array('name' => 'position', 'title' => 'HHC Position', 'data' => $positions, 'cols' => 2),
+		array('name' => 'status', 'title' => 'HHC Status', 'data' => $status, 'cols' => 2),
+		array('name' => 'uni', 'title' => 'Universität', 'data' => $schools, 'cols' => 1)
+	);
 
-						$uni = array_unique($result_array);
 
-						foreach ($uni as $value) {
-							echo "
-								<tr>
-									<td width='10%'>
-										<input
-											type='checkbox'
-											class='filtercheckbox_uni'
-											name='f_uni_list'
-											value='$value'
-											".check('Study.school',$value).">
-									</td>
-									<td>
-										$value
-									</td>
-								</tr>
-							";
-						}
-					?>
-						
-				</table>
+	foreach ($filter as $category) {
+		$cols = $category['cols'];
+		$data = $category['data'];
+		$name = $category['name'];
+
+		echo("
+			<table>
+				<tr>
+					<th colspan='$cols'>
+						".$category['title']."
+					</th>
+				</tr>
 				
+					
+		");
+
+		for ($i=0; $i < $cols; $i++) { 		
+			$count = count($data)/$cols;
+			// Problem: doppelte Einträge, wenn $count einen Rest hat
+
+			$width = 100/$cols;
+			echo "<td style='width:".$width."%'><table>";
+			
+			for ($j=0; $j < $count; $j++) { 					
+				$value = $data[$j + $i * $count];
+				echo "
+					<tr>
+						<td width='1px'>
+							<input 
+								type='checkbox'
+								name='f_".$name."_list[]'
+								value='$value' 
+								id='f_".$name."_".$value."'
+								class='filtercheckbox_".$name."'
+							>
+						</td>
+						<td>
+							<label for='f_".$name."_".$value."'>&nbsp;".uppercase(bool_to_lbl($value))."</label>
+						</td>
+					</tr>
+				";
+			}
+			echo "</td></table>";
+		}
+		echo "</tr></table>";
+	}
+
+?>
+
+			
 				<input type="hidden" name="templateDirectory" id="templateDirectory" value="<?php echo get_template_directory_uri(); ?>">
 
 				<button type="button" onclick="ajax_post();" class="full-width">Aktualisieren</button>
@@ -345,6 +300,22 @@ $html = createHTML($final);
 <script>
 	function expand_content(value){
 		$('#slide_content_show_detail_'+value).slideToggle(300);
+	}
+</script>
+
+<!-- Image Popup -->
+<script>
+	function image_popup(href, event){
+		event.preventDefault();
+
+		$('body').toggleClass("popup");
+		$('#popup-blende').fadeToggle(300);
+		$('#popup-image').fadeToggle(50);
+
+		var data = "<img src='"+href+"' onclick='image_popup(this, event);'><div class='close' onclick='image_popup(this, event)'>&#215;</div>";
+
+		$('#popup-image').html(data);
+
 	}
 </script>
 
