@@ -24,7 +24,8 @@ function expandableContent($fix_html, $slide_html, $click_id) {
 		</div>
 		<div id='slide_content_$click_id' class='detail-content' style='display: none;overflow: hidden; position: relative;'>
 			$slide_html
-		</div>";
+		</div>
+	";
 }
 
 function getDetailView($number, $dataset) {
@@ -168,7 +169,14 @@ function getListEntryHTML($number, $dataset_full) {
 	$overview = "
 	<table>
 		<tr>
-			<td class='number' rowspan='4' style='vertical-align: top;' width='5%'>$number <br>----<br>".$dataset->id."</td>
+			<td class='number' rowspan='4' style='vertical-align: top;' width='5%'>
+				<input type='checkbox' name='member_list[]' value='".$dataset->id."' class='member_list'>
+				<br>----<br>
+				$number
+				<br>----<br>
+				".$dataset->id."
+
+			</td>
 			<td class='profile' rowspan='4' width='19%'>$image</td>
 			<td class='contact_name' width='38%'><b>".$dataset->first_name.' '.$dataset->last_name."</b></td>
 			<td align='right'><div class='status ".$dataset->active."'></div></td>
@@ -180,7 +188,7 @@ function getListEntryHTML($number, $dataset_full) {
 			<td class='ressort' width='19%'>Ressort: ".$dataset->name."</td>
 		</tr>
 		<tr>
-			<td><button id='show_detail_$number' value='#slide_content_show_detail_$number' onClick='expandContent(this.value)' class='full-width' type='button'>DETAIL</button></td>
+			<td><button value='$number' onclick='expand_content(this.value);' class='full-width' type='button' >DETAIL</button></td>
 			<td><button value='".$dataset->id."' onclick='edit(this.value);' class='full-width' type='button'>EDIT</button></td>
 		</tr>
 	</table>";

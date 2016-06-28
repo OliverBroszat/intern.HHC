@@ -86,6 +86,7 @@ $html = createHTML($final);
 
 ?>
 
+
 <div class = "outer clearfix">
 	<h1>Mitgliederliste</h1>
 
@@ -108,15 +109,13 @@ $html = createHTML($final);
 					<td>
 						<button type='submit' id='start-search' class='search' >Suchen</button>
 					</td>
-					<td>
-						<button type='button' id='new-entry' class='search' value='new' onclick='edit(this.value);'>NEU</button>
-					</td>
 				</tr>
 			</table>
 		</form>
 	</div><!-- /panel -->
 
 
+	<button id="sidebar-toggle" class="search" onclick="$('.sidebar').slideToggle(300)">Suchoptionen</button>
 
 	<div class = "sidebar">
 		
@@ -288,40 +287,43 @@ $html = createHTML($final);
 	
 
 	<main class="container">
+		<form method='POST'>
+			<div class="panel actions">					
 
-<!--  Suchergebnisse -->
-		<div class='panel'>
-			<form method='POST'>
-				<h2>Suchergebnisse</h2>
-				<div id='list-container'>
-					<!--<div class="modal"> Place at bottom of page </div>-->
-					<?php echo $html ?>
-				</div>
-			</form>
-		</div><!-- /panel -->	
+				<button type='button' id='new-entry' value='new' onclick='edit(this.value);'>Neu</button>
+
+				<button type='button' onclick='edit_multi()'>Edit selected</button>
+
+				<button type='button' onclick='select_all()'>Select/Deselect all</button>
+
+			</div><!-- /panel -->
+
+
+	<!--  Suchergebnisse -->
+			<div class='panel'>
+				
+					<h2 id='search-results-title'>Suchergebnisse (0)</h2>
+					<div id='list-container'>
+						<!--<div class="modal"> Place at bottom of page </div>-->
+						<?php echo $html ?>
+					</div>
+				
+			</div><!-- /panel -->
+		</form>
 	</main>
 	
 </div><!-- /outer -->
 
-<div id="popup-blende"></div>
-<div id="popup-edit" class="panel">
-	<h2>Eintrag bearbeiten</h2>
-	<div id="popup-content"></div>
-	<div id="popup-footer">
-		<button> Speichern </button> 
-		<button onclick="popup_close()"> Abbrechen </button> 
-	</div>
-</div>
 
-
-<!-- AJAX Search -->
+<!-- Import ajax_post() function -->
 <script src="<?php echo get_template_directory_uri(); ?>/js/ajax_search.js"></script>
 
+
 <!-- Call AJAX Search on page load -->
-<script type="text/javascript">window.onload=ajax_post;</script>
+<script>window.onload=ajax_post;</script>
 
 <!-- Call AJAX Search on #form-suche submit -->
-<script type="text/javascript">
+<script>
 	$("#form-suche").submit(function(e){
 	    e.preventDefault();
 	    $("#start-search").focus();
@@ -330,13 +332,21 @@ $html = createHTML($final);
 	});
 </script>
 
-
-
 <!-- AJAX Search Suggestions -->
 <script src="<?php echo get_template_directory_uri(); ?>/js/ajax_search_suggestions.js"></script>
 
  <!-- AJAX Edit -->
 <script src="<?php echo get_template_directory_uri(); ?>/js/ajax_edit.js"></script> 
+
+<!-- Multi-Edit -->
+<script src="<?php echo get_template_directory_uri(); ?>/js/edit_multi.js"></script> 
+
+<!-- Expand Detail Content -->
+<script>
+	function expand_content(value){
+		$('#slide_content_show_detail_'+value).slideToggle(300);
+	}
+</script>
 
 
 <?php get_footer(); ?>

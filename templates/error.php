@@ -22,16 +22,10 @@ if(in_array($_SERVER['REMOTE_ADDR'], $localhost)){
 }
 require_once("$root/wp-load.php");
 
-// localhost:
-// $root = realpath($_SERVER["DOCUMENT_ROOT"])."/wordpress";
+get_header();
 
-
-require_once("$root/wp-content/themes/twentyfourteen-child/functions/main_functions.php");
-
-echo html_header('Home');
-
-echo html_footer();
 ?>
+
 <div class="outer">
 	<h1 style="text-transform: none;">intern.HHC</h1>
 	<div class="panel">

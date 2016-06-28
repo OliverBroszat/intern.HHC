@@ -31,7 +31,7 @@ function getImageHTML($contact_id) {
 	// Return HTML tag
 	if($attachment_id != ""){
 		$imgsrc = wp_get_attachment_image_src($attachment_id, $size='')[0];
-		$imageHTML = "<a href='$imgsrc' target='_blank'><img src='$imgsrc_thumb' class='profile-picture' alt='Profilbild' /></a>";
+		$imageHTML = "<a href='$imgsrc' target='_blank' onclick='image_popup(this, event)'><img src='$imgsrc_thumb' class='profile-picture' alt='Profilbild' /></a>";
 	}
 	else {
 		$gender = $wpdb->get_row($wpdb->prepare('SELECT prefix FROM Contact WHERE id=%d', $contact_id));
@@ -109,6 +109,18 @@ function getData($queries){
 	    header("Location: ".get_template_directory()."/templates/error.php");
 	}
 
+	if($wpdb->last_error !== ''){
+
+		$root = realpath($_SERVER["DOCUMENT_ROOT"]);  
+		if (strpos($root, '\\')){  
+		  // localhost  
+		  $root .= "/wordpress";  
+		}  
+		require_once("$root/wp-load.php");
+	    $root = get_template_directory();
+
+	    header("Location: $root/templates/error.php?$wpdb->last_error");
+	}
 	return $data;
 }
 

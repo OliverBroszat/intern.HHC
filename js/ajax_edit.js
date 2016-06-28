@@ -1,8 +1,6 @@
 function edit(id){
-	$('body').toggleClass("popup");
-	$('#popup-blende').fadeToggle(300);
-	$('#popup-edit').fadeToggle(50);
-	$('#popup-edit').toggleClass("modal",true);
+
+	popup(null, 'edit');
 
 	var data = new FormData();
 	data.append('id', id);
@@ -17,15 +15,22 @@ function edit(id){
 		type: 'POST',
 		success: function(data){
 			setTimeout(function(){
-				$('#popup-edit').toggleClass("modal",false);
-				$('#popup-edit #popup-content').html(data);
+				$('.popup-content').html(`
+					<div id="edit">
+						<form method='POST' action="`+templateDirectory+`/functions/apply/sql_apply.php">
+							<h2>Eintrag bearbeiten</h2>
+							<div id="popup-content"></div>
+							<div id="popup-footer">
+								<button type='submit'> Speichern </button> 
+								<button type='button' onclick="popup_close_dialog('Wollen Sie das Fenster wirklich ohne zu speichern schließen? Ungespeicherte Änderungen gehen verloren.')"> Abbrechen </button> 
+							</div>
+						</form>
+					</div>
+				`);
+
+				$('#edit').toggleClass("modal",false);
+				$('#edit #popup-content').html(data);
 			}, 600);
 		}
 	});
-}
-
-function popup_close(){
-	$('body').toggleClass("popup", false);
-	$('#popup-blende').fadeToggle(0);
-	$('#popup-edit').fadeToggle(0);
 }
