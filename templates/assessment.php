@@ -87,10 +87,15 @@ $categories = $wpdb->get_results($categories_query);
 <div class="outer">
 	<h1 style="text-transform: none;">intern.HHC</h1>
 	<div class="panel">
-		<form action="" method="POST" class="sheet">
+		<form action="#" method="POST" class="sheet">
+			<input type='hidden' name='member' value='<?php echo "$memberid"; ?>'/>
+			<input type='hidden' name='application' value='<?php echo "$applicationid"; ?>'/>
 			<h2>Bewertungsbogen <?php echo $name->first_name . " " . $name->last_name; ?></h2>
 
 			<?php
+			if ($_POST['btn']) {
+				var_dump($_POST);
+			}
 				// List every category with respective questions
 				foreach ($categories as $category) {
 
@@ -106,10 +111,12 @@ $categories = $wpdb->get_results($categories_query);
 						$selected_value = $wpdb->get_row("SELECT value FROM Rates WHERE (member=$memberid AND application=$applicationid AND question=$question->question);")->value;
 						foreach ($possible_replies as $reply) {
 							if ($reply->id == $selected_value) {
-								echo "<input type='radio' name='$question->description' value='$reply->id' checked/>$reply->description";
+								echo "<input type='radio' name='$question->id' value='$reply->id' checked/>$reply->description
+								";
 							}
 							else {
-								echo "<input type='radio' name='$question->description' value='$reply->id'/>$reply->description";
+								echo "<input type='radio' name='$question->id' value='$reply->id'/>$reply->description
+								";
 							}
 							echo '<br>';
 						}
