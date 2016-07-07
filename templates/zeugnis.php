@@ -9,7 +9,7 @@ get_header();
  * Wird aufgerufen, falls das Zeugnis bereits vom Mitglied ausgefüllt wurde
  *und jetzt durch den Ressortleiter bewertet werden soll
 */
-if($_GET){
+if($_GET['ID']){
     $zeungisID = substr($_GET['ID'], 3, strlen($_GET['ID']) - 6);
     $query = "SELECT c.id, prefix, first_name, last_name, birth_date, joined, m.left, r.name as ressort, aufgaben,
                 interneProjekte, workshops, externeProjekte, anmerkungen
@@ -61,7 +61,7 @@ if($_GET){
 
 	if($_POST){
          get_currentuserinfo();
-
+echo"BEREIT: " . $_POST['Leistungsbereitschaft'];
         $useraddress = $current_user->user_email;
 
         $query = "SELECT first_name, last_name
@@ -285,31 +285,35 @@ if($_GET){
 
 <?php
 	function printBewertungsReihe($value){
-		$table = "<tr>
-				<td>
+		$table =
+           "<tr>
+			<td>
 					$value
-				</td>
-				<td>
-					<input type='checkbox' name='$value.1'>
-				</td>
-				<td>
-					<input type='checkbox' name='$value.2'>
-				</td>
-				<td>
-					<input type='checkbox' name='$value.3'>
-				</td>
-				<td>
-					<input type='checkbox' name='$value.4'>
-				</td>
-				<td>
-					<input type='checkbox' name='$value.5'>
-				</td>
-				<td>
-					<input type='checkbox' name='$value.6'>
-				</td>
+			</td>";
+
+        for($i = 0; $i < 6; $i++){
+        $table = $table .  printRowElement($value, $i, false);
+        };
+
+        $table = $table . "
 			</tr>";
 			
 			echo $table;
+	};
+
+	function printRowElement($name, $value, $selected){
+	     if(selected){
+	        $element =
+	         "<td>
+				<input type='radio' name='$name' value='$value' checked>
+			  </td>";
+	    } else {
+	     $element =
+	        "<td>
+				<input type='radio' name='$value' value='$value'>
+		    </td>";
+	    }
+	    return $element;
 	};
 
 ?>
