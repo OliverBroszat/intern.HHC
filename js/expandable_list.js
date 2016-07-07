@@ -39,7 +39,7 @@ function add_content(list_ID, withData) {
 }
 
 function replace_with_ID(template, list_ID, element_ID) {
-	var full_id = String(list_ID)+'--'+String(element_ID);
+	var full_id = String(list_ID)+'$'+String(element_ID);
 	return template.replace(/%%FULL-ID%%/g, full_id).replace(/%%LIST-ID%%/g, list_ID).replace(/%%ELEMENT-ID%%/g, element_ID);
 }
 
@@ -55,6 +55,7 @@ function createAppendBar(list) {
 	bottom_bar.classList.add('expandablecontent-listitem-bar');
 	var bar_div = document.createElement('div');
 	bar_div.classList.add('expandablecontent-bar');
+	bar_div.classList.add('expandablecontent-bar-option-add');
 	if (list.classList.contains('small')) {
 		bar_div.classList.add('small');
 	}
@@ -70,6 +71,7 @@ function createContentElement(list_ID, element_ID, content_html) {
 	li.id = String(full_id);
 	var edit_bar = document.createElement('div');
 	edit_bar.classList.add('expandablecontent-bar');
+	edit_bar.classList.add('expandablecontent-bar-option-delete');
 	if (document.getElementById(list_ID).classList.contains('small')) {
 		edit_bar.classList.add('small');
 	}
@@ -117,9 +119,10 @@ function setup_expandablecontent(container_id, list_id, html_template, withData,
 	for (var i=0; i<withData.length; i++) {
 		add_content(ul.id, withData[i]);
 	}
-	if (withData.length == 0) {
-		for (var i=0; i<blankTemplates; i++) {
-			add_content(ul.id, null);
-		}
+
+	 if (withData.length == 0) { 
+	    for (var i=0; i<blankTemplates; i++) { 
+	      add_content(ul.id, null); 
+	    } 
 	}
 }

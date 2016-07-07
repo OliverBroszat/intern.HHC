@@ -150,8 +150,19 @@ function prepareSQL_contact_search($input, $search_select, $search_range){
 	// ---------- Übergebene Werte ---------- 
 
 	// prepare searchwords
-	$search_words = explode(" ", trim($input['search']));
+	if (!is_array($input)) {
+		// if $input is not an array, it is assumed that it should only be searched by ID
+		$input = array(
+			'search' => $input,
+			'filter' => array(),
+			'sort' => 'Contact.id',
+			'order' => 'asc',
+			'ajax_call' => false
+		);
+	}
 
+	$search_words = explode(" ", trim($input['search']));
+		
 	// Sortieren
 	if (empty($input['sort'])){					
 		$sort = "Contact.last_name";
@@ -166,6 +177,10 @@ function prepareSQL_contact_search($input, $search_select, $search_range){
 	}
 	else{
 		$order = $input['order'];
+	}
+
+	if(empty($input['filter'])){
+		$filter = $input['filter'] = array();
 	}
 
    
@@ -206,7 +221,33 @@ function prepareSQL_contact_search($input, $search_select, $search_range){
 ----------------------------------------
 */
 
-function prepareSQL($input, $search_select, $search_range){
+function prepareSQL(
+	$input, 
+	$search_select = array(
+		'Contact' => array(
+			'id',
+			'prefix',
+			'first_name',
+			'last_name',
+			'birth_date',
+			'comment'
+		),
+		'Ressort' => array(
+			'name'
+		),
+		'Member' => array(
+			'active',
+			'position',
+			'joined',
+			'left'
+		)
+	), 
+	$search_range = array(
+		'Contact' => array(
+			'id'
+		)
+	)
+) {
 	
 	$queries = array(
 		'contact_search' => prepareSQL_contact_search($input, $search_select, $search_range),
