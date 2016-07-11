@@ -109,6 +109,12 @@ $html = createHTML($final);
 					<td>
 						<button type='submit' id='start-search' class='search' >Suchen</button>
 					</td>
+<<<<<<< HEAD
+=======
+					<td>
+							<button type='button' id='new-entry' class='search' 	value='new' onclick='edit(this.value);'>NEU</button>
+					</td>
+>>>>>>> Bewerbungssystem_Alex_Marek
 				</tr>
 			</table>
 		</form>
