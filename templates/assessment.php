@@ -19,17 +19,21 @@ $memberid = 266;
 $applicationid_encoded = $wpdb->prepare("%d", $applicationid);
 
 // Set up id of used question set
-$questionset_id = $wpdb->get_row("SELECT question_set FROM Application WHERE id=$applicationid")->question_set;
+$questionset_id = $wpdb->get_row("SELECT assessment_template
+	 FROM Application WHERE id=$applicationid")->assessment_template;
 
 // Preparing data queries
 $application_query = "SELECT * FROM Application WHERE id=$applicationid_encoded";
+$application = $wpdb->get_row($application_query);
 $name_query = "SELECT first_name, last_name FROM Contact WHERE id=$application->contact;";
 $ratings_query = "SELECT * FROM Rates WHERE member=$memberid AND application=$applicationid_encoded;";
-$questions_query = "SELECT * FROM Question JOIN (SELECT * FROM ContainsQuestion WHERE question_set=$applicationid_encoded) as CQ ON CQ.question=Question.id;";
-$categories_query = "SELECT Category.id, Category.name FROM Category JOIN (SELECT * FROM Question JOIN (SELECT question FROM ContainsQuestion WHERE question_set=$questionset_id)  AS Questions ON Questions.question=Question.id) AS UsedQuestions ON UsedQuestions.category=Category.id GROUP BY Category.id;";
+$questions_query = "SELECT * FROM Question JOIN (SELECT * FROM ContainsQuestion WHERE assessment_template
+	=$applicationid_encoded) as CQ ON CQ.question=Question.id;";
+$categories_query = "SELECT Category.id, Category.name FROM Category JOIN (SELECT * FROM Question JOIN (SELECT question FROM ContainsQuestion WHERE assessment_template
+	=$questionset_id)  AS Questions ON Questions.question=Question.id) AS UsedQuestions ON UsedQuestions.category=Category.id GROUP BY Category.id;";
 
 // Fetch data
-$application = $wpdb->get_row($application_query);
+// $application = $wpdb->get_row($application_query);
 $name = $wpdb->get_row($name_query);
 $ratings = $wpdb->get_results($ratings_query);
 $questions = $wpdb->get_results($questions_query);
@@ -107,15 +111,30 @@ $categories = $wpdb->get_results($categories_query);
 						}
 						echo '<div class="col span_1_of_4">';
 						echo "<div class='section question' style='padding: 10px;'>$question->description<br>";
-						$possible_replies = $wpdb->get_results("SELECT * FROM PossibleReplies WHERE question=$question->question");
+						// Possible Replies
+						if ($question->answerType == 'Y/N') {
+							// WICHTIG
+							// -1 bedeutet 'Nein' und wird auf Serverseite in den Wert 0 transformiert.
+							$possibleReplies = array(-1, 5);
+						}
+						else if ($question->answerType == '1.3.5') {
+							$possibleReplies = array(1,3,5);
+						}
+						else if ($question->answerType == '1-5') {
+							$possibleReplies = array(1,2,3,4,5);
+						}
+						else {
+							echo 'DATENBANKFEHLER!!!!!!<br>';
+						}
+
 						$selected_value = $wpdb->get_row("SELECT value FROM Rates WHERE (member=$memberid AND application=$applicationid AND question=$question->question);")->value;
-						foreach ($possible_replies as $reply) {
-							if ($reply->id == $selected_value) {
-								echo "<input type='radio' name='$question->id' value='$reply->id' checked/>$reply->description
+						foreach ($possibleReplies as $reply) {
+							if ($reply == $selected_value) {
+								echo "<input type='radio' name='$question->id' value='$reply' checked/>$reply
 								";
 							}
 							else {
-								echo "<input type='radio' name='$question->id' value='$reply->id'/>$reply->description
+								echo "<input type='radio' name='$question->id' value='$reply'/>$reply
 								";
 							}
 							echo '<br>';
