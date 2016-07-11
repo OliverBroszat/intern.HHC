@@ -8,6 +8,14 @@
  * Class MemberClass
  * Dient der Erfassung und dem erleichterten Zugriff auf alle Personenbezogenen Attribute
  * wie Namen, Ressort und die zugeordneten Rollen
+ *
+ * Die Methoden können nach dem Import der Klasse wie folgt aufgerufen werden:
+ *
+ * MemberClass::getUserID();
+ *
+ * oder
+ *
+ * MemberClass->getUserID();
  */
 
 
