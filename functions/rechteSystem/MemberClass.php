@@ -13,60 +13,76 @@
 
 class MemberClass
 {
-   private static $instance;
+    private static $instance;
 
-    private $vorname;
-    private $nachname;
-    private $rollen;
-    private $email;
-    private $ressort;
-
-    /**
-     * MemberClass constructor.
-     * Ist private da die Klasse das eingeloggte Mitglied repräsentieren soll.
-     * Es soll daher nur ein Objekt erstellt werden, mit dem im gesamgten Projekt gearbeitet werden soll.
-     *
-     * Das Objekt der Klasse kann mittels der getInstance() Funktion aufgerufen und verwendet werden.
-     */
-    private function __construct()
-    {
-        global $vorname, $nachname, $rollen, $email, $ressort;
-
-        $user = wp_get_current_user();
-        $vorname = $user->user_firstname;
-        $nachname = $user->user_lastname;
-        $email = $user = user_email;
-        $ressort = getRessort();
-        echo "RESSORT: $ressort";
-    }
+    private static $vorname;
+    private static $nachname;
+    private static $rollen;
+    private static $email;
+    private static $ressort;
+    private static $position;
+    private static $userID;
 
 
-    /**
-     * Falls noch kein Benutzerobjekt existiert wird eines angelegt und zurückgegeben
-     * Alternativ wird das bereits vorhandene Objekt zurückgegeben.
-     *
-     * @return MemberClass
-     */
-    public function getInstance(){
-        global $instance;
+    function getUserID(){
+        global $wpdb, $userID;
 
-        if($instance == null){
-            $instance = new MemberClass();
+        if($userID == null){
+            $email = MemberClass::getEmail();
+
+            $query = "SELECT c.id
+                    from contact c
+                    join member m on c.id = m.contact
+                    join mail ma on ma.contact = c.id
+                    where address = '$email'";
+
+            $userID = $wpdb->get_row($query)->id;
         }
 
-        return $instance;
+        return $userID;
     }
 
-    public function getRessort(){
-        global $email;
+    function getRessort(){
+        global $wpdb, $ressort;
 
-        $query = "SELECT r.name as ressort
-	        	from contact c
-	        	  join member m on c.id = m.contact
+        if($ressort == null){
+            $userID = MemberClass::getUserID();
+
+            $query = "SELECT r.name as ressort
+	        	  from member m
 	        	  join ressort r on m.ressort = r.id
-	        	  join mail ma on ma.contact = c.id
-	        	where address = $email";
+	        	  where m.contact = '$userID'";
 
-        return $wpdb->get_row($query);
+            $ressort = $wpdb->get_row($query)->ressort;
+        }
+
+        return $ressort;
+    }
+
+    function getPosition(){
+        global $wpdb, $position;
+
+        if($position == null){
+            $userID = MemberClass::getUserID();
+
+            $query = "SELECT position
+	        	from member m
+	        	where contact = '$userID'";
+            $position = $wpdb->get_row($query)->position;
+        }
+
+        return $position;
+    }
+
+    function getEmail(){
+        return wp_get_current_user()->user_email;
+    }
+
+    function getVorname(){
+        return wp_get_current_user()->user_firstname;
+    }
+
+    function getNachname(){
+        return wp_get_current_user()->user_lastname;
     }
 }
