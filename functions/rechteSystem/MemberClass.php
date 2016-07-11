@@ -20,6 +20,10 @@ class MemberClass
     private $rollen;
     private $email;
     private $ressort;
+    private $position;
+    private $userID;
+
+
 
     /**
      * MemberClass constructor.
@@ -30,14 +34,12 @@ class MemberClass
      */
     private function __construct()
     {
-        global $vorname, $nachname, $rollen, $email, $ressort;
-
-        $user = wp_get_current_user();
-        $vorname = $user->user_firstname;
-        $nachname = $user->user_lastname;
-        $email = $user = user_email;
-        $ressort = getRessort();
-        echo "RESSORT: $ressort";
+        echo "\nMail: " .$this->getEmail();
+        echo "\nNach: ".$this->getNachname();
+        echo "\nPosi: ".$this->getPosition();
+        echo "\nRessort: ".$this->getRessort();
+        echo "\nUserID: ".$this->getUserID();
+        echo "\nVorname: ".$this->getVorname();
     }
 
 
@@ -57,16 +59,65 @@ class MemberClass
         return $instance;
     }
 
-    public function getRessort(){
-        global $email;
+    function getUserID(){
+        global $wpdb, $userID;
 
-        $query = "SELECT r.name as ressort
-	        	from contact c
-	        	  join member m on c.id = m.contact
+        if($userID == null){
+            $email = $this->getEmail();
+
+            $query = "SELECT c.id
+                    from contact c
+                    join member m on c.id = m.contact
+                    join mail ma on ma.contact = c.id
+                    where address = '$email'";
+
+           $userID = $wpdb->get_row($query)->id;
+        }
+
+        return $userID;
+    }
+
+    function getRessort(){
+        global $wpdb, $ressort;
+
+        if($ressort == null){
+           $userID = $this->getUserID();
+
+            $query = "SELECT r.name as ressort
+	        	  from member m
 	        	  join ressort r on m.ressort = r.id
-	        	  join mail ma on ma.contact = c.id
-	        	where address = $email";
+	        	  where m.contact = '$userID'";
 
-        return $wpdb->get_row($query);
+            $ressort = $wpdb->get_row($query)->ressort;
+        }
+
+        return $ressort;
+    }
+
+    function getPosition(){
+        global $wpdb, $position;
+
+        if($position == null){
+            $userID = $this->getUserID();
+
+            $query = "SELECT position
+	        	from member m
+	        	where contact = '$userID'";
+            $position = $wpdb->get_row($query)->position;
+        }
+
+        return $position;
+    }
+
+    function getEmail(){
+        return wp_get_current_user()->user_email;
+    }
+
+    function getVorname(){
+        return wp_get_current_user()->user_firstname;
+    }
+
+    function getNachname(){
+        return wp_get_current_user()->user_lastname;
     }
 }

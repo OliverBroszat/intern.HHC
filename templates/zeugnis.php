@@ -5,10 +5,15 @@
 
 get_header();
 
+require_once(get_template_directory() ."/autoloader.php");
+
+__autoload("Memberclass");
+
+MemberClass::getInstance();
 
 if($_GET){
     $zeungisID = substr($_GET['ID'], 3, strlen($_GET['ID']) - 6);
-    echo "zeug_:" . $zeungisID;
+
     $query = "SELECT c.id, prefix, first_name, last_name, birth_date, joined, m.left, r.name as ressort, aufgaben,
                 interneProjekte, workshops, externeProjekte, anmerkungen
 	        	from contact c
