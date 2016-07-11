@@ -8,8 +8,6 @@ get_header();
 $root = get_template_directory();
 require_once("$root/functions/html_templates/userdata.php");
 
-<<<<<<< HEAD
-=======
 
 
 require_once("$root/functions/kasAPI/mailinglist.php");
@@ -21,7 +19,6 @@ var_dump(explode(',',$req['Response']['ReturnInfo'][0]['mail_forward_targets']))
 
 
 
->>>>>>> Bewerbungssystem_Alex_Marek
 ?>
 	<div class="outer clearfix">
 		<h1>Bewerbung</h1>

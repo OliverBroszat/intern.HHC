@@ -1,5 +1,4 @@
 <?php
-<<<<<<< HEAD
 
 // Load WP-Functions
 $localhost = array( '127.0.0.1', '::1' ); 
@@ -84,11 +83,4 @@ arr_to_list($data);
 echo "<hr>";
 arr_to_list($_FILES);
 
-=======
-	var_dump($_POST);
-?>
-<br><br>
-<?php
-	var_dump($_FILES);
->>>>>>> Bewerbungssystem_Alex_Marek
 ?>
