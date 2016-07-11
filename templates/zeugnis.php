@@ -5,17 +5,6 @@
 
 get_header();
 
-$root = get_template_directory();
-require($root."/autoloader.php");
-
-__autoload("MemberClass");
-
-        echo "\nMail: " .MemberClass::getEmail();
-        echo "\nNach: ".MemberClass::getNachname();
-        echo "\nPosi: ".MemberClass::getPosition();
-        echo "\nRessort: ".MemberClass::getRessort();
-        echo "\nUserID: ".MemberClass::getUserID();
-        echo "\nVorname: ".MemberClass::getVorname();
 
 if($_GET){
     $zeungisID = substr($_GET['ID'], 3, strlen($_GET['ID']) - 6);
