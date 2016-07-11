@@ -7,6 +7,18 @@ get_header();
 
 $root = get_template_directory();
 require_once("$root/functions/html_templates/userdata.php");
+
+
+
+require_once("$root/functions/kasAPI/mailinglist.php");
+
+// $req = createMailingList('dynamisch', array('alexander.schaefer@hhc-duesseldorf.de', 'alexander.schaefer8193@gmail.com'));
+$req = getTargetsFromMailingList('mpr@hhc-duesseldorf.de');
+var_dump(explode(',',$req['Response']['ReturnInfo'][0]['mail_forward_targets']));
+
+
+
+
 ?>
 <!-- Radio Buttons werden für dieses Formular ein bisschen schöner gemacht :) -->
 <style>

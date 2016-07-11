@@ -109,7 +109,7 @@ $html = createHTML($final);
 						<button type='submit' id='start-search' class='search' >Suchen</button>
 					</td>
 					<td>
-						<button type='button' id='new-entry' class='search' value='new' onclick='edit(this.value);'>NEU</button>
+							<button type='button' id='new-entry' class='search' 	value='new' onclick='edit(this.value);'>NEU</button>
 					</td>
 				</tr>
 			</table>
