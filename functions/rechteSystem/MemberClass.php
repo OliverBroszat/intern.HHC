@@ -13,12 +13,7 @@
 
 class MemberClass
 {
-    private static $instance;
-
-    private static $vorname;
-    private static $nachname;
     private static $rollen;
-    private static $email;
     private static $ressort;
     private static $position;
     private static $userID;
