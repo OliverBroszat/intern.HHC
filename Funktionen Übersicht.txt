@@ -1,4 +1,4 @@
-﻿ 
+ 
   Übersicht über Funktionen
 -----------------------------
 
@@ -21,7 +21,7 @@ funktionsname(arg1, arg2 ...)
 
 --- JavaScript Funktionen ---
 
-dialog(message, yesCallback, noCallback)
+dialog(dialog(message, yesCallback, noCallback))
 -> Öffnet ein Bestätigungsfenster
 - message: optionale Nachricht, die angezeigt werden soll. Default: 'Sind sie sicher?'
 [/intern-hhc/js/popup.js]

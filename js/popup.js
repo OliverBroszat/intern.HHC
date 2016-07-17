@@ -45,13 +45,13 @@ function popup(content, name, title) {
     `);
 
     if (id == 1) { 
-        $("#popup-" + id + " .popup-blende").fadeIn(300); 
+        $("#popup-" + id + " .popup-blende").fadeIn(100); 
     }
     else{ 
         $("#popup-" + id + " .popup-blende").show(); 
     }
 
-    $("#popup-" + id + " .popup-wrapper").fadeIn(200);
+    $("#popup-" + id + " .popup-wrapper").fadeIn(100);
 
     $("#popup-" + id + " .popup-content-outer").center();
 
@@ -71,7 +71,7 @@ function popup_close() {
         // prüfe, ob es sich um das letzte Popup handelt
         if (id == 1) {
             // Blende das gesamte Popup (die Blende) aus und entferne sie
-            $(id_active).fadeOut(200, function() { $(this).remove(); });
+            $(id_active).fadeOut(100, function() { $(this).remove(); });
             $("body").removeClass("popup-on");
         } 
         else {
@@ -95,7 +95,7 @@ function popup_close_dialog(message) {
             // Schließe das eigentliche Popup
             setTimeout(function() {
                 popup_close();
-            }, 300);
+            }, 0);
         },
         function() {
             // Schließe nur das Popup

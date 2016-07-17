@@ -1,88 +1,13 @@
 <?php
 /**
  * Template Name: Suche
+ *
+ * @package WordPress
+ * @subpackage intern-hhc
+ * @since intern-hhc
  */
 
 get_header();
-
-$root = get_template_directory();
-
-require_once("$root/functions/main_functions.php");
-require_once("$root/functions/suchfunktion/AcceptPost.php");
-require_once("$root/functions/suchfunktion/prepareSQL.php");
-require_once("$root/functions/suchfunktion/getData.php");
-require_once("$root/functions/suchfunktion/postProcess.php");
-require_once("$root/functions/suchfunktion/createHTML.php");
-
-
-/* 
-----------------------------------------
----------- Suchfunktionen ---------- 
-----------------------------------------
-*/
-
-// Spalten, die ausgewählt werden
-$search_select = array(
-	'Contact' => array(
-		'id',
-		'prefix',
-		'first_name',
-		'last_name',
-		'birth_date',
-		'comment'
-	),
-	'Ressort' => array(
-		'name'
-	),
-	'Member' => array(
-		'active',
-		'position',
-		'joined',
-		'left'
-	)
-);
-
-
-// Spalten, nach denen gesucht werden kann
-$search_range = array(
-	'Contact' => array(
-		'first_name',
-		'last_name'
-	),
-	'Ressort' => array(
-		'name'
-	),
-	'Address' => array(
-		'city',
-		'postal'
-	),
-	'Phone' => array(
-		'number'
-	),
-	'Study' => array(
-		'school',
-		'course'
-	)
-);
-
-
-// POST übertragen
-$input = AcceptPost($_POST, $_GET);
-// SQL-Abfrage vorbereiten
-$queries = prepareSQL($input, $search_select, $search_range);
-// Datenbankabfrage
-$data = getData($queries);
-// Post-Processing
-$final = postProcess($data);
-// HTML-Tabelle
-$html = createHTML($final);
-
-
-/* 
-----------------------------------------
----------- HTML-Seite ---------- 
-----------------------------------------
-*/
 
 ?>
 

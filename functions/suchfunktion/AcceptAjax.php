@@ -15,7 +15,6 @@ if(in_array($_SERVER['REMOTE_ADDR'], $localhost)){
 require_once("$root/wp-load.php");
 
 $root = get_template_directory();
-require_once("$root/functions/main_functions.php");
 require_once("$root/functions/suchfunktion/prepareSQL.php");
 require_once("$root/functions/suchfunktion/getData.php");
 require_once("$root/functions/suchfunktion/postProcess.php");
