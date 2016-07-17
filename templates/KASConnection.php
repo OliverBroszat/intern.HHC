@@ -84,7 +84,7 @@ if ($_POST['action'] == 'create') {
 		$username = createAccount($_POST['mail_prefix'], $_POST['mail_password']);
 		$loginID = $_POST['mail_prefix'] . '@hhc-duesseldorf.de';
 
-		$message = "Anmeldung erfolgreich. Du kannst dich unter mail.hhc-duesseldorf.de anmelden All deine Mails werden von nun an auf dieses Konto gesendet!";
+		$message = "Anmeldung erfolgreich. Du kannst dich unter mail.hhc-duesseldorf.de anmelden alle Mails werden von nun an auf dieses Konto gesendet!";
 
 		$password = $_POST['mail_password'];
 		$login_data = "\n\nDeine Logindaten lauten wie folgt: \nBenutzername: $loginID \nPasswort: $password";
@@ -118,7 +118,7 @@ echo $status;
 	</tr>
 	<tr>
 		<td>
-			<input type='text' name='mail_prefix' placeholder='Vorname.Nachname' value="<?php echo $_POST['mail_prefix']; ?>" style='text-align: center; width: 50%;'/>
+			<input required pattern="([a-zA-Z])+(\.)([a-zA-Z])+" type='text' name='mail_prefix' placeholder='Vorname.Nachname' value="<?php echo $_POST['mail_prefix']; ?>" style='text-align: center; width: 50%;'/>
 		<span style='vertical-align: middle; font-size: 20px;'>
 			@hhc-duesseldorf.de
 		</span>
@@ -131,7 +131,7 @@ echo $status;
 	</tr>
 	<tr>
 		<td>
-			<input type='text' name='mail_password' placeholder='Dein Passwort' value="<?php echo $_POST['mail_password']; ?>"/>
+			<input required type='text' name='mail_password' placeholder='Dein Passwort' value="<?php echo $_POST['mail_password']; ?>"/>
 		</td>
 	</tr>
 	<tr>
@@ -141,7 +141,7 @@ echo $status;
 	</tr>
 	<tr>
 		<td>
-			<input type='text' name='mail_alternative' placeholder='andere Mailadresse' value="<?php echo $_POST['mail_alternative']; ?>"/>
+			<input required type='text' pattern="([a-zA-Z])+(@)([a-zA-Z])+(\.)([a-zA-Z]){2}" name='mail_alternative' placeholder='andere Mailadresse' value="<?php echo $_POST['mail_alternative']; ?>"/>
 		</td>
 	</tr>
 	<tr>

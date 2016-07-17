@@ -48,7 +48,7 @@
 .expandablecontent-container:not(.small) .expandablecontent-listitem-content {
     position: relative;
     /* border: 1px solid #ccc; */
-    max-width: 720px;
+    /* max-width: 720px; */
     margin: 0 auto 0.75rem;
     border-bottom: 1px solid #ccc;
 }
