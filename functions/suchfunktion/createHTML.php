@@ -37,7 +37,31 @@ function getDetailView($number, $dataset) {
 	}
 	else {
 		foreach($dataset['phones'] as $row) {
-			$phone_html .= "<tr><td width='10%'>".$row->description."</td><td>".$row->number."</td></tr>";
+			
+			// Modify Phone Numbers
+			$num = $row->number;
+
+			if (substr($num, 0, 3) == '049') {
+				// 049123456
+				$num = '+49 '.substr($num, 3);
+			}
+			elseif (substr($num, 0, 4) == '0049') {
+				// 0049123456
+				$num = '+49 '.substr($num, 4);
+			}
+			elseif ($num[0] == '0') {
+				// 0176123456
+				$num = '+49 '.substr($num, 1);
+			}
+			elseif (substr($num, 0, 3) != '+49' && $num != '') {
+				// 123456
+				$num = '+49 '.$num;
+			}
+			$num_clean = preg_replace('/\s+/', '', $num);
+
+			// $num_spaces = substr($num, 0, 3).' '.substr($num, 3, 3).' '.substr($num, 6, 3).' '.substr($num, 9, 3).' '.substr($num, 12);
+
+			$phone_html .= "<tr><td width='10%'>".$row->description."</td><td><a href='tel:$num_clean'>$num</a></td></tr>";
 		}
 	}
 	

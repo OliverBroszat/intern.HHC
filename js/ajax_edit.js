@@ -15,22 +15,56 @@ function edit(id){
 		type: 'POST',
 		success: function(data){
 			setTimeout(function(){
-				$('.popup-content').html(`
-					<div id="edit">
-						<form method='POST' action="`+templateDirectory+`/functions/apply/sql_apply.php">
-							<h2>Eintrag bearbeiten</h2>
-							<div id="popup-content"></div>
-							<div id="popup-footer">
-								<button type='submit'> Speichern </button> 
-								<button type='button' onclick="popup_close_dialog('Wollen Sie das Fenster wirklich ohne zu speichern schließen? Ungespeicherte Änderungen gehen verloren.')"> Abbrechen </button> 
-							</div>
-						</form>
-					</div>
-				`);
+				
+				$('.edit .popup-content').html(data);
 
-				$('#edit').toggleClass("modal",false);
-				$('#edit #popup-content').html(data);
-			}, 600);
+				// Center Popup again after loading. Needs some kind of delay (?)
+				setTimeout(function(){
+					$(".edit .popup-content-outer").center();
+				}, 0);
+				
+				// $('#edit-form').validate();
+				
+				// check if image is uploaded
+				if ($(".edit-image-image").find('a').length) {
+					$('#edit-upload-image').hide();
+					$('#edit-delete-image').show();
+				}
+
+			}, 0);
 		}
 	});
 }
+
+$(document).on('click', '#edit-delete-image', function(){
+	$('.edit-image-image a').remove();
+	$('#edit-delete-image').hide();
+	$('#edit-upload-image').show();
+
+});
+
+$(document).on('click', '#edit-upload-image', function(){
+
+});
+
+
+$(document).on('click', '#edit-delete', function(event){
+	event.preventDefault();
+	
+	var id = $(this).val();
+
+	dialog(
+        'Sind Sie sicher, dass Sie diesen Datensatz löschen möchten? Die Löschung kann nicht rückgangig gemacht werden!',
+        function() {
+            // Schließe den Dialog
+            popup_close();
+            // submit form
+            $('#edit-form').append($("<input>").attr("type", "hidden").attr("name", "delete").val(id));
+            $('#edit-form').submit();
+        },
+        function() {
+            // Schließe nur das Popup
+            popup_close();
+        }
+    );
+});

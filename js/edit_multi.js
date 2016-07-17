@@ -60,6 +60,11 @@ function edit_multi(){
 	}
 	
 	$('#popup').toggleClass('modal', false);
+
+	// Center Popup again after loading. Needs some kind of delay (?)
+	setTimeout(function(){
+		$(".edit-multi .popup-content-outer").center();
+	}, 0);
 };
 
 
@@ -82,6 +87,7 @@ function select_all(){
 
 function edit_multi_save(){
 	$('.edit-multi .popup-content').html("<h2>Updating...</h2><div class='modal'></div>");
+	$('.edit-multi .popup-content-outer').center();
 
 	var data = new FormData();
 	
@@ -90,7 +96,7 @@ function edit_multi_save(){
   	var templateDirectory = document.getElementById('templateDirectory').value; 
 
 	$.ajax({
-  		url: templateDirectory+'/functions/edit/update.php',
+  		url: templateDirectory+'/functions/edit/sql_edit.php',
 	  	data: data,
 		processData: false,
 		contentType: false,
@@ -103,6 +109,7 @@ function edit_multi_save(){
 					<button type='button' onclick='popup_close(); ajax_post()'>Schließen</close>
 				`);
 			}, 600);
+			$('.edit-multi .popup-content-outer').center();
 		}
 	});
 

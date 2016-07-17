@@ -9,7 +9,7 @@ $root = get_template_directory();
 require_once("$root/functions/html_templates/userdata.php");
 
 ?>
-	<div class="outer clearfix">
+	<div class="outer small clearfix">
 		<h1>Bewerbung</h1>
 
 			

@@ -84,7 +84,7 @@ img.profile-picture {
 	transition: all 0.15s;
 }
 
-img.profile-picture:hover {
+a img.profile-picture:hover {
     box-shadow: 2px 6px 10px rgba(0,0,0,0.35);
 	border: 1px solid #fff;
 }
@@ -105,6 +105,10 @@ img.profile-picture:hover {
 	margin: 0 auto 50px;
 }
 
+.outer.small {
+	max-width: 720px;
+}
+
 .clearfix:after {
 	content: "";
 	display: table;
@@ -114,6 +118,10 @@ img.profile-picture:hover {
 @media screen and (min-width: 1920px){
 	.outer{
 		max-width: 1280px;
+	}
+
+	.outer.small {
+		max-width: 960px;
 	}
 }
 
@@ -358,8 +366,9 @@ table.liste tr:nth-child(even) .list-entry .data-set{
 }
 
 .list-entry .scroll-list{
-	max-height: 4rem;
+	/* max-height: 4rem; */
 	overflow-y: auto;
+	/* resize: vertical; */
 }
 .list-entry .data-row{
 
@@ -565,14 +574,24 @@ table.liste tr:nth-child(even) .ui-tabs-active{
 }
 
 @media screen and (max-width: 480px) {
-	.panel{
-		padding-left: 0;
-		padding-right: 0;
+	.outer {
+		padding: 0;
+	}
+	.panel, .sidebar{
+		padding-left: 0.5rem;
+		padding-right: 0.5rem;
+		border-left: 0;
+		border-right: 0;
+		border-radius: 0;
+		box-shadow: none;
+	}
+	.panel.actions {
+		text-align: center;
 	}
 
 	table.liste th, table.liste td{
-		border-left: 0;
-		border-right: 0;
+/* 		border-left: 0;
+		border-right: 0; */
 	}
 
 	select#sort, select#order{

@@ -85,10 +85,10 @@ function ajax_post() {
 			var number = array_data[0];
 			var suchergebnisse = array_data[1];
 
-			document.getElementById('list-container').classList.remove('modal');
+			$('#list-container').removeClass('modal')
 			$('#list-container').html(suchergebnisse);
 			$('#search-results-title').html('Suchergebnisse ('+number+')');
-		}, 100);
+		}, 0);
 	  }
 	});
 }

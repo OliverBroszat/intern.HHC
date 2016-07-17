@@ -6,17 +6,13 @@
 */
 
 
-$localhost = array(
-    '127.0.0.1',
-    '::1'
-);
-
+// Load WP-Functions
+$localhost = array( '127.0.0.1', '::1' ); 
 $root = realpath($_SERVER["DOCUMENT_ROOT"]); 
-if(in_array($_SERVER['REMOTE_ADDR'], $localhost)){
-    $root = realpath($_SERVER["CONTEXT_DOCUMENT_ROOT"]).'/wordpress';
-    if (strpos($root, '\\')){ $root .= "/wordpress"; }
-}
-require_once("$root/wp-config.php");
+if(in_array($_SERVER['REMOTE_ADDR'], $localhost)){ 
+    $root = realpath($_SERVER["CONTEXT_DOCUMENT_ROOT"]).'/wordpress'; 
+} 
+require_once("$root/wp-load.php");
 
 
 $search_text = preg_split("/[\s,]+/", trim($_POST["search_text"]));

@@ -197,11 +197,12 @@ if (!function_exists('arr_to_list')) {
 				}
 			</style>
 		";
+
 		echo "<div class='arr_to_list'>";
 		if (!function_exists('create_list')) {
 			function create_list($array) {	
 				echo "<ul>";
-
+			
 				foreach ($array as $key => $value) {
 					$type = gettype($value);
 
@@ -218,10 +219,68 @@ if (!function_exists('arr_to_list')) {
 			}
 		}
 		create_list($array);
-
 		echo "</div>";
-
 	}
 }
+
+
+
+// Findet in POST den Key und den Index zu einer Value (aus einem HTML-Array)
+function search_in_2d_array($array, $needle) {
+	$result = array();
+	foreach ($array as $key => $value) {
+	    if (is_array($value)) {
+	    	foreach ($value as $index => $val) {
+	    		if ($val == $needle) {
+	    			array_push($result, array('key' => $key, 'index' => $index));
+	    		}
+	    	}
+	    }
+	}
+	return $result;
+}
+
+
+
+// Lösche aus aus dem HTML-Array alle die gesuchten Einträge und re-indiziere das HTML-Array
+function unset_value_in_2d_array($array, $needle) {
+
+	$result = search_in_2d_array($array, $needle);
+
+	foreach ($result as $result) {
+		$key = $result['key'];
+		$index = $result['index'];
+
+		unset($array[$key][$index]);
+		$array[$key] = array_values($array[$key]);
+
+	}
+
+	return $array;
+}
+
+
+
+// Wandele POST in ein geordnetes Array um
+function post_to_array($post) {
+	$data = array();
+	foreach ($post as $key => $value) {	
+		if ($key != 'id') {
+			$temp = explode('-', $key);	
+			$count = count($value);
+
+			for ($i=0; $i < $count; $i++) {
+				if (is_array($value)) {
+					$data[$temp[0]][$i][$temp[1]] = $value[$i];
+				} 
+				else {
+					$data[$temp[0]][$i][$temp[1]] = $value;
+				}
+			}
+		}
+	}
+	return $data;
+}
+
 
 ?>

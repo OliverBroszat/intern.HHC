@@ -1,7 +1,7 @@
 <?php
 
 /*
-	Diese Datei wird über AJAX (/js/ajax_edit.js) aufgerufen, fragt zu einer ID die Daten ab und gibt diese zurück.
+	Diese Datei wird über AJAX (/js/ajax_edit.js) aufgerufen, fragt zu einer ID die Daten ab und gibt das Ergebnis in der gewünschten Form zurück.
 */
 
 // Load WP-Functions
@@ -15,7 +15,7 @@ require_once("$root/wp-load.php");
 $root = get_template_directory();
 require_once("$root/functions/suchfunktion/prepareSQL.php");
 require_once("$root/functions/suchfunktion/getData.php");
-require_once("$root/functions/edit/createHTML.php");
+require_once("$root/functions/html_templates/userdata.php");
 
 
 $id = $_POST['id'];
@@ -24,8 +24,49 @@ $id = $_POST['id'];
 $queries = prepareSQL($id);
 // Datenbankabfrage
 $data = getData($queries)[$id];
-// HTML-Tabelle
-$html = createHTML($data);
+
+// Text für den Schließen-Dialog
+$dialog = "Wollen Sie das Fenster wirklich ohne zu speichern schließen? Ungespeicherte Änderungen gehen verloren.";
+
+// Finale HTML-Ausgabe
+$html = "
+	<div id='edit'>
+		<form id='edit-form' method='POST' action='".get_template_directory_uri()."/functions/edit/sql_edit.php' enctype='multipart/form-data'>
+			<h2>Eintrag bearbeiten</h2>
+			<div id='popup-content'>
+
+				<h2>Profilbild</h2>
+				<div class='edit-image clearfix'>
+					<div class='edit-image-image'>
+						".$data['image']."
+					</div>
+					<div class='edit-image-buttons'>
+						<input type='file' class='full-width' id='edit-upload-image' placeholder='Upload' name='upload-image'><br>
+						<button type='button' class='full-width' id='edit-delete-image' style='display:none;'>Löschen</button><br>
+					</div>						
+				</div><br>
+
+				".getContactEditTemplate($data)."<br>
+				".getAddressEditTemplate($data)."<br>
+				".getStudyEditTemplate($data)."<br>
+				".getMemberEditTemplate($data)."<br>
+				
+				<h2>Kommentare</h2>
+				<div class='panel'>
+					<textarea name='Contact-comment' rows='4'>".$data['info']->comment."</textarea>
+				</div>
+
+			</div>
+			<div id='popup-footer'>
+				
+				<button type='submit' name='edit' value='".$data['info']->id."'>Speichern</button> 
+				<button type='submit' name='delete' value='".$data['info']->id."' id='edit-delete'>Löschen</button> 
+
+				<button type='button' onclick=\"popup_close('".$dialog."');\">Abbrechen</button> 
+			</div>
+		</form>
+	</div>
+";
 
 
 echo $html;
