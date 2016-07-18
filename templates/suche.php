@@ -16,8 +16,8 @@ get_header();
 	<h1>Mitgliederliste</h1>
 
 <!-- Suchfeld + Suchbutton -->
+<form method="POST" id="form-suche" action="<?php echo get_template_directory_uri(); ?>/functions/suchfunktion/AcceptAjax.php">
 	<div class="panel">
-		<form method="POST" id="form-suche">
 			<table class="form">
 				<tr>
 					<td class="search-box-cell">
@@ -36,7 +36,6 @@ get_header();
 					</td>
 				</tr>
 			</table>
-		</form>
 	</div><!-- /panel -->
 
 
@@ -46,7 +45,6 @@ get_header();
 		
 	<!-- Sortieren -->
 		<div class='panel'>
-			<form method='POST' id='form-sortieren'>
 				<h2>Sortieren nach:</h2>
 				<table >
 					<tr>
@@ -81,14 +79,12 @@ get_header();
 						</td>
 					</tr>
 				</table>
-			</form>
 		</div><!-- /panel -->
 	
 
 	
 	<!-- Filter -->
 		<div class = "panel filter">
-			<form method="POST">
 				<h2>Filtern nach:</h2>
 
 
@@ -158,13 +154,12 @@ get_header();
 ?>
 
 			
-				<input type="hidden" name="templateDirectory" id="templateDirectory" value="<?php echo get_template_directory_uri(); ?>">
+				<input type="hidden" disabled name="templateDirectory" id="templateDirectory" value="<?php echo get_template_directory_uri(); ?>">
 
 				<button type="button" onclick="ajax_post();" class="full-width">Aktualisieren</button>
-			</form>
 		</div><!-- /panel -->
 	</div><!-- /sidebar -->
-	
+	</form>
 
 	<main class="container">
 		<div class="panel actions">					

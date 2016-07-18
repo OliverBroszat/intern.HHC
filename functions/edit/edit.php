@@ -41,8 +41,8 @@ $html = "
 						".$data['image']."
 					</div>
 					<div class='edit-image-buttons'>
-						<input type='file' class='full-width' id='edit-upload-image' placeholder='Upload' name='upload-image'><br>
-						<button type='button' class='full-width' id='edit-delete-image' style='display:none;'>Löschen</button><br>
+						<input type='file' class='full-width' id='edit-upload-image' placeholder='Upload' name='upload-image'>
+						<button type='button' class='full-width' id='edit-delete-image' style='display:none;'>Löschen</button>
 					</div>						
 				</div><br>
 
@@ -59,7 +59,7 @@ $html = "
 			</div>
 			<div id='popup-footer'>
 				
-				<button type='submit' name='edit' value='".$data['info']->id."'>Speichern</button> 
+				<button id='edit_save' type='submit' name='edit' value='".$data['info']->id."'>Speichern</button> 
 				<button type='submit' name='delete' value='".$data['info']->id."' id='edit-delete'>Löschen</button> 
 
 				<button type='button' onclick=\"popup_close('".$dialog."');\">Abbrechen</button> 

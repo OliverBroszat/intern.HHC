@@ -23,10 +23,10 @@ require_once("$root/functions/suchfunktion/createHTML.php");
 
 // Filter
 $filter = array(
-	"Ressort.name" => explode(',', $_POST['ressort_list']),
-	"Member.position" => explode(',', $_POST['position_list']),
-	"Member.active" => explode(',', $_POST['status_list']),
-	"Study.school" => explode(',', $_POST['uni_list'])
+	"Ressort.name" => $_POST['f_ressort_list'],
+	"Member.position" => $_POST['f_position_list'],
+	"Member.active" => $_POST['f_status_list'],
+	"Study.school" => $_POST['f_uni_list']
 );
 
 
@@ -93,6 +93,11 @@ $html = createHTML($final);
 
 $number = count($final);
 
-echo $number.'\\n'.$html;
+$return = array(
+	'number' => $number,
+	'html' => $html
+);
+
+print json_encode($return);
 
 ?>

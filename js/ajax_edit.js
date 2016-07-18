@@ -60,12 +60,38 @@ $(document).on('click', '#edit-delete', function(event){
             // Schließe den Dialog
             popup_close();
             // submit form
-            $('#edit-form').append($("<input>").attr("type", "hidden").attr("name", "delete").val(id));
-            $('#edit-form').submit();
+            setTimeout(function() {
+	            $('#edit-form').append($("<input>").attr("type", "hidden").attr("name", "delete").val(id));
+	            $('#edit-form').submit();
+	        }, 200);
         },
         function() {
             // Schließe nur das Popup
             popup_close();
         }
     );
+});
+
+
+
+// DO THE EDIT
+$( document ).on('submit', '#edit-form', function( event ) {
+	event.preventDefault();
+
+	$('.edit .popup-content').addClass('modal');
+	$('.edit .popup-content-outer').center();
+
+	var form = $( this )
+	var url = form.attr( "action" );
+	
+	// Send the data using post
+	$.post( url, form.serialize(), function( data ) {
+		setTimeout(function() {
+			// Debug Output
+			$(".edit .popup-content").html(data);
+			$('.edit .popup-content').removeClass('modal');
+			$('.edit .popup-content-outer').center();
+			$('.edit .popup-content').prepend("<button type='button' onclick='popup_close(); ajax_post()'>Schließen</button>");
+		}, 100);
+	});
 });

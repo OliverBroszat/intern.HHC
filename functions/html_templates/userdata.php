@@ -98,7 +98,7 @@ function getContactEditTemplate($data) {
 				<input type='text' name='Contact-first_name' placeholder='Vorname' required minlength='2' value='".extractData($data['info'], 'first_name')."'/>
 			</td>
 			<td width='40%'>
-				<input type='text' name='Contact-last_name' placeholder='Nachname' value='".extractData($data['info'], 'last_name')."'/>
+				<input type='text' name='Contact-last_name' placeholder='Nachname' required minlength='2' value='".extractData($data['info'], 'last_name')."'/>
 			</td>
 		</tr>
 		<tr>
@@ -339,7 +339,7 @@ function getMemberEditTemplate($data) {
 					</td>
 					<td colspan='2'>
 		                Ressort*: 
-						<select name='Member-ressort'>
+						<select name='Member-ressort' required>
 							<option disabled selected value class='placeholder'>Ressort</option>
 	";
 
