@@ -64,6 +64,7 @@ $search_select = array(
 // Für den LIKE Operator
 $search_range = array( 
   'Contact' => array( 
+    'id',
     'first_name', 
     'last_name' 
   ), 
@@ -78,36 +79,6 @@ $search_range = array(
     'course' 
   ) 
 ); 
-
-	// Für den SELECT Operator
-	$search_select = array(
-		'Contact' => array(
-			'id',
-			'prefix',
-			'first_name',
-			'last_name',
-			'birth_date',
-			'comment'
-		),
-		'Ressort' => array(
-			'name'
-		),
-		'Member' => array(
-			'active',
-			'position',
-			'joined',
-			'left'
-		)
-	);
-
-	// Für den LIKE Operator
-	$search_range = array(
-		'Contact' => array(
-			'id',
-			'first_name',
-			'last_name',
-		)
-	);
 
 // --------- Suchfunktionen ---------
 

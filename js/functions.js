@@ -31,11 +31,15 @@ jQuery.fn.center = function () {
 
 // change color of placeholder option 
 
-$(document).ready(function() {
+function placeholder_color(){
     var $select = $('select');
     $select.each(function() {
         $(this).addClass($(this).children(':selected').attr('class'));
     }).on('change', function(ev) {
         $(this).attr('class', '').addClass($(this).children(':selected').attr('class'));
     });
+}
+
+$(document).ready(function() {
+    placeholder_color();
 });

@@ -167,29 +167,27 @@ get_header();
 	
 
 	<main class="container">
-		<form method='POST'>
-			<div class="panel actions">					
+		<div class="panel actions">					
 
-				<button type='button' id='new-entry' value='new' onclick='edit(this.value);'>Neu</button>
+			<button type='button' id='new-entry' value='new' onclick='edit(this.value);'>Neu</button>
 
-				<button type='button' onclick='edit_multi()'>Edit selected</button>
+			<button type='button' onclick='edit_multi()'>Edit selected</button>
 
-				<button type='button' onclick='select_all()'>Select/Deselect all</button>
+			<button type='button' onclick='select_all()'>Select/Deselect all</button>
 
-			</div><!-- /panel -->
+		</div><!-- /panel -->
 
 
-	<!--  Suchergebnisse -->
-			<div class='panel'>
-				
-					<h2 id='search-results-title'>Suchergebnisse (0)</h2>
-					<div id='list-container'>
-						<!--<div class="modal"> Place at bottom of page </div>-->
-						<?php echo $html ?>
-					</div>
-				
-			</div><!-- /panel -->
-		</form>
+<!--  Suchergebnisse -->
+		<div class='panel'>
+			
+				<h2 id='search-results-title'>Suchergebnisse (0)</h2>
+				<div id='list-container'>
+					<!--<div class="modal"> Place at bottom of page </div>-->
+					<?php echo $html ?>
+				</div>
+			
+		</div><!-- /panel -->
 	</main>
 	
 </div><!-- /outer -->

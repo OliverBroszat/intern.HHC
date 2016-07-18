@@ -29,6 +29,8 @@ $query = "
 				UNION 
 				SELECT last_name, first_name, last_name FROM Contact
 				UNION 
+				SELECT id, NULL, NULL FROM Contact
+				UNION 
 				SELECT city, NULL, NULL FROM Address
 				UNION 
 				SELECT postal, NULL, NULL FROM Address

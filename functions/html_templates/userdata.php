@@ -324,6 +324,7 @@ function getMemberEditTemplate($data) {
 					<td width='50%'>
 						Status*:
 						<select name='Member-active'>
+							<option disabled selected value class='placeholder'>Status</option>
 	";
 	// Status
 	$status = array('0', '1');
@@ -339,6 +340,7 @@ function getMemberEditTemplate($data) {
 					<td colspan='2'>
 		                Ressort*: 
 						<select name='Member-ressort'>
+							<option disabled selected value class='placeholder'>Ressort</option>
 	";
 
 	// Ressort
@@ -359,6 +361,7 @@ function getMemberEditTemplate($data) {
 					<td>
 						Position*:
 						<select name='Member-position'>
+							<option disabled selected value class='placeholder'>Position</option>
 	";
 
 	// Position

@@ -17,6 +17,7 @@ function edit(id){
 			setTimeout(function(){
 				
 				$('.edit .popup-content').html(data);
+				placeholder_color();
 
 				// Center Popup again after loading. Needs some kind of delay (?)
 				setTimeout(function(){
