@@ -20,9 +20,9 @@ function edit(id){
 				placeholder_color();
 
 				// Center Popup again after loading. Needs some kind of delay (?)
-				setTimeout(function(){
-					$(".edit .popup-content-outer").center();
-				}, 0);
+				// setTimeout(function(){
+				// 	$(".edit .popup-content-outer").center();
+				// }, 0);
 				
 				// $('#edit-form').validate();
 				
@@ -37,18 +37,18 @@ function edit(id){
 	});
 }
 
-$(document).on('click', '#edit-delete-image', function(){
-	$('.edit-image-image a').remove();
-	$('#edit-delete-image').hide();
-	$('#edit-upload-image').show();
 
+
+// SAVE
+$(document).on('click', '#edit-save', function(event){
+	event.preventDefault();
+	var id = $(this).val();
+	$('#edit-form').append($("<input>").attr("type", "hidden").attr("name", "edit").val(id));
+    $('#edit-form').submit();
 });
 
-$(document).on('click', '#edit-upload-image', function(){
 
-});
-
-
+// DELETE
 $(document).on('click', '#edit-delete', function(event){
 	event.preventDefault();
 	
@@ -73,16 +73,16 @@ $(document).on('click', '#edit-delete', function(event){
 });
 
 
-
-// DO THE EDIT
+// SUBMIT FORM
 $( document ).on('submit', '#edit-form', function( event ) {
 	event.preventDefault();
-
-	$('.edit .popup-content').addClass('modal');
-	$('.edit .popup-content-outer').center();
-
+	
 	var form = $( this )
 	var url = form.attr( "action" );
+
+	$('.edit .popup-content').addClass('modal');
+	// $('.edit .popup-content-outer').center();
+
 	
 	// Send the data using post
 	$.post( url, form.serialize(), function( data ) {
@@ -90,8 +90,22 @@ $( document ).on('submit', '#edit-form', function( event ) {
 			// Debug Output
 			$(".edit .popup-content").html(data);
 			$('.edit .popup-content').removeClass('modal');
-			$('.edit .popup-content-outer').center();
-			$('.edit .popup-content').prepend("<button type='button' onclick='popup_close(); ajax_post()'>Schließen</button>");
+			// $('.edit .popup-content-outer').center();
 		}, 100);
 	});
+
+});
+
+
+
+// IMAGE
+$(document).on('click', '#edit-delete-image', function(){
+	$('.edit-image-image a').remove();
+	$('#edit-delete-image').hide();
+	$('#edit-upload-image').show();
+
+});
+
+$(document).on('click', '#edit-upload-image', function(){
+
 });

@@ -22,12 +22,12 @@ function dialog(message, yesCallback, noCallback) {
 
 // Center-Function
 
-jQuery.fn.center = function () {
-    this.css("position","absolute");
-    this.css("top", Math.max(0, (($(window).height() - $(this).outerHeight()) / 2) + $(window).scrollTop()) + "px");
-    this.css("left", Math.max(0, (($(window).width() - $(this).outerWidth()) / 2) + $(window).scrollLeft()) + "px");
-    return this;
-}
+// jQuery.fn.center = function () {
+//     this.css("position","absolute");
+//     this.css("top", Math.max(0, (($(window).height() - $(this).outerHeight()) / 2) + $(window).scrollTop()) + "px");
+//     this.css("left", Math.max(0, (($(window).width() - $(this).outerWidth()) / 2) + $(window).scrollLeft()) + "px");
+//     return this;
+// }
 
 // change color of placeholder option 
 
@@ -43,3 +43,40 @@ function placeholder_color(){
 $(document).ready(function() {
     placeholder_color();
 });
+
+
+function select_option(id_base, data, key) {
+    // for each Studienprofil
+    for (var i = 0; i < data.length; i++) {
+        
+        var id = id_base + (i + 2);
+        var value = data[i][key];                   
+        var options = $('#' + id + ' option');
+        var inList = false;
+        
+        // for each option in the select-input
+        for (var j = 1; j < options.length; j++) {      
+            // check value
+            if (options[j].value == value ) {
+                // set value
+                $('#' + id).val(options[j].value);
+                inList = true;
+            }
+        }
+        
+        // value is not one of the options
+        if (value == '' || value == null) {
+            $('#' + id).val(null);
+        }
+        else if (!inList) {
+            // set value to 'other'
+            $('#' + id).val('other');
+            
+            // show hiddenDiv with value
+            var hiddenDiv = $('#hidden_div-'+ id)
+            hiddenDiv.val(value);
+            hiddenDiv.show();
+            hiddenDiv.prop( 'disabled', false );
+        }
+    }
+}

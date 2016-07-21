@@ -59,8 +59,8 @@ $html = "
 			</div>
 			<div id='popup-footer'>
 				
-				<button id='edit_save' type='submit' name='edit' value='".$data['info']->id."'>Speichern</button> 
-				<button type='submit' name='delete' value='".$data['info']->id."' id='edit-delete'>Löschen</button> 
+				<button type='submit' id='edit-save' name='edit' value='".$data['info']->id."'>Speichern</button> 
+				<button type='submit' id='edit-delete' name='delete' value='".$data['info']->id."' >Löschen</button> 
 
 				<button type='button' onclick=\"popup_close('".$dialog."');\">Abbrechen</button> 
 			</div>

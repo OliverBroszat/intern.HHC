@@ -17,9 +17,9 @@ require_once(get_template_directory().'/functions/html_templates/userdata.php');
 		<td style='vertical-align: top;'>
 			<select name='Study-status[]' id='study_status_%%FULL-ID%%'>
 				<option disabled selected value class='placeholder'>Status</option>
-				<option value='active' %%DATA-status_active%%>Aktiv</option>
-				<option value='done' %%DATA-status_done%%>Abgeschlossen</option>
-				<option value='cancelled' %%DATA-status_cancelled%%>Abgebrochen</option>
+				<option value='active'>Aktiv</option>
+				<option value='done'>Abgeschlossen</option>
+				<option value='cancelled'>Abgebrochen</option>
 			</select>
 		</td>
 	</tr>
@@ -75,7 +75,7 @@ require_once(get_template_directory().'/functions/html_templates/userdata.php');
 				<option value='Universität Köln' %%DATA-checked-KOELN%%>Universität Köln</option>
 				<option value='FOM' %%DATA-checked-FOM%%>FOM</option>
 				<option value='Bergische Universität Wuppertal' %%DATA-checked-WUPPERTAL%%>Bergische Universität Wuppertal</option>
-				<option value='other' %%DATA-checked-OTHER%%>andere...</option>
+				<option value='other' %%DATA-checked-OTHER%%>andere Universität...</option>
 			</select>
 		</td>
 		<td width='40%' style='vertical-align:top;'>

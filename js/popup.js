@@ -53,7 +53,7 @@ function popup(content, name, title) {
 
     $("#popup-" + id + " .popup-wrapper").fadeIn(100);
 
-    $("#popup-" + id + " .popup-content-outer").center();
+    // $("#popup-" + id + " .popup-content-outer").center();
 
     // Popup kann mit der Maus bewegt werden. Funktioiniert nicht mit Touch. Ist noch etwas buggy in Kompination mit CSS-Transformations
     $("#popup-" + id + " .popup-content-outer").draggable();
@@ -112,8 +112,8 @@ function image_popup(href, event) {
     popup("<img src='" + href + "'><div class='close' onclick='popup_close()'>&#215;</div>", "image");
 
     // Center popup again after image is loaded
-    $(".image .popup-content img").on("load", function() {
-        $(".image .popup-content-outer").center();
-    });
+    // $(".image .popup-content img").on("load", function() {
+    //     $(".image .popup-content-outer").center();
+    // });
 
 }

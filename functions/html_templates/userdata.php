@@ -148,29 +148,7 @@ function getContactEditTemplate($data) {
 
 
 function getAddressEditTemplate($data) {
-	/*
-	// TEST WERTE FÜR DATA
-	$data['address'] = array(
-		array(
-			'addr_description' => 'Alte Adresse',
-			'street' => 'Ackerstraße',
-			'number' => '109',
-			'addr_extra' => '',
-			'postal' => '40233',
-			'city' => 'Düsseldorf'
-		),
-		array(
-			'addr_description' => 'Neue Adresse',
-			'street' => 'Gilbachstraße',
-			'number' => '9',
-			'addr_extra' => '',
-			'postal' => '40219',
-			'city' => 'Düsseldorf'
-		)
-	);
-	*/
-
-	$resl = "<h2>Adressen</h2>
+		$resl = "<h2>Adressen</h2>
 
 		<div id='expandablecontent-address' class='expandablecontent-container'></div>
 		<script src='".get_template_directory_uri()."/js/expandable_list.js'>
@@ -231,41 +209,6 @@ function getStudyEditTemplate($data) {
 			var tmp_study = `$study_tmp`;
 			setup_expandablecontent('expandablecontent-study', 'study', tmp_study, ".toJSArrayString($data['studies']).", 1);
 			
-
-
-			function select_option(id_base, data, key) {
-				// for each Studienprofil
-				for (var i = 0; i < data.length; i++) {
-					
-					var id = id_base + (i + 2);
-					var value = data[i][key];
-					
-					var options = $('#' + id + ' option');
-					var inList = false;
-					
-					// for each option in the select-input
-					for (var j = 1; j < options.length - 1; j++) { 		
-						// check value
-						if (options[j].value == value ) {
-							// set value
-							$('#' + id).val(options[j].value);
-							inList = true;
-						}
-					}
-					
-					// value is not one of the options
-					if (!inList) {
-						// set value to 'other'
-						$('#' + id).val('other');
-						
-						// show hiddenDiv with value
-						var hiddenDiv = $('#hidden_div-'+ id)
-						hiddenDiv.val(value);
-						hiddenDiv.show();
-						hiddenDiv.prop( 'disabled', false );
-					}
-				}
-			}
 
 
 			var data = " . toJSArrayString($data['studies']) . ";

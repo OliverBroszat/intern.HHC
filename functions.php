@@ -259,6 +259,7 @@ if (!function_exists('arr_to_list')) {
 			    	color: #000;
 			    	padding: 4px;
 	    			margin-left: 40px;
+	    			overflow: auto;
 				}
 				.arr_to_list > ul {
 					margin: 0;
@@ -321,9 +322,9 @@ function unset_value_in_2d_array($array, $needle) {
 
 	$result = search_in_2d_array($array, $needle);
 
-	foreach ($result as $result) {
-		$key = $result['key'];
-		$index = $result['index'];
+	foreach ($result as $res) {
+		$key = $res['key'];
+		$index = $res['index'];
 
 		unset($array[$key][$index]);
 		$array[$key] = array_values($array[$key]);

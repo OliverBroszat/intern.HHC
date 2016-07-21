@@ -10,9 +10,9 @@ require_once("$root/wp-load.php");
 
 
 
-echo "<h1>DEBUG-Output</h1>";
-echo "<h2 style='color: #f00;'>Achtung! Neuladen der Seite wird die SQL-Befehle erneut ausführen!</h2>";
-
+echo "<button type='button' onclick='popup_close(); ajax_post()' style='margin: 1rem auto; display: block;'>Schließen</button>";
+echo "<hr>";
+echo "<h2>DEBUG-Output</h2>";
 
 
 
@@ -29,6 +29,7 @@ $post_clean = unset_value_in_2d_array($_POST, 'other');
 // Wandele POST in einen geordneteren Array um
 $data = post_to_array($post_clean);
 
+echo "<b>Operation:</b> ";
 
 // Call SQL-Functions for each Data-Set
 if(!empty($_POST['edit'])) {
@@ -58,7 +59,7 @@ if(!empty($_POST['edit'])) {
 	}
 }
 elseif(!empty($_POST['delete']) && $table != 'delete') {
-	echo 'DELETE ';
+	echo "DELETE ";
 	$id = $_POST['delete'];
 	delete_member($id);
 }
@@ -81,7 +82,6 @@ else {
 				if ($table == 'Contact') 	{ 
 					$new_id = $wpdb->insert_id;
 				}
-				echo $table . ': ' . $new_id . '<br />';
 			}
 		}
 	}
@@ -105,8 +105,22 @@ if (!empty($id)) {
 }
 
 
-echo "<hr>";
 
+
+echo "<br><b>Errors:</b> ";
+if (!empty($wpdb->last_error)) {
+	echo "<pre>".$wpdb->last_error."</pre>";
+}
+else {
+	echo "NO ERRORS";
+}
+
+
+echo "<br><b>Contact-ID:</b> $id";
+
+
+
+echo "<br><b>Image-Operation:</b> ";
 if (!empty($_FILES['upload-image']['name'])) {
 	// upload new Image
 	echo "NEW IMAGE";
@@ -120,30 +134,8 @@ else {
 	echo "NO IMAGE";
 }
 
-
-
-
-
-
-// DEBUG Output
-
-
-echo "<h3>Errors</h3>";
-$wpdb->show_errors();
-$wpdb->print_error();
-// echo $wpdb->last_error;
-
-echo "<h3>Queries</h3>";
- echo "<pre>";
-print_r($wpdb->queries);
-echo "</pre>";
-
-echo "<hr>";
-
-echo "<h3>IDs etc.</h3>";
-echo "Contact-ID: $id <br>";
-echo "Image-id: $attachment_id <br>";
-echo "Image-src: $imgsrc_thumb <br>";
+echo "<br><b>Image-id:</b> $attachment_id <br>";
+echo "<b>Image-src:</b> $imgsrc_thumb <br>";
 // echo "Image: <img src='$imgsrc_thumb' class='profile-picture' alt='Profilbild' /> <br>";
 
 echo "<hr>";
@@ -155,5 +147,14 @@ echo "<hr>";
 
 echo "<h3>Files</h3>";
 arr_to_list($_FILES);
+
+echo "<hr>";
+
+echo "<h3>Queries</h3>";
+echo "<pre>";
+print_r($wpdb->queries);
+echo "</pre>";
+
+echo "<hr>";
 
 ?>
