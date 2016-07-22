@@ -9,6 +9,7 @@ $root_uri = get_template_directory_uri();
 $root = get_template_directory();
 
 require_once("$root/functions/main_functions.php");
+require($root."/autoloader.php");
 
 global $user_ID;
 
