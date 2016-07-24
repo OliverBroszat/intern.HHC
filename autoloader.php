@@ -15,12 +15,13 @@
  * __autoload($dateiname);
  */
 
-function __autoload($class_name)
+function autoload($class_name)
 {
     /**
      * Hier müssen alle Ordner angegeben werden,
      * die nach den benötigten Dateien durchsucht werden sollen.
      */
+    echo '******';
     $directorys = array(
         'functions/',
         'functions/rechteSystem/',
@@ -28,7 +29,8 @@ function __autoload($class_name)
         'functions/edit/',
         'functions/html_templates/',
         'functions/suchfunktion/',
-        'functions/register/'
+        'functions/register/',
+        'OOP/model/DataController/BaseDataController/'
     );
 
     //Jedes Verzeichnis soll überprüft werden
@@ -45,5 +47,7 @@ function __autoload($class_name)
         }
     }
 }
+
+spl_autoload_register('autoload');
 
 ?>
