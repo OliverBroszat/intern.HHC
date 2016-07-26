@@ -114,6 +114,7 @@ td {
 	float:left;
 	height:auto;
 	max-height: 180px;
+	margin-right: 0.5rem;
 }
 
 .edit-image-buttons{
@@ -153,7 +154,7 @@ td {
 }
 
 @media screen and (max-width: 960px){
-	#popup-edit {
+	.popup.edit {
 	    left: 0;
 	    top: 0;
 	    height: 100%;

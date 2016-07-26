@@ -39,7 +39,7 @@ function add_content(list_ID, withData) {
 }
 
 function replace_with_ID(template, list_ID, element_ID) {
-	var full_id = String(list_ID)+'$'+String(element_ID);
+	var full_id = String(list_ID)+'--'+String(element_ID);
 	return template.replace(/%%FULL-ID%%/g, full_id).replace(/%%LIST-ID%%/g, list_ID).replace(/%%ELEMENT-ID%%/g, element_ID);
 }
 

@@ -1,303 +1,308 @@
 /* --------- Allgemeine Styles --------- */
 
 * {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 body {
-    background-color: #f2f2f2;
-    color: #545D63;
-    margin: 0;
-    width: 100%;
+	background-color: #f2f2f2;
+	color: #545D63;
+	margin: 0;
+	width: 100%;
 }
 
 h1{
-    margin: 2rem 0 1rem;
+	margin: 2rem 0 1rem;
 }
 h2{
-    margin: 0 0 1rem;
+	margin: 0 0 1rem;
 }
 
 
 /* --------- Tabellen --------- */
 form, table, table.form{
-    background: auto;
-    margin: 0;
-    padding: 0;
-    box-shadow: none;
+	background: auto;
+	margin: 0;
+	padding: 0;
+	box-shadow: none;
 }
 
 table, table.form{
-    margin: 0 auto;
-    width: 100%;
+	margin: 0 auto;
+	width: 100%;
 }
 
 th{
-    background: #f6f7f9;
-    background: linear-gradient(to bottom,#fefefe 0,#f6f7f9 100%);
-    color: #4f4f4f;
+	background: #f6f7f9;
+	background: linear-gradient(to bottom,#fefefe 0,#f6f7f9 100%);
+	color: #4f4f4f;
 
-    border-bottom: 1px solid #cacaca;
+	border-bottom: 1px solid #cacaca;
 }
 
 .fix-content table{
-    border-collapse: collapse;
-    background-color: transparent;
-    border-style: hidden;
-    border-bottom-width: 1px;
-    margin: 1rem 0;
+	border-collapse: collapse;
+	background-color: transparent;
+	border-style: hidden;
+	border-bottom-width: 1px;
+	margin: 1rem 0;
 }
 
 
 .fix-content th, .fix-content td {
-    border: 1px solid transparent;
-    text-shadow: 0 1px 0 #fff;
-    vertical-align: middle;
+	border: 1px solid transparent;
+	text-shadow: 0 1px 0 #fff;
+	vertical-align: middle;
 }
 
 .search_results .fix-content tr:nth-child(odd) {
-    /* background-color: #f6f7f9; */
-    background: transparent;
+	/* background-color: #f6f7f9; */
+	background: transparent;
 }
 .search_results .fix-content tr:nth-child(even) {
-    /*background-color: #fff;*/
-    background: transparent;
+	/*background-color: #fff;*/
+	background: transparent;
 }
 
 .fix-content button{
-    font-size: 0.75rem;
+	font-size: 0.75rem;
 }
 
 table.liste .fix-content td.profile{
-    padding: 0;
-    vertical-align: top;
+	padding: 0;
+	padding-right: 0.25rem;
+	vertical-align: top;
 }
 
-.fix-content img.profile-picture {
-    height: auto;
-    width: 100%;
+img.profile-picture {
+	height: auto;
+	width: 100%;
+	border: 1px solid transparent;
+	/*box-shadow: 1px 2px 4px rgba(0,0,0,0.5);*/
+	transition: all 0.15s;
+}
+
+img.profile-picture:hover {
+    box-shadow: 2px 6px 10px rgba(0,0,0,0.35);
+	border: 1px solid #fff;
+}
+
+#form-suche td, #form-sortieren td{
+	padding: 0.25rem;
 }
 
 
 /* --------- Struktur-Elemente --------- */
 .full-width{
-    width: 100%;
+	width: 100%;
 }
 
 .outer{
-    width: 100%;
-    max-width: 960px;
-    margin: 0 auto 50px;
+	width: 100%;
+	max-width: 960px;
+	margin: 0 auto 50px;
 }
 
 .clearfix:after {
-    content: "";
-    display: table;
-    clear: both;
+	content: "";
+	display: table;
+	clear: both;
 }
 
 @media screen and (min-width: 1920px){
-    .outer{
-        max-width: 1280px;
-    }
+	.outer{
+		max-width: 1280px;
+	}
 }
 
 main.container {
-    padding-left: 24px;
-    width: 70%;
-    margin: 0 0 10rem;
-    float: right;
+	padding-left: 24px;
+	width: 70%;
+	margin: 0 0 10rem;
+	float: right;
 }
 
 .panel {
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08);
-    padding: 1.5rem;
+	background-color: #fff;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08);
+	padding: 1.5rem;
 }
 
 .panel:not(:last-child){
-    margin-bottom: 1rem;
+	margin-bottom: 1rem;
 }
 
 .panel.full-width{
-    border-radius: 0;
-    border-left: none;
-    border-right: 0;
+	border-radius: 0;
+	border-left: none;
+	border-right: 0;
 }
 
 .panel:after{
-    clear: both;
+	clear: both;
 }
 .sidebar{
-    width: 30%;
-    float: left;
-    margin-bottom: 1rem;
+	width: 30%;
+	float: left;
+	margin-bottom: 1rem;
 }
 
 .panel.filter{
-    padding: 0.75rem;
+	padding: 0.75rem;
 }
 .filter td{
-    padding: 0.15rem 0;
-    vertical-align: middle;
+	padding: 0.15rem 0;
+	vertical-align: top;
 }
 .filter table, .filter button{
-    margin-top: 1rem;
+	margin-top: 1rem;
+}
+
+.filter table table {
+    margin-top: 0;
 }
 
 .search-box-cell{
-   vertical-align: middle; 
-   position: relative;
+	vertical-align: middle; 
+	position: relative;
 }
 
 
 
 /* Search-Results */
 table.liste .fix-content td{
-    border: none;
+	border: none;
 }
 table.liste.search_results > tbody > tr:not(:last-child) {
-    border-bottom: 4px double #BABEC4;
+	border-bottom: 4px double #BABEC4;
 }
 
 /* --------- Buttons --------- */
 button {
-    appearance: none;
-    cursor: pointer;
+	appearance: none;
+	cursor: pointer;
 
-    font-family: inherit;
-    font-size: 1rem;
-    font-weight: bold;
-    text-decoration: none;
-    text-align: center;
-    vertical-align: middle; 
-    
-    position: relative;
-    display: inline-block;
-    margin: 0;
-    padding: 0.25rem 0.75rem;
+	font-family: inherit;
+	font-size: 1rem;
+	font-weight: bold;
+	text-decoration: none;
+	text-align: center;
+	vertical-align: middle; 
+	
+	position: relative;
+	display: inline-block;
+	margin: 0;
+	padding: 0.25rem 0.75rem;
 
-    background: #f6f7f9;
-    background: linear-gradient(to bottom,#fefefe 0,#f6f7f9 100%);
-    color: #4f4f4f;
-    
-    border-radius: 3px;
-    border: 1px solid #dadbdc;
-    border-color: #e0e0e0;
-    border-bottom-color: #cacaca;
+	background: #f6f7f9;
+	background: linear-gradient(to bottom,#fefefe 0,#f6f7f9 100%);
+	color: #4f4f4f;
+	
+	border-radius: 3px;
+	border: 1px solid #dadbdc;
+	border-color: #e0e0e0;
+	border-bottom-color: #cacaca;
 
-    box-shadow: 0px 1px 1px -1px rgba(0, 0, 0, 0.12), 0px 1px 0px rgba(255, 255, 255, 0.32) inset;  
+	box-shadow: 0px 1px 1px -1px rgba(0, 0, 0, 0.12), 0px 1px 0px rgba(255, 255, 255, 0.32) inset;
 }
 
 button:hover {
-    text-decoration: none;
-    background: #f6f7f9;
-    border-bottom-color: #c5c5c5;
-    background: linear-gradient(to bottom,#f9f9f9 0,#eeeff1 100%);
-    box-shadow: px 1px 1px -1px rgba(0, 0, 0, 0.25), 0px 1px 0px rgba(255, 255, 255, 0.75) inset;  
+	text-decoration: none;
+	background: #f6f7f9;
+	border-bottom-color: #c5c5c5;
+	background: linear-gradient(to bottom,#f9f9f9 0,#eeeff1 100%);
+	box-shadow: px 1px 1px -1px rgba(0, 0, 0, 0.25), 0px 1px 0px rgba(255, 255, 255, 0.75) inset;
 }
 
-button:focus{
-    outline: 0;
-}
+/*button:focus{
+	outline: 0;
+}*/
 
-button.search {
-    padding: 0.5rem 0.5rem;
-}
 
 th button.sort{
-    padding: 0.25rem 0.5rem;
+	padding: 0.25rem 0.5rem;
 }
 
 #sidebar-toggle{
-    margin-bottom: 1rem;
-    display: none;
-}
-
-
-select#sort{
-    width: calc(70% - 2*1px);
-}
-select#order{
-    width: calc(30% - 2*1px);
+	/* margin-bottom: 1rem; */
+	display: none;
 }
 
 /*--------- Search Suggestions --------- */
 #suggestions{
-    position:absolute;
-    bottom: calc(100% - 0.5rem);
-    width: calc(100% - 1rem);
-    max-height: 7rem;
-    overflow-y: auto;
-    padding: 0;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-bottom: none;
-    border-radius: 0.2rem;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-    display: none;
+	position:absolute;
+	bottom: calc(100% - 0.25rem);
+	width: calc(100% - 0.5rem);
+	max-height: 7rem;
+	overflow-y: auto;
+	padding: 0;
+	background-color: #fff;
+	border: 1px solid #ccc;
+	border-bottom: none;
+	border-radius: 0.2rem;
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
+	display: none;
 }
 #suggestions.show {
-    display: block;
+	display: block;
 }
 
 .suggestion{
-    padding: 0.2rem 0.5rem;
+	padding: 0.2rem 0.5rem;
 }
 .suggestion:hover{
-    cursor: default;
-    background-color: #eee;
+	cursor: default;
+	background-color: #eee;
 }
 
 
 /*--------- Verschiedenes --------- */
 .status{
-    width: 1rem;
-    height: 1rem;
-    border-radius: 50%;
+	width: 1rem;
+	height: 1rem;
+	border-radius: 50%;
 }
 
 .status.Aktiv {
-    background: #88B688;   
+	background: #88B688; 
 }
 .status.Passiv {
-    background: #B68888;
+	background: #B68888;
 }
 
 
 /* CSS für Lade-GIF wenn AJAX Call läuft */
 .modal:after {
-    content: "";
-    display: block;
-    width: 100%;
-    height: 2rem;
-    background-color: red;
-    background: 
-                url('../resources/gif/ajax-loader.gif') 
-                50% 50% 
-                no-repeat;
-    margin: 2rem auto;
+	content: "";
+	display: block;
+	width: 100%;
+	height: 31px;
+	background: 
+				url('../resources/gif/ajax-loader.gif') 
+				50% 50% 
+				no-repeat;
+	margin: 2rem auto;
 }
 
 .modal * {
-    display: none;
+	display: none;
 }
 
 /* When the body has the loading class, we turn
-   the scrollbar off with overflow:hidden */
+ the scrollbar off with overflow:hidden */
 body.loading {
-    overflow: hidden;   
+	overflow: hidden; 
 }
 
 /* Anytime the body has the loading class, our
-   modal element will be visible */
+ modal element will be visible */
 body.loading .modal {
-    display: block;
+	display: block;
 }
 
 
@@ -306,9 +311,9 @@ body.loading .modal {
 /* Detail-Content */
 
 .list-entry table{
-    border-collapse: collapse;
-    border: none;
-    background: transparent;
+	border-collapse: collapse;
+	border: none;
+	background: transparent;
 }
 
 .list-entry .data-block{
@@ -316,98 +321,144 @@ body.loading .modal {
 }
 
 .list-entry .data-set{
-    margin-bottom: 1rem;
-    background-color: #fff;
-    padding: 0.5rem;
-    border: 1px solid #e0e0e0;
+	margin-bottom: 1rem;
+	background-color: #fff;
+	padding: 0.5rem;
+	border: 1px solid #e0e0e0;
 }
 
 table.liste tr:nth-child(even) .list-entry .data-set{
-    background-color: #f6f7f9;
+	background-color: #f6f7f9;
 }
 
 .list-entry .data-set tr:nth-child(even){
-    background-color: transparent;
+	background-color: transparent;
 }
 
 .list-entry .data-set tr:nth-child(odd){
-    background-color: transparent;
+	background-color: transparent;
 }
 
 .list-entry .data-set tr:not(:last-child){
-    border-bottom: 1px solid #e0e0e0;
+	border-bottom: 1px solid #e0e0e0;
 }
 
 
 .list-entry .data-set td, .list-entry .data-set th{
-    border: none;
-    vertical-align: top;
+	border: none;
+	vertical-align: top;
 }
 
 
 
 .list-entry .data-set-title{
-    display: inline-block;
-    font-weight: bold;
-    margin-bottom: 0.5rem;
+	display: inline-block;
+	font-weight: bold;
+	margin-bottom: 0.5rem;
 }
 
 .list-entry .scroll-list{
-    max-height: 4rem;
-    overflow-y: auto;
+	max-height: 4rem;
+	overflow-y: auto;
 }
 .list-entry .data-row{
 
 }
 
 .list-entry a:hover{
-    text-decoration: underline;
+	text-decoration: underline;
 }
 
 /* Detail Content Tabs */
 
 .ui-widget-content{
-    border-radius: 0;
-    border: 0;
-    margin: 0;
-    padding: 0;
-    background-color: transparent;
-    margin-bottom: 1rem;
+	border-radius: 0;
+	border: 0;
+	margin: 0;
+	padding: 0;
+	background-color: transparent;
+	margin-bottom: 1rem;
 }
 
 
 .ui-widget-header{
-    border-radius: 0;
-    border: none;
-    background-color: transparent;
-    margin: 0;
-    padding: 0;
+	border-radius: 0;
+	border: none;
+	background-color: transparent;
+	margin: 0;
+	padding: 0;
 }
 .ui-tabs .ui-tabs-nav{
-    padding: 0;
+	padding: 0;
 }
 
 .ui-tabs .ui-tabs-panel{
-    background-color: #fff;
-    border: 1px solid #e0e0e0;
-    min-height: 10rem;
+	background-color: #fff;
+	border: 1px solid #e0e0e0;
+	min-height: 10rem;
 }
 
 table.liste tr:nth-child(even) .ui-tabs-panel {
-    background-color: #f6f7f9;
+	background-color: #f6f7f9;
 }
 
 table.liste tr:nth-child(even) .ui-tabs-active{
-    background-color: #f6f7f9;
+	background-color: #f6f7f9;
 }
 
 .ui-widget-header .ui-state-default{
-    border: 1px solid #e0e0e0;
+	border: 1px solid #e0e0e0;
 }
 
 .ui-state-default a:focus{
-    outline: 0;
+	outline: 0;
 }
+
+/*--------- Popup Image --------- */
+#popup-image{
+
+	background-color: #fff;
+	position: fixed;
+	z-index: 100;
+	top: calc(50%);
+	left: calc(50%);
+	-webkit-transform: translate(-50%, -50%);
+	display: none;
+	border-radius: 0;
+    box-shadow: 2px 5px 20px rgba(0, 0, 0, 0.5);
+    padding: 0.5rem;
+}
+
+#popup-image img{
+	max-width: 640px;
+	max-height: 640px;
+	width: auto;
+	height: auto;
+	cursor: pointer;
+}
+
+#popup-image .close {
+	width: 3rem;
+	height: 3rem;
+	line-height: 2.75rem;
+	font-size: 3rem;
+	background: #fff;
+	position: absolute;
+	top: -1rem;
+	right: -1rem;
+	text-align: center;
+	vertical-align: middle;
+	border-radius: 50%;
+	box-shadow: 0px 2px 4px rgba(0,0,0,0.5);
+	cursor: pointer;
+	transition: all 0.15s ease;
+}
+
+#popup-image .close:hover {
+	color: #8F3D3D;
+	box-shadow: 0px 6px 8px -1px rgba(0,0,0,0.3);
+}
+
 
 
 
@@ -453,31 +504,81 @@ table.liste tr:nth-child(even) .ui-tabs-active{
 
 /*--------- Media Queries --------- */
 @media screen and (max-width: 960px){
-    .sidebar, main.container{
-        width: 100%;
-        max-width: 100%;
-        border-radius: 0;
-        border-left: none;
-        border-right: none;
-        margin-left: 0;
-        margin-right: 0;
-        padding-right: 0;
-        padding-left: 0;
-    }
-    .sidebar{
-        display: none;
-    }
-    #sidebar-toggle{
-        display: block;
-    }
+	.outer{
+		max-width: 720px;
+	}
+	.sidebar, main.container{
+		width: 100%;
+		max-width: 100%;
+		border-radius: 0;
+		border-left: none;
+		border-right: none;
+		margin-left: 0;
+		margin-right: 0;
+		padding-right: 0;
+		padding-left: 0;
+	}
 }
 
-@media screen and (max-width: 360px) {
-    select#sort, select#order{
-        width: 100%;
-    }
+@media screen and (max-width: 720px){
+	.outer{
+		width: 100%;
+		padding: 0 0.5rem;
+	}
+	.sidebar{
+		display: none;
+		background-color: #fff;
+		border: 1px solid #ddd;
+		border-top: 0;
+		border-radius: 4px;
+		box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08);
+		padding: 1.5rem;
+		border-top-left-radius: 0;
+		border-top-right-radius: 0;
+	}
+	.sidebar .panel{
+		border: none;
+		box-shadow: none;
+		border-radius: 0;
+	}
+	#sidebar-toggle{
+		display: block;
+		margin-bottom: 1rem
+	}
+	#sidebar-toggle.show{
+		margin-bottom: 0;
+		border-bottom-left-radius: 0;
+		border-bottom-right-radius: 0;
+	}
 
-    #form-suche td{
-        display: block;
-    }
+	#popup-image{
+		width: 90%;
+		padding: 1rem;
+	}
+
+	#popup-image img{
+		max-width: none;
+		max-height: 100%;
+		width: 100%;
+	}
+
+}
+
+@media screen and (max-width: 480px) {
+	.panel{
+		padding-left: 0;
+		padding-right: 0;
+	}
+
+	table.liste th, table.liste td{
+		border-left: 0;
+		border-right: 0;
+	}
+
+	select#sort, select#order{
+		width: 100%;
+	}
+	#form-suche td, #form-sortieren td{
+		display: block;
+	}
 }

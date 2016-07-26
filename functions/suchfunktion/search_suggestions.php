@@ -19,7 +19,7 @@ if(in_array($_SERVER['REMOTE_ADDR'], $localhost)){
 require_once("$root/wp-config.php");
 
 
-$search_text = explode(" ", trim($_POST["search_text"]));
+$search_text = preg_split("/[\s,]+/", trim($_POST["search_text"]));
 
 
 // ---------- SQL Abfrage ---------- 
@@ -35,7 +35,7 @@ $query = "
 				UNION 
 				SELECT city, NULL, NULL FROM Address
 				UNION 
-				SELECT school, NULL, NULL FROM Study
+				SELECT postal, NULL, NULL FROM Address
 				UNION 
 				SELECT course, NULL, NULL FROM Study
 				UNION 
@@ -70,6 +70,8 @@ foreach ($result as $index) {
 	}
 }
 
+// Delete Duplicates
+$suggest = array_unique($suggest);
 
 // ---------- Suchwort in Suchvorschlag markieren und ausgeben ---------- 
 
@@ -78,10 +80,10 @@ foreach ($suggest as $value) {
 	$pos = stripos($value, $search_text[0]);
 	$pos_end = $pos + strlen($search_text[0]);
 
-	$value = substr_replace($value, '</b>', $pos_end, 0);
-	$value = substr_replace($value, '<b>', $pos, 0);
+	$value_marked = substr_replace($value, '</b>', $pos_end, 0);
+	$value_marked = substr_replace($value_marked, '<b>', $pos, 0);
 
-	echo "<div class = 'suggestion' onclick='add_to_search_box(this.innerHTML)'>".strip_tags($value)."</div>";
+	echo "<div class='suggestion' id='$value' onclick='add_to_search_box(this.id)'>$value_marked</div>";
 
 }
 

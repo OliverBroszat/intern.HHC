@@ -25,8 +25,8 @@ function createHTML($data){
 		<div class='edit-image clearfix'>
 			".$data['image']."
 			<div class='edit-image-buttons'>
-				<button class='full-width'>Hochladen</button><br>
-				<button class='full-width'>Löschen</button>
+				<button type='button' class='full-width'>Hochladen</button><br>
+				<button type='button' class='full-width'>Löschen</button>
 				<input type=&quot;text&quot; class=&quot;media-input&quot; /><button class=&quot;media-button&quot;>Select image</button>
 			</div>
 		</div>

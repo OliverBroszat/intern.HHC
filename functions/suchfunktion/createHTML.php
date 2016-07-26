@@ -24,12 +24,8 @@ function expandableContent($fix_html, $slide_html, $click_id) {
 		</div>
 		<div id='slide_content_$click_id' class='detail-content' style='display: none;overflow: hidden; position: relative;'>
 			$slide_html
-<<<<<<< HEAD
-		</div>";
-=======
 		</div>
 	";
->>>>>>> danielh_edit
 }
 
 function getDetailView($number, $dataset) {
@@ -89,11 +85,16 @@ function getDetailView($number, $dataset) {
 		 }
 		 $tr .= '</td><td><b>'.$row->course.'</b></td></tr>';
 		 $tr .= '<tr><td colspan="2">'.$row->school.'</td>';
-		 $study_table .= $tr;
+		 if (!empty($row->degree)) {
+		 	$tr .= '<tr><td>Abschluss: </td><td>'.$row->degree.'</td>';
+		 }	 
+		 $study_table .= $tr;	
 	}
 	$study_table .= '</table>';
 
-	$internships_table = '<span><i>Praktika werden noch nicht unterstützt</i></span>';
+	// $internships_table = '<span><i>Praktika werden noch nicht unterstützt</i></span>';
+	$internships_table = '';
+
 
 	$html_studies_internship = '<div style="display: inline-block; width: 50%;">'.$study_table.'</div>';
 	$html_studies_internship .= '<div style="display: inline-block; width: 50%; vertical-align: top; text-align: center;">'.$internships_table.'</div>';
@@ -150,7 +151,7 @@ function getDetailView($number, $dataset) {
 
 <div id='tabs-$number'>
 	<ul>
-		<li><a href='#tabs-$number-1'>Studiengänge und Praktika</a></li>
+		<li><a href='#tabs-$number-1'>Studiengänge</a></li>
 		<li><a href='#tabs-$number-2'>Fähigkeiten</a></li>
 		<li><a href='#tabs-$number-3'>Notizen</a></li>
 	</ul>
@@ -173,7 +174,14 @@ function getListEntryHTML($number, $dataset_full) {
 	$overview = "
 	<table>
 		<tr>
-			<td class='number' rowspan='4' style='vertical-align: top;' width='5%'>$number <br>----<br>".$dataset->id."</td>
+			<td class='number' rowspan='4' style='vertical-align: top;' width='5%'>
+				<input type='checkbox' name='member_list[]' value='".$dataset->id."' class='member_list'>
+				<br>----<br>
+				$number
+				<br>----<br>
+				".$dataset->id."
+
+			</td>
 			<td class='profile' rowspan='4' width='19%'>$image</td>
 			<td class='contact_name' width='38%'><b>".$dataset->first_name.' '.$dataset->last_name."</b></td>
 			<td align='right'><div class='status ".$dataset->active."'></div></td>
@@ -185,11 +193,7 @@ function getListEntryHTML($number, $dataset_full) {
 			<td class='ressort' width='19%'>Ressort: ".$dataset->name."</td>
 		</tr>
 		<tr>
-<<<<<<< HEAD
-			<td><button id='show_detail_$number' value='#slide_content_show_detail_$number' onClick='expandContent(this.value)' class='full-width' type='button'>DETAIL</button></td>
-=======
 			<td><button value='$number' onclick='expand_content(this.value);' class='full-width' type='button' >DETAIL</button></td>
->>>>>>> danielh_edit
 			<td><button value='".$dataset->id."' onclick='edit(this.value);' class='full-width' type='button'>EDIT</button></td>
 		</tr>
 	</table>";

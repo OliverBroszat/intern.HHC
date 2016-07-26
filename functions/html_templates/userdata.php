@@ -166,6 +166,7 @@ function getAddressEditTemplate($data) {
 	// TEST WERTE FÜR DATA
 	$data['address'] = array(
 		array(
+			'addr_description' => 'Alte Adresse',
 			'street' => 'Ackerstraße',
 			'number' => '109',
 			'addr_extra' => '',
@@ -173,6 +174,7 @@ function getAddressEditTemplate($data) {
 			'city' => 'Düsseldorf'
 		),
 		array(
+			'addr_description' => 'Neue Adresse',
 			'street' => 'Gilbachstraße',
 			'number' => '9',
 			'addr_extra' => '',
@@ -190,6 +192,8 @@ function getAddressEditTemplate($data) {
 		<script>
 			var tmp_address = \"<table class='form'><tr><td colspan='2'><input type='text' name='Address-description[]' placeholder='Beschreibung'></td></tr><tr><td width='20%'>Straße / Nr.</td><td width='30%'><input type='text'name='Address-street[]' placeholder='Straße' value='%%DATA-street%%'/></td><td width='30%'><input type='text' name='Address-number[]'placeholder='Nr.' value='%%DATA-number%%'/></td><td width='20%'><input type='text' name='Address-addr_extra[]' placeholder='(Zusatz)' value='%%DATA-addr_extra%%'/></td></tr><tr><td>Wohnort</td><td><input type='text' name='Address-postal[]'placeholder='PLZ' value='%%DATA-postal%%'/></td><td><input type='text' name='Address-city[]' placeholder='Stadt'value='%%DATA-city%%'/></td></tr></table>\";
 		setup_expandablecontent('expandablecontent-address', 'address', tmp_address, ".toJSArrayString($data['addresses']).", 1);
+		var tmp_address = \"<table class='form'><tr><td>Beschreibung</td><td colspan='2'><input type='text' name='addr_description[]' placeholder='Privat/Geschäftlich/...' value='%%DATA-addr_description%%' /></td></tr><tr><td width='20%'>Straße / Nr.</td><td width='30%'><input type='text'name='street[]' placeholder='Straße' value='%%DATA-street%%'/></td><td width='30%'><input type='text' name='number[]'placeholder='Nr.' value='%%DATA-number%%'/></td><td width='20%'><input type='text' name='addr_extra[]' placeholder='(Zusatz)' value='%%DATA-addr_extra%%'/></td></tr><tr><td>Wohnort</td><td><input type='text' name='postal[]'placeholder='PLZ' value='%%DATA-postal%%'/></td><td><input type='text' name='city[]' placeholder='Stadt'value='%%DATA-city%%'/></td></tr></table>\";
+		setup_expandablecontent('expandablecontent-address', 'address', tmp_address, ".toJSArrayString($data['address']).", 1);
 		</script>";
 	return $resl;
 }

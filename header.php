@@ -9,9 +9,6 @@ $root_uri = get_template_directory_uri();
 $root = get_template_directory();
 
 require_once("$root/functions/main_functions.php");
-
-global $user_ID;
-
 ?>
 
 
@@ -33,8 +30,6 @@ global $user_ID;
 	<link rel='stylesheet' href='<?php echo $root_uri; ?>/styles/style_home.css'/>
 	<link rel='stylesheet' href='<?php echo $root_uri; ?>/styles/style_edit.css'/>
 	<link rel='stylesheet' href='<?php echo $root_uri; ?>/styles/expandablecontent.css'/>
-	
-	<script src='<?php echo $root_uri; ?>/js/search.js'></script>
 
 	<title><?php echo $title; ?></title>
 

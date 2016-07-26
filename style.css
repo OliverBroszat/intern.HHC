@@ -101,7 +101,7 @@ tr{
 
 td, th{
 	padding: 0.25rem 0.5rem;
-	vertical-align: bottom;
+	vertical-align: middle;
 }
 
 th{
@@ -159,6 +159,14 @@ input{
 	font-size: 1rem;
 	color: inherit;
 	box-sizing: border-box;
+}
+
+input[disabled], 
+input[disabled]:hover,
+select[disabled], 
+select[disabled]:hover {
+	background-color: #ccc;
+    color: #999;
 }
 
 input[type='text'], input[type='email'], input[type='date']{
