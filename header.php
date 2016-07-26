@@ -4,6 +4,7 @@
  * @subpackage intern-HHC
  * @since intern-HHC
  */
+header("Content-Type: text/html; charset=utf-8");
 
 $root_uri = get_template_directory_uri(); 
 $root = get_template_directory();
@@ -15,7 +16,7 @@ require_once("$root/functions/main_functions.php");
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset='UTF-8'>
+	<meta charset="utf-8">
 	<meta name='viewport' content='width=device-width, initial-scale=1'>
 	
 	<script src='<?php echo $root_uri; ?>/import/1.12.0.jquery.min.js'></script>
