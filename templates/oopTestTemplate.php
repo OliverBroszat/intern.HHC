@@ -19,7 +19,7 @@ $test = new BaseDataController();
 new_paragraph("tryToGetSingleRowByQuery");
 try {
     $result = $test->tryToSelectSingleRowByQuery("SELECT * FROM Contact WHERE id=200;");
-    echo $result->getValueForKey('first_name');
+    echo $result->first_name;
 }
 catch (WPDBError $e) {
     echo 'Fehler: ' . $e->getMessage();
@@ -29,10 +29,10 @@ finally {
 }
 
 new_paragraph("tryToGetRowCollectionByQuery Iterator");
-$it_ressort = $test->tryToSelectRowCollectionByQuery("SELECT * FROM Contact WHERE id<140");
-$itIterator = $it_ressort->getDatabaseRowCollectionIterator();
-foreach ($itIterator as $row) {
-	var_dump($row);
+$it_ressort = $test->tryToSelectMultipleRowsByQuery("SELECT * FROM Contact WHERE id<140");
+
+foreach ($it_ressort as $row) {
+	print_r($row);
 	echo '<br>';
 }
 

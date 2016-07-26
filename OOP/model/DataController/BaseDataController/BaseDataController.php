@@ -52,28 +52,27 @@ class BaseDataController {
     public function __construct() {
         $this->wpDatabaseConnection = $this->getWordpressDatabaseObject();
         if ($this->wpDatabaseConnection == null) {
-            throw new WPDBError("Connection failed");
+            $errorMessage = "Wordpress database object is null in BaseDataController::__contruct()";
+            throw new WPDBError($errorMessage);
         }
     }
 
     public function tryToSelectSingleRowByQuery($sqlQuery) {
-        $requestedRow = $this->wpDatabaseConnection->get_row($sqlQuery);
-        $this->onWordpressErrorThrowException();
-        return new DatabaseRow($requestedRow);
-    }
-
-    public function tryToSelectRowCollectionByQuery($sqlQuery) {
-        $requestedRowsInRawForm = $this->wpDatabaseConnection->get_results($sqlQuery);
-        $this->onWordpressErrorThrowException();
-
-        $requestedRowsInCorrectForm = array();
-        foreach ($requestedRowsInRawForm as $row) {
-            array_push($requestedRowsInCorrectForm, new DatabaseRow($row));
+        $selectedRows = $this->tryToSelectMultipleRowsByQuery($sqlQuery);
+        if (sizeof($selectedRows) > 1) {
+            $errorMessage = "More than 1 row was selected by SQL query '$sqlQuery' in BaseDataController::tryToSelectSingleRowByQuery()";
+            throw new LengthException($errorMessage);
         }
-        return new DatabaseRowCollection($requestedRowsInCorrectForm);
+        return $selectedRows[0];
     }
 
-    protected function onWordpressErrorThrowException() {
+    public function tryToSelectMultipleRowsByQuery($sqlQuery) {
+        $requestedRows = $this->wpDatabaseConnection->get_results($sqlQuery);
+        $this->onWordpressErrorThrowException();
+        return $requestedRows;
+    }
+
+    private function onWordpressErrorThrowException() {
         $lastWordpressError = $this->wpDatabaseConnection->last_error;
         if ($lastWordpressError != '') {
             throw new WPDBError($lastWordpressError);
