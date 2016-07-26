@@ -14,23 +14,27 @@ function new_paragraph($headline) {
 }
 
 new_paragraph("DataControllerTest");
-new_paragraph("tryToGetSingleRowByQuery");
-
 $test = new BaseDataController();
+
+new_paragraph("tryToGetSingleRowByQuery");
 try {
-    $result = $test->tryToGetSingleRowByQuery("SELECT * FROM Contact WHERE id=200;");
-    echo $result->readValueForKey('first_name');
+    $result = $test->tryToSelectSingleRowByQuery("SELECT * FROM Contact WHERE id=200;");
+    echo $result->getValueForKey('first_name');
 }
-catch (WordpressExecutionError $e) {
+catch (WPDBError $e) {
     echo 'Fehler: ' . $e->getMessage();
-}
-catch (WordpressConnectionError $e) {
-    echo 'Kein Internet';
 }
 finally {
     echo '<br>Vielen Dank.<br>';
 }
 
-new_paragraph("tryToGetRowCollectionByQuery");
-$it_ressort = $test->tryToGetRowCollectionByQuery("SELECT * FROM Contact WHERE id<140");
+new_paragraph("tryToGetRowCollectionByQuery Iterator");
+$it_ressort = $test->tryToSelectRowCollectionByQuery("SELECT * FROM Contact WHERE id<140");
+$itIterator = $it_ressort->getDatabaseRowCollectionIterator();
+foreach ($itIterator as $row) {
+	var_dump($row);
+	echo '<br>';
+}
+
+new_paragraph("tryToGetRowCollectionByQuery HTML Table");
 echo $it_ressort->generateHTMLTable();

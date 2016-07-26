@@ -52,27 +52,15 @@ class DatabaseRow
         $this->dataRow = $dataRow;
     }
 
-    /**
-     * @param $key
-     * @return bool
-     */
-    public function containsKey($key)
-    {
-        if ($this->dataRow->$key == null) {
-            return false;
-        } else {
-            return true;
-        }
+    public function getTableName() {
+        return $this->tableName;
     }
 
-    /**
-     * @param $key
-     * @return null
-     */
-    public function readValueForKey($key)
+    public function getValueForKey($key)
     {
-        if ($this->containsKey($key)) {
-            return $this->dataRow->$key;
+        $valueForKey = $this->dataRow->$key;
+        if ($valueForKey != null) {
+            return $valueForKey;
         } else {
             throw new InvalidArgumentException("The requested key '$key' does not exist");
         }
@@ -82,10 +70,12 @@ class DatabaseRow
         return new DatabaseRowIterator($this);
     }
 
+    // TODO: Move to view/DatabaseView/???.php !!!
     public function generateHTMLTable() {
         $html = '<table>' . $this->generatelHTMLRow() . '</table>';
     }
 
+    // TODO: Move to view/DatabaseView/???.php !!!
     public function generateHTMLRow() {
         $htmlCode = '<tr>';
         foreach ($this->dataRow as $value) {

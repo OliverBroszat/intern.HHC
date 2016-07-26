@@ -12,7 +12,6 @@
  * In this block we include all necessary functions and an autoloader by loading the 'wp-load.php'.
  * NOTE: on local host this file has a different path!
  */
-
 if (!function_exists('serverIsRunningOnLocalHost')) {
     function serverIsRunningOnLocalHost() {
         $localHostAddresses = array('127.0.0.1', '::1');
@@ -53,18 +52,18 @@ class BaseDataController {
     public function __construct() {
         $this->wpDatabaseConnection = $this->getWordpressDatabaseObject();
         if ($this->wpDatabaseConnection == null) {
-            throw new WordpressConnectionError("Connection failed");
+            throw new WPDBError("Connection failed");
         }
     }
 
-    public function tryToGetSingleRowByQuery($sqlQuery) {
+    public function tryToSelectSingleRowByQuery($sqlQuery) {
         $requestedRow = $this->wpDatabaseConnection->get_row($sqlQuery);
         $this->onWordpressErrorThrowException();
         return new DatabaseRow($requestedRow);
     }
 
-    public function tryToGetRowCollectionByQuery($sqlquery) {
-        $requestedRowsInRawForm = $this->wpDatabaseConnection->get_results($sqlquery);
+    public function tryToSelectRowCollectionByQuery($sqlQuery) {
+        $requestedRowsInRawForm = $this->wpDatabaseConnection->get_results($sqlQuery);
         $this->onWordpressErrorThrowException();
 
         $requestedRowsInCorrectForm = array();
@@ -75,9 +74,9 @@ class BaseDataController {
     }
 
     protected function onWordpressErrorThrowException() {
-        if ($this->wpDatabaseConnection->last_error != '') {
-            $errorMessage = $this->wpDatabaseConnection->last_error;
-            throw new WordpressExecutionError($errorMessage);
+        $lastWordpressError = $this->wpDatabaseConnection->last_error;
+        if ($lastWordpressError != '') {
+            throw new WPDBError($lastWordpressError);
         }
     }
 
@@ -86,6 +85,4 @@ class BaseDataController {
         return $wpdb;
     }
 
-
 }
-

@@ -60,7 +60,7 @@ class DatabaseRowCollection {
     }
 
     public function getDatabaseRowCollectionIterator() {
-        return new DatabaseRowCollectionIterator($this);
+        return new DatabaseRowCollectionIterator($this->databaseRows);
     }
 
 }
