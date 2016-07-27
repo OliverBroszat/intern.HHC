@@ -238,7 +238,8 @@ function __autoload($class_name)
 			'functions/edit/',
 			'functions/html_templates/',
 			'functions/suchfunktion/',
-			'functions/register/'
+			'functions/register/',
+			'functions/zeugnis/'
 	);
 
 	//Jedes Verzeichnis soll überprüft werden

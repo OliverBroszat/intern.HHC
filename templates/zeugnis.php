@@ -77,7 +77,22 @@ if ($_GET ['BID']) {
 
 if ($_POST) {
 	if($_POST['generieren']){
-		echo "GENERIER MICH";
+		$generator = new ZeugnisGenerator();
+		$generator->setLeistungsbereitschaft($_POST['Leistungsbereitschaft']);
+		$generator->setWeiterbildung ($_POST['Weiterbildung']);
+		$generator->setArbeitsweise ($_POST['Arbeitsweise']);
+		$generator->setArbeitsergebnis ($_POST['Arbeitsergebnis']);
+		$generator->setSozialverhalten ($_POST['Sozialverhalten']);
+	
+		
+		$generator->setGeschlecht ($_POST ['Geschlecht']);
+		
+		if ($_POST["enddatum"]=="") {
+			$generator->setZeit (1);
+		} else {
+			$generator->setZeit (2);
+		}
+	echo $generator->getLeistungsbereitschaftBaustein();
 	} else {
 	get_currentuserinfo ();
 	
