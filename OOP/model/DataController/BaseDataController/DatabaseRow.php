@@ -68,6 +68,10 @@ class DatabaseRow
             throw new InvalidArgumentException("The requested key '$key' does not exist");
         }
     }
+    
+    public function setValueForKey($key, $value) {
+        $this->sqlQueryResult->$key = $value;
+    }
 
     // TODO: Move to view/DatabaseView/???.php !!!
     public function generateHTMLTable() {
