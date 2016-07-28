@@ -67,9 +67,49 @@ class BaseDataController {
     }
 
     public function tryToSelectMultipleRowsByQuery($sqlQuery) {
-        $requestedRows = $this->wpDatabaseConnection->get_results($sqlQuery);
+        $requestedRowsUnwrapped = $this->wpDatabaseConnection->get_results($sqlQuery);
         $this->onWordpressErrorThrowException();
-        return $requestedRows;
+        $requestedRowsWrapped = $this->wrapSQLResultsIntoDatabaseRows($requestedRowsUnwrapped);
+        return $requestedRowsWrapped;
+    }
+
+    public function tryToInsertData($table, $dataToInsert, $dataFormat) {
+        $numberOfAffectedRows = $this->wpDatabaseConnection->insert($table, $dataToInsert, $dataFormat);
+        $this->onWordpressErrorThrowException();
+        // TODO: $numberOfAffectedRows müsste an dieser Stelle 1
+        // sein. Sollte hier mittels assert getestet werden
+        return $numberOfAffectedRows;
+    }
+
+    public function tryToUpdateData($table, $dataToUpdate, $sqlWhereStatement, $updateDataFormat=null, $whereFormat=null) {
+        $numberOfAffectedRows = $this->wpDatabaseConnection->update($table, $dataToUpdate, $sqlWhereStatement, $updateDataFormat, $whereFormat);
+        $this->onWordpressErrorThrowException();
+        if ($numberOfAffectedRows == false) {
+            $readableDataToUpdate = json_encode($dataToUpdate);
+            $readableSqlWhereStatement = json_encode($sqlWhereStatement);
+            $readableUpdateDataFormat = json_encode($updateDataFormat);
+            $readableWhereFormat = json_encode($whereFormat);
+            throw new InvalidArgumentException("No rows were updated in table '$table' with update data '$readableDataToUpdate', where statement '$readableWhereStatement', data format '$readableUpdateDataFormat' and where format '$readableWhereFormat'");
+        }
+    }
+
+    public function tryToDeleteData($table, $sqlWhereStatement, $whereFormat=null) {
+        $numberOfAffectedRows = $this->wpDatabaseConnection->delete($table, $sqlWhereStatement, $whereFormat);
+        $this->onWordpressErrorThrowException();
+        // When there is a wp internal error (wrong parameter type etc), then $wpdb->last_error is not set i.e. not catched by onWordpressErrorThrowException(). However, in case of such an error, the delete function only returns false
+        if ($numberOfAffectedRows == false) {
+            $readableSqlWhereStatement = json_encode($sqlWhereStatement);
+            $readableWhereFormat = json_encode($whereFormat);
+            throw new InvalidArgumentException("No row was deleted in table '$table' with where statement '$readableSqlWhereStatement' and where format '$readableWhereFormat'");
+        }
+    }
+
+    private static function wrapSQLResultsIntoDatabaseRows($unwrappedRows) {
+        $wrappedRows = array();
+        foreach ($unwrappedRows as $row) {
+            array_push($wrappedRows, new DatabaseRow($row));
+        }
+        return $wrappedRows;
     }
 
     private function onWordpressErrorThrowException() {
