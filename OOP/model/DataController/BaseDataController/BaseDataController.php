@@ -104,6 +104,10 @@ class BaseDataController {
         }
     }
 
+    public function prepareSqlQuery($query, $args) {
+        return $this->wpDatabaseConnection->prepare($query, $args);
+    }
+
     private static function wrapSQLResultsIntoDatabaseRows($unwrappedRows) {
         $wrappedRows = array();
         foreach ($unwrappedRows as $row) {

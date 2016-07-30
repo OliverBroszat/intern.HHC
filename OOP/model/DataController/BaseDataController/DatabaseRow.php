@@ -61,8 +61,9 @@ class DatabaseRow
 
     public function getValueForKey($key)
     {
-        $valueForKey = $this->sqlQueryResult->$key;
-        if ($valueForKey != null) {
+        $namesOfColumnsInRow = $this->getNamesOfColumns();
+        if (in_array($key, $namesOfColumnsInRow)) {
+            $valueForKey = $this->sqlQueryResult->$key;
             return $valueForKey;
         } else {
             throw new InvalidArgumentException("The requested key '$key' does not exist");
@@ -71,6 +72,15 @@ class DatabaseRow
     
     public function setValueForKey($key, $value) {
         $this->sqlQueryResult->$key = $value;
+    }
+
+    public function getNamesOfColumns() {
+        $publicAttributes = get_object_vars($this->sqlQueryResult);
+        $columnNames = array();
+        foreach ($publicAttributes as $name => $content) {
+            array_push($columnNames, $name);
+        }
+        return $columnNames;
     }
 
     // TODO: Move to view/DatabaseView/???.php !!!

@@ -240,9 +240,7 @@ if (!function_exists('autoload')) {
 	        'functions/suchfunktion/',
 	        'functions/register/',
 	        'OOP/model/DataController/BaseDataController/',
-            'OOP/model/DataController/BaseDataController/BaseDataControllerErrors/',
-            'OOP/model/DataController/BaseDataController/DatabaseRow/',
-            'OOP/model/DataController/BaseDataController/DatabaseRowCollection/'
+            'OOP/model/DataController/ContactDataController/'
 	    );
 
 	    //Jedes Verzeichnis soll überprüft werden
