@@ -113,38 +113,6 @@ foreach ($profiles as $p) {
 echo $profiles[2]->addressDatabaseRows[0]->getValueForKey('street');
 
 
-class Test {
-	public $value;
-	public function __construct($val) {
-		$this->value = $val;
-	}
-	public function copyFromObject($obj) {
-		$obj->value++;
-		$this->value = $obj->value;
-	}
-}
-
-class Obj {
-	public $value;
-	public function __construct($v) {
-		$this->value = $v;
-	}
-}
-
-$o1 = new Obj(10);
-$t = new Test(40);
-var_dump($o1);
-echo '<br>';
-var_dump($t);
-echo '<br>';
-$t->copyFromObject($o1);
-var_dump($o1);
-echo '<br>';
-var_dump($t);
-echo '<br>';
-
-
-
 
 
 

@@ -52,11 +52,8 @@ class ContactDataController {
     }
 
     public function createSingleContactProfile($contactProfile) {
-        /*
-        TODO: SQL Statements vorbereiten
-        Frage: wie bekommt man alle SQL Querys atomar durch?
-        Beispiel: Contact ist angelegt, Adressen sind angelegt, Fehler bei Mails. Dann wird abgebrochen, aber der Contact und die Mails sind noch da
-        */
+        // TODO: Bereite alle einzelnen Statements vor und führe dann
+        // durch BEGIN TRANSACTION ... einen zusammenhängenden Block aus
     }
 
     public function createMultipleContactProfiles($contactProfile) {
@@ -66,11 +63,11 @@ class ContactDataController {
     }
 
     public function getSingleContactProfileByID($contactID) {
-        $contactRow = $this->getContactDatabaseRowFromID($contactID);
-        $addressRows = $this->getAddressDatabaseRowsFromID($contactID);
-        $mailRows = $this->getMailDatabaseRowsFromID($contactID);
-        $phoneRows = $this->getPhoneDatabaseRowsFromID($contactID);
-        $studyRows = $this->getStudyDatabaseRowsFromID($contactID);
+        $contactRow = $this->getContactDatabaseRowByID($contactID);
+        $addressRows = $this->getContactDetailsForIDFromTable('Address', $contactID);
+        $mailRows = $this->getContactDetailsForIDFromTable('Mail', $contactID);
+        $phoneRows = $this->getContactDetailsForIDFromTable('Phone', $contactID);
+        $studyRows = $this->getContactDetailsForIDFromTable('Study', $contactID);
         $contactProfile = new ContactProfile(
             $contactRow,
             $addressRows,
@@ -97,36 +94,15 @@ class ContactDataController {
         */
     }
 
-    private function getContactDatabaseRowFromID($contactID) {
+    private function getContactDatabaseRowByID($contactID) {
         $unpreparedSqlQuery = "SELECT * FROM Contact WHERE id=%d";
         $preparedSqlQuery = $this->baseDataController->prepareSqlQuery($unpreparedSqlQuery, $contactID);
         $contactRow = $this->baseDataController->tryToSelectSingleRowByQuery($preparedSqlQuery);
         return $contactRow;
     }
 
-    private function getAddressDatabaseRowsFromID($contactID) {
-        $unpreparedSqlQuery = "SELECT * FROM Address WHERE contact=%d";
-        $preparedSqlQuery = $this->baseDataController->prepareSqlQuery($unpreparedSqlQuery, $contactID);
-        $contactRow = $this->baseDataController->tryToSelectMultipleRowsByQuery($preparedSqlQuery);
-        return $contactRow;
-    }
-
-    private function getMailDatabaseRowsFromID($contactID) {
-        $unpreparedSqlQuery = "SELECT * FROM Mail WHERE contact=%d";
-        $preparedSqlQuery = $this->baseDataController->prepareSqlQuery($unpreparedSqlQuery, $contactID);
-        $contactRow = $this->baseDataController->tryToSelectMultipleRowsByQuery($preparedSqlQuery);
-        return $contactRow;
-    }
-
-    private function getPhoneDatabaseRowsFromID($contactID) {
-        $unpreparedSqlQuery = "SELECT * FROM Phone WHERE contact=%d";
-        $preparedSqlQuery = $this->baseDataController->prepareSqlQuery($unpreparedSqlQuery, $contactID);
-        $contactRow = $this->baseDataController->tryToSelectMultipleRowsByQuery($preparedSqlQuery);
-        return $contactRow;
-    }
-
-    private function getStudyDatabaseRowsFromID($contactID) {
-        $unpreparedSqlQuery = "SELECT * FROM Study WHERE contact=%d";
+    private function getContactDetailsForIDFromTable($table, $contactID) {
+        $unpreparedSqlQuery = "SELECT * FROM $table WHERE contact=%d";
         $preparedSqlQuery = $this->baseDataController->prepareSqlQuery($unpreparedSqlQuery, $contactID);
         $contactRow = $this->baseDataController->tryToSelectMultipleRowsByQuery($preparedSqlQuery);
         return $contactRow;
