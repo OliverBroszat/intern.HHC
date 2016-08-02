@@ -101,8 +101,10 @@ class ContactDataController {
         $this->baseDataController->tryToDeleteData($table, $whereData, $whereFormat);
     }
 
-    public function deleteMultipleContactsByID($contactIDs) {
-        //
+    public function deleteMultipleContactsByID($contactIDs) throws {
+        foreach ($contactIDs as $ID) {
+            $this->deleteSingleContactByID($ID);
+        }
     }
 
     private function getContactDatabaseRowByID($contactID) {
