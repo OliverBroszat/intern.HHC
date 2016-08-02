@@ -78,7 +78,7 @@ class ContactDataController {
         return $contactProfile;
     }
 
-    public function getMultipleContactProfilesByIDs($contactIDs) {
+    public function getMultipleContactProfilesByID($contactIDs) {
         $contactProfiles = array();
         foreach ($contactIDs as $contactID) {
             $currentContactProfile = $this->getSingleContactProfileByID($contactID);
@@ -94,9 +94,21 @@ class ContactDataController {
         */
     }
 
+    public function deleteSingleContactByID($contactID) {
+        $table = 'Contact';
+        $whereData = array('id' => $contactID);
+        $whereFormat = null;
+        $this->baseDataController->tryToDeleteData($table, $whereData, $whereFormat);
+    }
+
+    public function deleteMultipleContactsByID($contactIDs) {
+        //
+    }
+
     private function getContactDatabaseRowByID($contactID) {
         $unpreparedSqlQuery = "SELECT * FROM Contact WHERE id=%d";
         $preparedSqlQuery = $this->baseDataController->prepareSqlQuery($unpreparedSqlQuery, $contactID);
+        print_r($preparedSqlQuery);
         $contactRow = $this->baseDataController->tryToSelectSingleRowByQuery($preparedSqlQuery);
         return $contactRow;
     }

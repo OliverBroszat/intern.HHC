@@ -91,7 +91,7 @@ echo $profile->contactDatabaseRow->getValueForKey('first_name');
 
 
 new_paragraph("Get more ContactProfiles");
-$profiles = $userC->getMultipleContactProfilesByIDs(
+$profiles = $userC->getMultipleContactProfilesByID(
 	array(
 		200,
 		201,
@@ -112,7 +112,8 @@ foreach ($profiles as $p) {
 }
 echo $profiles[2]->addressDatabaseRows[0]->getValueForKey('street');
 
-
+new_paragraph('Delete a Contact');
+$userC->deleteSingleContactByID(220);
 
 
 
