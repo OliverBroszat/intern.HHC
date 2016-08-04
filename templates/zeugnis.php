@@ -83,16 +83,16 @@ if ($_POST) {
 		$generator->setArbeitsweise ($_POST['Arbeitsweise']);
 		$generator->setArbeitsergebnis ($_POST['Arbeitsergebnis']);
 		$generator->setSozialverhalten ($_POST['Sozialverhalten']);
-	
-		
+		$generator->setGeburtsdatum ($_POST['Geburtsdatum']);
 		$generator->setGeschlecht ($_POST ['Geschlecht']);
+		$generator->setAnfangsdatum ($_POST ['Anfangsdatum']);
 		
 		if ($_POST["enddatum"]=="") {
 			$generator->setZeit (1);
 		} else {
 			$generator->setZeit (2);
 		}
-	echo $generator->getLeistungsbereitschaftBaustein();
+	echo "Baustein" . $generator-> generateZeugnis();
 	} else {
 	get_currentuserinfo ();
 	
@@ -156,7 +156,7 @@ if ($_POST) {
 		Du kannst die eingegebenen Informationen des Mitglieds und die Bewertung des Ressortleiters
 		unter folgendem Link einsehen:\n\n
 		$zeugnis_url";
-		
+		echo $zeugnis_url;
 		if (mail ( $to, $subject, $message )) {
 			echo "$message";
 			$message = "Das Zeugnis wurde erfolgreich zur Bearbeitung and den Zeugnisverantwortlichen weitergeleitet.";
@@ -173,7 +173,7 @@ if ($_POST) {
 	  			  Bitte klicke auf den folgenden Link und fülle das Formular bezüglich der Mitarbeit
 	  			  des Mitglieds aus:\n\n
 	  			  $zeugnis_url";
-		
+		echo $zeugnis_url;
 		if (mail ( $to, $subject, $message )) {
 			echo "$message";
 			$message = "Das Zeugnis wurde erfolgreich angefordert.";
