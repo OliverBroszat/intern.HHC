@@ -15,7 +15,6 @@ echo "<hr>";
 echo "<h2>DEBUG-Output</h2>";
 
 
-
 // --- DELETE ---
 function delete_member($id) {
 	global $wpdb;
@@ -29,17 +28,28 @@ $post_clean = unset_value_in_2d_array($_POST, 'other');
 // Wandele POST in einen geordneteren Array um
 $data = post_to_array($post_clean);
 
+// get CRUD infos
+$crud = $data['crud'][0];
+
 echo "<b>Operation:</b> ";
 
 // Call SQL-Functions for each Data-Set
-if(!empty($_POST['edit'])) {
-	// UPDATE OLD => INSERT NEW with OLD ID
+if($crud['mode'] == 'edit' && !empty($crud['id'])) {
+	// UPDATE OLD => DELETE OLD and INSERT NEW with OLD ID
 	echo "UPDATE ";
-	$id = $_POST['edit'];
+	$id = $crud['id'];
+
+	global $wpdb;
+	$query = "SELECT id FROM Image WHERE contact_id=%d";
+	$query_escaped = $wpdb->prepare($query, $id);
+	$attachment_id = $wpdb->get_var($query_escaped);
+	// Get image's source path
+	$imgsrc_thumb = wp_get_attachment_image_src($attachment_id, $size='')[0];	
 	
-	// DELETE old DATA
+	// delete old data
 	delete_member($id);
 
+	// insert new data
 	foreach ($data as $table => $content) {
 		foreach ($content as $index => $cols) {	
 			if ($table != 'edit') {
@@ -58,9 +68,9 @@ if(!empty($_POST['edit'])) {
 		}
 	}
 }
-elseif(!empty($_POST['delete']) && $table != 'delete') {
+elseif($crud['mode'] == 'delete') {
 	echo "DELETE ";
-	$id = $_POST['delete'];
+	$id = $crud['id'];
 	delete_member($id);
 }
 else {
@@ -72,7 +82,7 @@ else {
 			if ($table != 'edit') {
 				// SET ID
 				if ($table != 'Contact') 	{ 
-					$cols['contact'] = $new_id;
+					$cols['contact'] = $id;
 				}
 
 				// SQL-Command
@@ -80,7 +90,7 @@ else {
 
 				// GET ID
 				if ($table == 'Contact') 	{ 
-					$new_id = $wpdb->insert_id;
+					$id = $wpdb->insert_id;
 				}
 			}
 		}
@@ -89,23 +99,55 @@ else {
 
 
 
+echo "<br><b>Contact-ID:</b> $id";
 
 
-// IMAGE
+echo "<br><b>Image-Operation:</b> ";
+if (!empty($_FILES['upload_image']['name'])) {
+	// upload new Image
+	echo "NEW IMAGE";
 
-if (!empty($id)) {
-	global $wpdb;
-
-	$query = "SELECT id FROM Image WHERE contact_id=%d";
-	$query_escaped = $wpdb->prepare($query, $id);
-	$attachment_id = $wpdb->get_var($query_escaped);
-
-	// Get image's source path
-	$imgsrc_thumb = wp_get_attachment_image_src($attachment_id, $size='')[0];	
+	require_once( ABSPATH . 'wp-admin/includes/image.php' );
+	require_once( ABSPATH . 'wp-admin/includes/file.php' );
+	require_once( ABSPATH . 'wp-admin/includes/media.php' );
+	
+	$attachment_id = media_handle_upload('upload_image',0);
+			
+	if (is_wp_error($attachment_id)) {
+		echo "<br>ERROR (Image Upload)<br>";
+	} else {
+		// The image was uploaded successfully!
+		$wpdb->insert(
+			'Image',
+			array(
+				'id' => $attachment_id,
+				'contact_id' => $id
+			)
+		);
+	}
+}
+elseif(!empty($attachment_id) && $crud['delete_image'] == 'false') {
+	// use old image
+	echo "OLD IMAGE";
+	$wpdb->insert(
+		'Image',
+		array(
+			'id' => $attachment_id,
+			'contact_id' => $id
+		)
+	);
+}
+else {
+	// no image/delete old image
+	echo "NO IMAGE";
 }
 
+if (!empty($attachment_id)) {
+	echo "<br><b>Image-id:</b> $attachment_id <br>";
+	echo "<b>Image-src:</b> $imgsrc_thumb <br>";
+	// echo "OLD Image: <img src='$imgsrc_thumb' class='profile-picture' alt='Profilbild' /> <br>";
 
-
+}
 
 echo "<br><b>Errors:</b> ";
 if (!empty($wpdb->last_error)) {
@@ -114,40 +156,14 @@ if (!empty($wpdb->last_error)) {
 else {
 	echo "NO ERRORS";
 }
-
-
-echo "<br><b>Contact-ID:</b> $id";
-
-
-
-echo "<br><b>Image-Operation:</b> ";
-if (!empty($_FILES['upload-image']['name'])) {
-	// upload new Image
-	echo "NEW IMAGE";
-}
-elseif(!empty($attachment_id)) {
-	// use old image
-	echo "OLD IMAGE";
-}
-else {
-	// no image/delete old image
-	echo "NO IMAGE";
-}
-
-echo "<br><b>Image-id:</b> $attachment_id <br>";
-echo "<b>Image-src:</b> $imgsrc_thumb <br>";
-// echo "Image: <img src='$imgsrc_thumb' class='profile-picture' alt='Profilbild' /> <br>";
-
 echo "<hr>";
 
 echo "<h3>Data</h3>";
 arr_to_list($data);
-
 echo "<hr>";
 
 echo "<h3>Files</h3>";
 arr_to_list($_FILES);
-
 echo "<hr>";
 
 echo "<h3>Queries</h3>";

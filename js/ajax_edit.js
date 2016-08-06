@@ -43,7 +43,8 @@ function edit(id){
 $(document).on('click', '#edit-save', function(event){
 	event.preventDefault();
 	var id = $(this).val();
-	$('#edit-form').append($("<input>").attr("type", "hidden").attr("name", "edit").val(id));
+	$('#edit-form').append($("<input>").attr("type", "hidden").attr("name", "crud-id").val(id));
+	$('#edit-form').append($("<input>").attr("type", "hidden").attr("name", "crud-mode").val('edit'));
     $('#edit-form').submit();
 });
 
@@ -51,7 +52,7 @@ $(document).on('click', '#edit-save', function(event){
 // DELETE
 $(document).on('click', '#edit-delete', function(event){
 	event.preventDefault();
-	
+
 	var id = $(this).val();
 
 	dialog(
@@ -59,9 +60,12 @@ $(document).on('click', '#edit-delete', function(event){
         function() {
             // Schließe den Dialog
             popup_close();
-            // submit form
+   
             setTimeout(function() {
-	            $('#edit-form').append($("<input>").attr("type", "hidden").attr("name", "delete").val(id));
+	           // append ID
+	            $('#edit-form').append($("<input>").attr("type", "hidden").attr("name", "crud-id").val(id));
+	            $('#edit-form').append($("<input>").attr("type", "hidden").attr("name", "crud-mode").val('delete'));
+	           // submit form
 	            $('#edit-form').submit();
 	        }, 200);
         },
@@ -74,28 +78,35 @@ $(document).on('click', '#edit-delete', function(event){
 
 
 // SUBMIT FORM
-$( document ).on('submit', '#edit-form', function( event ) {
+$( document ).on('submit', '#edit-form', function(event) {	
 	event.preventDefault();
 	
-	var form = $( this )
-	var url = form.attr( "action" );
+	var form = $(this),
+		data = new FormData(this);
 
 	$('.edit .popup-content').addClass('modal');
-	// $('.edit .popup-content-outer').center();
 
-	
-	// Send the data using post
-	$.post( url, form.serialize(), function( data ) {
-		setTimeout(function() {
-			// Debug Output
-			$(".edit .popup-content").html(data);
-			$('.edit .popup-content').removeClass('modal');
-			// $('.edit .popup-content-outer').center();
-		}, 100);
+	jQuery.ajax({
+	    url: form.attr("action"),
+        type: form.attr("method"),
+        data: data,
+        processData: false,
+        contentType: false,
+        success: function (result, status)
+        {
+        	setTimeout(function() {
+				// Debug Output
+				$(".edit .popup-content").html(result);
+				$('.edit .popup-content').removeClass('modal');
+			}, 100);
+        },
+        error: function (xhr, desc, err)
+        {
+        	$(".edit .popup-content").html('xhr: ' + xhr + '<br>desc: ' + desc + '<br>err: ' + err);
+        	$('.edit .popup-content').removeClass('modal');
+        }
 	});
-
 });
-
 
 
 // IMAGE
@@ -103,9 +114,5 @@ $(document).on('click', '#edit-delete-image', function(){
 	$('.edit-image-image a').remove();
 	$('#edit-delete-image').hide();
 	$('#edit-upload-image').show();
-
-});
-
-$(document).on('click', '#edit-upload-image', function(){
 
 });
