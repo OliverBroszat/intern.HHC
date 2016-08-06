@@ -1,4 +1,10 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: alex
+ * Date: 28.07.16
+ * Time: 06:50
+ */
 
 /*
  * Because we're outside the wordpress template directory, no wordpress functionality will be
@@ -30,14 +36,11 @@ if (!function_exists('loadWordpressFunctions')) {
 loadWordpressFunctions();
 
 
-get_header();
+/**
+ * Class UserDataController
+ *
+ * Description goes here
+ */
+class UserDataController {
 
-$status = $_GET['status'];
-
-if ($status == 'ok'){
-	echo "<div class='msg ok'>Vielen Dank!<br>Deine Daten wurden übernommen!</div>";
 }
-else{
-	echo "<div class='msg'>Leider Hat die Dateneingabe nicht geklappt. Hast du alle Pflichtfelder ausgefüllt?<br>Bitte gehe zurück und versuche es noch einmal</div>";
-}
-?>

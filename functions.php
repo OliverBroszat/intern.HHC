@@ -358,4 +358,40 @@ function post_to_array($post) {
 }
 
 
+if (!function_exists('autoload')) {
+	function autoload($class_name)
+	{
+	    /**
+	     * Hier müssen alle Ordner angegeben werden,
+	     * die nach den benötigten Dateien durchsucht werden sollen.
+	     */
+	    $directorys = array(
+	        'functions/',
+	        'functions/rechteSystem/',
+	        'functions/apply/',
+	        'functions/edit/',
+	        'functions/html_templates/',
+	        'functions/suchfunktion/',
+	        'functions/register/',
+	        'OOP/model/DataController/BaseDataController/',
+            'OOP/model/DataController/ContactDataController/'
+	    );
+
+	    //Jedes Verzeichnis soll überprüft werden
+	    foreach($directorys as $directory)
+	    {
+	        //Überprüft ob die Date im aktuell durchsuchten Verzeichnis vorhanden ist.
+	        $root = get_template_directory();
+	        $path = "$root/$directory$class_name" . ".php";
+
+	        if(file_exists($path))
+	        {
+	            require_once($path);
+	            return;
+	        }
+	    }
+	}
+	spl_autoload_register('autoload');
+}
+
 ?>
