@@ -51,8 +51,8 @@ global $user_ID;
 
 			get_currentuserinfo();
 			if(!('' == $user_ID)){
-				$backend_button =  "<a href='" . admin_url() . "'><button class='ui basic button loginout'>Backend</button></a>";
-				$loginout = "<a href='" . wp_logout_url( get_permalink() ) . "'><button class='ui basic button loginout'>Abmelden</button></a>";
+				$backend_button =  "<a href='" . admin_url() . "'><button class='loginout'>Backend</button></a>";
+				$loginout = "<a href='" . wp_logout_url( get_permalink() ) . "'><button class='loginout'>Abmelden</button></a>";
 			}
 
 			echo $backend_button;
@@ -60,12 +60,7 @@ global $user_ID;
 		?>
 	</div>
 	<nav class='nav panel full-width'>
-		<?php 
-			$list_pages = wp_list_pages(array(
-				'title_li' => __( '' ),
-				'echo' => 0
-			));
-
-			echo $list_pages; 
-		?>
+		<?php wp_nav_menu( array( 'theme_location' => 'header-menu' ) ); ?>
 	</nav>
+
+
