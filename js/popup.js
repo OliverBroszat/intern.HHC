@@ -2,6 +2,7 @@ function popup(content, name, title) {
 
     if (!$("body").hasClass("popup-on")) {
         $("body").addClass("popup-on");
+        $("body").css("padding-right", getScrollBarWidth());
     }
 
     $(".popup-blende").remove();
@@ -73,6 +74,7 @@ function popup_close() {
             // Blende das gesamte Popup (die Blende) aus und entferne sie
             $(id_active).fadeOut(100, function() { $(this).remove(); });
             $("body").removeClass("popup-on");
+            $("body").css("padding-right", "0");
         } 
         else {
             // entferne das gesamte Popup (mit Blende)

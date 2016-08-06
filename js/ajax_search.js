@@ -1,4 +1,5 @@
 function ajax_post() {
+	$('#suggestions').toggleClass("show",false); 
 	
 	$( "#list-container" ).addClass( "modal" );
 
@@ -11,7 +12,7 @@ function ajax_post() {
 
 			$( "#list-container" ).html( data['html'] );
 			$( "#list-container" ).removeClass( "modal" );
-			$( "#search-results-title" ).html( "Suchergebnisse (" + data['number'] + " )" );
+			$( "#search-results-title" ).html( "Suchergebnisse (" + data['number'] + ")" );
 		}, 100);
 	});
 }
