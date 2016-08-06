@@ -28,7 +28,7 @@ body.popup-on{
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0,0.4);
+    background-color: rgba(0,0,0,0.5);
 }
 
 .popup-content-outer {
@@ -41,7 +41,8 @@ body.popup-on{
     /*top: 50%;
     left: 50%;
     transform: translate(-50%,-50%);*/
-    box-shadow: 2px 4px 30px 1px rgba(0,0,0,0.4);
+    box-shadow: 2px 4px 20px rgba(0,0,0,0.4);
+    /* box-shadow: 2px 4px 10px rgba(0,0,0,0.2); */
 }
 
 .popup-content {

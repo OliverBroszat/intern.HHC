@@ -41,8 +41,16 @@ $html = "
 						".$data['image']."
 					</div>
 					<div class='edit-image-buttons'>
-						<input type='file' class='full-width' id='edit-upload-image' placeholder='Upload' name='upload-image'>
-						<button type='button' class='full-width' id='edit-delete-image' style='display:none;'>Löschen</button>
+						<input type='file' class='full-width' id='edit-upload-image' placeholder='Upload' name='upload_image'>
+						
+						<button type='button' class='ui icon button fluid' id='edit-delete-image' style='display:none;' 
+							onclick=\"$('#delete_image').val('true')\">
+							<i class='remove icon'></i>							
+							Löschen &nbsp; / 
+							<i class='upload icon'></i>
+							Hochladen
+						</button>
+						<input type='hidden' id='delete_image' name='crud-delete_image' value='false'>
 					</div>						
 				</div><br>
 

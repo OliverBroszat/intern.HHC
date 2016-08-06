@@ -21,6 +21,7 @@ global $user_ID;
 	<script src='<?php echo $root_uri; ?>/import/1.12.0.jquery.min.js'></script>
 	<script src='<?php echo $root_uri; ?>/import/1.11.4.jquery-ui.min.js'></script>
 	<link rel='stylesheet' href='<?php echo $root_uri; ?>/import/1.11.4.jquery-ui.min.css'>
+
 	
 	<!-- <script src='<?php echo $root_uri; ?>/import/jquery.validate.min.js'></script> -->
 	<!-- <script src='<?php echo $root_uri; ?>/import/jquery.validate_messages_de.js'></script> -->
@@ -34,6 +35,11 @@ global $user_ID;
 	<link rel='stylesheet' href='<?php echo $root_uri; ?>/styles/style_edit.css'/>
 	<link rel='stylesheet' href='<?php echo $root_uri; ?>/styles/expandablecontent.css'/>
 
+	<script src='<?php echo $root_uri; ?>/import/semantic_ui/semantic.min.js'></script>
+	<link rel='stylesheet' class="ui" href='<?php echo $root_uri; ?>/import/semantic_ui/semantic.min.css'>
+
+	<link rel='stylesheet' href='<?php echo $root_uri; ?>/styles/style_after.css'>
+
 	<title><?php echo $title; ?></title>
 
 </head>
@@ -45,8 +51,8 @@ global $user_ID;
 
 			get_currentuserinfo();
 			if(!('' == $user_ID)){
-				$backend_button =  "<a href='" . admin_url() . "'><button class='loginout'>Backend</button></a>";
-				$loginout = "<a href='" . wp_logout_url( get_permalink() ) . "'><button class='loginout'>Abmelden</button></a>";
+				$backend_button =  "<a href='" . admin_url() . "'><button class='ui basic button loginout'>Backend</button></a>";
+				$loginout = "<a href='" . wp_logout_url( get_permalink() ) . "'><button class='ui basic button loginout'>Abmelden</button></a>";
 			}
 
 			echo $backend_button;

@@ -11,32 +11,29 @@ get_header();
 
 ?>
 
-
 <div class = "outer clearfix">
 	<h1>Mitgliederliste</h1>
-
+	
 <!-- Suchfeld + Suchbutton -->
 <form method="POST" id="form-suche" action="<?php echo get_template_directory_uri(); ?>/functions/suchfunktion/AcceptAjax.php">
-	<div class="panel">
-			<table class="form">
-				<tr>
-					<td class="search-box-cell">
-						<input 
-							id='text-box' 
-							type="text" 
-							name="search_text" 
-							class="searchinput"
-							onkeyup="ajax_search_suggestions(this.value)"
-							placeholder="Suche..."
-						>
-						<div id="suggestions"></div> 
-					</td>
-					<td>
-						<button type='submit' id='start-search' class='search' >Suchen</button>
-					</td>
-				</tr>
-			</table>
-	</div><!-- /panel -->
+	<div id="search-box">
+		<div class="ui segment search-box-cell">
+			<div class="search-box-cell">
+				<div class="fluid ui right action left icon input">
+					<i class="search icon"></i>
+				  	<input type="text" name="search_text" id='text-box' onkeyup="ajax_search_suggestions(this.value)" placeholder="Suchen" >
+				  	<button class="ui primary icon button"  style="padding-left: 2rem; padding-right: 2rem;" id='start-search'>
+				  		<i class="search icon"></i>
+				  		<!-- Suchen -->
+				  	</button>
+				</div>
+				<div id="suggestions"></div>
+				<script>$("#suggestions").css("width", $("#text-box").css("width"));</script>
+			</div>
+		</div><!-- /panel -->
+
+	</div>
+
 
 
 	<button id="sidebar-toggle" class="search" onclick="$(this).toggleClass('show'); $('.sidebar').slideToggle(300);">Suchoptionen</button>
@@ -44,12 +41,13 @@ get_header();
 	<div class = "sidebar">
 		
 	<!-- Sortieren -->
-		<div class='panel'>
-				<h2>Sortieren nach:</h2>
-				<table >
-					<tr>
-						<td>
-						<select name="sort" id="sort" onchange="ajax_post()">
+		<div class='ui segment'>
+			<h2>Sortieren nach:</h2>
+			<div class="ui form">
+				  <div class="fields">
+				    <div class="ten wide field">
+						<select class="ui fluid dropdown" name="sort" id="sort" onchange="ajax_post()">
+							<!-- <option value="">Sort</option> -->
 
 <?php
 	// Sortieren
@@ -69,22 +67,24 @@ get_header();
 	}
 ?>
 
-							</select>
-						</td>
-						<td>
-							<select name="order" id="order" onchange="ajax_post()" style='width:'>
-								<option value="asc">A-Z</option>
-								<option value="desc">Z-A</option>
-							</select>
-						</td>
-					</tr>
-				</table>
+						</select>
+					</div>
+					<div class="six wide field"				>
+						<select class="ui fluid dropdown" name="order" id="order" onchange="ajax_post()">
+							<!-- <option value="">Order</option> -->
+							<option value="asc">A-Z</option>
+							<option value="desc">Z-A</option>
+						</select>
+					</div>
+				</div>
+			</div>
+
 		</div><!-- /panel -->
 	
 
 	
 	<!-- Filter -->
-		<div class = "panel filter">
+		<div class = "ui segment filter">
 				<h2>Filtern nach:</h2>
 
 
@@ -132,17 +132,19 @@ get_header();
 				echo "
 					<tr>
 						<td width='1px'>
-							<input 
-								type='checkbox'
-								name='f_".$name."_list[]'
-								value='$value' 
-								id='f_".$name."_".$value."'
-								class='filtercheckbox_".$name."'
-							>
+							<div class='ui checkbox'>
+						    	<input 
+									type='checkbox' 
+									tabindex='0' 
+									name='f_".$name."_list[]'
+									value='$value' 
+									id='f_".$name."_".$value."'
+									class='hidden filtercheckbox_".$name."'
+								>
+						      <label>".uppercase(bool_to_lbl($value))."</label>
+						    </div>
 						</td>
-						<td>
-							<label for='f_".$name."_".$value."'>&nbsp;".uppercase(bool_to_lbl($value))."</label>
-						</td>
+
 					</tr>
 				";
 			}
@@ -156,25 +158,36 @@ get_header();
 			
 				<input type="hidden" disabled name="templateDirectory" id="templateDirectory" value="<?php echo get_template_directory_uri(); ?>">
 
-				<button type="button" onclick="ajax_post();" class="full-width">Aktualisieren</button>
+				<button type='button' class='fluid ui labeled icon button' onclick="ajax_post();">
+					<i class="refresh icon"></i>
+					Aktualisieren
+				</button>
 		</div><!-- /panel -->
 	</div><!-- /sidebar -->
 	</form>
 
 	<main class="container">
-		<div class="panel actions">					
+		<div class="ui segment actions">					
 
-			<button type='button' id='new-entry' value='new' onclick='edit(this.value);'>Neu</button>
+			<button type='button' class='ui labeled icon button' id='new-entry' value='new' onclick="edit('');">
+				<i class="file outline icon"></i>
+				Neu
+			</button>
 
-			<button type='button' onclick='edit_multi()'>Edit selected</button>
+			<button type='button' class='ui labeled icon button' onclick='edit_multi()'>
+				<i class="edit icon"></i>
+				Edit selected
+			</button>
 
-			<button type='button' onclick='select_all()'>Select/Deselect all</button>
+			<button type='button' class='ui labeled icon button' onclick='select_all()'>
+				<i class="checkmark box icon"></i>
+				Select/Deselect all
+			</button>
 
 		</div><!-- /panel -->
 
-
 <!--  Suchergebnisse -->
-		<div class='panel'>
+		<div class='ui segment'>
 			
 				<h2 id='search-results-title'>Suchergebnisse (0)</h2>
 				<div id='list-container'>
@@ -188,9 +201,14 @@ get_header();
 </div><!-- /outer -->
 
 
+<!-- Semantic UI -->
+<script>
+	$('.ui.checkbox').checkbox();
+	$('.ui.dropdown').dropdown();
+</script>
+
 <!-- Import ajax_post() function -->
 <script src="<?php echo get_template_directory_uri(); ?>/js/ajax_search.js"></script>
-
 
 <!-- Call AJAX Search on page load -->
 <script>window.onload=ajax_post;</script>

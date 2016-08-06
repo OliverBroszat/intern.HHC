@@ -232,8 +232,18 @@ function getListEntryHTML($number, $dataset_full) {
 			<td class='ressort' >Ressort: ".$dataset->name."</td>
 		</tr>
 		<tr>
-			<td><button value='$number' onclick='expand_content(this.value);' class='full-width' type='button' >DETAIL</button></td>
-			<td><button value='".$dataset->id."' onclick='edit(this.value);' class='full-width' type='button'>EDIT</button></td>
+			<td>
+				<button type='button' class='fluid ui icon mini basic button' value='$number' onclick='expand_content(this.value)'>
+					<i class='eye icon'></i>
+					DETAILS
+				</button>
+			</td>
+			<td>
+				<button type='button' class='ui icon mini basic button labeled' value='".$dataset->id."' onclick='edit(this.value)'>
+					<i class='edit icon'></i>
+					Edit
+				</button>
+			</td>
 		</tr>
 	</table>";
 	$button_id = "show_detail_$number";
