@@ -30,7 +30,9 @@ function autoload($class_name)
         'functions/html_templates/',
         'functions/suchfunktion/',
         'functions/register/',
-        'OOP/model/DataController/BaseDataController/'
+        'OOP/model/DataController/BaseDataController/',
+        'OOP/model/DataController/ContactDataController/',
+        'OOP/model/DataController/MemberDataController/'
     );
 
     //Jedes Verzeichnis soll überprüft werden

@@ -83,7 +83,7 @@ $nor = $test->tryToDeleteData(
 echo "$nor rows deleted<br>";
 
 new_paragraph("Get ContactProfile");
-$userC = new ContactDataController(null);
+$userC = new ContactDataController(null, $test);
 $profile = $userC->getSingleContactProfileByID(200);
 print_r($profile);
 echo '<br><br>';
@@ -112,12 +112,36 @@ foreach ($profiles as $p) {
 }
 echo $profiles[2]->addressDatabaseRows[0]->getValueForKey('street');
 
+new_paragraph('Create a Contact');
+$newprofile = $profiles[2];
+$newprofile->contactDatabaseRow->setValueForKey('first_name', 'Hermann');
+$userC->createSingleContactByProfile($newprofile);
+var_dump($newprofile);
+
 new_paragraph('Delete a Contact');
-$userC->deleteSingleContactByID(220);
+//$userC->deleteSingleContactByID($newprofile->contactDatabaseRow->getValueForKey('id'));
 
+new_paragraph('getNamesOfColumns');
+print_r($newprofile->contactDatabaseRow->getNamesOfColumns());
 
+$memberC = new MemberDataController(null, $userC);
+new_paragraph('Get MemberProfile');
+$p1 = $memberC->getSingleMemberProfileByContactID(135);
+var_dump($p1);
 
-
+new_paragraph('MemberController Test');
+$member_array = array(
+	'contact' => $newprofile->contactDatabaseRow->getValueForKey('id'),
+	'ressort' => 1,
+	'active' => 0,
+	'position' => 'mitglied',
+	'joined' => '2016-08-07',
+	'left' => '0000-00-00'
+);
+$member_object = (object) $member_array;
+$member_row = new DatabaseRow($member_object);
+$memberProfile = new MemberProfile($member_row, $newprofile);
+$memberC->createSingleMemberByProfile($memberProfile);
 
 
 

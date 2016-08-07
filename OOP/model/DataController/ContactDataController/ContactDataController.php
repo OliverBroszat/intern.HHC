@@ -46,20 +46,34 @@ class ContactDataController {
     private $baseDataController;
     private $userSecurityPass;
 
-    public function __construct($userSecurityPass) {
+    public function __construct($userSecurityPass, $baseDataController) {
         //$this->ifUserNotLoggedInThrowException();
-        $this->baseDataController = new BaseDataController();
+        $this->baseDataController = $baseDataController;
     }
 
-    public function createSingleContactProfile($contactProfile) {
-        // TODO: Bereite alle einzelnen Statements vor und führe dann
-        // durch BEGIN TRANSACTION ... einen zusammenhängenden Block aus
+    public function createSingleContactByProfile($contactProfile) {
+        $this->baseDataController->tryToInsertRowWithAutoUpdateSingleAutoPrimary(
+            'Contact',
+            $contactProfile->contactDatabaseRow
+        );
+        $newContactID = $contactProfile->contactDatabaseRow->getValueForKey('id');
+        $contactProfile->updateDataWithContactID($newContactID);
+        $this->createContactItemsForTable('Address', $contactProfile->addressDatabaseRows);
+        $this->createContactItemsForTable('Mail', $contactProfile->mailDatabaseRows);
+        $this->createContactItemsForTable('Phone', $contactProfile->phoneDatabaseRows);
+        $this->createContactItemsForTable('Study', $contactProfile->studyDatabaseRows);
     }
 
-    public function createMultipleContactProfiles($contactProfile) {
-        /*
-        Pro contactProfile die Methode createSingleContactProfile() aufrufen
-        */
+    private function createContactItemsForTable($table, $dataRows) {
+        foreach ($dataRows as $row) {
+            $this->baseDataController->tryToInsertRowWithAutoUpdateSingleAutoPrimary($table, $row);
+        }
+    }
+
+    public function createMultipleContactProfiles($contactProfiles) {
+        foreach ($contactProfiles as $profile) {
+            $this->createSingleContactByProfile($profile);
+        }
     }
 
     public function getSingleContactProfileByID($contactID) {
@@ -87,11 +101,21 @@ class ContactDataController {
         return $contactProfiles;
     }
 
+    /**
+    * updateSingleContactProfile
+    * 
+    * Performs a deletion and insertion of a given contact profile.
+    * NOTE: the profile's id WILL be changed after any update
+    */
     public function updateSingleContactProfile($contactProfile) {
-        /*
-        TODO: delete-create Kombination? Impliziert neue ID für den Contact!
-        ansonsten einfach per 
-        */
+        $this->deleteSingleContactByProfile($contactProfile);
+        $this->createSingleContactByProfile($contactProfile);
+    }
+
+    public function updateMultipleContactProfiles($contactProfiles) {
+        foreach ($contactProfiles as $profile) {
+            $this->updateSingleContactProfile($profile);
+        }
     }
 
     public function deleteSingleContactByID($contactID) {
@@ -101,16 +125,30 @@ class ContactDataController {
         $this->baseDataController->tryToDeleteData($table, $whereData, $whereFormat);
     }
 
-    public function deleteMultipleContactsByID($contactIDs) throws {
+    public function deleteMultipleContactsByID($contactIDs) {
         foreach ($contactIDs as $ID) {
             $this->deleteSingleContactByID($ID);
         }
     }
 
+    public function deleteSingleContactByProfile($contactProfile) {
+        $contactID = $contactProfile->contactDatabaseRow->getValueForKey('id');
+        $this->deleteSingleContactByID($contactID);
+    }
+
+    public function deleteMultipleContactsByProfile($contactProfiles) {
+        foreach ($contactProfiles as $profile) {
+            $this->deleteSingleContactByProfile($profile);
+        }
+    }
+
+    public function getBaseDataController() {
+        return $this->baseDataController;
+    }
+
     private function getContactDatabaseRowByID($contactID) {
         $unpreparedSqlQuery = "SELECT * FROM Contact WHERE id=%d";
         $preparedSqlQuery = $this->baseDataController->prepareSqlQuery($unpreparedSqlQuery, $contactID);
-        print_r($preparedSqlQuery);
         $contactRow = $this->baseDataController->tryToSelectSingleRowByQuery($preparedSqlQuery);
         return $contactRow;
     }

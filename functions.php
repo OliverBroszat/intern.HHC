@@ -383,7 +383,8 @@ if (!function_exists('autoload')) {
 	        'functions/suchfunktion/',
 	        'functions/register/',
 	        'OOP/model/DataController/BaseDataController/',
-            'OOP/model/DataController/ContactDataController/'
+            'OOP/model/DataController/ContactDataController/',
+            'OOP/model/DataController/MemberDataController/'
 	    );
 
 	    //Jedes Verzeichnis soll überprüft werden
