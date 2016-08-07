@@ -112,6 +112,12 @@ foreach ($profiles as $p) {
 }
 echo $profiles[2]->addressDatabaseRows[0]->getValueForKey('street');
 
+new_paragraph('Create a Contact');
+$newprofile = $profiles[2];
+$newprofile->contactDatabaseRow->setValueForKey('first_name', 'Hermann');
+$userC->createSingleContactProfile($newprofile);
+var_dump($newprofile);
+
 new_paragraph('Delete a Contact');
 $userC->deleteSingleContactByID(220);
 

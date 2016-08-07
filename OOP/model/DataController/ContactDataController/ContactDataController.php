@@ -52,8 +52,85 @@ class ContactDataController {
     }
 
     public function createSingleContactProfile($contactProfile) {
-        // TODO: Bereite alle einzelnen Statements vor und führe dann
-        // durch BEGIN TRANSACTION ... einen zusammenhängenden Block aus
+        $this->baseDataController->tryToInsertData(
+            'Contact',
+            array(
+                'prefix' => $contactProfile->contactDatabaseRow->getValueForKey('prefix'),
+                'first_name' => $contactProfile->contactDatabaseRow->getValueForKey('first_name'),
+                'last_name' => $contactProfile->contactDatabaseRow->getValueForKey('last_name'),
+                'birth_date' => $contactProfile->contactDatabaseRow->getValueForKey('birth_date'),
+                'comment' => $contactProfile->contactDatabaseRow->getValueForKey('comment'),
+                'skype_name' => $contactProfile->contactDatabaseRow->getValueForKey('skype_name')
+            ),
+            array('%s','%s','%s','%s','%s','%s')
+        );
+        $newContactId = $this->baseDataController->getIdFromLastInsert();
+        $contactProfile->contactDatabaseRow->setValueForKey('id', $newContactId);
+        foreach ($contactProfile->addressDatabaseRows as $addr) {
+            $addr->setValueForKey('contact', $newContactId);
+            $this->baseDataController->tryToInsertData(
+                'Address',
+                array(
+                    'description' => $addr->getValueForKey('description'),
+                    'street' => $addr->getValueForKey('street'),
+                    'number' => $addr->getValueForKey('number'),
+                    'addr_extra' => $addr->getValueForKey('addr_extra'),
+                    'postal' => $addr->getValueForKey('postal'),
+                    'city' => $addr->getValueForKey('city'),
+                    'contact' => $addr->getValueForKey('contact')
+                ),
+                array('%s','%s','%d','%s','%s', '%s','%d')
+            );
+            $lastAddressInsertId = $this->baseDataController->getIdFromLastInsert();
+            $addr->setValueForKey('id', $lastAddressInsertId);
+        }
+        foreach ($contactProfile->mailDatabaseRows as $mail) {
+            $mail->setValueForKey('contact', $newContactId);
+            $this->baseDataController->tryToInsertData(
+                'Mail',
+                array(
+                    'description' => $mail->getValueForKey('description'),
+                    'address' => $mail->getValueForKey('address'),
+                    'contact' => $mail->getValueForKey('contact')
+                ),
+                array('%s','%s', '%d')
+            );
+            $lastMailInsertId = $this->baseDataController->getIdFromLastInsert();
+            $mail->setValueForKey('id', $lastMailInsertId);
+        }
+        foreach ($contactProfile->phoneDatabaseRows as $phone) {
+            $phone->setValueForKey('contact', $newContactId);
+            $this->baseDataController->tryToInsertData(
+                'Phone',
+                array(
+                    'description' => $phone->getValueForKey('description'),
+                    'number' => $phone->getValueForKey('number'),
+                    'contact' => $phone->getValueForKey('contact')
+                ),
+                array('%s','%s', '%d')
+            );
+            $lastPhoneInsertId = $this->baseDataController->getIdFromLastInsert();
+            $phone->setValueForKey('id', $lastPhoneInsertId);
+        }
+        foreach ($contactProfile->studyDatabaseRows as $study) {
+            $study->setValueForKey('contact', $newContactId);
+            $this->baseDataController->tryToInsertData(
+                'Study',
+                array(
+                    'contact' => $study->getValueForKey('contact'),
+                    'status' => $study->getValueForKey('status'),
+                    'school' => $study->getValueForKey('school'),
+                    'course' => $study->getValueForKey('course'),
+                    'start' => $study->getValueForKey('start'),
+                    'end' => $study->getValueForKey('end'),
+                    'focus' => $study->getValueForKey('focus'),
+                    'degree' => $study->getValueForKey('degree'),
+                ),
+                array('%d','%s', '%s', '%s', '%s', '%s', '%s', '%s')
+            );
+            $lastStudyInsertId = $this->baseDataController->getIdFromLastInsert();
+            $study->setValueForKey('id', $lastStudyInsertId);
+        }
     }
 
     public function createMultipleContactProfiles($contactProfile) {
@@ -101,7 +178,7 @@ class ContactDataController {
         $this->baseDataController->tryToDeleteData($table, $whereData, $whereFormat);
     }
 
-    public function deleteMultipleContactsByID($contactIDs) throws {
+    public function deleteMultipleContactsByID($contactIDs) {
         foreach ($contactIDs as $ID) {
             $this->deleteSingleContactByID($ID);
         }
