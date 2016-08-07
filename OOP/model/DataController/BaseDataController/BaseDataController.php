@@ -57,6 +57,11 @@ class BaseDataController {
         }
     }
 
+    public function print_msg($msg) {
+        echo "$msg<br>";
+    }
+
+
     public function tryToSelectSingleRowByQuery($sqlQuery) {
         $selectedRows = $this->tryToSelectMultipleRowsByQuery($sqlQuery);
         if (sizeof($selectedRows) > 1) {
@@ -79,6 +84,92 @@ class BaseDataController {
         // TODO: $numberOfAffectedRows müsste an dieser Stelle 1
         // sein. Sollte hier mittels assert getestet werden
         return $numberOfAffectedRows;
+    }
+
+    /**
+    * tryToInsertRowWithAutoUpdateSinglePrimary
+    * 
+    * Insert data from a given DatabaseRow object that has one auto-increment
+    * integer primary key. After insertion, the primary value will be updated
+    * automatically.
+    *
+    * @param String         $table      The table to insert the DatabaseRow
+    * @param DatabaseRow    $row        DatabaseRow object containing data to insert
+    * 
+    * @return void
+    */
+    public function tryToInsertRowWithAutoUpdateSingleAutoPrimary($table, $row) {
+        $this->throwExceptionOnMultiplePrimaryColumnsForTable($table);
+        $nonPrimaryColumnNames = $this->getNonPrimaryColumnNamesForTable($table);
+        $insertArray = $this->getInsertArrayFromRow($row, $nonPrimaryColumnNames);
+        $this->tryToInsertData(
+            $table,
+            $insertArray,
+            null
+        );
+        $primaryKey = $this->getPrimaryColumnNamesForTable($table)[0];
+        $row->setValueForKey($primaryKey, $this->getIdFromLastInsert());
+    }
+
+    private function throwExceptionOnMultiplePrimaryColumnsForTable($table) {
+        $primaryColumns = $this->getPrimaryColumnNamesForTable($table);
+        $numberOfPrimaryColumns = count($primaryColumns);
+        if ($numberOfPrimaryColumns != 1) {
+            $errorMessage = "Table '$table' must have exactly one primary column";
+            throw new InvalidArgumentException($errorMessage);
+        }
+    }
+
+    private function getInsertArrayFromRow($row, $columns) {
+        $insertArray = array();
+        foreach ($columns as $columnName) {
+            $insertArray[$columnName] = $row->getValueForKey($columnName);
+        }
+        return $insertArray;
+    }
+
+    public function getColumnNamesForTable($table) {
+        $sqlQuery = "SHOW COLUMNS FROM $table;";
+        $columnNameResults = $this->tryToSelectMultipleRowsByQuery($sqlQuery);
+        $filteredColumnNames = $this->filterValuesFromRowsForSingleKey(
+            'Field',
+            $columnNameResults
+        );
+        return $filteredColumnNames;
+    }
+
+    public function getPrimaryColumnNamesForTable($table) {
+        $sqlQuery = "SHOW KEYS FROM $table WHERE Key_name='PRIMARY';";
+        $columnNameResults = $this->tryToSelectMultipleRowsByQuery($sqlQuery);
+        $filteredColumnNames = $this->filterValuesFromRowsForSingleKey(
+            'Column_name',
+            $columnNameResults
+        );
+        return $filteredColumnNames;
+    }
+
+    public function getNonPrimaryColumnNamesForTable($table) {
+        $valuesToInsert = array_diff(
+            $this->getColumnNamesForTable($table),
+            $this->getPrimaryColumnNamesForTable($table)
+        );
+        return $valuesToInsert;
+    }
+
+    private function filterValuesFromRowsForSingleKey($key, $rows) {
+        $valuesForKey = array();
+        foreach ($rows as $row) {
+            array_push($valuesForKey, $row->getValueForKey($key));
+        }
+        return $valuesForKey;
+    }
+
+    private function filterValuesFromRowsForMultipleKeys($keys, $rows) {
+        $filtered = array();
+        foreach ($keys as $key) {
+            $filtered['$key'] = $this->filterValuesFromRowsForKey($key, $rows);
+        }
+        return $filtered;
     }
 
     public function tryToUpdateData($table, $dataToUpdate, $sqlWhereStatement, $updateDataFormat=null, $whereFormat=null) {
