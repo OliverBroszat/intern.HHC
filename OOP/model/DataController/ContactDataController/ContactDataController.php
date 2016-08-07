@@ -142,6 +142,10 @@ class ContactDataController {
         }
     }
 
+    public function getBaseDataController() {
+        return $this->baseDataController;
+    }
+
     private function getContactDatabaseRowByID($contactID) {
         $unpreparedSqlQuery = "SELECT * FROM Contact WHERE id=%d";
         $preparedSqlQuery = $this->baseDataController->prepareSqlQuery($unpreparedSqlQuery, $contactID);
