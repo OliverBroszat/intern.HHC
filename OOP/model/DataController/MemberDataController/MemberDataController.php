@@ -43,23 +43,30 @@ loadWordpressFunctions();
  */
 class MemberDataController {
 
+    private $baseDataController;
     private $contactDataController;
     private $userSecurityPass;
 
-    public function __construct($userSecurityPass) {
+    public function __construct($userSecurityPass, $contactDataController) {
         $this->userSecurityPass = $userSecurityPass;
         //$this->ifUserNotLoggedInThrowException();
-        $this->contactDataController = new ContactDataController($userSecurityPass);
+        $this->contactDataController = $contactDataController;
+        $this->baseDataController = $contactDataController->getBaseDataController();
     }
 
     public function createSingleMemberByProfile($memberProfile) {
-        //
+        $this->contactDataController->createSingleContactByProfile($memberProfile->contactProfile);
+        $this->createMemberByDatabaseRow($memberProfile->memberDatabaseRow);
     }
 
     public function createMultipleMembersByProfile($memberProfiles) {
         foreach ($memberProfiles as $memberProfile) {
             $this->createSingleMemberByProfile($memberProfile);
         }
+    }
+
+    private function createMemberByDatabaseRow($memberDatabaseRow) {
+        $this->baseDataController->tryToInsertRow('Member', $memberDatabaseRow);
     }
 
     public function getSingleMemberProfileByID($ID) {

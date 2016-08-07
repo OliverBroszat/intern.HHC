@@ -83,7 +83,7 @@ $nor = $test->tryToDeleteData(
 echo "$nor rows deleted<br>";
 
 new_paragraph("Get ContactProfile");
-$userC = new ContactDataController(null);
+$userC = new ContactDataController(null, $test);
 $profile = $userC->getSingleContactProfileByID(200);
 print_r($profile);
 echo '<br><br>';
@@ -124,6 +124,20 @@ new_paragraph('Delete a Contact');
 new_paragraph('getNamesOfColumns');
 print_r($newprofile->contactDatabaseRow->getNamesOfColumns());
 
+new_paragraph('MemberController Test');
+$member_array = array(
+	'contact' => $newprofile->contactDatabaseRow->getValueForKey('id'),
+	'ressort' => 1,
+	'active' => 0,
+	'position' => 'mitglied',
+	'joined' => '2016-08-07',
+	'left' => '0000-00-00'
+);
+$member_object = (object) $member_array;
+$member_row = new DatabaseRow($member_object);
+$memberProfile = new MemberProfile($member_row, $newprofile);
+$memberC = new MemberDataController(null, $userC);
+$memberC->createSingleMemberByProfile($memberProfile);
 
 
 

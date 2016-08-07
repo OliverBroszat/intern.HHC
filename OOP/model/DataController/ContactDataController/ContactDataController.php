@@ -51,7 +51,7 @@ class ContactDataController {
         $this->baseDataController = $baseDataController;
     }
 
-    public function createSingleContactFromProfile($contactProfile) {
+    public function createSingleContactByProfile($contactProfile) {
         $this->baseDataController->tryToInsertRowWithAutoUpdateSingleAutoPrimary(
             'Contact',
             $contactProfile->contactDatabaseRow
