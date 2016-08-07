@@ -56,27 +56,18 @@ class ContactDataController {
             'Contact',
             $contactProfile->contactDatabaseRow
         );
-        $newContactId = $contactProfile->contactDatabaseRow->getValueForKey('id');
-        foreach ($contactProfile->addressDatabaseRows as $addr) {
-            $addr->setValueForKey('contact', $newContactId);
-            $this->baseDataController->tryToInsertRowWithAutoUpdateSingleAutoPrimary('Address', $addr);
-        }
-        foreach ($contactProfile->mailDatabaseRows as $mail) {
-            $mail->setValueForKey('contact', $newContactId);
-            $this->baseDataController->tryToInsertRowWithAutoUpdateSingleAutoPrimary('Mail', $mail);
-        }
-        foreach ($contactProfile->phoneDatabaseRows as $phone) {
-            $phone->setValueForKey('contact', $newContactId);
-            $this->baseDataController->tryToInsertRowWithAutoUpdateSingleAutoPrimary('Phone', $phone);
-        }
-        foreach ($contactProfile->studyDatabaseRows as $study) {
-            $study->setValueForKey('contact', $newContactId);
-            $this->baseDataController->tryToInsertRowWithAutoUpdateSingleAutoPrimary('Study', $study);
-        }
+        $newContactID = $contactProfile->contactDatabaseRow->getValueForKey('id');
+        $contactProfile->updateDataWithContactID($newContactID);
+        $this->createContactItemsForTable('Address', $contactProfile->addressDatabaseRows);
+        $this->createContactItemsForTable('Mail', $contactProfile->mailDatabaseRows);
+        $this->createContactItemsForTable('Phone', $contactProfile->phoneDatabaseRows);
+        $this->createContactItemsForTable('Study', $contactProfile->studyDatabaseRows);
     }
 
-    private function updateContactItems($data) {
-        
+    private function createContactItemsForTable($table, $dataRows) {
+        foreach ($dataRows as $row) {
+            $this->baseDataController->tryToInsertRowWithAutoUpdateSingleAutoPrimary($table, $row);
+        }
     }
 
     public function createMultipleContactProfiles($contactProfile) {
