@@ -46,9 +46,9 @@ class ContactDataController {
     private $baseDataController;
     private $userSecurityPass;
 
-    public function __construct($userSecurityPass) {
+    public function __construct($userSecurityPass, $baseDataController) {
         //$this->ifUserNotLoggedInThrowException();
-        $this->baseDataController = new BaseDataController();
+        $this->baseDataController = $baseDataController;
     }
 
     public function createSingleContactFromProfile($contactProfile) {
