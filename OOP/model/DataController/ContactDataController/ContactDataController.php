@@ -72,7 +72,7 @@ class ContactDataController {
 
     public function createMultipleContactProfiles($contactProfiles) {
         foreach ($contactProfiles as $profile) {
-            $this->createSingleContactFromProfile($profile);
+            $this->createSingleContactByProfile($profile);
         }
     }
 
@@ -109,7 +109,7 @@ class ContactDataController {
     */
     public function updateSingleContactProfile($contactProfile) {
         $this->deleteSingleContactByProfile($contactProfile);
-        $this->createSingleContactFromProfile($contactProfile);
+        $this->createSingleContactByProfile($contactProfile);
     }
 
     public function updateMultipleContactProfiles($contactProfiles) {

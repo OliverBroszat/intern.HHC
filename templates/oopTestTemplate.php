@@ -115,16 +115,14 @@ echo $profiles[2]->addressDatabaseRows[0]->getValueForKey('street');
 new_paragraph('Create a Contact');
 $newprofile = $profiles[2];
 $newprofile->contactDatabaseRow->setValueForKey('first_name', 'Hermann');
-$userC->createSingleContactFromProfile($newprofile);
+$userC->createSingleContactByProfile($newprofile);
 var_dump($newprofile);
 
 new_paragraph('Delete a Contact');
-$userC->deleteSingleContactByID($newprofile->contactDatabaseRow->getValueForKey('id'));
+//$userC->deleteSingleContactByID($newprofile->contactDatabaseRow->getValueForKey('id'));
 
 new_paragraph('getNamesOfColumns');
 print_r($newprofile->contactDatabaseRow->getNamesOfColumns());
-
-
 
 
 
