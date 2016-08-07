@@ -70,10 +70,10 @@ class ContactDataController {
         }
     }
 
-    public function createMultipleContactProfiles($contactProfile) {
-        /*
-        Pro contactProfile die Methode createSingleContactProfile() aufrufen
-        */
+    public function createMultipleContactProfiles($contactProfiles) {
+        foreach ($contactProfiles as $profile) {
+            $this->createSingleContactFromProfile($profile);
+        }
     }
 
     public function getSingleContactProfileByID($contactID) {
