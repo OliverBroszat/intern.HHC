@@ -98,6 +98,17 @@ class BaseDataController {
     * 
     * @return void
     */
+
+    public function tryToInsertRow($table, $row) {
+        $selectedColumns = $this->getColumnNamesForTable($table);
+        $insertArray = $this->getInsertArrayFromRow($row, $selectedColumns);
+        $this->tryToInsertData(
+            $table,
+            $insertArray,
+            null
+        );
+    }
+
     public function tryToInsertRowWithAutoUpdateSingleAutoPrimary($table, $row) {
         $this->throwExceptionOnMultiplePrimaryColumnsForTable($table);
         $nonPrimaryColumnNames = $this->getNonPrimaryColumnNamesForTable($table);
