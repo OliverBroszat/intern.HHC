@@ -156,7 +156,7 @@ class BaseDataController {
         return $valuesToInsert;
     }
 
-    private function filterValuesFromRowsForSingleKey($key, $rows) {
+    public function filterValuesFromRowsForSingleKey($key, $rows) {
         $valuesForKey = array();
         foreach ($rows as $row) {
             array_push($valuesForKey, $row->getValueForKey($key));
@@ -164,7 +164,7 @@ class BaseDataController {
         return $valuesForKey;
     }
 
-    private function filterValuesFromRowsForMultipleKeys($keys, $rows) {
+    public function filterValuesFromRowsForMultipleKeys($keys, $rows) {
         $filtered = array();
         foreach ($keys as $key) {
             $filtered['$key'] = $this->filterValuesFromRowsForKey($key, $rows);
