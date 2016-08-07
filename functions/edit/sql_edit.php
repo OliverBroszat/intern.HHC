@@ -16,9 +16,17 @@ echo "<h2>DEBUG-Output</h2>";
 
 
 // --- DELETE ---
+// function delete_member($id) {
+// 	global $wpdb;
+// 	$wpdb->delete('Contact', array( 'id' => $id ) );
+// }
+
+$base = new BaseDataController();
+$contact = new ContactDataController(null, $base);
+
 function delete_member($id) {
-	global $wpdb;
-	$wpdb->delete('Contact', array( 'id' => $id ) );
+	global $contact;
+	$contact->deleteSingleContactByID($id);
 }
 
 
