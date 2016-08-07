@@ -108,7 +108,14 @@ class ContactDataController {
     * NOTE: the profile's id WILL be changed after any update
     */
     public function updateSingleContactProfile($contactProfile) {
-        
+        $this->deleteSingleContactByProfile($contactProfile);
+        $this->createSingleContactFromProfile($contactProfile);
+    }
+
+    public function updateMultipleContactProfiles($contactProfiles) {
+        foreach ($contactProfiles as $profile) {
+            $this->updateSingleContactProfile($profile);
+        }
     }
 
     public function deleteSingleContactByID($contactID) {
