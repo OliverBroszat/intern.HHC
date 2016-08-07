@@ -51,86 +51,32 @@ class ContactDataController {
         $this->baseDataController = new BaseDataController();
     }
 
-    public function createSingleContactProfile($contactProfile) {
-        $this->baseDataController->tryToInsertData(
+    public function createSingleContactFromProfile($contactProfile) {
+        $this->baseDataController->tryToInsertRowWithAutoUpdateSingleAutoPrimary(
             'Contact',
-            array(
-                'prefix' => $contactProfile->contactDatabaseRow->getValueForKey('prefix'),
-                'first_name' => $contactProfile->contactDatabaseRow->getValueForKey('first_name'),
-                'last_name' => $contactProfile->contactDatabaseRow->getValueForKey('last_name'),
-                'birth_date' => $contactProfile->contactDatabaseRow->getValueForKey('birth_date'),
-                'comment' => $contactProfile->contactDatabaseRow->getValueForKey('comment'),
-                'skype_name' => $contactProfile->contactDatabaseRow->getValueForKey('skype_name')
-            ),
-            array('%s','%s','%s','%s','%s','%s')
+            $contactProfile->contactDatabaseRow
         );
-        $newContactId = $this->baseDataController->getIdFromLastInsert();
-        $contactProfile->contactDatabaseRow->setValueForKey('id', $newContactId);
+        $newContactId = $contactProfile->contactDatabaseRow->getValueForKey('id');
         foreach ($contactProfile->addressDatabaseRows as $addr) {
             $addr->setValueForKey('contact', $newContactId);
-            $this->baseDataController->tryToInsertData(
-                'Address',
-                array(
-                    'description' => $addr->getValueForKey('description'),
-                    'street' => $addr->getValueForKey('street'),
-                    'number' => $addr->getValueForKey('number'),
-                    'addr_extra' => $addr->getValueForKey('addr_extra'),
-                    'postal' => $addr->getValueForKey('postal'),
-                    'city' => $addr->getValueForKey('city'),
-                    'contact' => $addr->getValueForKey('contact')
-                ),
-                array('%s','%s','%d','%s','%s', '%s','%d')
-            );
-            $lastAddressInsertId = $this->baseDataController->getIdFromLastInsert();
-            $addr->setValueForKey('id', $lastAddressInsertId);
+            $this->baseDataController->tryToInsertRowWithAutoUpdateSingleAutoPrimary('Address', $addr);
         }
         foreach ($contactProfile->mailDatabaseRows as $mail) {
             $mail->setValueForKey('contact', $newContactId);
-            $this->baseDataController->tryToInsertData(
-                'Mail',
-                array(
-                    'description' => $mail->getValueForKey('description'),
-                    'address' => $mail->getValueForKey('address'),
-                    'contact' => $mail->getValueForKey('contact')
-                ),
-                array('%s','%s', '%d')
-            );
-            $lastMailInsertId = $this->baseDataController->getIdFromLastInsert();
-            $mail->setValueForKey('id', $lastMailInsertId);
+            $this->baseDataController->tryToInsertRowWithAutoUpdateSingleAutoPrimary('Mail', $mail);
         }
         foreach ($contactProfile->phoneDatabaseRows as $phone) {
             $phone->setValueForKey('contact', $newContactId);
-            $this->baseDataController->tryToInsertData(
-                'Phone',
-                array(
-                    'description' => $phone->getValueForKey('description'),
-                    'number' => $phone->getValueForKey('number'),
-                    'contact' => $phone->getValueForKey('contact')
-                ),
-                array('%s','%s', '%d')
-            );
-            $lastPhoneInsertId = $this->baseDataController->getIdFromLastInsert();
-            $phone->setValueForKey('id', $lastPhoneInsertId);
+            $this->baseDataController->tryToInsertRowWithAutoUpdateSingleAutoPrimary('Phone', $phone);
         }
         foreach ($contactProfile->studyDatabaseRows as $study) {
             $study->setValueForKey('contact', $newContactId);
-            $this->baseDataController->tryToInsertData(
-                'Study',
-                array(
-                    'contact' => $study->getValueForKey('contact'),
-                    'status' => $study->getValueForKey('status'),
-                    'school' => $study->getValueForKey('school'),
-                    'course' => $study->getValueForKey('course'),
-                    'start' => $study->getValueForKey('start'),
-                    'end' => $study->getValueForKey('end'),
-                    'focus' => $study->getValueForKey('focus'),
-                    'degree' => $study->getValueForKey('degree'),
-                ),
-                array('%d','%s', '%s', '%s', '%s', '%s', '%s', '%s')
-            );
-            $lastStudyInsertId = $this->baseDataController->getIdFromLastInsert();
-            $study->setValueForKey('id', $lastStudyInsertId);
+            $this->baseDataController->tryToInsertRowWithAutoUpdateSingleAutoPrimary('Study', $study);
         }
+    }
+
+    private function updateContactItems($data) {
+        
     }
 
     public function createMultipleContactProfiles($contactProfile) {
