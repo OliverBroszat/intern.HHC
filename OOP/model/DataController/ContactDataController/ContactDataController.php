@@ -149,7 +149,6 @@ class ContactDataController {
     private function getContactDatabaseRowByID($contactID) {
         $unpreparedSqlQuery = "SELECT * FROM Contact WHERE id=%d";
         $preparedSqlQuery = $this->baseDataController->prepareSqlQuery($unpreparedSqlQuery, $contactID);
-        print_r($preparedSqlQuery);
         $contactRow = $this->baseDataController->tryToSelectSingleRowByQuery($preparedSqlQuery);
         return $contactRow;
     }

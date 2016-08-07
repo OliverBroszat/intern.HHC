@@ -124,6 +124,11 @@ new_paragraph('Delete a Contact');
 new_paragraph('getNamesOfColumns');
 print_r($newprofile->contactDatabaseRow->getNamesOfColumns());
 
+$memberC = new MemberDataController(null, $userC);
+new_paragraph('Get MemberProfile');
+$p1 = $memberC->getSingleMemberProfileByContactID(135);
+var_dump($p1);
+
 new_paragraph('MemberController Test');
 $member_array = array(
 	'contact' => $newprofile->contactDatabaseRow->getValueForKey('id'),
@@ -136,7 +141,6 @@ $member_array = array(
 $member_object = (object) $member_array;
 $member_row = new DatabaseRow($member_object);
 $memberProfile = new MemberProfile($member_row, $newprofile);
-$memberC = new MemberDataController(null, $userC);
 $memberC->createSingleMemberByProfile($memberProfile);
 
 

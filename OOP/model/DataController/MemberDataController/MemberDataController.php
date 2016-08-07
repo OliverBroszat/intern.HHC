@@ -69,11 +69,18 @@ class MemberDataController {
         $this->baseDataController->tryToInsertRow('Member', $memberDatabaseRow);
     }
 
-    public function getSingleMemberProfileByID($ID) {
-        //
+    public function getSingleMemberProfileByContactID($ID) {
+        $contactProfile = $this->contactDataController->getSingleContactProfileByID($ID);
+        $unpreparedMemberSqlQuery = "SELECT * FROM Member WHERE contact=%d;";
+        $preparedMemberSqlQuery = $this->baseDataController->prepareSqlQuery(
+            $unpreparedMemberSqlQuery,
+            $ID
+        );
+        $memberRow = $this->baseDataController->tryToSelectSingleRowByQuery($preparedMemberSqlQuery);
+        return new MemberProfile($memberRow, $contactProfile);
     }
 
-    public function getMultipleMemberProfilesByID($IDs) {
+    public function getMultipleMemberProfilesByContactID($IDs) {
         foreach ($IDs as $ID) {
             $this->getSingleMemberProfileByID($ID);
         }
