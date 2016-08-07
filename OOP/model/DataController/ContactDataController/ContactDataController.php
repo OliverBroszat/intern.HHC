@@ -101,11 +101,14 @@ class ContactDataController {
         return $contactProfiles;
     }
 
+    /**
+    * updateSingleContactProfile
+    * 
+    * Performs a deletion and insertion of a given contact profile.
+    * NOTE: the profile's id WILL be changed after any update
+    */
     public function updateSingleContactProfile($contactProfile) {
-        /*
-        TODO: delete-create Kombination? Impliziert neue ID für den Contact!
-        ansonsten einfach per 
-        */
+        
     }
 
     public function deleteSingleContactByID($contactID) {
@@ -118,6 +121,17 @@ class ContactDataController {
     public function deleteMultipleContactsByID($contactIDs) {
         foreach ($contactIDs as $ID) {
             $this->deleteSingleContactByID($ID);
+        }
+    }
+
+    public function deleteSingleContactByProfile($contactProfile) {
+        $contactID = $contactProfile->contactDatabaseRow->getValueForKey('id');
+        $this->deleteSingleContactByID($contactID);
+    }
+
+    public function deleteMultipleContactsByProfile($contactProfiles) {
+        foreach ($contactProfiles as $profile) {
+            $this->deleteSingleContactByProfile($profile);
         }
     }
 
