@@ -108,6 +108,17 @@ class BaseDataController {
         return $this->wpDatabaseConnection->prepare($query, $args);
     }
 
+    public function getIdFromLastInsert() {
+        $insertId = $this->wpDatabaseConnection->insert_id;
+        if ($insertId == false) {
+            $errorMessage = 'No id from last SQL insert statement could be found';
+            throw RuntimeException($errorMessage);
+        }
+        else {
+            return $insertId;
+        }
+    }
+
     private static function wrapSQLResultsIntoDatabaseRows($unwrappedRows) {
         $wrappedRows = array();
         foreach ($unwrappedRows as $row) {
