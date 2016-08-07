@@ -64,7 +64,7 @@ class BaseDataController {
 
     public function tryToSelectSingleRowByQuery($sqlQuery) {
         $selectedRows = $this->tryToSelectMultipleRowsByQuery($sqlQuery);
-        if (sizeof($selectedRows) > 1) {
+        if (sizeof($selectedRows) != 1) {
             $errorMessage = "More than 1 row was selected by SQL query '$sqlQuery' in BaseDataController::tryToSelectSingleRowByQuery()";
             throw new LengthException($errorMessage);
         }
@@ -78,12 +78,22 @@ class BaseDataController {
         return $requestedRowsWrapped;
     }
 
-    public function tryToInsertData($table, $dataToInsert, $dataFormat) {
+    public function tryToInsertData($table, $dataToInsert, $dataFormat=null) {
         $numberOfAffectedRows = $this->wpDatabaseConnection->insert($table, $dataToInsert, $dataFormat);
         $this->onWordpressErrorThrowException();
         // TODO: $numberOfAffectedRows müsste an dieser Stelle 1
         // sein. Sollte hier mittels assert getestet werden
         return $numberOfAffectedRows;
+    }
+
+    public function tryToInsertRow($table, $row) {
+        $selectedColumns = $this->getColumnNamesForTable($table);
+        $insertArray = $this->getInsertArrayFromRow($row, $selectedColumns);
+        $this->tryToInsertData(
+            $table,
+            $insertArray,
+            null
+        );
     }
 
     /**
@@ -98,17 +108,6 @@ class BaseDataController {
     * 
     * @return void
     */
-
-    public function tryToInsertRow($table, $row) {
-        $selectedColumns = $this->getColumnNamesForTable($table);
-        $insertArray = $this->getInsertArrayFromRow($row, $selectedColumns);
-        $this->tryToInsertData(
-            $table,
-            $insertArray,
-            null
-        );
-    }
-
     public function tryToInsertRowWithAutoUpdateSingleAutoPrimary($table, $row) {
         $this->throwExceptionOnMultiplePrimaryColumnsForTable($table);
         $nonPrimaryColumnNames = $this->getNonPrimaryColumnNamesForTable($table);

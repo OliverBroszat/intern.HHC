@@ -52,6 +52,8 @@ loadWordpressFunctions();
 class DatabaseRow
 {
 
+    // TODO: add static method FromArray
+
     private $sqlQueryResult;
 
     public function __construct($sqlQueryResult)

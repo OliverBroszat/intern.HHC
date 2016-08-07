@@ -88,6 +88,7 @@ $profile = $userC->getSingleContactProfileByID(200);
 print_r($profile);
 echo '<br><br>';
 echo $profile->contactDatabaseRow->getValueForKey('first_name');
+echo '<br>'.$profile->mailDatabaseRows[0]->getValueForKey('address');
 
 
 new_paragraph("Get more ContactProfiles");
@@ -99,7 +100,7 @@ $profiles = $userC->getMultipleContactProfilesByID(
 	)
 );
 foreach ($profiles as $p) {
-	print_r($p->contactDatabaseRow);
+	print_r($p->contactDatabaseRow->getValueForKey('last_name'));
 	echo '<br>';
 	print_r($p->addressDatabaseRows);
 	echo '<br>';
@@ -114,6 +115,35 @@ echo $profiles[2]->addressDatabaseRows[0]->getValueForKey('street');
 
 new_paragraph('Create a Contact');
 $newprofile = $profiles[2];
+
+$contact = array(
+	'prefix' => 'Herr',
+	'first_name' => "Peter",
+	'last_name' => "Becker",
+	'birth_date' => "1993-01-01",
+	'comment' => '',
+	'skype_name' => null
+);
+$contact = new DatabaseRow((object) $contact);
+$addresses = new DatabaseRow((object) array());
+$mails = new DatabaseRow((object) array());
+$phones = new DatabaseRow((object) array());
+$studies = new DatabaseRow((object) array());
+$verynewProfile = new ContactProfile(
+	$contact,
+	$addresses,
+	$mails,
+	$phones,
+	$studies
+);
+echo '************************<br><br>';
+var_dump($verynewProfile);
+echo '<br><br>************************<br><br>';
+$userC->createSingleContactByProfile($verynewProfile);
+echo '************************<br><br>';
+var_dump($verynewProfile);
+echo '<br><br>************************<br><br>';
+
 $newprofile->contactDatabaseRow->setValueForKey('first_name', 'Hermann');
 $userC->createSingleContactByProfile($newprofile);
 var_dump($newprofile);
