@@ -55,8 +55,34 @@ class MemberDataController {
     }
 
     public function createSingleMemberByProfile($memberProfile) {
+        print_r('*********ERSTELLE CONTACT');
         $this->contactDataController->createSingleContactByProfile($memberProfile->contactProfile);
+        $memberProfile->memberDatabaseRow->setValueForKey(
+            'contact',
+            $memberProfile->contactProfile->contactDatabaseRow->getValueForKey('id')
+        );
+        print_r('*********ERSTELLE MEMBER');
+        echo '<br><br>';
+        var_dump($memberProfile->memberDatabaseRow);
+        echo '<br><br>';
         $this->createMemberByDatabaseRow($memberProfile->memberDatabaseRow);
+        print_r('*********ERSTELLE DONE');
+    }
+
+    public function createSingleMemberByProfileWithFixedID($id, $memberProfile) {
+        print_r('*********ERSTELLE CONTACT');
+        $this->contactDataController->createSingleContactByProfileWithID($id, $memberProfile->contactProfile);
+        echo '$$$$$$$$$$$$$$$$$$$$$$$$';
+        $memberProfile->memberDatabaseRow->setValueForKey(
+            'contact',
+            $memberProfile->contactProfile->contactDatabaseRow->getValueForKey('id')
+        );
+        print_r('*********ERSTELLE MEMBER');
+        echo '<br><br>';
+        var_dump($memberProfile->memberDatabaseRow);
+        echo '<br><br>';
+        $this->createMemberByDatabaseRow($memberProfile->memberDatabaseRow);
+        print_r('*********ERSTELLE DONE');
     }
 
     public function createMultipleMembersByProfile($memberProfiles) {
@@ -98,8 +124,12 @@ class MemberDataController {
         // TODO: implement filter objects!
     }
 
-    public function updateSingleMemberByProfile($memberProfile) {
-        //
+    public function updateSingleMemberByProfileWithID($id, $memberProfile) {
+        $this->deleteSingleMemberByID($id);
+        $this->createSingleMemberByProfileWithFixedID(
+            $id,
+            $memberProfile
+        );
     }
 
     public function updateMultipleMembersByProfile($memberProfiles) {
@@ -109,7 +139,7 @@ class MemberDataController {
     }
 
     public function deleteSingleMemberByID($id) {
-        //
+        $this->contactDataController->deleteSingleContactByID($id);
     }
 
     public function deleteMultipleMembersByID($IDs) {
@@ -119,7 +149,7 @@ class MemberDataController {
     }
 
     public function deleteSingleMemberByProfile($memberProfile) {
-        //
+        $this->contactDataController->deleteSingleContactByProfile($memberProfile->contactProfile);
     }
 
     public function deleteMultipleMembersByProfile($memberProfiles) {

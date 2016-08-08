@@ -8,94 +8,102 @@ if(in_array($_SERVER['REMOTE_ADDR'], $localhost)){
 } 
 require_once("$root/wp-load.php");
 
-
+$root = get_template_directory();
+require_once("$root/functions/edit/sql_functions.php");
 
 echo "<button type='button' onclick='popup_close(); ajax_post()' style='margin: 1rem auto; display: block;'>Schließen</button>";
 echo "<hr>";
 echo "<h2>DEBUG-Output</h2>";
 
-
-// --- DELETE ---
-function delete_member($id) {
-	global $wpdb;
-	$wpdb->delete('Contact', array( 'id' => $id ) );
-}
-
-
 // Lösche alle Einträge mit 'other'
 $post_clean = unset_value_in_2d_array($_POST, 'other');
-
 // Wandele POST in einen geordneteren Array um
 $data = post_to_array($post_clean);
-
 // get CRUD infos
 $crud = $data['crud'][0];
 
+arr_to_list($data);
 echo "<b>Operation:</b> ";
+
+$base = new BaseDataController();
+$contact = new ContactDataController(null, $base);
+$member = new MemberDataController(null, $contact);
+
+$dataObject = array();
+foreach ($data as $table => $tables) {
+	$rows = array();
+	foreach ($tables as $index => $values) {
+		//$dataObject[$table][$index] = new DatabaseRow((object) $values);
+		$rows[$index] = new DatabaseRow((object) $values);
+	}
+	$dataObject[$table] = $rows;
+};
+
+$newProfile = new ContactProfile(
+	$dataObject['Contact'][0],
+	$dataObject['Address'],
+	$dataObject['Mail'],
+	$dataObject['Phone'],
+	$dataObject['Study']
+);
+
+$newMember = new MemberProfile(
+	$dataObject['Member'][0],
+	$newProfile
+);
 
 // Call SQL-Functions for each Data-Set
 if($crud['mode'] == 'edit' && !empty($crud['id'])) {
+	
 	// UPDATE OLD => DELETE OLD and INSERT NEW with OLD ID
 	echo "UPDATE ";
 	$id = $crud['id'];
 
+	// Get Image ID
 	global $wpdb;
 	$query = "SELECT id FROM Image WHERE contact_id=%d";
 	$query_escaped = $wpdb->prepare($query, $id);
-	$attachment_id = $wpdb->get_var($query_escaped);
-	// Get image's source path
-	$imgsrc_thumb = wp_get_attachment_image_src($attachment_id, $size='')[0];	
+	$attachment_id = $base->tryToGetSingleRowByQuery($query_escaped)->getValueForKey('id');
+
+	$member->updateSingleMemberByProfileWithID($id, $newMember);
+	// CONTACT NEU ERSTELLEN
 	
-	// delete old data
-	delete_member($id);
+	// // delete old data
+	// $contact->deleteSingleContactByID($id);
 
-	// insert new data
-	foreach ($data as $table => $content) {
-		foreach ($content as $index => $cols) {	
-			if ($table != 'edit') {
+	// // insert new data
+	// foreach ($data as $table => $content) {
+	// 	foreach ($content as $index => $cols) {	
+	// 		if ($table == 'Contact') { 
+	// 			$target = 'id';
+	// 		}
+	// 		else { 
+	// 			$target = 'contact';	
+	// 		}
 
-				if ($table == 'Contact') { 
-					$target = 'id';
-				}
-				else { 
-					$target = 'contact';	
-				}
+	// 		$cols[$target] = $id;	
 
-				$cols[$target] = $id;	
-
-				$wpdb->insert($table, $cols);
-			}
-		}
-	}
+	// 		$wpdb->insert($table, $cols);
+	// 	}
+	// }
 }
 elseif($crud['mode'] == 'delete') {
+	
+	// DELETE
 	echo "DELETE ";
 	$id = $crud['id'];
-	delete_member($id);
+	$contact->deleteSingleContactByID($id);
 }
 else {
+
 	// INSERT NEW
 	echo "INSERT ";
 
-	foreach ($data as $table => $content) {
-		foreach ($content as $index => $cols) {	
-			if ($table != 'edit') {
-				// SET ID
-				if ($table != 'Contact') 	{ 
-					$cols['contact'] = $id;
-				}
+	$member->createSingleMemberByProfile($newMember);
 
-				// SQL-Command
-				$wpdb->insert($table, $cols);
-
-				// GET ID
-				if ($table == 'Contact') 	{ 
-					$id = $wpdb->insert_id;
-				}
-			}
-		}
-	}
 }
+
+
 
 
 
@@ -117,8 +125,7 @@ if (!empty($_FILES['upload_image']['name'])) {
 		echo "<br>ERROR (Image Upload)<br>";
 	} else {
 		// The image was uploaded successfully!
-		$wpdb->insert(
-			'Image',
+		$base->tryToInsertData('Image',
 			array(
 				'id' => $attachment_id,
 				'contact_id' => $id
@@ -129,8 +136,7 @@ if (!empty($_FILES['upload_image']['name'])) {
 elseif(!empty($attachment_id) && $crud['delete_image'] == 'false') {
 	// use old image
 	echo "OLD IMAGE";
-	$wpdb->insert(
-		'Image',
+	$base->tryToInsertData('Image',
 		array(
 			'id' => $attachment_id,
 			'contact_id' => $id
@@ -142,13 +148,14 @@ else {
 	echo "NO IMAGE";
 }
 
+// Debug Output for Image
 if (!empty($attachment_id)) {
 	echo "<br><b>Image-id:</b> $attachment_id <br>";
 	echo "<b>Image-src:</b> $imgsrc_thumb <br>";
 	// echo "OLD Image: <img src='$imgsrc_thumb' class='profile-picture' alt='Profilbild' /> <br>";
-
 }
 
+//Debug Output continue
 echo "<br><b>Errors:</b> ";
 if (!empty($wpdb->last_error)) {
 	echo "<pre>".$wpdb->last_error."</pre>";

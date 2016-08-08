@@ -78,7 +78,7 @@ class BaseDataController {
         return $requestedRowsWrapped;
     }
 
-    public function tryToInsertData($table, $dataToInsert, $dataFormat) {
+    public function tryToInsertData($table, $dataToInsert, $dataFormat=null) {
         $numberOfAffectedRows = $this->wpDatabaseConnection->insert($table, $dataToInsert, $dataFormat);
         $this->onWordpressErrorThrowException();
         // TODO: $numberOfAffectedRows müsste an dieser Stelle 1
@@ -100,7 +100,16 @@ class BaseDataController {
     */
 
     public function tryToInsertRow($table, $row) {
-        $selectedColumns = $this->getColumnNamesForTable($table);
+        $insertArray = $this->getInsertArrayFromRow($row, $selectedColumns);
+        $this->tryToInsertData(
+            $table,
+            $insertArray,
+            null
+        );
+    }
+
+    public function tryToInsertRowWithoutPrimary($table, $row) {
+        $selectedColumns = array_diff($this->getColumnNamesForTable($table), array('id'));
         $insertArray = $this->getInsertArrayFromRow($row, $selectedColumns);
         $this->tryToInsertData(
             $table,

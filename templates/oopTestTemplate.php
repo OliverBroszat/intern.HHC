@@ -37,50 +37,50 @@ foreach ($it_ressort as $row) {
 }
 
 new_paragraph("tryToInsertData");
-$nor = $test->tryToInsertData(
-	'Application',
-	array(
-		'contact' => 200,
-		'income' => '2016-10-10',
-		'state' => 'new',
-		'assessment_template' => 1
-	),
-	array(
-		'%d', '%s', '%s', '%d'
-	)
-);
+// $nor = $test->tryToInsertData(
+// 	'application',
+// 	array(
+// 		'contact' => 200,
+// 		'income' => '2016-10-10',
+// 		'state' => 'new',
+// 		'assessment_template' => 1
+// 	),
+// 	array(
+// 		'%d', '%s', '%s', '%d'
+// 	)
+// );
 
-new_paragraph('Read new value');
-$newresult = $test->tryToSelectMultipleRowsByQuery("SELECT * FROM Application WHERE contact=200");
-print_r($newresult);
+// new_paragraph('Read new value');
+// $newresult = $test->tryToSelectMultipleRowsByQuery("SELECT * FROM application WHERE contact=200");
+// print_r($newresult);
 
-new_paragraph('Try to update data');
-$test->tryToUpdateData(
-	'Application',
-	array(
-		'state' => 'denied'
-	),
-	array(
-		'contact' => 200
-	)
-);
+// new_paragraph('Try to update data');
+// $test->tryToUpdateData(
+// 	'application',
+// 	array(
+// 		'state' => 'denied'
+// 	),
+// 	array(
+// 		'contact' => 200
+// 	)
+// );
 
-new_paragraph('Read new value');
-$newresult = $test->tryToSelectMultipleRowsByQuery("SELECT * FROM Application WHERE contact=200");
-print_r($newresult);
+// new_paragraph('Read new value');
+// $newresult = $test->tryToSelectMultipleRowsByQuery("SELECT * FROM application WHERE contact=200");
+// print_r($newresult);
 
-new_paragraph('Delete new value');
-$nor = $test->tryToDeleteData(
-	'Application',
-	array(
-		'contact' => 200
-	),
-	array(
-		'%d'
-	)
-);
+// new_paragraph('Delete new value');
+// $nor = $test->tryToDeleteData(
+// 	'application',
+// 	array(
+// 		'contact' => 200
+// 	),
+// 	array(
+// 		'%d'
+// 	)
+// );
 
-echo "$nor rows deleted<br>";
+// echo "$nor rows deleted<br>";
 
 new_paragraph("Get ContactProfile");
 $userC = new ContactDataController(null, $test);
