@@ -48,4 +48,21 @@ if (!function_exists('check')) {
 	}
 }	
 
+// --------- Wandelt 0/1 zu aktiv/inaktiv um ----------
+function bool_to_lbl($boolean){
+	if 		($boolean == '0') 	{ return 'aktiv'; }
+	elseif 	($boolean == '1') 	{ return 'inaktiv'; }
+	else 						{ return $boolean; }
+}
+
+// --------- Wandelt eine stdClass in ein Array ohne Dublikate um ----------
+function res_to_array($results){
+	$array = array();
+	foreach ($results as $index) {
+		foreach ($index as $value) {
+			array_push($array, $value);
+		}	
+	}
+	return array_values(array_unique($array));
+}
 ?>

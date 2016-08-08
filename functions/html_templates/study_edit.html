@@ -2,7 +2,7 @@
 	<tr>
 		<td style='vertical-align: top;'>Status</td>
 		<td style='vertical-align: top;'>
-			<select name='study_status[]' id='study_status_%%FULL-ID%%'>
+			<select name='Study-status[]' id='study_status_%%FULL-ID%%'>
 				<option value='active' %%DATA-status_active%%>Aktiv</option>
 				<option value='done' %%DATA-status_done%%>Abgeschlossen</option>
 				<option value='cancelled' %%DATA-status_cancelled%%>Abgebrochen</option>
@@ -12,7 +12,7 @@
 	<tr>
 		<td>Abschluss</td>
 		<td>
-			<select id='%%FULL-ID%%' name='abschluss[]' onChange='showDiv(this);'>
+			<select id='%%FULL-ID%%' name='Study-degree[]' onChange='showDiv(this);'>
 				<option value='b sc' %%DATA-b_sc%%>Bachelor of Science</option>
 				<option value='m sc' %%DATA-m_sc%%>Master of Science</option>
 				<option value='b a' %%DATA-b_a%%>Bachelor of Arts</option>
@@ -23,22 +23,26 @@
 			</select>
 		</td>
 		<td>
-			<input id='hidden_div%%FULL-ID%%' type='text' name='anderer_abschluss' placeholder='anderer Abschluss...' value='%%DATA-other_extra%%' style='visibility: %%DATA-other_visibility%%;'/>
+<<<<<<< HEAD
+			<input id='hidden_div%%FULL-ID%%' type='text' name='Study-anderer_abschluss' placeholder='anderer Abschluss...' value='%%DATA-other_extra%%' style='visibility: %%DATA-other_visibility%%;'/>
+=======
+			<input id='hidden_div%%FULL-ID%%' type='text' name='anderer_abschluss[]' placeholder='anderer Abschluss...' value='%%DATA-other_extra%%' style='visibility: %%DATA-other_visibility%%;'/>
+>>>>>>> Bewerbungssystem_Alex_Marek
 		</td>
 	</tr>
 	<tr>
 		<td>Fach</td>
 		<td>
-			<input type='text' name='course[]' placeholder='Fach' value='%%DATA-course%%'/>
+			<input type='text' name='Study-course[]' placeholder='Fach' value='%%DATA-course%%'/>
 		</td>
 		<td>
-			<input type='text' name='focus[]' placeholder='(Schwerpunkt)' value='%%DATA-focus%%'/>
+			<input type='text' name='Study-focus[]' placeholder='(Schwerpunkt)' value='%%DATA-focus%%'/>
 		</td>
 	</tr>
 	<tr>
 		<td width ='20%' style='vertical-align: top;'>Universität</td>
 		<td width='40%' style='vertical-align: top;'>
-			<select id='school%%FULL-ID%%' name='school[]'>
+			<select id='school%%FULL-ID%%' name='Study-school[]'>
 				<option value='Heinrich-Heine-Universität' %%DATA-checked-HHU%%>Heinrich-Heine-Universität</option>
 				<option value='FH Düsseldorf' %%DATA-checked-FH%%>FH Düsseldorf</option>
 				<option value='Universität Duisburg-Essen' %%DATA-checked-DUE%%>Universität Duisburg-Essen</option>
@@ -49,14 +53,19 @@
 			</select>
 		</td>
 		<td width='40%' style='vertical-align:top;'>
-			<input type='text' name='other_schools[]' placeholder='andere Hochschule...' value='%%DATA-other-text%%'/>
+			<input type='text' name='Study-other_schools[]' placeholder='andere Hochschule...' value='%%DATA-other-text%%'/>
 			<br>
 		</td>
 	</tr>
 	<tr>
 		<td>Beginn / Ende</td>
-		<td style='vertical-align:top;'><input type='date' name='start' value='%%DATA-start-date%%'/></td>
-		<td style='vertical-align:top;'><input type='date' name='end' value='%%DATA-end-date%%'/></td>
+<<<<<<< HEAD
+		<td style='vertical-align:top;'><input type='date' name='Study-start' value='%%DATA-start%%'/></td>
+		<td style='vertical-align:top;'><input type='date' name='Study-end' value='%%DATA-end%%'/></td>
+=======
+		<td style='vertical-align:top;'><input type='date' name='start[]' value='%%DATA-start-date%%'/></td>
+		<td style='vertical-align:top;'><input type='date' name='end[]' value='%%DATA-end-date%%'/></td>
+>>>>>>> Bewerbungssystem_Alex_Marek
 	</tr>
 	<tr>
 	</tr>

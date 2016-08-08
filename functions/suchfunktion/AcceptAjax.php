@@ -10,7 +10,6 @@ $localhost = array(
 $root = realpath($_SERVER["DOCUMENT_ROOT"]); 
 if(in_array($_SERVER['REMOTE_ADDR'], $localhost)){
     $root = realpath($_SERVER["CONTEXT_DOCUMENT_ROOT"]).'/wordpress';
-    if (strpos($root, '\\')){ $root .= "/wordpress"; }
 }
 
 require_once("$root/wp-load.php");
@@ -64,13 +63,22 @@ $search_select = array(
 );
 
 // Für den LIKE Operator
-$search_range = array(
-	'Contact' => array(
-		'id',
-		'first_name',
-		'last_name'
-	)
-);
+$search_range = array( 
+  'Contact' => array( 
+    'first_name', 
+    'last_name' 
+  ), 
+  'Address' => array( 
+    'city', 
+    'postal' 
+  ), 
+  'Phone' => array( 
+    'number' 
+  ), 
+  'Study' => array( 
+    'course' 
+  ) 
+); 
 
 	// Für den SELECT Operator
 	$search_select = array(
@@ -113,6 +121,8 @@ $final = postProcess($data);
 // HTML-Tabelle
 $html = createHTML($final);
 
-echo $html;
+$number = count($final);
+
+echo $number.'\\n'.$html;
 
 ?>
