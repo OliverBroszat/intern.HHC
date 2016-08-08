@@ -25,7 +25,7 @@ $query = "
 		FROM (
 			SELECT * 
 			FROM (
-				SELECT first_name, last_name, id FROM Contact 
+				SELECT first_name, last_name, id, skype_name FROM Contact 
 				UNION 
 				SELECT last_name, first_name, last_name FROM Contact
 				UNION 

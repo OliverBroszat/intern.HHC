@@ -129,24 +129,26 @@ get_header();
 			
 			for ($j=0; $j < $count; $j++) { 					
 				$value = $data[$j + $i * $count];
-				echo "
-					<tr>
-						<td width='1px'>
-							<div class='ui checkbox'>
-						    	<input 
-									type='checkbox' 
-									tabindex='0' 
-									name='f_".$name."_list[]'
-									value='$value' 
-									id='f_".$name."_".$value."'
-									class='hidden filtercheckbox_".$name."'
-								>
-						      <label>".uppercase(bool_to_lbl($value))."</label>
-						    </div>
-						</td>
+				if($value != '') {
+					echo "
+						<tr>
+							<td width='1px'>
+								<div class='ui checkbox'>
+							    	<input 
+										type='checkbox' 
+										tabindex='0' 
+										name='f_".$name."_list[]'
+										value='$value' 
+										id='f_".$name."_".$value."'
+										class='hidden filtercheckbox_".$name."'
+									>
+							      <label>".uppercase(bool_to_lbl($value))."</label>
+							    </div>
+							</td>
 
-					</tr>
-				";
+						</tr>
+					";				
+				}
 			}
 			echo "</td></table>";
 		}
@@ -230,7 +232,7 @@ get_header();
 <script src="<?php echo get_template_directory_uri(); ?>/js/ajax_edit.js"></script> 
 
 <!-- Multi-Edit -->
-<script src="<?php echo get_template_directory_uri(); ?>/js/edit_multi.js"></script> 
+<script src="<?php echo get_template_directory_uri(); ?>/js/ajax_edit_multi.js"></script> 
 
 <!-- Expand Detail Content -->
 <script>

@@ -116,3 +116,40 @@ $(document).on('click', '#edit-delete-image', function(){
 	$('#edit-upload-image').show();
 
 });
+
+function newMemberTestData() {
+	$("select[name='Contact-prefix']").val('Herr');
+	$("input[name='Contact-first_name']").val('Max');
+	$("input[name='Contact-last_name']").val('0000 Mustermann');
+	$("input[name='Contact-birth_date']").val('2000-01-01');
+	$("input[name='Contact-skype_name']").val('Test');
+	
+	$("input[name='Mail-description[]']").val('Test');
+	$("input[name='Mail-address[]']").val('test@test.de');
+	
+	$("input[name='Phone-description[]']").val('Test');
+	$("input[name='Phone-number[]']").val('12345678');
+	
+	$("input[name='Address-description[]']").val('Test');
+	$("input[name='Address-street[]']").val('Test');
+	$("input[name='Address-number[]']").val('123');
+	$("input[name='Address-addr_extra[]']").val('Test');
+	$("input[name='Address-postal[]']").val('12345');
+	$("input[name='Address-city[]']").val('Test');
+
+	$("select[name='Study-status[]']").val('active');
+	$("select[name='Study-degree[]']").val('b sc');
+	$("input[name='Study-course[]']").val('Test');
+	$("select[name='Study-school[]']").val('Heinrich-Heine-Universität');
+	$("input[name='Study-focus[]']").val('Test');
+	$("input[name='Study-start[]']").val('2001-01-01');
+	$("input[name='Study-end[]']").val('2002-01-01');
+	
+	$("select[name='Member-active']").val('1');
+	$("select[name='Member-ressort']").val('12');
+	$("select[name='Member-position']").val('mitglied');
+	$("input[name='Member-joined']").val('2001-01-01');
+	$("input[name='Member-left']").val('2002-01-01');
+
+	$("textarea[name='Contact-comment']").val('Test');
+}
