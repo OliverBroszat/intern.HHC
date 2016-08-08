@@ -48,7 +48,8 @@ $search_select = array(
 		'first_name',
 		'last_name',
 		'birth_date',
-		'comment'
+		'comment',
+		'skype_name'
 	),
 	'Ressort' => array(
 		'name'

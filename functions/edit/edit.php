@@ -36,7 +36,7 @@ $html = "
 			<div id='popup-content'>
 
 				<h2>Profilbild</h2>
-				<div class='edit-image clearfix'>
+				<div class='ui segment edit-image clearfix'>
 					<div class='edit-image-image'>
 						".$data['image']."
 					</div>
@@ -60,17 +60,28 @@ $html = "
 				".getMemberEditTemplate($data)."<br>
 				
 				<h2>Kommentare</h2>
-				<div class='panel'>
+				<div class='ui segment'>
 					<textarea name='Contact-comment' rows='4'>".$data['info']->comment."</textarea>
 				</div>
 
 			</div>
 			<div id='popup-footer'>
-				
-				<button type='submit' id='edit-save' name='edit' value='".$data['info']->id."'>Speichern</button> 
-				<button type='submit' id='edit-delete' name='delete' value='".$data['info']->id."' >Löschen</button> 
 
-				<button type='button' onclick=\"popup_close('".$dialog."');\">Abbrechen</button> 
+				<button type='submit' id='edit-save' name='edit' value='".$data['info']->id."' class='ui blue button icon labeled'>
+					<i class='save icon'></i>
+					Speichern
+				</button>
+				<button type='submit' id='edit-delete' name='delete' value='".$data['info']->id."' class='ui red button icon labeled'>
+					<i class='delete icon'></i>
+					Löschen
+				</button>
+				<button type='button' onclick=\"popup_close('".$dialog."');\"class='ui button icon labeled'>
+					<i class='ban icon'></i>
+					Abbrechen
+				</button>
+				<button type='button' onclick='newMemberTestData()' class='ui button'>
+					Test-Daten
+				</button>
 			</div>
 		</form>
 	</div>

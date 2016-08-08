@@ -71,70 +71,79 @@ function getContactEditTemplate($data) {
 
 	$resl = "		
 	<h2>Persönliche Angaben</h2>
-	<table class='form'>
-		<tr>
-			<td width='20%'>
-				Anrede
-			</td>
-			<td width='40%'>
-				<select name='Contact-prefix'>";
+	<div class='ui segment'>
+		<table class='form'>
+			<tr>
+				<td width='20%'>
+					Anrede
+				</td>
+				<td width='40%'>
+					<select name='Contact-prefix'>";
 
-		// Anrede
-		$resl .= "<option disabled selected value class='placeholder'>Anrede</option>";
-		foreach (array ('Herr', 'Frau') as $value) {
-			$selected = '';
-			if ($value == extractData($data['info'], 'prefix')) { $selected = 'selected'; }
-			$resl .= "<option value='$value' $selected>$value</option>";
-		}
-
-	$resl .= "</select>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				Name
-			</td>
-			<td>	
-				<input type='text' name='Contact-first_name' placeholder='Vorname' required minlength='2' value='".extractData($data['info'], 'first_name')."'/>
-			</td>
-			<td width='40%'>
-				<input type='text' name='Contact-last_name' placeholder='Nachname' required minlength='2' value='".extractData($data['info'], 'last_name')."'/>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				Geburtstag
-			</td>
-			<td colspan='3'>
-				<input type='date' name='Contact-birth_date' placeholder='YYYY-MM-DD' value='".extractData($data['info'], 'birth_date')."'/>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				Mail Adresse
-			</td>
-			<td colspan='2'>
-				<div id='expandablecontent-mail' class='expandablecontent-container small'></div>
-			</td>
-		</tr>
-		<style>
-			@media screen and (max-width: 500px) {
-				.mail_content {
-					display: block;
-					margin-bottom: 5px;
-					width: 100% !important;
-				}
+			// Anrede
+			$resl .= "<option disabled selected value class='placeholder'>Anrede</option>";
+			foreach (array ('Herr', 'Frau') as $value) {
+				$selected = '';
+				if ($value == extractData($data['info'], 'prefix')) { $selected = 'selected'; }
+				$resl .= "<option value='$value' $selected>$value</option>";
 			}
-		</style>
-		<tr>
-			<td>
-				Telefonnummer
-			</td>
-			<td colspan='2'>
-				<div id='expandablecontent-phone' class='expandablecontent-container small'></div>
-			</td>
-		</tr>
-	</table>
+
+		$resl .= "</select>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Name
+				</td>
+				<td>	
+					<input type='text' name='Contact-first_name' placeholder='Vorname' required minlength='2' value='".extractData($data['info'], 'first_name')."'/>
+				</td>
+				<td width='40%'>
+					<input type='text' name='Contact-last_name' placeholder='Nachname' required minlength='2' value='".extractData($data['info'], 'last_name')."'/>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Geburtstag
+				</td>
+				<td colspan='3'>
+					<input type='date' name='Contact-birth_date' placeholder='YYYY-MM-DD' value='".extractData($data['info'], 'birth_date')."'/>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Skype Name
+				</td>
+				<td colspan='3'>
+					<input type='text' name='Contact-skype_name' placeholder='Skype Name' value='".extractData($data['info'], 'skype_name')."'/>'
+			</tr>
+			<tr>
+				<td>
+					Mail Adresse
+				</td>
+				<td colspan='2'>
+					<div id='expandablecontent-mail' class='expandablecontent-container small'></div>
+				</td>
+			</tr>
+			<style>
+				@media screen and (max-width: 500px) {
+					.mail_content {
+						display: block;
+						margin-bottom: 5px;
+						width: 100% !important;
+					}
+				}
+			</style>
+			<tr>
+				<td>
+					Telefonnummer
+				</td>
+				<td colspan='2'>
+					<div id='expandablecontent-phone' class='expandablecontent-container small'></div>
+				</td>
+			</tr>
+		</table>
+	</div>
 	<script src='".get_template_directory_uri()."/js/expandable_list.js'></script>
 	<script>
 	var tmp_mail = \"<td><input id='mail_description-%%FULL-ID%%' class='mail_content' type='text' name='Mail-description[]' placeholder='Beschreibung' value='%%DATA-description%%' style='width: 45%; margin-right: 10px;'/></td><td><input id='mail_content_%%FULL-ID%%' class='mail_content' type='email' name='Mail-address[]' placeholder='E-Mail' value='%%DATA-address%%' style='width: 45%;'/></td>\";
@@ -261,13 +270,14 @@ function getMemberEditTemplate($data) {
 
 	$resl = "		
 		<h2>HHC Mitgliedschaft</h2>
-		<table class='form'>
-			<tbody>
-				<tr>
-					<td width='50%'>
-						Status*:
-						<select name='Member-active'>
-							<option disabled selected value class='placeholder'>Status</option>
+		<div class='ui segment'>
+			<table class='form'>
+				<tbody>
+					<tr>
+						<td width='50%'>
+							Status*:
+							<select name='Member-active'>
+								<option disabled selected value class='placeholder'>Status</option>
 	";
 	// Status
 	$status = array('0', '1');
@@ -278,12 +288,12 @@ function getMemberEditTemplate($data) {
 	}
 
 	$resl .= "
-						</select>
-					</td>
-					<td colspan='2'>
-		                Ressort*: 
-						<select name='Member-ressort' required>
-							<option disabled selected value class='placeholder'>Ressort</option>
+							</select>
+						</td>
+						<td colspan='2'>
+			                Ressort*: 
+							<select name='Member-ressort' required>
+								<option disabled selected value class='placeholder'>Ressort</option>
 	";
 
 	// Ressort
@@ -297,14 +307,14 @@ function getMemberEditTemplate($data) {
 		}
 
 	$resl .= "
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						Position*:
-						<select name='Member-position'>
-							<option disabled selected value class='placeholder'>Position</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Position*:
+							<select name='Member-position'>
+								<option disabled selected value class='placeholder'>Position</option>
 	";
 
 	// Position
@@ -316,17 +326,18 @@ function getMemberEditTemplate($data) {
 	}
 
 	$resl .= "
-						</select>
-					</td>
-					<td>
-						Beitritt*: <input type='date' name='Member-joined' placeholder='YYYY-MM-DD' value='".$joined."''>
-					</td>
-					<td>
-						(Austritt): <input type='date' name='Member-left' placeholder='YYYY-MM-DD' value='".$left."'>
-					</td>
-				</tr>
-			</tbody>
-		</table>
+							</select>
+						</td>
+						<td>
+							Beitritt*: <input type='date' name='Member-joined' placeholder='YYYY-MM-DD' value='".$joined."''>
+						</td>
+						<td>
+							(Austritt): <input type='date' name='Member-left' placeholder='YYYY-MM-DD' value='".$left."'>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 	";
 
 	return $resl;

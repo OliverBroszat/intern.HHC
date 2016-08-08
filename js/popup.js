@@ -57,7 +57,7 @@ function popup(content, name, title) {
     // $("#popup-" + id + " .popup-content-outer").center();
 
     // Popup kann mit der Maus bewegt werden. Funktioiniert nicht mit Touch. Ist noch etwas buggy in Kompination mit CSS-Transformations
-    $("#popup-" + id + " .popup-content-outer").draggable();
+    // $("#popup-" + id + " .popup-content-outer").draggable();
 }
 
 function popup_close() {
