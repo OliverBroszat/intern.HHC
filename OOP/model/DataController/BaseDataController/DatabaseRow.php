@@ -85,7 +85,7 @@ class DatabaseRow
         return $columnNames;
     }
 
-    private function toArray() {
+    public function toArray() {
         $dataArray = array();
         $columns = $this->getNamesOfColumns();
         foreach ($columns as $columnName) {
