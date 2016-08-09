@@ -134,7 +134,7 @@ class ContactDataController {
         $sql = "SELECT id FROM Address WHERE contact=$contactID;";
         $ids = $this->baseDataController->tryToSelectMultipleRowsByQuery($sql);
         $ids_in_profile = DatabaseRow::filterValuesFromRowsForSingleKey(
-            'id',
+            'contact',
             $contactProfile->addressDatabaseRows
         );
         var_dump($ids_in_profile);

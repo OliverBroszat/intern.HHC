@@ -8,9 +8,6 @@ if(in_array($_SERVER['REMOTE_ADDR'], $localhost)){
 } 
 require_once("$root/wp-load.php");
 
-$root = get_template_directory();
-require_once("$root/functions/edit/sql_functions.php");
-
 echo "<button type='button' onclick='popup_close(); ajax_post()' style='margin: 1rem auto; display: block;'>Schließen</button>";
 echo "<hr>";
 echo "<h2>DEBUG-Output</h2>";
@@ -79,9 +76,15 @@ if($crud['mode'] == 'edit' && !empty($crud['id'])) {
 	global $wpdb;
 	$query = "SELECT id FROM Image WHERE contact_id=%d";
 	$query_escaped = $wpdb->prepare($query, $id);
-	$attachment_id = $base->tryToGetSingleRowByQuery($query_escaped)->getValueForKey('id');
+	try {
+		$attachment_id = $base->tryToSelectSingleRowByQuery($query_escaped)->getValueForKey('id');
+	}
+	catch (LengthException $e) {
+	}
+	
 
-	$member->updateSingleMemberByProfileWithID($id, $newMember);
+	// $member->updateSingleMemberByProfile($id, $newMember);
+	$contact->updateSingleContactProfile($newProfile);
 	// CONTACT NEU ERSTELLEN
 	
 	// // delete old data

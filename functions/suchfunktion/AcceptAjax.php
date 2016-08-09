@@ -96,7 +96,8 @@ $number = count($final);
 
 $return = array(
 	'number' => $number,
-	'html' => $html
+	'html' => $html,
+	'debug' => $data
 );
 
 print json_encode($return);

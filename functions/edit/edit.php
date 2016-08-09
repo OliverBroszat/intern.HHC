@@ -25,6 +25,10 @@ $queries = prepareSQL($id);
 // Datenbankabfrage
 $data = getData($queries)[$id];
 
+// echo "<br><br>*************************<br>";
+// arr_to_list($data);
+// echo "<br>*************************<br><br>";
+
 // Text für den Schließen-Dialog
 $dialog = "Wollen Sie das Fenster wirklich ohne zu speichern schließen? Ungespeicherte Änderungen gehen verloren.";
 

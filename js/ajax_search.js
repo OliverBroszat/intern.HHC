@@ -10,6 +10,8 @@ function ajax_post() {
 		setTimeout(function(){
 			var data = $.parseJSON(result);
 
+			console.log(data['debug']);
+
 			$( "#list-container" ).html( data['html'] );
 			$( "#list-container" ).removeClass( "modal" );
 			$( "#search-results-title" ).html( "Suchergebnisse (" + data['number'] + ")" );

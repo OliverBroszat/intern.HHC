@@ -57,10 +57,10 @@ function getDetail($contact_id) {
 	global $wpdb;
 	$detail_array = array();
 	$detail_array['phone'] = $wpdb->get_results("
-		SELECT description, number FROM Phone WHERE contact=$contact_id;
+		SELECT * FROM Phone WHERE contact=$contact_id;
 	");
 	$detail_array['mail'] = $wpdb->get_results("
-		SELECT description, address FROM Mail WHERE contact=$contact_id;
+		SELECT * FROM Mail WHERE contact=$contact_id;
 	");
 	$detail_array['address'] = $wpdb->get_results("
 		SELECT * FROM Address WHERE contact=$contact_id;

@@ -12,6 +12,8 @@ require_once(get_template_directory().'/functions/html_templates/userdata.php');
 ?>
 
 <table class='form'>
+	<input type='hidden' name='Study-contact[]' value='%%DATA-contact%%'></input>
+	<input type='hidden' name='Study-id[]' value='%%DATA-id%%'></input>
 	<tr>
 		<td style='vertical-align: top;'>Status</td>
 		<td style='vertical-align: top;'>
