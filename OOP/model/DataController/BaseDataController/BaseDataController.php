@@ -87,8 +87,7 @@ class BaseDataController {
     }
 
     public function tryToInsertRow($table, $row) {
-        $selectedColumns = $this->getColumnNamesForTable($table);
-        $insertArray = $this->getInsertArrayFromRow($row, $selectedColumns);
+        $dataArray = $row->toArray();
         $this->tryToInsertData(
             $table,
             $insertArray,
@@ -109,33 +108,25 @@ class BaseDataController {
     * @return void
     */
     public function tryToInsertRowWithAutoUpdateSingleAutoPrimary($table, $row) {
+        // TODO: also check for data type like auto-inc INT
         $this->throwExceptionOnMultiplePrimaryColumnsForTable($table);
-        $nonPrimaryColumnNames = $this->getNonPrimaryColumnNamesForTable($table);
-        $insertArray = $this->getInsertArrayFromRow($row, $nonPrimaryColumnNames);
-        $this->tryToInsertData(
-            $table,
-            $insertArray,
-            null
-        );
-        $primaryKey = $this->getPrimaryColumnNamesForTable($table)[0];
-        $row->setValueForKey($primaryKey, $this->getIdFromLastInsert());
+        $columnsToUnset = $this->getPrimaryColumnNamesForTable($table);
+        $row->deleteMultipleColumnsWithName($columnsToUnset);
+        $this->tryToInsertRow($table, $row);
+        // We can be sure, there is exactly one primary auto-inc INT key
+        $nameOfPrimaryKey = $this->getPrimaryColumnNamesForTable($table)[0];
+        $row->setValueForKey($nameOfPrimaryKey, $this->getIdFromLastInsert());
     }
 
     private function throwExceptionOnMultiplePrimaryColumnsForTable($table) {
         $primaryColumns = $this->getPrimaryColumnNamesForTable($table);
+        echo 'XXXXXXXXXXXXXXXXXXXXX<br><br>';
+        var_dump($primaryColumns);
         $numberOfPrimaryColumns = count($primaryColumns);
         if ($numberOfPrimaryColumns != 1) {
-            $errorMessage = "Table '$table' must have exactly one primary column";
+            $errorMessage = "Table '$table' must have one primary column but has $numberOfPrimaryColumns";
             throw new InvalidArgumentException($errorMessage);
         }
-    }
-
-    private function getInsertArrayFromRow($row, $columns) {
-        $insertArray = array();
-        foreach ($columns as $columnName) {
-            $insertArray[$columnName] = $row->getValueForKey($columnName);
-        }
-        return $insertArray;
     }
 
     public function getColumnNamesForTable($table) {
