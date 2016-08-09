@@ -109,6 +109,7 @@ class BaseDataController {
     */
     public function tryToInsertRowWithAutoUpdateSingleAutoPrimary($table, $row) {
         // TODO: also check for data type like auto-inc INT
+
         $this->throwExceptionOnMultiplePrimaryColumnsForTable($table);
         $columnsToUnset = $this->getPrimaryColumnNamesForTable($table);
         $row->deleteMultipleColumnsWithName($columnsToUnset);
@@ -129,8 +130,36 @@ class BaseDataController {
         }
     }
 
+    public function tryToUpdateData($table, $dataToUpdate, $sqlWhereStatement, $updateDataFormat=null, $whereFormat=null) {
+        $numberOfAffectedRows = $this->wpDatabaseConnection->update($table, $dataToUpdate, $sqlWhereStatement, $updateDataFormat, $whereFormat);
+        $this->onWordpressErrorThrowException();
+        if ($numberOfAffectedRows == false) {
+            $readableDataToUpdate = json_encode($dataToUpdate);
+            $readableSqlWhereStatement = json_encode($sqlWhereStatement);
+            $readableUpdateDataFormat = json_encode($updateDataFormat);
+            $readableWhereFormat = json_encode($whereFormat);
+            throw new InvalidArgumentException("No rows were updated in table '$table' with update data '$readableDataToUpdate', where statement '$readableWhereStatement', data format '$readableUpdateDataFormat' and where format '$readableWhereFormat'");
+        }
+    }
+
+    public function tryToUpdateRowInTable($row, $table) {
+        $dataArray = $row->toArray();
+        $tablePrimaries = $this->getPrimaryColumnNamesForTable($table);
+        //$whereArray = array_filter($dataArray, function ($name) {return in_array($name, $tablePrimaries);});
+        $whereArray = array();
+        foreach ($dataArray as $key => $value) {
+            if (in_array($key, $tablePrimaries)) {
+                $whereArray[$key] = $value;
+            }
+        }
+        // TODO: Add datatypes. How to?
+        $dataFormatArray = null;
+        $whereFormatArray = null;
+        $this->tryToUpdateData($table, $dataArray, $whereArray, $dataFormatArray, $whereFormatArray);
+    }
+
     public function getColumnNamesForTable($table) {
-        $sqlQuery = "SHOW COLUMNS FROM $table;";
+        $sqlQuery = "SHOW COLUMNS FROM $table";
         $columnNameResults = $this->tryToSelectMultipleRowsByQuery($sqlQuery);
         $filteredColumnNames = $this->filterValuesFromRowsForSingleKey(
             'Field',
@@ -142,7 +171,7 @@ class BaseDataController {
     public function getPrimaryColumnNamesForTable($table) {
         $sqlQuery = "SHOW KEYS FROM $table WHERE Key_name='PRIMARY';";
         $columnNameResults = $this->tryToSelectMultipleRowsByQuery($sqlQuery);
-        $filteredColumnNames = $this->filterValuesFromRowsForSingleKey(
+        $filteredColumnNames = DatabaseRow::filterValuesFromRowsForSingleKey(
             'Column_name',
             $columnNameResults
         );
@@ -157,47 +186,16 @@ class BaseDataController {
         return $valuesToInsert;
     }
 
-    public function filterValuesFromRowsForSingleKey($key, $rows) {
-        $valuesForKey = array();
-        foreach ($rows as $row) {
-            array_push($valuesForKey, $row->getValueForKey($key));
-        }
-        return $valuesForKey;
-    }
-
-    public function filterValuesFromRowsForMultipleKeys($keys, $rows) {
-        $filtered = array();
-        foreach ($keys as $key) {
-            $filtered['$key'] = $this->filterValuesFromRowsForKey($key, $rows);
-        }
-        return $filtered;
-    }
-
-    public function tryToUpdateData($table, $dataToUpdate, $sqlWhereStatement, $updateDataFormat=null, $whereFormat=null) {
-        $numberOfAffectedRows = $this->wpDatabaseConnection->update($table, $dataToUpdate, $sqlWhereStatement, $updateDataFormat, $whereFormat);
-        $this->onWordpressErrorThrowException();
-        if ($numberOfAffectedRows == false) {
-            $readableDataToUpdate = json_encode($dataToUpdate);
-            $readableSqlWhereStatement = json_encode($sqlWhereStatement);
-            $readableUpdateDataFormat = json_encode($updateDataFormat);
-            $readableWhereFormat = json_encode($whereFormat);
-            throw new InvalidArgumentException("No rows were updated in table '$table' with update data '$readableDataToUpdate', where statement '$readableWhereStatement', data format '$readableUpdateDataFormat' and where format '$readableWhereFormat'");
-        }
-    }
-
-    //TODO: public function tryToUpdateRow(...)
-    public function tryToUpdateRowWithSingleIntPrimaryInTable($row, $table) {
-        $nameOfPrimaryKey = $this->getPrimaryColumnNamesForTable($table)[0];
-        var_dump($nameOfPrimaryKey);
-        $valueOfPrimaryKey = $row->getValueForKey($nameOfPrimaryKey);
-        $dataArray = $row->toArray();
-        $whereArray = array(
-            $nameOfPrimaryKey => $valueOfPrimaryKey
+    private function getPrimaryDataArrayForRow($row, $table) {
+        $primaryKeys = $this->getPrimaryColumnNamesForTable($table);
+        var_dump($row);
+        echo '<br>';
+        var_dump($primaryKeys);
+        $valuesOfPrimaryKeys = array_map(
+            function ($key) { global $row; return $row->getValueForKey($key); },
+            $primaryKeys
         );
-        // TODO: Add datatypes. How to?
-        $dataFormatArray = null;
-        $whereFormatArray = null;
-        $this->tryToUpdateData($table, $dataArray, $whereArray, $dataFormatArray, $whereFormatArray);
+        return array_combine($primaryKeys, $valuesOfPrimaryKeys);
     }
 
     public function tryToDeleteData($table, $sqlWhereStatement, $whereFormat=null) {

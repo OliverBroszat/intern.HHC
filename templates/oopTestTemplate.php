@@ -125,7 +125,7 @@ echo $profiles[2]->addressDatabaseRows[0]->getValueForKey('street');
 new_paragraph('Update existing Contact by Row');
 $p = $profiles[2];
 $p->contactDatabaseRow->setValueForKey('last_name', 'TEST');
-$test->tryToUpdateRowWithSingleIntPrimaryInTable($p->contactDatabaseRow, 'Contact');
+$test->tryToUpdateRowInTable($p->contactDatabaseRow, 'Contact');
 
 
 exit;
