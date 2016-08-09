@@ -94,6 +94,16 @@ class DatabaseRow
         return $dataArray;
     }
 
+    public function deleteSingleColumnWithName($name) {
+        unset($this->sqlQueryResult->$name);
+    }
+
+    public function deleteMultipleColumnsWithName($names) {
+        foreach ($names as $name) {
+            $this->deleteSingleColumnWithName($name);
+        }
+    }
+
     // TODO: Move to view/DatabaseView/???.php !!!
     public function generateHTMLTable() {
         $html = '<table>' . $this->generatelHTMLRow() . '</table>';
