@@ -13,6 +13,15 @@ function new_paragraph($headline) {
     echo "<h1>$headline</h1>";
 }
 
+get_header();
+
+?>
+
+<div class="outer">
+	<h1 style="text-transform: none;">intern.HHC</h1>
+	<div class="panel">
+<?php
+
 new_paragraph("DataControllerTest");
 $test = new BaseDataController();
 
@@ -173,7 +182,10 @@ $member_row = new DatabaseRow($member_object);
 $memberProfile = new MemberProfile($member_row, $newprofile);
 $memberC->createSingleMemberByProfile($memberProfile);
 
+?>
 
+	</div>
+</div>
 
 
 
