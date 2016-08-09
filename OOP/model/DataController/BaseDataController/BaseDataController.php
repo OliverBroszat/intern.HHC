@@ -64,7 +64,7 @@ class BaseDataController {
 
     public function tryToSelectSingleRowByQuery($sqlQuery) {
         $selectedRows = $this->tryToSelectMultipleRowsByQuery($sqlQuery);
-        if (sizeof($selectedRows) > 1) {
+        if (sizeof($selectedRows) != 1) {
             $errorMessage = "More than 1 row was selected by SQL query '$sqlQuery' in BaseDataController::tryToSelectSingleRowByQuery()";
             throw new LengthException($errorMessage);
         }
@@ -86,6 +86,15 @@ class BaseDataController {
         return $numberOfAffectedRows;
     }
 
+    public function tryToInsertRow($table, $row) {
+        $dataArray = $row->toArray();
+        $this->tryToInsertData(
+            $table,
+            $insertArray,
+            null
+        );
+    }
+
     /**
     * tryToInsertRowWithAutoUpdateSinglePrimary
     * 
@@ -98,58 +107,59 @@ class BaseDataController {
     * 
     * @return void
     */
-
-    public function tryToInsertRow($table, $row) {
-        $insertArray = $this->getInsertArrayFromRow($row, $selectedColumns);
-        $this->tryToInsertData(
-            $table,
-            $insertArray,
-            null
-        );
-    }
-
-    public function tryToInsertRowWithoutPrimary($table, $row) {
-        $selectedColumns = array_diff($this->getColumnNamesForTable($table), array('id'));
-        $insertArray = $this->getInsertArrayFromRow($row, $selectedColumns);
-        $this->tryToInsertData(
-            $table,
-            $insertArray,
-            null
-        );
-    }
-
     public function tryToInsertRowWithAutoUpdateSingleAutoPrimary($table, $row) {
+        // TODO: also check for data type like auto-inc INT
+
         $this->throwExceptionOnMultiplePrimaryColumnsForTable($table);
-        $nonPrimaryColumnNames = $this->getNonPrimaryColumnNamesForTable($table);
-        $insertArray = $this->getInsertArrayFromRow($row, $nonPrimaryColumnNames);
-        $this->tryToInsertData(
-            $table,
-            $insertArray,
-            null
-        );
-        $primaryKey = $this->getPrimaryColumnNamesForTable($table)[0];
-        $row->setValueForKey($primaryKey, $this->getIdFromLastInsert());
+        $columnsToUnset = $this->getPrimaryColumnNamesForTable($table);
+        $row->deleteMultipleColumnsWithName($columnsToUnset);
+        $this->tryToInsertRow($table, $row);
+        // We can be sure, there is exactly one primary auto-inc INT key
+        $nameOfPrimaryKey = $this->getPrimaryColumnNamesForTable($table)[0];
+        $row->setValueForKey($nameOfPrimaryKey, $this->getIdFromLastInsert());
     }
 
     private function throwExceptionOnMultiplePrimaryColumnsForTable($table) {
         $primaryColumns = $this->getPrimaryColumnNamesForTable($table);
+        echo 'XXXXXXXXXXXXXXXXXXXXX<br><br>';
+        var_dump($primaryColumns);
         $numberOfPrimaryColumns = count($primaryColumns);
         if ($numberOfPrimaryColumns != 1) {
-            $errorMessage = "Table '$table' must have exactly one primary column";
+            $errorMessage = "Table '$table' must have one primary column but has $numberOfPrimaryColumns";
             throw new InvalidArgumentException($errorMessage);
         }
     }
 
-    private function getInsertArrayFromRow($row, $columns) {
-        $insertArray = array();
-        foreach ($columns as $columnName) {
-            $insertArray[$columnName] = $row->getValueForKey($columnName);
+    public function tryToUpdateData($table, $dataToUpdate, $sqlWhereStatement, $updateDataFormat=null, $whereFormat=null) {
+        $numberOfAffectedRows = $this->wpDatabaseConnection->update($table, $dataToUpdate, $sqlWhereStatement, $updateDataFormat, $whereFormat);
+        $this->onWordpressErrorThrowException();
+        if ($numberOfAffectedRows == false) {
+            $readableDataToUpdate = json_encode($dataToUpdate);
+            $readableSqlWhereStatement = json_encode($sqlWhereStatement);
+            $readableUpdateDataFormat = json_encode($updateDataFormat);
+            $readableWhereFormat = json_encode($whereFormat);
+            throw new InvalidArgumentException("No rows were updated in table '$table' with update data '$readableDataToUpdate', where statement '$readableWhereStatement', data format '$readableUpdateDataFormat' and where format '$readableWhereFormat'");
         }
-        return $insertArray;
+    }
+
+    public function tryToUpdateRowInTable($row, $table) {
+        $dataArray = $row->toArray();
+        $tablePrimaries = $this->getPrimaryColumnNamesForTable($table);
+        //$whereArray = array_filter($dataArray, function ($name) {return in_array($name, $tablePrimaries);});
+        $whereArray = array();
+        foreach ($dataArray as $key => $value) {
+            if (in_array($key, $tablePrimaries)) {
+                $whereArray[$key] = $value;
+            }
+        }
+        // TODO: Add datatypes. How to?
+        $dataFormatArray = null;
+        $whereFormatArray = null;
+        $this->tryToUpdateData($table, $dataArray, $whereArray, $dataFormatArray, $whereFormatArray);
     }
 
     public function getColumnNamesForTable($table) {
-        $sqlQuery = "SHOW COLUMNS FROM $table;";
+        $sqlQuery = "SHOW COLUMNS FROM $table";
         $columnNameResults = $this->tryToSelectMultipleRowsByQuery($sqlQuery);
         $filteredColumnNames = $this->filterValuesFromRowsForSingleKey(
             'Field',
@@ -161,7 +171,7 @@ class BaseDataController {
     public function getPrimaryColumnNamesForTable($table) {
         $sqlQuery = "SHOW KEYS FROM $table WHERE Key_name='PRIMARY';";
         $columnNameResults = $this->tryToSelectMultipleRowsByQuery($sqlQuery);
-        $filteredColumnNames = $this->filterValuesFromRowsForSingleKey(
+        $filteredColumnNames = DatabaseRow::filterValuesFromRowsForSingleKey(
             'Column_name',
             $columnNameResults
         );
@@ -176,32 +186,16 @@ class BaseDataController {
         return $valuesToInsert;
     }
 
-    public function filterValuesFromRowsForSingleKey($key, $rows) {
-        $valuesForKey = array();
-        foreach ($rows as $row) {
-            array_push($valuesForKey, $row->getValueForKey($key));
-        }
-        return $valuesForKey;
-    }
-
-    public function filterValuesFromRowsForMultipleKeys($keys, $rows) {
-        $filtered = array();
-        foreach ($keys as $key) {
-            $filtered['$key'] = $this->filterValuesFromRowsForKey($key, $rows);
-        }
-        return $filtered;
-    }
-
-    public function tryToUpdateData($table, $dataToUpdate, $sqlWhereStatement, $updateDataFormat=null, $whereFormat=null) {
-        $numberOfAffectedRows = $this->wpDatabaseConnection->update($table, $dataToUpdate, $sqlWhereStatement, $updateDataFormat, $whereFormat);
-        $this->onWordpressErrorThrowException();
-        if ($numberOfAffectedRows == false) {
-            $readableDataToUpdate = json_encode($dataToUpdate);
-            $readableSqlWhereStatement = json_encode($sqlWhereStatement);
-            $readableUpdateDataFormat = json_encode($updateDataFormat);
-            $readableWhereFormat = json_encode($whereFormat);
-            throw new InvalidArgumentException("No rows were updated in table '$table' with update data '$readableDataToUpdate', where statement '$readableWhereStatement', data format '$readableUpdateDataFormat' and where format '$readableWhereFormat'");
-        }
+    private function getPrimaryDataArrayForRow($row, $table) {
+        $primaryKeys = $this->getPrimaryColumnNamesForTable($table);
+        var_dump($row);
+        echo '<br>';
+        var_dump($primaryKeys);
+        $valuesOfPrimaryKeys = array_map(
+            function ($key) { global $row; return $row->getValueForKey($key); },
+            $primaryKeys
+        );
+        return array_combine($primaryKeys, $valuesOfPrimaryKeys);
     }
 
     public function tryToDeleteData($table, $sqlWhereStatement, $whereFormat=null) {

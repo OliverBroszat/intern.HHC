@@ -13,6 +13,15 @@ function new_paragraph($headline) {
     echo "<h1>$headline</h1>";
 }
 
+get_header();
+
+?>
+
+<div class="outer">
+	<h1 style="text-transform: none;">intern.HHC</h1>
+	<div class="panel">
+<?php
+
 new_paragraph("DataControllerTest");
 $test = new BaseDataController();
 
@@ -36,9 +45,9 @@ foreach ($it_ressort as $row) {
 	echo '<br>';
 }
 
-new_paragraph("tryToInsertData");
+// new_paragraph("tryToInsertData");
 // $nor = $test->tryToInsertData(
-// 	'application',
+// 	'Application',
 // 	array(
 // 		'contact' => 200,
 // 		'income' => '2016-10-10',
@@ -51,12 +60,12 @@ new_paragraph("tryToInsertData");
 // );
 
 // new_paragraph('Read new value');
-// $newresult = $test->tryToSelectMultipleRowsByQuery("SELECT * FROM application WHERE contact=200");
+// $newresult = $test->tryToSelectMultipleRowsByQuery("SELECT * FROM Application WHERE contact=200");
 // print_r($newresult);
 
 // new_paragraph('Try to update data');
 // $test->tryToUpdateData(
-// 	'application',
+// 	'Application',
 // 	array(
 // 		'state' => 'denied'
 // 	),
@@ -66,12 +75,12 @@ new_paragraph("tryToInsertData");
 // );
 
 // new_paragraph('Read new value');
-// $newresult = $test->tryToSelectMultipleRowsByQuery("SELECT * FROM application WHERE contact=200");
+// $newresult = $test->tryToSelectMultipleRowsByQuery("SELECT * FROM Application WHERE contact=200");
 // print_r($newresult);
 
 // new_paragraph('Delete new value');
 // $nor = $test->tryToDeleteData(
-// 	'application',
+// 	'Application',
 // 	array(
 // 		'contact' => 200
 // 	),
@@ -88,6 +97,7 @@ $profile = $userC->getSingleContactProfileByID(200);
 print_r($profile);
 echo '<br><br>';
 echo $profile->contactDatabaseRow->getValueForKey('first_name');
+echo '<br>'.$profile->mailDatabaseRows[0]->getValueForKey('address');
 
 
 new_paragraph("Get more ContactProfiles");
@@ -99,7 +109,7 @@ $profiles = $userC->getMultipleContactProfilesByID(
 	)
 );
 foreach ($profiles as $p) {
-	print_r($p->contactDatabaseRow);
+	print_r($p->contactDatabaseRow->getValueForKey('last_name'));
 	echo '<br>';
 	print_r($p->addressDatabaseRows);
 	echo '<br>';
@@ -112,8 +122,45 @@ foreach ($profiles as $p) {
 }
 echo $profiles[2]->addressDatabaseRows[0]->getValueForKey('street');
 
+new_paragraph('Update existing Contact by Row');
+$p = $profiles[2];
+$p->contactDatabaseRow->setValueForKey('last_name', 'TEST');
+$test->tryToUpdateRowInTable($p->contactDatabaseRow, 'Contact');
+
+
+exit;
+
 new_paragraph('Create a Contact');
 $newprofile = $profiles[2];
+
+$contact = array(
+	'prefix' => 'Herr',
+	'first_name' => "Peter",
+	'last_name' => "Becker",
+	'birth_date' => "1993-01-01",
+	'comment' => '',
+	'skype_name' => null
+);
+$contact = new DatabaseRow((object) $contact);
+$addresses = new DatabaseRow((object) array());
+$mails = new DatabaseRow((object) array());
+$phones = new DatabaseRow((object) array());
+$studies = new DatabaseRow((object) array());
+$verynewProfile = new ContactProfile(
+	$contact,
+	$addresses,
+	$mails,
+	$phones,
+	$studies
+);
+echo '************************<br><br>';
+var_dump($verynewProfile);
+echo '<br><br>************************<br><br>';
+$userC->createSingleContactByProfile($verynewProfile);
+echo '************************<br><br>';
+var_dump($verynewProfile);
+echo '<br><br>************************<br><br>';
+
 $newprofile->contactDatabaseRow->setValueForKey('first_name', 'Hermann');
 $userC->createSingleContactByProfile($newprofile);
 var_dump($newprofile);
@@ -143,7 +190,10 @@ $member_row = new DatabaseRow($member_object);
 $memberProfile = new MemberProfile($member_row, $newprofile);
 $memberC->createSingleMemberByProfile($memberProfile);
 
+?>
 
+	</div>
+</div>
 
 
 

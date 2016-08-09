@@ -52,16 +52,41 @@ loadWordpressFunctions();
 class DatabaseRow
 {
 
-    private $sqlQueryResult;
+    public static function filterValuesFromRowsForSingleKey($key, $rows) {
+        $valuesForKey = array();
+        foreach ($rows as $row) {
+            array_push($valuesForKey, $row->getValueForKey($key));
+        }
+        return $valuesForKey;
+    }
 
-    public function __construct($sqlQueryResult)
+    public static function filterValuesFromRowsForMultipleKeys($keys, $rows) {
+        $filtered = array();
+        foreach ($keys as $key) {
+            $filtered['$key'] = $this->filterValuesFromRowsForKey($key, $rows);
+        }
+        return $filtered;
+    }
+
+    // TODO: add static method FromArray
+
+    private $sqlQueryResult;
+    public $currentTable;
+
+    public static function fromTable($table, $data) {
+        $row = new DatabaseRow($data);
+        $row->currentTable = $table;
+    } 
+
+    public function __construct($sqlQueryResult, $table=null)
     {
         $this->sqlQueryResult = $sqlQueryResult;
+        $this->currentTable = $table;
     }
 
     public function getValueForKey($key)
     {
-        $namesOfColumnsInRow = $this->getNamesOfColumns();
+        $namesOfColumnsInRow = $this->getColumnsOfRow();
         if (in_array($key, $namesOfColumnsInRow)) {
             $valueForKey = $this->sqlQueryResult->$key;
             return $valueForKey;
@@ -74,7 +99,38 @@ class DatabaseRow
         $this->sqlQueryResult->$key = $value;
     }
 
-    public function getNamesOfColumns() {
+    public function getColumnNamesForMyTable() {
+        $myTable = $this->currentTable;
+        $sqlQuery = "SHOW COLUMNS FROM $myTable";
+        $columnNameResults = $this->tryToSelectMultipleRowsByQuery($sqlQuery);
+        $filteredColumnNames = $this->filterValuesFromRowsForSingleKey(
+            'Field',
+            $columnNameResults
+        );
+        return $filteredColumnNames;
+    }
+
+    public function getPrimaryColumnNamesForMyTable() {
+        $myTable = $this->currentTable;
+        $sqlQuery = "SHOW KEYS FROM $myTable WHERE Key_name='PRIMARY';";
+        $columnNameResults = $this->tryToSelectMultipleRowsByQuery($sqlQuery);
+        $filteredColumnNames = $this->filterValuesFromRowsForSingleKey(
+            'Column_name',
+            $columnNameResults
+        );
+        return $filteredColumnNames;
+    }
+
+    public function getNonPrimaryColumnNamesForMyTable() {
+        $myTable = $this->currentTable;
+        $valuesToInsert = array_diff(
+            $this->getColumnNamesForTable($myTable),
+            $this->getPrimaryColumnNamesForTable($myTable)
+        );
+        return $valuesToInsert;
+    }
+
+    public function getColumnsOfRow() {
         $publicAttributes = get_object_vars($this->sqlQueryResult);
         $columnNames = array();
         foreach ($publicAttributes as $name => $content) {
@@ -83,18 +139,22 @@ class DatabaseRow
         return $columnNames;
     }
 
-    // TODO: Move to view/DatabaseView/???.php !!!
-    public function generateHTMLTable() {
-        $html = '<table>' . $this->generatelHTMLRow() . '</table>';
+    public function toArray() {
+        $dataArray = array();
+        $columns = $this->getColumnsOfRow();
+        foreach ($columns as $columnName) {
+            $dataArray[$columnName] = $this->getValueForKey($columnName);
+        }
+        return $dataArray;
     }
 
-    // TODO: Move to view/DatabaseView/???.php !!!
-    public function generateHTMLRow() {
-        $htmlCode = '<tr>';
-        foreach ($this->dataRow as $value) {
-            $htmlCode .= "<td>$value</td>";
+    public function deleteSingleColumnWithName($name) {
+        unset($this->sqlQueryResult->$name);
+    }
+
+    public function deleteMultipleColumnsWithName($names) {
+        foreach ($names as $name) {
+            $this->deleteSingleColumnWithName($name);
         }
-        $htmlCode .= '</tr>';
-        return $htmlCode;
     }
 }

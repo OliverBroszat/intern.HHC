@@ -129,8 +129,18 @@ class ContactDataController {
     * NOTE: the profile's id WILL be changed after any update
     */
     public function updateSingleContactProfile($contactProfile) {
-        $this->deleteSingleContactByProfile($contactProfile);
-        $this->createSingleContactByProfile($contactProfile);
+        $contactID = $contactProfile->contactDatabaseRow->getValueForKey('id');
+        $this->baseDataController->tryToUpdateRowInTable($contactProfile->contactDatabaseRow, 'Contact');
+        $sql = "SELECT id FROM Address WHERE contact=$contactID;";
+        $ids = $this->baseDataController->tryToSelectMultipleRowsByQuery($sql);
+        $ids_in_profile = DatabaseRow::filterValuesFromRowsForSingleKey(
+            'id',
+            $contactProfile->addressDatabaseRows
+        );
+        var_dump($ids_in_profile);
+        // $new_ids = 
+        // $existing_ids = 
+        // $missing_ids = 
     }
 
     public function updateSingleContactProfileWithFixedID($id, $contactProfile) {
