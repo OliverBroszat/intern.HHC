@@ -85,6 +85,15 @@ class DatabaseRow
         return $columnNames;
     }
 
+    private function toArray() {
+        $dataArray = array();
+        $columns = $this->getNamesOfColumns();
+        foreach ($columns as $columnName) {
+            $dataArray[$columnName] = $row->getValueForKey($columnName);
+        }
+        return $dataArray;
+    }
+
     // TODO: Move to view/DatabaseView/???.php !!!
     public function generateHTMLTable() {
         $html = '<table>' . $this->generatelHTMLRow() . '</table>';
