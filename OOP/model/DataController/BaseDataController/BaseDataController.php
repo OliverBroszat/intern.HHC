@@ -185,6 +185,21 @@ class BaseDataController {
         }
     }
 
+    //TODO: public function tryToUpdateRow(...)
+    public function tryToUpdateRowWithSingleIntPrimaryInTable($row, $table) {
+        $nameOfPrimaryKey = $this->getPrimaryColumnNamesForTable($table)[0];
+        var_dump($nameOfPrimaryKey);
+        $valueOfPrimaryKey = $row->getValueForKey($nameOfPrimaryKey);
+        $dataArray = $row->toArray();
+        $whereArray = array(
+            $nameOfPrimaryKey => $valueOfPrimaryKey
+        );
+        // TODO: Add datatypes. How to?
+        $dataFormatArray = null;
+        $whereFormatArray = null;
+        $this->tryToUpdateData($table, $dataArray, $whereArray, $dataFormatArray, $whereFormatArray);
+    }
+
     public function tryToDeleteData($table, $sqlWhereStatement, $whereFormat=null) {
         $numberOfAffectedRows = $this->wpDatabaseConnection->delete($table, $sqlWhereStatement, $whereFormat);
         $this->onWordpressErrorThrowException();
