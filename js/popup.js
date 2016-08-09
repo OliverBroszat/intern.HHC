@@ -32,14 +32,6 @@ function popup(content, name, title) {
                     <div class='popup-content'>
                         ` + content + `
                     </div>
-                    <!-- Tester
-                        <hr>
-                        <div>
-                            <button onclick='popup()'>Popup</button>
-                            <button onclick="popup_close()">Close</button>
-                            <button onclick="popup_close_dialog('Sind Sie sicher?')">Close Dialog</button>
-                        </div>
-                    -->
                 </div>
             </div>
         </div>
@@ -107,15 +99,11 @@ function popup_close_dialog(message) {
 }
 
 
-function image_popup(href, event) {
-    
+function image_popup(href, event) {   
     event.preventDefault();
-
     popup("<img src='" + href + "'><div class='close' onclick='popup_close()'>&#215;</div>", "image");
-
-    // Center popup again after image is loaded
-    // $(".image .popup-content img").on("load", function() {
-    //     $(".image .popup-content-outer").center();
-    // });
-
+    $(".popup.image .popup-content").toggleClass("modal");
+    setTimeout(function() {
+        $(".popup.image .popup-content").toggleClass("modal");
+    }, 300);
 }

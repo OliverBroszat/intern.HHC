@@ -43,13 +43,10 @@ $contact = new ContactDataController(null, $base);
 $member = new MemberDataController(null, $contact);
 
 $dataObject = array();
-foreach ($data as $table => $tables) {
-	$rows = array();
+foreach ($data as $table_name => $tables) {
 	foreach ($tables as $index => $values) {
-		//$dataObject[$table][$index] = new DatabaseRow((object) $values);
-		$rows[$index] = new DatabaseRow((object) $values);
+		$dataObject[$table_name][$index] = new DatabaseRow((object) $values);
 	}
-	$dataObject[$table] = $rows;
 };
 
 $newProfile = new ContactProfile(

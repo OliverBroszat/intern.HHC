@@ -17,3 +17,13 @@ h1:first-child {
 a:hover {
     color: inherit;
 }
+
+.ui.button, .ui.icon.button, .ui.icon.buttons .button{
+   padding-top: 0.65rem;
+   padding-bottom: 0.65rem;
+    margin: 0 0.5rem 0.5rem 0;
+}
+
+ui.multiple.dropdown {
+    padding: 0.5rem;
+}

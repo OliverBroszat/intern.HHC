@@ -109,12 +109,56 @@ $( document ).on('submit', '#edit-form', function(event) {
 });
 
 
-// IMAGE
+// Swap Upload-Remove Image Button
 $(document).on('click', '#edit-delete-image', function(){
-	$('.edit-image-image a').remove();
+	$(".edit-image-image a img").prop("src", '');
+    $(".edit-image-image a").prop("href", '').hide();
+
 	$('#edit-delete-image').hide();
 	$('#edit-upload-image').show();
+	$('#edit-upload-image').val('');
 
+});
+
+// Image Thumbnail
+function loadFile(event) {	
+	var src = URL.createObjectURL(event.target.files[0]);
+
+	$(".edit-image-image a img").prop("src", src);
+    $(".edit-image-image a").prop("href", src).show();
+	
+	$('#edit-upload-image').hide();
+    $('#edit-delete-image').show();
+};
+
+// Image Placeholder
+function imagePlaceholder() {
+	var target = $(".edit-image-image>.profile-picture");
+
+	if (target.length) {
+		console.log('ist da');
+	}
+	else {
+		if (!$(".edit-image-image a").is(":visible")) {
+			$(".edit-image-image").prepend("<img src='' class='profile-picture'>");
+		}
+	}
+
+
+	var female = "http://localhost/wordpress/wp-content/themes/intern-hhc/resources/images/profile_placeholder_female.png";
+	var male = "http://localhost/wordpress/wp-content/themes/intern-hhc/resources/images/profile_placeholder_male.png";
+	var gender = $("Contact-prefix").val();
+
+	if (gender == 'Frau') {
+		target.prop("src", female);
+	}
+	else {
+		target.prop("src", male);
+	}
+};
+
+$(document).on("change", "select[name='Contact-prefix']", function() {
+	imagePlaceholder();
 });
 
 function newMemberTestData() {

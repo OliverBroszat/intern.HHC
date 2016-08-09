@@ -127,7 +127,7 @@ td {
 
 
 .edit-image{
-	max-width: 720px;
+	/* max-width: 720px; */
 	margin: 0 auto;
 }
 
@@ -186,7 +186,7 @@ td {
 /* --- Edit Multi --- */
 
 .edit-multi .popup-content-outer {
-    max-width: 480px;
+    max-width: 600px;
 }
 
 .edit-multi .id-list {
