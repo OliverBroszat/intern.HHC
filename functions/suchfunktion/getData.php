@@ -23,7 +23,7 @@
 function getImageHTML($contact_id) {
 	// Get attachment ID
 	global $wpdb;
-	$query = "SELECT id FROM Image WHERE contact_id=%d";
+	$query = "SELECT image FROM Contact WHERE id=%d";
 	$query_escaped = $wpdb->prepare($query, $contact_id);
 	$attachment_id = $wpdb->get_var($query_escaped);
 	// Get image's source path

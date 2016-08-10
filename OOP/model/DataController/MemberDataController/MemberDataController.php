@@ -55,34 +55,12 @@ class MemberDataController {
     }
 
     public function createSingleMemberByProfile($memberProfile) {
-        print_r('*********ERSTELLE CONTACT');
         $this->contactDataController->createSingleContactByProfile($memberProfile->contactProfile);
         $memberProfile->memberDatabaseRow->setValueForKey(
             'contact',
             $memberProfile->contactProfile->contactDatabaseRow->getValueForKey('id')
         );
-        print_r('*********ERSTELLE MEMBER');
-        echo '<br><br>';
-        var_dump($memberProfile->memberDatabaseRow);
-        echo '<br><br>';
-        $this->createMemberByDatabaseRow($memberProfile->memberDatabaseRow);
-        print_r('*********ERSTELLE DONE');
-    }
-
-    public function createSingleMemberByProfileWithFixedID($id, $memberProfile) {
-        print_r('*********ERSTELLE CONTACT');
-        $this->contactDataController->createSingleContactByProfileWithID($id, $memberProfile->contactProfile);
-        echo '$$$$$$$$$$$$$$$$$$$$$$$$';
-        $memberProfile->memberDatabaseRow->setValueForKey(
-            'contact',
-            $memberProfile->contactProfile->contactDatabaseRow->getValueForKey('id')
-        );
-        print_r('*********ERSTELLE MEMBER');
-        echo '<br><br>';
-        var_dump($memberProfile->memberDatabaseRow);
-        echo '<br><br>';
-        $this->createMemberByDatabaseRow($memberProfile->memberDatabaseRow);
-        print_r('*********ERSTELLE DONE');
+        $this->createSingleMemberByDatabaseRow($memberProfile->memberDatabaseRow);
     }
 
     public function createMultipleMembersByProfile($memberProfiles) {
@@ -91,8 +69,8 @@ class MemberDataController {
         }
     }
 
-    private function createMemberByDatabaseRow($memberDatabaseRow) {
-        $this->baseDataController->tryToInsertRow('Member', $memberDatabaseRow);
+    private function createSingleMemberByDatabaseRow($memberDatabaseRow) {
+        $this->baseDataController->insertSingleRowInTable($memberDatabaseRow, 'Member');
     }
 
     public function getSingleMemberProfileByContactID($ID) {

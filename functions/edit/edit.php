@@ -45,7 +45,7 @@ $html = "
 						".$data['image']."
 					</div>
 					<div class='edit-image-buttons'>
-						<input type='file' accept='image/*' onchange='loadFile(event)' class='full-width' id='edit-upload-image' placeholder='Upload' name='upload_image'>
+						<input type='file' accept='image/*' onchange='$(\"#delete_image\").val(\"false\"); loadFile(event);' class='full-width' id='edit-upload-image' placeholder='Upload' name='upload_image'>
 						
 						<button type='button' class='ui icon button fluid' id='edit-delete-image' style='display:none;' 
 							onclick=\"$('#delete_image').val('true')\">

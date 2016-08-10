@@ -27,8 +27,9 @@ $test = new BaseDataController();
 
 new_paragraph("tryToGetSingleRowByQuery");
 try {
-    $result = $test->tryToSelectSingleRowByQuery("SELECT * FROM Contact WHERE id=200;");
+    $result = $test->selectSingleRowByQuery("SELECT * FROM Contact WHERE id=200;");
     echo $result->getValueForKey('first_name');
+    $test->getPrimaryDataArrayForRowInTable($result, 'Contact');
 }
 catch (WPDBError $e) {
     echo 'Fehler: ' . $e->getMessage();
@@ -38,7 +39,7 @@ finally {
 }
 
 new_paragraph("tryToGetMultipleRowsByQuery");
-$it_ressort = $test->tryToSelectMultipleRowsByQuery("SELECT * FROM Contact WHERE id<140");
+$it_ressort = $test->selectMultipleRowsByQuery("SELECT * FROM Contact WHERE id<140");
 
 foreach ($it_ressort as $row) {
 	print_r($row);
@@ -124,11 +125,13 @@ echo $profiles[2]->addressDatabaseRows[0]->getValueForKey('street');
 
 new_paragraph('Update existing Contact by Row');
 $p = $profiles[2];
-$p->contactDatabaseRow->setValueForKey('last_name', 'TEST');
-$test->tryToUpdateRowInTable($p->contactDatabaseRow, 'Contact');
-
-
-exit;
+$p->contactDatabaseRow->setValueForKey('last_name', 'TEST2');
+try {
+	$test->updateSingleRowInTable($p->contactDatabaseRow, 'Contact');
+}
+catch (InvalidArgumentException $e) {
+	// No Row updated. Ignore that Case
+}
 
 new_paragraph('Create a Contact');
 $newprofile = $profiles[2];
@@ -142,10 +145,10 @@ $contact = array(
 	'skype_name' => null
 );
 $contact = new DatabaseRow((object) $contact);
-$addresses = new DatabaseRow((object) array());
-$mails = new DatabaseRow((object) array());
-$phones = new DatabaseRow((object) array());
-$studies = new DatabaseRow((object) array());
+$addresses = array(); //new DatabaseRow((object) array());
+$mails = array(); //new DatabaseRow((object) array());
+$phones = array(); //new DatabaseRow((object) array());
+$studies = array(); //new DatabaseRow((object) array());
 $verynewProfile = new ContactProfile(
 	$contact,
 	$addresses,
@@ -153,42 +156,41 @@ $verynewProfile = new ContactProfile(
 	$phones,
 	$studies
 );
-echo '************************<br><br>';
-var_dump($verynewProfile);
-echo '<br><br>************************<br><br>';
-$userC->createSingleContactByProfile($verynewProfile);
-echo '************************<br><br>';
-var_dump($verynewProfile);
-echo '<br><br>************************<br><br>';
-
-$newprofile->contactDatabaseRow->setValueForKey('first_name', 'Hermann');
+echo '***************vvv*********<br><br>';
+echo '<br><br>*******************zuzuzuz*****<br><br>';
 $userC->createSingleContactByProfile($newprofile);
-var_dump($newprofile);
+echo '************************<br><br>';
+var_dump($verynewProfile);
+echo '<br><br>***************yyyyyyy*********<br><br>';
+
+$verynewProfile->contactDatabaseRow->setValueForKey('first_name', 'Hermann');
+$userC->createSingleContactByProfile($verynewProfile);
+var_dump($verynewProfile);
 
 new_paragraph('Delete a Contact');
 //$userC->deleteSingleContactByID($newprofile->contactDatabaseRow->getValueForKey('id'));
 
 new_paragraph('getNamesOfColumns');
-print_r($newprofile->contactDatabaseRow->getNamesOfColumns());
+print_r($verynewProfile->contactDatabaseRow->getColumnNames());
 
-$memberC = new MemberDataController(null, $userC);
-new_paragraph('Get MemberProfile');
-$p1 = $memberC->getSingleMemberProfileByContactID(135);
-var_dump($p1);
+// $memberC = new MemberDataController(null, $userC);
+// new_paragraph('Get MemberProfile');
+// $p1 = $memberC->getSingleMemberProfileByContactID(135);
+// var_dump($p1);
 
-new_paragraph('MemberController Test');
-$member_array = array(
-	'contact' => $newprofile->contactDatabaseRow->getValueForKey('id'),
-	'ressort' => 1,
-	'active' => 0,
-	'position' => 'mitglied',
-	'joined' => '2016-08-07',
-	'left' => '0000-00-00'
-);
-$member_object = (object) $member_array;
-$member_row = new DatabaseRow($member_object);
-$memberProfile = new MemberProfile($member_row, $newprofile);
-$memberC->createSingleMemberByProfile($memberProfile);
+// new_paragraph('MemberController Test');
+// $member_array = array(
+// 	'contact' => $newprofile->contactDatabaseRow->getValueForKey('id'),
+// 	'ressort' => 1,
+// 	'active' => 0,
+// 	'position' => 'mitglied',
+// 	'joined' => '2016-08-07',
+// 	'left' => '0000-00-00'
+// );
+// $member_object = (object) $member_array;
+// $member_row = new DatabaseRow($member_object);
+// $memberProfile = new MemberProfile($member_row, $newprofile);
+// $memberC->createSingleMemberByProfile($memberProfile);
 
 ?>
 
