@@ -51,6 +51,21 @@ class ContactDataController {
         $this->baseDataController = $baseDataController;
     }
 
+    public function createSingleContactByProfileWithID($id, $contactProfile) {
+        $contactProfile->contactDatabaseRow->setValueForKey('id', $id);
+        $this->baseDataController->tryToInsertRow('Contact', $contactProfile->contactDatabaseRow);
+        echo '<h1>INSERT CONTACT DONE</h1>';
+        $contactProfile->updateDataWithContactID($id);
+        echo '<h1>UPDATE DATA DONE</h1>';
+        var_dump($contactProfile);
+        echo '<h1>---</h1>';
+        $this->createContactItemsForTable('Address', $contactProfile->addressDatabaseRows);
+        $this->createContactItemsForTable('Mail', $contactProfile->mailDatabaseRows);
+        $this->createContactItemsForTable('Phone', $contactProfile->phoneDatabaseRows);
+        $this->createContactItemsForTable('Study', $contactProfile->studyDatabaseRows);
+        echo '<h1>UPDATE MAIL,ADDR,... DONE</h1>';
+    }
+
     public function createSingleContactByProfile($contactProfile) {
         $this->baseDataController->tryToInsertRowWithAutoUpdateSingleAutoPrimary(
             'Contact',
@@ -58,13 +73,19 @@ class ContactDataController {
         );
         $newContactID = $contactProfile->contactDatabaseRow->getValueForKey('id');
         $contactProfile->updateDataWithContactID($newContactID);
-        $this->createContactItemsForTable('Address', $contactProfile->addressDatabaseRows);
-        $this->createContactItemsForTable('Mail', $contactProfile->mailDatabaseRows);
-        $this->createContactItemsForTable('Phone', $contactProfile->phoneDatabaseRows);
-        $this->createContactItemsForTable('Study', $contactProfile->studyDatabaseRows);
+        $this->createContactItemsForTableWithAutoUpdate('Address', $contactProfile->addressDatabaseRows);
+        $this->createContactItemsForTableWithAutoUpdate('Mail', $contactProfile->mailDatabaseRows);
+        $this->createContactItemsForTableWithAutoUpdate('Phone', $contactProfile->phoneDatabaseRows);
+        $this->createContactItemsForTableWithAutoUpdate('Study', $contactProfile->studyDatabaseRows);
     }
 
     private function createContactItemsForTable($table, $dataRows) {
+        foreach ($dataRows as $row) {
+            $this->baseDataController->tryToInsertRow($table, $row);
+        }
+    }
+
+    private function createContactItemsForTableWithAutoUpdate($table, $dataRows) {
         foreach ($dataRows as $row) {
             $this->baseDataController->tryToInsertRowWithAutoUpdateSingleAutoPrimary($table, $row);
         }
@@ -113,13 +134,18 @@ class ContactDataController {
         $sql = "SELECT id FROM Address WHERE contact=$contactID;";
         $ids = $this->baseDataController->tryToSelectMultipleRowsByQuery($sql);
         $ids_in_profile = DatabaseRow::filterValuesFromRowsForSingleKey(
-            'id',
+            'contact',
             $contactProfile->addressDatabaseRows
         );
         var_dump($ids_in_profile);
         // $new_ids = 
         // $existing_ids = 
         // $missing_ids = 
+    }
+
+    public function updateSingleContactProfileWithFixedID($id, $contactProfile) {
+        $this->deleteSingleContactByProfile($contactProfile);
+        $this->createSingleContactByProfileWithID($id, $contactProfile);
     }
 
     public function updateMultipleContactProfiles($contactProfiles) {

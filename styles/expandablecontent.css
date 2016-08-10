@@ -6,7 +6,7 @@
 
 .expandablecontent-bar {
 	margin: 0 auto;
-    max-width: 720px;
+    /* max-width: 720px; */
     border-top: 2px solid #dddddd;
     text-align: right;
     border-bottom: 2px solid #dddddd;
@@ -16,7 +16,7 @@
 
 .expandablecontent-bar.small {
     margin: 0 auto;
-    max-width: 720px;
+    /* max-width: 720px; */
     text-align: right;
     background-color: white;
     float: right;
@@ -26,7 +26,7 @@
 
 .expandablecontent-content {
 	margin: 0 auto;
-    max-width: 720px;
+    /* max-width: 720px; */
     padding: 5px;
     background-color: white;
 }
@@ -48,7 +48,7 @@
 .expandablecontent-container:not(.small) .expandablecontent-listitem-content {
     position: relative;
     /* border: 1px solid #ccc; */
-    max-width: 720px;
+    /* max-width: 720px; */
     margin: 0 auto 0.75rem;
     border-bottom: 1px solid #ccc;
 }

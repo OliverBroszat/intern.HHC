@@ -84,6 +84,13 @@ p{
 	line-height: 1.5;
 }
 
+pre {
+    max-height: 360px;
+    overflow: auto;
+    background-color: #eee;
+    padding: 1rem;
+    border: 1px solid #ccc;
+}
 
 /* ------ TABLES ------ */
 
@@ -114,7 +121,7 @@ th{
 /* Form */
 table.form{
 	width: 100%;
-	max-width: 720px;
+	/* max-width: 720px; */
 }
 table.form, table.form th, table.form td{
 	border:none;
@@ -128,12 +135,12 @@ table.liste{
 	box-shadow: none;
 }
 
-table.liste tr:nth-child(odd) {
-    background-color: #f6f7f9;
+table.liste tr {
+    background-color: #fff;
 }
 
-table.liste tr:nth-child(even) {
-    background-color: #fff;
+table.liste > tbody > tr:nth-child(odd) {
+    background-color: #f6f7f9;
 }
 
 table.liste th, table.liste td {
@@ -169,7 +176,7 @@ select[disabled]:hover {
     color: #999;
 }
 
-input[type='text'], input[type='email'], input[type='date']{
+input[type='text'], input[type='email'], input[type='date'], textarea{
 	padding: 0.25rem 0.5rem;
     border: 1px solid #ccc;
     border-radius: 0.2rem;
@@ -189,6 +196,14 @@ select {
 	border-radius: 0.3rem;
 	color: inherit;
 	background-color: #fcfcfc;
+}
+
+select.placeholder {
+	color: #a9a9a9;
+}
+
+select.placeholder option {
+	color: initial;
 }
 
 fieldset {

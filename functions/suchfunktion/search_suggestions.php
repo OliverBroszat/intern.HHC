@@ -6,17 +6,13 @@
 */
 
 
-$localhost = array(
-    '127.0.0.1',
-    '::1'
-);
-
+// Load WP-Functions
+$localhost = array( '127.0.0.1', '::1' ); 
 $root = realpath($_SERVER["DOCUMENT_ROOT"]); 
-if(in_array($_SERVER['REMOTE_ADDR'], $localhost)){
-    $root = realpath($_SERVER["CONTEXT_DOCUMENT_ROOT"]).'/wordpress';
-    if (strpos($root, '\\')){ $root .= "/wordpress"; }
-}
-require_once("$root/wp-config.php");
+if(in_array($_SERVER['REMOTE_ADDR'], $localhost)){ 
+    $root = realpath($_SERVER["CONTEXT_DOCUMENT_ROOT"]).'/wordpress'; 
+} 
+require_once("$root/wp-load.php");
 
 
 $search_text = preg_split("/[\s,]+/", trim($_POST["search_text"]));
@@ -29,9 +25,11 @@ $query = "
 		FROM (
 			SELECT * 
 			FROM (
-				SELECT first_name, last_name, id FROM Contact 
+				SELECT first_name, last_name, id, skype_name FROM Contact 
 				UNION 
 				SELECT last_name, first_name, last_name FROM Contact
+				UNION 
+				SELECT id, NULL, NULL FROM Contact
 				UNION 
 				SELECT city, NULL, NULL FROM Address
 				UNION 

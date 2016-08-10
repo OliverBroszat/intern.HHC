@@ -6,9 +6,6 @@
  */
 
 $root_uri = get_template_directory_uri(); 
-$root = get_template_directory();
-
-require_once("$root/functions/main_functions.php");
 
 global $user_ID;
 
@@ -24,7 +21,11 @@ global $user_ID;
 	<script src='<?php echo $root_uri; ?>/import/1.12.0.jquery.min.js'></script>
 	<script src='<?php echo $root_uri; ?>/import/1.11.4.jquery-ui.min.js'></script>
 	<link rel='stylesheet' href='<?php echo $root_uri; ?>/import/1.11.4.jquery-ui.min.css'>
+
 	
+	<!-- <script src='<?php echo $root_uri; ?>/import/jquery.validate.min.js'></script> -->
+	<!-- <script src='<?php echo $root_uri; ?>/import/jquery.validate_messages_de.js'></script> -->
+
 	<script src='<?php echo $root_uri; ?>/js/functions.js'></script>
 	<script src='<?php echo $root_uri; ?>/js/popup.js'></script>
 
@@ -33,6 +34,11 @@ global $user_ID;
 	<link rel='stylesheet' href='<?php echo $root_uri; ?>/styles/style_home.css'/>
 	<link rel='stylesheet' href='<?php echo $root_uri; ?>/styles/style_edit.css'/>
 	<link rel='stylesheet' href='<?php echo $root_uri; ?>/styles/expandablecontent.css'/>
+
+	<script src='<?php echo $root_uri; ?>/import/semantic_ui/semantic.min.js'></script>
+	<link rel='stylesheet' class="ui" href='<?php echo $root_uri; ?>/import/semantic_ui/semantic.min.css'>
+
+	<link rel='stylesheet' href='<?php echo $root_uri; ?>/styles/style_after.css'>
 
 	<title><?php echo $title; ?></title>
 
@@ -54,12 +60,7 @@ global $user_ID;
 		?>
 	</div>
 	<nav class='nav panel full-width'>
-		<?php 
-			$list_pages = wp_list_pages(array(
-				'title_li' => __( '' ),
-				'echo' => 0
-			));
-
-			echo $list_pages; 
-		?>
+		<?php wp_nav_menu( array( 'theme_location' => 'header-menu' ) ); ?>
 	</nav>
+
+
