@@ -36,7 +36,6 @@ $data = post_to_array($post_clean);
 $crud = $data['crud'][0];
 
 arr_to_list($data);
-echo "<b>Operation:</b> ";
 
 $base = new BaseDataController();
 $contact = new ContactDataController(null, $base);
@@ -49,6 +48,15 @@ foreach ($data as $table_name => $tables) {
 	}
 };
 
+// Workarround for missing datastructures if empty
+$tablesNames = array('Address', 'Mail', 'Phone', 'Study');
+foreach ($tablesNames as $tableName) {
+	if (!isset($dataObject[$tableName])) {
+		echo "<br>$tableName fehlt, also setze leeres Array<br>";
+		$dataObject[$tableName] = array();
+	}
+}
+
 $newProfile = new ContactProfile(
 	$dataObject['Contact'][0],
 	$dataObject['Address'],
@@ -56,6 +64,8 @@ $newProfile = new ContactProfile(
 	$dataObject['Phone'],
 	$dataObject['Study']
 );
+
+var_dump($newProfile);
 
 $newMember = new MemberProfile(
 	$dataObject['Member'][0],
@@ -103,6 +113,7 @@ if (!empty($attachment_id)) {
 	// echo "OLD Image: <img src='$imgsrc_thumb' class='profile-picture' alt='Profilbild' /> <br>";
 }
 
+echo "<b>Operation:</b> ";
 // Call SQL-Functions for each Data-Set
 if($crud['mode'] == 'edit' && !empty($crud['id'])) {
 	
@@ -157,8 +168,8 @@ else {
 }
 echo "<hr>";
 
-echo "<h3>Data</h3>";
-arr_to_list($data);
+echo "<h3>DataObject</h3>";
+arr_to_list($dataObject);
 echo "<hr>";
 
 echo "<h3>Files</h3>";
