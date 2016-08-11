@@ -7,8 +7,6 @@
  * @since intern-hhc
  */
 
-require_once(get_template_directory()."/functions/main_functions.php");
-
 get_header();
 
 // Sample input data

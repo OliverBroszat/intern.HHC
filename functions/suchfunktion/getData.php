@@ -23,7 +23,7 @@
 function getImageHTML($contact_id) {
 	// Get attachment ID
 	global $wpdb;
-	$query = "SELECT id FROM Image WHERE contact_id=%d";
+	$query = "SELECT image FROM Contact WHERE id=%d";
 	$query_escaped = $wpdb->prepare($query, $contact_id);
 	$attachment_id = $wpdb->get_var($query_escaped);
 	// Get image's source path
@@ -57,10 +57,10 @@ function getDetail($contact_id) {
 	global $wpdb;
 	$detail_array = array();
 	$detail_array['phone'] = $wpdb->get_results("
-		SELECT description, number FROM Phone WHERE contact=$contact_id;
+		SELECT * FROM Phone WHERE contact=$contact_id;
 	");
 	$detail_array['mail'] = $wpdb->get_results("
-		SELECT description, address FROM Mail WHERE contact=$contact_id;
+		SELECT * FROM Mail WHERE contact=$contact_id;
 	");
 	$detail_array['address'] = $wpdb->get_results("
 		SELECT * FROM Address WHERE contact=$contact_id;

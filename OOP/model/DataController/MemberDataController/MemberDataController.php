@@ -56,7 +56,11 @@ class MemberDataController {
 
     public function createSingleMemberByProfile($memberProfile) {
         $this->contactDataController->createSingleContactByProfile($memberProfile->contactProfile);
-        $this->createMemberByDatabaseRow($memberProfile->memberDatabaseRow);
+        $memberProfile->memberDatabaseRow->setValueForKey(
+            'contact',
+            $memberProfile->contactProfile->contactDatabaseRow->getValueForKey('id')
+        );
+        $this->baseDataController->insertSingleRowInTable($memberProfile->memberDatabaseRow, 'Member');
     }
 
     public function createMultipleMembersByProfile($memberProfiles) {
@@ -65,8 +69,8 @@ class MemberDataController {
         }
     }
 
-    private function createMemberByDatabaseRow($memberDatabaseRow) {
-        $this->baseDataController->tryToInsertRow('Member', $memberDatabaseRow);
+    private function createSingleMemberByDatabaseRow($memberDatabaseRow) {
+        $this->baseDataController->insertSingleRowInTable($memberDatabaseRow, 'Member');
     }
 
     public function getSingleMemberProfileByContactID($ID) {
@@ -98,8 +102,9 @@ class MemberDataController {
         // TODO: implement filter objects!
     }
 
-    public function updateSingleMemberByProfile($memberProfile) {
-        //
+    public function updateSingleMemberProfile($memberProfile) {
+        $this->contactDataController->updateSingleContactProfile($memberProfile->contactProfile);
+        $this->baseDataController->updateSingleRowInTable($memberProfile->memberDatabaseRow, 'Member');
     }
 
     public function updateMultipleMembersByProfile($memberProfiles) {
@@ -109,7 +114,7 @@ class MemberDataController {
     }
 
     public function deleteSingleMemberByID($id) {
-        //
+        $this->contactDataController->deleteSingleContactByID($id);
     }
 
     public function deleteMultipleMembersByID($IDs) {
@@ -119,7 +124,7 @@ class MemberDataController {
     }
 
     public function deleteSingleMemberByProfile($memberProfile) {
-        //
+        $this->contactDataController->deleteSingleContactByProfile($memberProfile->contactProfile);
     }
 
     public function deleteMultipleMembersByProfile($memberProfiles) {

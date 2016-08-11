@@ -15,7 +15,6 @@ if(in_array($_SERVER['REMOTE_ADDR'], $localhost)){
 require_once("$root/wp-load.php");
 
 $root = get_template_directory();
-require_once("$root/functions/main_functions.php");
 require_once("$root/functions/suchfunktion/prepareSQL.php");
 require_once("$root/functions/suchfunktion/getData.php");
 require_once("$root/functions/suchfunktion/postProcess.php");
@@ -24,10 +23,10 @@ require_once("$root/functions/suchfunktion/createHTML.php");
 
 // Filter
 $filter = array(
-	"Ressort.name" => explode(',', $_POST['ressort_list']),
-	"Member.position" => explode(',', $_POST['position_list']),
-	"Member.active" => explode(',', $_POST['status_list']),
-	"Study.school" => explode(',', $_POST['uni_list'])
+	"Ressort.name" => $_POST['f_ressort_list'],
+	"Member.position" => $_POST['f_position_list'],
+	"Member.active" => $_POST['f_status_list'],
+	"Study.school" => $_POST['f_uni_list']
 );
 
 
@@ -49,7 +48,8 @@ $search_select = array(
 		'first_name',
 		'last_name',
 		'birth_date',
-		'comment'
+		'comment',
+		'skype_name'
 	),
 	'Ressort' => array(
 		'name'
@@ -65,6 +65,7 @@ $search_select = array(
 // Für den LIKE Operator
 $search_range = array( 
   'Contact' => array( 
+    'id',
     'first_name', 
     'last_name' 
   ), 
@@ -80,36 +81,6 @@ $search_range = array(
   ) 
 ); 
 
-	// Für den SELECT Operator
-	$search_select = array(
-		'Contact' => array(
-			'id',
-			'prefix',
-			'first_name',
-			'last_name',
-			'birth_date',
-			'comment'
-		),
-		'Ressort' => array(
-			'name'
-		),
-		'Member' => array(
-			'active',
-			'position',
-			'joined',
-			'left'
-		)
-	);
-
-	// Für den LIKE Operator
-	$search_range = array(
-		'Contact' => array(
-			'id',
-			'first_name',
-			'last_name',
-		)
-	);
-
 // --------- Suchfunktionen ---------
 
 // SQL-Abfrage vorbereiten
@@ -123,6 +94,12 @@ $html = createHTML($final);
 
 $number = count($final);
 
-echo $number.'\\n'.$html;
+$return = array(
+	'number' => $number,
+	'html' => $html,
+	'debug' => $data
+);
+
+print json_encode($return);
 
 ?>

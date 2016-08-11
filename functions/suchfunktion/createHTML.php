@@ -37,7 +37,31 @@ function getDetailView($number, $dataset) {
 	}
 	else {
 		foreach($dataset['phones'] as $row) {
-			$phone_html .= "<tr><td width='10%'>".$row->description."</td><td>".$row->number."</td></tr>";
+			
+			// Modify Phone Numbers
+			$num = $row->number;
+
+			if (substr($num, 0, 3) == '049') {
+				// 049123456
+				$num = '+49 '.substr($num, 3);
+			}
+			elseif (substr($num, 0, 4) == '0049') {
+				// 0049123456
+				$num = '+49 '.substr($num, 4);
+			}
+			elseif ($num[0] == '0') {
+				// 0176123456
+				$num = '+49 '.substr($num, 1);
+			}
+			elseif (substr($num, 0, 3) != '+49' && $num != '') {
+				// 123456
+				$num = '+49 '.$num;
+			}
+			$num_clean = preg_replace('/\s+/', '', $num);
+
+			// $num_spaces = substr($num, 0, 3).' '.substr($num, 3, 3).' '.substr($num, 6, 3).' '.substr($num, 9, 3).' '.substr($num, 12);
+
+			$phone_html .= "<tr><td width='10%'>".$row->description."</td><td><a href='tel:$num_clean'>$num</a></td></tr>";
 		}
 	}
 	
@@ -67,36 +91,51 @@ function getDetailView($number, $dataset) {
 	}
 
 	// Get Studies
-	$study_table = '<table><tr><td colspan="2" style="text-align: center;"><b>Studiengänge</b></td></tr>';
 	//foreach($dataset['studies'] as $row) {
+	$study_table = '';
 	foreach($dataset['detail']['study'] as $row) {
-		$tr = '<tr><td>';
+		$study_table .= "
+			<table style='margin-top: 1rem;'>
+				<tr>
+					<th colspan='2' style='text-align: center;'>".$row->course."</th>
+				</tr>
+				<tr>
+					<td width='30%'>Status: </td>
+					<td>
+		";
 		 $status = $row->status;
 		 switch($status) {
 		 	case 'active':
-		 		$tr .= '<span class="study_status_active">Aktuell</span>';
+		 		$study_table .= '<span class="study_status_active">Aktuell</span>';
 		 		break;
 		 	case 'cancelled':
-		 		$tr .= '<span class="study_status_cancelled">Abgebrochen</span>';
+		 		$study_table .= '<span class="study_status_cancelled">Abgebrochen</span>';
 		 		break;
 		 	case 'done':
-		 		$tr .= '<span class="study_status_done">Abgeschlossen</span>';
+		 		$study_table .= '<span class="study_status_done">Abgeschlossen</span>';
 		 		break;
 		 }
-		 $tr .= '</td><td><b>'.$row->course.'</b></td></tr>';
-		 $tr .= '<tr><td colspan="2">'.$row->school.'</td>';
+		 $study_table .= "
+		 	<tr>
+		 		<td>(Hoch-)Schule: </td>
+		 		<td>".$row->school."</td>
+		 ";
 		 if (!empty($row->degree)) {
-		 	$tr .= '<tr><td>Abschluss: </td><td>'.$row->degree.'</td>';
-		 }	 
-		 $study_table .= $tr;	
+		 	$study_table .= "
+		 		<tr>
+		 			<td>Abschluss: </td>
+		 			<td>".$row->degree."</td>
+		 		</tr>
+		 	";
+		 }
+		 $study_table .= "</table>";
 	}
-	$study_table .= '</table>';
 
 	// $internships_table = '<span><i>Praktika werden noch nicht unterstützt</i></span>';
 	$internships_table = '';
 
 
-	$html_studies_internship = '<div style="display: inline-block; width: 50%;">'.$study_table.'</div>';
+	$html_studies_internship = '<div style="display: inline-block; width: 100%;">'.$study_table.'</div>';
 	$html_studies_internship .= '<div style="display: inline-block; width: 50%; vertical-align: top; text-align: center;">'.$internships_table.'</div>';
 
 	// Get notes
@@ -182,19 +221,29 @@ function getListEntryHTML($number, $dataset_full) {
 				".$dataset->id."
 
 			</td>
-			<td class='profile' rowspan='4' width='19%'>$image</td>
-			<td class='contact_name' width='38%'><b>".$dataset->first_name.' '.$dataset->last_name."</b></td>
-			<td align='right'><div class='status ".$dataset->active."'></div></td>
+			<td class='profile' rowspan='4' width='20%'>$image</td>
+			<td class='contact_name' width='70%'><b>".$dataset->first_name.' '.$dataset->last_name."</b></td>
+			<td align='right' width='5%'><div class='status ".$dataset->active."'></div></td>
 		</tr>
 		<tr>
 			<td class='status'> Position: ".$dataset->position."</td>
 		</tr>
 		<tr>
-			<td class='ressort' width='19%'>Ressort: ".$dataset->name."</td>
+			<td class='ressort' >Ressort: ".$dataset->name."</td>
 		</tr>
 		<tr>
-			<td><button value='$number' onclick='expand_content(this.value);' class='full-width' type='button' >DETAIL</button></td>
-			<td><button value='".$dataset->id."' onclick='edit(this.value);' class='full-width' type='button'>EDIT</button></td>
+			<td>
+				<button type='button' class='fluid ui icon mini basic button' value='$number' onclick='expand_content(this.value)'>
+					<i class='eye icon'></i>
+					DETAILS
+				</button>
+			</td>
+			<td>
+				<button type='button' class='ui icon mini basic button labeled' value='".$dataset->id."' onclick='edit(this.value)'>
+					<i class='edit icon'></i>
+					Edit
+				</button>
+			</td>
 		</tr>
 	</table>";
 	$button_id = "show_detail_$number";

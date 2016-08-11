@@ -33,11 +33,23 @@ nav, .nav.panel{
 }
 
 button.loginout{
-	padding: 0.5rem 2rem;
-	/*margin-top: 1rem;*/
-}
-button.loginout{
+	padding: 0.25rem 1rem;
+	margin: 0 0 0 6px;
+	height: 28px;
+	background: #fff;
+	color: #777;
+	border: 1px solid #ddd;
+	-webkit-border-radius: 0;
+    border-radius: 0;
+    box-shadow: 0 1px 1px -1px rgba(0,0,0,0.2);
 	border-top: none;
+	outline: none;
+	transition:  all 0.1s ease;
+}
+
+button.loginout:hover{
+	color: #32373c;
+	box-shadow: 0px 3px 6px -1px rgba(0,0,0,0.1);
 }
 
 .admin-bar{

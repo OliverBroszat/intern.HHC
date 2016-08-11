@@ -84,7 +84,7 @@ img.profile-picture {
 	transition: all 0.15s;
 }
 
-img.profile-picture:hover {
+a img.profile-picture:hover {
     box-shadow: 2px 6px 10px rgba(0,0,0,0.35);
 	border: 1px solid #fff;
 }
@@ -105,6 +105,10 @@ img.profile-picture:hover {
 	margin: 0 auto 50px;
 }
 
+.outer.small {
+	max-width: 720px;
+}
+
 .clearfix:after {
 	content: "";
 	display: table;
@@ -115,6 +119,10 @@ img.profile-picture:hover {
 	.outer{
 		max-width: 1280px;
 	}
+
+	.outer.small {
+		max-width: 960px;
+	}
 }
 
 main.container {
@@ -123,7 +131,12 @@ main.container {
 	margin: 0 0 10rem;
 	float: right;
 }
-
+#search-box {
+    padding-left: 24px;
+    width: 70%;
+    margin: 0 0 1rem;
+    float: right;
+}
 .panel {
 	background-color: #fff;
 	border: 1px solid #ddd;
@@ -235,13 +248,13 @@ th button.sort{
 /*--------- Search Suggestions --------- */
 #suggestions{
 	position:absolute;
-	bottom: calc(100% - 0.25rem);
-	width: calc(100% - 0.5rem);
+	bottom: calc(100% - 2px);
+	width: 100%;
 	max-height: 7rem;
 	overflow-y: auto;
 	padding: 0;
 	background-color: #fff;
-	border: 1px solid #ccc;
+	border: 1px solid #85B7D9;
 	border-bottom: none;
 	border-radius: 0.2rem;
 	border-bottom-left-radius: 0;
@@ -358,8 +371,9 @@ table.liste tr:nth-child(even) .list-entry .data-set{
 }
 
 .list-entry .scroll-list{
-	max-height: 4rem;
+	/* max-height: 4rem; */
 	overflow-y: auto;
+	/* resize: vertical; */
 }
 .list-entry .data-row{
 
@@ -464,9 +478,13 @@ table.liste tr:nth-child(even) .ui-tabs-active{
 
 /*--------- Popup Image --------- */
 .popup.image .popup-content-outer{
-    border-radius: 0;
+    /* border-radius: 0; */
     box-shadow: 2px 5px 20px rgba(0, 0, 0, 0.5);
     padding: 0.75rem;
+}
+
+.popup.image .popup-content {
+	 overflow: visible;
 }
 
 .popup.image img{
@@ -484,8 +502,8 @@ table.liste tr:nth-child(even) .ui-tabs-active{
     font-size: 3rem;
     background: #fff;
     position: absolute;
-    top: -1rem;
-    right: -1rem;
+    top: -1.5rem;
+    right: -1.5rem;
     text-align: center;
     vertical-align: middle;
     border-radius: 50%;
@@ -507,7 +525,7 @@ table.liste tr:nth-child(even) .ui-tabs-active{
 	.outer{
 		max-width: 720px;
 	}
-	.sidebar, main.container{
+	.sidebar, main.container, #search-box{
 		width: 100%;
 		max-width: 100%;
 		border-radius: 0;
@@ -565,14 +583,24 @@ table.liste tr:nth-child(even) .ui-tabs-active{
 }
 
 @media screen and (max-width: 480px) {
-	.panel{
-		padding-left: 0;
-		padding-right: 0;
+	.outer {
+		padding: 0;
+	}
+	.panel, .sidebar{
+		padding-left: 0.5rem;
+		padding-right: 0.5rem;
+		border-left: 0;
+		border-right: 0;
+		border-radius: 0;
+		box-shadow: none;
+	}
+	.panel.actions {
+		text-align: center;
 	}
 
 	table.liste th, table.liste td{
-		border-left: 0;
-		border-right: 0;
+/* 		border-left: 0;
+		border-right: 0; */
 	}
 
 	select#sort, select#order{

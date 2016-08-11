@@ -48,9 +48,26 @@ loadWordpressFunctions();
  * Class DatabaseRow
  *
  * Wraps the wordpress SQL query results
+ $result = wpdb->gt_result...
  */
 class DatabaseRow
 {
+
+    public static function filterValuesFromRowsForSingleKey($key, $rows) {
+        $valuesForKey = array();
+        foreach ($rows as $row) {
+            array_push($valuesForKey, $row->getValueForKey($key));
+        }
+        return $valuesForKey;
+    }
+
+    public static function filterValuesFromRowsForMultipleKeys($keys, $rows) {
+        $filtered = array();
+        foreach ($keys as $key) {
+            $filtered['$key'] = $this->filterValuesFromRowsForKey($key, $rows);
+        }
+        return $filtered;
+    }
 
     // TODO: add static method FromArray
 
@@ -63,20 +80,31 @@ class DatabaseRow
 
     public function getValueForKey($key)
     {
-        $namesOfColumnsInRow = $this->getNamesOfColumns();
-        if (in_array($key, $namesOfColumnsInRow)) {
-            $valueForKey = $this->sqlQueryResult->$key;
-            return $valueForKey;
-        } else {
-            throw new InvalidArgumentException("The requested key '$key' does not exist");
-        }
+        $this->ifKeyNotExistingThrowException($key);
+        $valueForKey = $this->sqlQueryResult->$key;
+        return $valueForKey;
     }
     
+    // NOTE: Prüft nicht, ob der Wert 'key' existiert!
     public function setValueForKey($key, $value) {
         $this->sqlQueryResult->$key = $value;
     }
 
-    public function getNamesOfColumns() {
+    // Prüft ob der Wert auch schon existiert
+    public function setValueForExistingKey($key, $value) {
+        $this->ifKeyNotExistingThrowException($key);
+        $this->setValueForKey($key, $value);
+    }
+
+    private function ifKeyNotExistingThrowException($key) {
+        $attributes = $this->getColumnNames();
+        if (!in_array($key, $attributes)) {
+            $errorMessage = "The key '$key' does not exist. Maybe use setValueForKey()?";
+            throw InvalidArgumentException($errorMessage);
+        }
+    }
+
+    public function getColumnNames() {
         $publicAttributes = get_object_vars($this->sqlQueryResult);
         $columnNames = array();
         foreach ($publicAttributes as $name => $content) {
@@ -85,18 +113,22 @@ class DatabaseRow
         return $columnNames;
     }
 
-    // TODO: Move to view/DatabaseView/???.php !!!
-    public function generateHTMLTable() {
-        $html = '<table>' . $this->generatelHTMLRow() . '</table>';
+    public function toArray() {
+        $dataArray = array();
+        $columns = $this->getColumnNames();
+        foreach ($columns as $columnName) {
+            $dataArray[$columnName] = $this->getValueForKey($columnName);
+        }
+        return $dataArray;
     }
 
-    // TODO: Move to view/DatabaseView/???.php !!!
-    public function generateHTMLRow() {
-        $htmlCode = '<tr>';
-        foreach ($this->dataRow as $value) {
-            $htmlCode .= "<td>$value</td>";
+    public function deleteSingleColumnWithName($name) {
+        unset($this->sqlQueryResult->$name);
+    }
+
+    public function deleteMultipleColumnsWithName($names) {
+        foreach ($names as $name) {
+            $this->deleteSingleColumnWithName($name);
         }
-        $htmlCode .= '</tr>';
-        return $htmlCode;
     }
 }
