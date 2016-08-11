@@ -150,8 +150,6 @@ class BaseDataController {
     // Prüft, ob eine Tabelle nur einen einzigen Primary Key hat
     private function throwExceptionOnMultiplePrimaryColumnsForTable($table) {
         $primaryColumns = $this->getPrimaryColumnNamesForTable($table);
-        echo 'XXXXXXXXXXXXXXXXXXXXX<br><br>';
-        var_dump($primaryColumns);
         $numberOfPrimaryColumns = count($primaryColumns);
         if ($numberOfPrimaryColumns != 1) {
             $errorMessage = "Table '$table' must have one primary column but has $numberOfPrimaryColumns";

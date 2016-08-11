@@ -113,16 +113,20 @@ class ContactDataController {
     * NOTE: the profile's id WILL be changed after any update
     */
     public function updateSingleContactProfile($contactProfile) {
+        echo 'In updateSingleContact<br>';
         try {
             $this->baseDataController->updateSingleRowInTable($contactProfile->contactDatabaseRow, 'Contact');
         }
         catch (InvalidArgumentException $e) {
-            // No data was changed. Ignore this error
+            echo "<br><b>ERROR LOG - ContactDataController::updateSingleContactProfile: $e->getMessage()";
         }
+        echo 'Contact geupdated<br>';
         $this->updateContactProfileForTable($contactProfile, 'Address');
+        echo 'Adresse geupdated<br>';
         $this->updateContactProfileForTable($contactProfile, 'Mail');
         $this->updateContactProfileForTable($contactProfile, 'Phone');
         $this->updateContactProfileForTable($contactProfile, 'Study');
+        echo 'Update durch<br>';
     }
 
     private function updateContactProfileForTable($contactProfile, $table) {
