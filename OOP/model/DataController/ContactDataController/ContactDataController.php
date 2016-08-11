@@ -54,7 +54,7 @@ class ContactDataController {
 
 
     public function __construct($userSecurityPass, $baseDataController) {
-        //$this->ifUserNotLoggedInThrowException();
+        //$userSecurityPass->ifUserNotLoggedInThrowException();
         $this->baseDataController = $baseDataController;
     }
 
@@ -118,7 +118,7 @@ class ContactDataController {
             $this->baseDataController->updateSingleRowInTable($contactProfile->contactDatabaseRow, 'Contact');
         }
         catch (InvalidArgumentException $e) {
-            echo "<br><b>ERROR LOG - ContactDataController::updateSingleContactProfile: $e->getMessage()";
+            // Nothing updated - ingore this case
         }
         echo 'Contact geupdated<br>';
         $this->updateContactProfileForTable($contactProfile, 'Address');

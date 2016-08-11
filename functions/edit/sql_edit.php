@@ -72,6 +72,19 @@ $newMember = new MemberProfile(
 	$newProfile
 );
 
+// Get Image ID
+global $wpdb;
+$query = "SELECT image FROM Contact WHERE id=%d";
+$query_escaped = $wpdb->prepare($query, $id);
+try {
+	$attachment_id = $base->selectSingleRowByQuery($query_escaped)->getValueForKey('image');
+	echo 'THE ID: ';
+	var_dump($attachment_id);
+	echo '<br><br>';
+}
+catch (LengthException $e) {
+}
+
 echo "<br><b>Image-Operation:</b> ";
 if ($crud['delete_image'] == 'false') {
 	if (!empty($_FILES['upload_image']['name'])) {
@@ -86,6 +99,7 @@ if ($crud['delete_image'] == 'false') {
 				
 		if (is_wp_error($attachment_id)) {
 			echo "<br>ERROR (Image Upload)<br>";
+			$attachment_id = 'error';
 		} else {
 			// The image was uploaded successfully!
 			$newProfile->contactDatabaseRow->setValueForKey('image', $attachment_id);
@@ -121,16 +135,8 @@ if($crud['mode'] == 'edit' && !empty($crud['id'])) {
 	echo "UPDATE ";
 	$id = $crud['id'];
 
-	// Get Image ID
-	global $wpdb;
-	$query = "SELECT image FROM Contact WHERE id=%d";
-	$query_escaped = $wpdb->prepare($query, $id);
-	try {
-		$attachment_id = $base->selectSingleRowByQuery($query_escaped)->getValueForKey('image');
-	}
-	catch (LengthException $e) {
-	}
-	$contact->updateSingleContactProfile($newProfile);
+	
+	$member->updateSingleMemberProfile($newMember);
 
 }
 elseif($crud['mode'] == 'delete') {
@@ -138,7 +144,7 @@ elseif($crud['mode'] == 'delete') {
 	// DELETE
 	echo "DELETE ";
 	$id = $crud['id'];
-	$contact->deleteSingleContactByID($id);
+	$member->deleteSingleMemberByID($id);
 }
 else {
 

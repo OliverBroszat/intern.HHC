@@ -60,7 +60,7 @@ class MemberDataController {
             'contact',
             $memberProfile->contactProfile->contactDatabaseRow->getValueForKey('id')
         );
-        $this->createSingleMemberByDatabaseRow($memberProfile->memberDatabaseRow);
+        $this->baseDataController->insertSingleRowInTable($memberProfile->memberDatabaseRow, 'Member');
     }
 
     public function createMultipleMembersByProfile($memberProfiles) {
@@ -102,12 +102,9 @@ class MemberDataController {
         // TODO: implement filter objects!
     }
 
-    public function updateSingleMemberByProfileWithID($id, $memberProfile) {
-        $this->deleteSingleMemberByID($id);
-        $this->createSingleMemberByProfileWithFixedID(
-            $id,
-            $memberProfile
-        );
+    public function updateSingleMemberProfile($memberProfile) {
+        $this->contactDataController->updateSingleContactProfile($memberProfile->contactProfile);
+        $this->baseDataController->updateSingleRowInTable($memberProfile->memberDatabaseRow, 'Member');
     }
 
     public function updateMultipleMembersByProfile($memberProfiles) {

@@ -93,8 +93,8 @@ $test = new BaseDataController();
 // echo "$nor rows deleted<br>";
 
 // new_paragraph("Get ContactProfile");
-$userController = new ContactDataController(null, $test);
-// $profile = $userController->getSingleContactProfileByID(200);
+$contactController = new ContactDataController(null, $test);
+// $profile = $contactController->getSingleContactProfileByID(200);
 // print_r($profile);
 // echo '<br><br>';
 // echo $profile->contactDatabaseRow->getValueForKey('first_name');
@@ -102,7 +102,7 @@ $userController = new ContactDataController(null, $test);
 
 
 // new_paragraph("Get more ContactProfiles");
-// $profiles = $userController->getMultipleContactProfilesByID(
+// $profiles = $contactController->getMultipleContactProfilesByID(
 // 	array(
 // 		200,
 // 		201,
@@ -138,7 +138,7 @@ new_paragraph('Create a Contact');
 
 $contact = array(
 	'prefix' => 'Herr',
-	'first_name' => "Peter",
+	'first_name' => "Oliver",
 	'last_name' => "Becker",
 	'birth_date' => "1993-01-01",
 	'comment' => '',
@@ -222,24 +222,29 @@ $verynewProfile = new ContactProfile(
 echo '<b>Erstelle: </b>';
 var_dump($verynewProfile);
 echo '<br><br>';
-$userController->createSingleContactByProfile($verynewProfile);
+$contactController->createSingleContactByProfile($verynewProfile);
 
 $newID = $verynewProfile->contactDatabaseRow->getValueForKey('id');
 echo '<b>Die neue ID lautet: </b>';
 var_dump($newID);
 echo '<br><br>';
 
-$profileFromController = $userController->getSingleContactProfileByID($newID);
+$profileFromController = $contactController->getSingleContactProfileByID($newID);
 echo '<b>Aus Datenbank geholtes Profil: </b>';
 var_dump($profileFromController);
 echo '<br><br>';
 
 echo '<b>Lösche Profil wieder</b>';
-$userController->deleteSingleContactByID($newID);
+$contactController->deleteSingleContactByID($newID);
+echo '<br><br>';
+
+echo '<b>Hole Christine</b>: ';
+$christine = $contactController->getSingleContactProfileByID(204);
+var_dump($christine);
 echo '<br><br>';
 
 // new_paragraph('Delete a Contact');
-//$userController->deleteSingleContactByID($newprofile->contactDatabaseRow->getValueForKey('id'));
+//$contactController->deleteSingleContactByID($newprofile->contactDatabaseRow->getValueForKey('id'));
 
 // new_paragraph('getNamesOfColumns');
 // print_r($verynewProfile->contactDatabaseRow->getColumnNames());

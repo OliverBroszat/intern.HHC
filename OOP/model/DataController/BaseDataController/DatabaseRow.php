@@ -48,6 +48,7 @@ loadWordpressFunctions();
  * Class DatabaseRow
  *
  * Wraps the wordpress SQL query results
+ $result = wpdb->gt_result...
  */
 class DatabaseRow
 {
