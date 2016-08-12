@@ -45,50 +45,34 @@ class ContactDataController {
 
     private $baseDataController;
     private $userSecurityPass;
+    public static $tableNameToAttributeNameTranslation = array(
+        'Address' => 'addressDatabaseRows',
+        'Mail' => 'mailDatabaseRows',
+        'Phone' => 'phoneDatabaseRows',
+        'Study' => 'studyDatabaseRows'
+    );
+
 
     public function __construct($userSecurityPass, $baseDataController) {
-        //$this->ifUserNotLoggedInThrowException();
+        //$userSecurityPass->ifUserNotLoggedInThrowException();
         $this->baseDataController = $baseDataController;
     }
 
-    public function createSingleContactByProfileWithID($id, $contactProfile) {
-        $contactProfile->contactDatabaseRow->setValueForKey('id', $id);
-        $this->baseDataController->tryToInsertRow('Contact', $contactProfile->contactDatabaseRow);
-        echo '<h1>INSERT CONTACT DONE</h1>';
-        $contactProfile->updateDataWithContactID($id);
-        echo '<h1>UPDATE DATA DONE</h1>';
-        var_dump($contactProfile);
-        echo '<h1>---</h1>';
-        $this->createContactItemsForTable('Address', $contactProfile->addressDatabaseRows);
-        $this->createContactItemsForTable('Mail', $contactProfile->mailDatabaseRows);
-        $this->createContactItemsForTable('Phone', $contactProfile->phoneDatabaseRows);
-        $this->createContactItemsForTable('Study', $contactProfile->studyDatabaseRows);
-        echo '<h1>UPDATE MAIL,ADDR,... DONE</h1>';
-    }
-
+    /*
+    Wenn ein contactProfile erstellt werden soll, werden evtl. gespeicherte IDs absolut nicht beachtet und alle erstellten IDs
+    werden in das ContactProfile geschrieben
+    */
     public function createSingleContactByProfile($contactProfile) {
-        $this->baseDataController->tryToInsertRowWithAutoUpdateSingleAutoPrimary(
-            'Contact',
-            $contactProfile->contactDatabaseRow
+        $this->baseDataController->insertSingleRowWithAutoUpdateSingleAutoPrimaryInTable(
+            $contactProfile->contactDatabaseRow,
+            'Contact'
         );
         $newContactID = $contactProfile->contactDatabaseRow->getValueForKey('id');
         $contactProfile->updateDataWithContactID($newContactID);
-        $this->createContactItemsForTableWithAutoUpdate('Address', $contactProfile->addressDatabaseRows);
-        $this->createContactItemsForTableWithAutoUpdate('Mail', $contactProfile->mailDatabaseRows);
-        $this->createContactItemsForTableWithAutoUpdate('Phone', $contactProfile->phoneDatabaseRows);
-        $this->createContactItemsForTableWithAutoUpdate('Study', $contactProfile->studyDatabaseRows);
-    }
-
-    private function createContactItemsForTable($table, $dataRows) {
-        foreach ($dataRows as $row) {
-            $this->baseDataController->tryToInsertRow($table, $row);
-        }
-    }
-
-    private function createContactItemsForTableWithAutoUpdate($table, $dataRows) {
-        foreach ($dataRows as $row) {
-            $this->baseDataController->tryToInsertRowWithAutoUpdateSingleAutoPrimary($table, $row);
-        }
+        $this->baseDataController->insertMultipleRowsWithAutoUpdateSingleAutoPrimaryInTable($contactProfile->addressDatabaseRows, 'Address');
+        $this->baseDataController->insertMultipleRowsWithAutoUpdateSingleAutoPrimaryInTable($contactProfile->mailDatabaseRows, 'Mail');
+        $this->baseDataController->insertMultipleRowsWithAutoUpdateSingleAutoPrimaryInTable($contactProfile->phoneDatabaseRows, 'Phone');
+        $this->baseDataController->insertMultipleRowsWithAutoUpdateSingleAutoPrimaryInTable($contactProfile->studyDatabaseRows, 'Study');
     }
 
     public function createMultipleContactProfiles($contactProfiles) {
@@ -129,23 +113,85 @@ class ContactDataController {
     * NOTE: the profile's id WILL be changed after any update
     */
     public function updateSingleContactProfile($contactProfile) {
-        $contactID = $contactProfile->contactDatabaseRow->getValueForKey('id');
-        $this->baseDataController->tryToUpdateRowInTable($contactProfile->contactDatabaseRow, 'Contact');
-        $sql = "SELECT id FROM Address WHERE contact=$contactID;";
-        $ids = $this->baseDataController->tryToSelectMultipleRowsByQuery($sql);
-        $ids_in_profile = DatabaseRow::filterValuesFromRowsForSingleKey(
-            'contact',
-            $contactProfile->addressDatabaseRows
-        );
-        var_dump($ids_in_profile);
-        // $new_ids = 
-        // $existing_ids = 
-        // $missing_ids = 
+        echo 'In updateSingleContact<br>';
+        try {
+            $this->baseDataController->updateSingleRowInTable($contactProfile->contactDatabaseRow, 'Contact');
+        }
+        catch (InvalidArgumentException $e) {
+            // Nothing updated - ingore this case
+        }
+        echo 'Contact geupdated<br>';
+        $this->updateContactProfileForTable($contactProfile, 'Address');
+        echo 'Adresse geupdated<br>';
+        $this->updateContactProfileForTable($contactProfile, 'Mail');
+        $this->updateContactProfileForTable($contactProfile, 'Phone');
+        $this->updateContactProfileForTable($contactProfile, 'Study');
+        echo 'Update durch<br>';
     }
 
-    public function updateSingleContactProfileWithFixedID($id, $contactProfile) {
-        $this->deleteSingleContactByProfile($contactProfile);
-        $this->createSingleContactByProfileWithID($id, $contactProfile);
+    private function updateContactProfileForTable($contactProfile, $table) {
+        try {
+            // Delete rows that dont appear in profile anymore
+            $rowsToDelete = $this->getRowsToDeleteFromContactProfileForTable($contactProfile, $table);
+            $this->baseDataController->deleteMultipleRowsFromTable($rowsToDelete, $table);
+            // Update rows that where already in database and still remain in profile
+            $rowsToUpdate = $this->getRowsToUpdateFromContactProfileForTable($contactProfile, $table);
+            $this->baseDataController->updateMultipleRowsInTable($rowsToUpdate, $table);
+            // Create new Rows
+            $newRowsToCreate = $this->getRowsToCreateFromContactProfileForTable($contactProfile, $table);
+            $this->baseDataController->insertMultipleRowsWithAutoUpdateSingleAutoPrimaryInTable($newRowsToCreate, $table);
+        }
+        catch (InvalidArgumentException $e) {
+            // This only occurs when there was no row updated
+            // Can be gnored in this case
+        }
+    }
+
+    // Filtert alle Rows für ein gegebenes Attribut (Adress, Mail, ...) nach leeren IDs
+    // Da diese Rows noch keine ID haben, MÜSSEN sie noch eingefügt werden
+    private function getRowsToCreateFromContactProfileForTable($contactProfile, $table) {
+        $rowArrayAttributeName = ContactDataController::$tableNameToAttributeNameTranslation[$table];
+        $rowsInProfile = $contactProfile->$rowArrayAttributeName;
+        $createFilterFunction = function ($row) {
+            return ($row->getValueForKey('id') == '');
+        };
+        $createRows = array_filter($rowsInProfile, $createFilterFunction);
+        return $createRows;
+    }
+
+    private function getRowsToUpdateFromContactProfileForTable($contactProfile, $table) {
+        // Get IDs from database and profile
+        $rowArrayAttributeName = ContactDataController::$tableNameToAttributeNameTranslation[$table];
+        $rowsInProfile = $contactProfile->$rowArrayAttributeName;
+        $IDsInProfile = DatabaseRow::filterValuesFromRowsForSingleKey('id',$rowsInProfile);
+        $IDsInDatabase = $this->getCurrentlyExistingIDsForContactInTable($contactProfile, $table);
+        $updateIDs = array_intersect($IDsInDatabase, $IDsInProfile);
+        $updateFilterFunction = function ($row) use ($updateIDs) {
+            return in_array($row->getValueForKey('id'), $updateIDs);
+        };
+        $updateRows = array_filter($rowsInProfile, $updateFilterFunction);
+        return $updateRows;
+    }
+
+    private function getRowsToDeleteFromContactProfileForTable($contactProfile, $table) {
+        // Get IDs from database and profile
+        $rowArrayAttributeName = ContactDataController::$tableNameToAttributeNameTranslation[$table];
+        $rowsInProfile = $contactProfile->$rowArrayAttributeName;
+        $IDsInProfile = DatabaseRow::filterValuesFromRowsForSingleKey('id',$rowsInProfile);
+        $IDsInDatabase = $this->getCurrentlyExistingIDsForContactInTable($contactProfile, $table);
+        $deleteIDs = array_diff($IDsInDatabase, $IDsInProfile);
+        $deleteRows = $this->baseDataController->selectMultipleRowsByIDInTable($deleteIDs, $table);
+        return $deleteRows;
+    }
+
+    private function getCurrentlyExistingIDsForContactInTable($contactProfile, $table) {
+        $contactID = $contactProfile->contactDatabaseRow->getValueForKey('id');
+        $sqlQuery = "SELECT id FROM $table WHERE contact=$contactID;";
+        $currentlyExistingIDs = DatabaseRow::filterValuesFromRowsForSingleKey(
+            'id',
+            $this->baseDataController->selectMultipleRowsByQuery($sqlQuery)
+        );
+        return $currentlyExistingIDs;
     }
 
     public function updateMultipleContactProfiles($contactProfiles) {
@@ -155,10 +201,7 @@ class ContactDataController {
     }
 
     public function deleteSingleContactByID($contactID) {
-        $table = 'Contact';
-        $whereData = array('id' => $contactID);
-        $whereFormat = null;
-        $this->baseDataController->tryToDeleteData($table, $whereData, $whereFormat);
+        $this->baseDataController->deleteSingleRowFromTableByID('Contact', $contactID);
     }
 
     public function deleteMultipleContactsByID($contactIDs) {
@@ -185,14 +228,14 @@ class ContactDataController {
     private function getContactDatabaseRowByID($contactID) {
         $unpreparedSqlQuery = "SELECT * FROM Contact WHERE id=%d";
         $preparedSqlQuery = $this->baseDataController->prepareSqlQuery($unpreparedSqlQuery, $contactID);
-        $contactRow = $this->baseDataController->tryToSelectSingleRowByQuery($preparedSqlQuery);
+        $contactRow = $this->baseDataController->selectSingleRowByQuery($preparedSqlQuery);
         return $contactRow;
     }
 
     private function getContactDetailsForIDFromTable($table, $contactID) {
         $unpreparedSqlQuery = "SELECT * FROM $table WHERE contact=%d";
         $preparedSqlQuery = $this->baseDataController->prepareSqlQuery($unpreparedSqlQuery, $contactID);
-        $contactRow = $this->baseDataController->tryToSelectMultipleRowsByQuery($preparedSqlQuery);
+        $contactRow = $this->baseDataController->selectMultipleRowsByQuery($preparedSqlQuery);
         return $contactRow;
     }
 

@@ -48,6 +48,7 @@ loadWordpressFunctions();
  * Class DatabaseRow
  *
  * Wraps the wordpress SQL query results
+ $result = wpdb->gt_result...
  */
 class DatabaseRow
 {
@@ -71,66 +72,39 @@ class DatabaseRow
     // TODO: add static method FromArray
 
     private $sqlQueryResult;
-    public $currentTable;
 
-    public static function fromTable($table, $data) {
-        $row = new DatabaseRow($data);
-        $row->currentTable = $table;
-    } 
-
-    public function __construct($sqlQueryResult, $table=null)
+    public function __construct($sqlQueryResult)
     {
         $this->sqlQueryResult = $sqlQueryResult;
-        $this->currentTable = $table;
     }
 
     public function getValueForKey($key)
     {
-        $namesOfColumnsInRow = $this->getColumnsOfRow();
-        if (in_array($key, $namesOfColumnsInRow)) {
-            $valueForKey = $this->sqlQueryResult->$key;
-            return $valueForKey;
-        } else {
-            throw new InvalidArgumentException("The requested key '$key' does not exist");
-        }
+        $this->ifKeyNotExistingThrowException($key);
+        $valueForKey = $this->sqlQueryResult->$key;
+        return $valueForKey;
     }
     
+    // NOTE: Prüft nicht, ob der Wert 'key' existiert!
     public function setValueForKey($key, $value) {
         $this->sqlQueryResult->$key = $value;
     }
 
-    public function getColumnNamesForMyTable() {
-        $myTable = $this->currentTable;
-        $sqlQuery = "SHOW COLUMNS FROM $myTable";
-        $columnNameResults = $this->tryToSelectMultipleRowsByQuery($sqlQuery);
-        $filteredColumnNames = $this->filterValuesFromRowsForSingleKey(
-            'Field',
-            $columnNameResults
-        );
-        return $filteredColumnNames;
+    // Prüft ob der Wert auch schon existiert
+    public function setValueForExistingKey($key, $value) {
+        $this->ifKeyNotExistingThrowException($key);
+        $this->setValueForKey($key, $value);
     }
 
-    public function getPrimaryColumnNamesForMyTable() {
-        $myTable = $this->currentTable;
-        $sqlQuery = "SHOW KEYS FROM $myTable WHERE Key_name='PRIMARY';";
-        $columnNameResults = $this->tryToSelectMultipleRowsByQuery($sqlQuery);
-        $filteredColumnNames = $this->filterValuesFromRowsForSingleKey(
-            'Column_name',
-            $columnNameResults
-        );
-        return $filteredColumnNames;
+    private function ifKeyNotExistingThrowException($key) {
+        $attributes = $this->getColumnNames();
+        if (!in_array($key, $attributes)) {
+            $errorMessage = "The key '$key' does not exist. Maybe use setValueForKey()?";
+            throw InvalidArgumentException($errorMessage);
+        }
     }
 
-    public function getNonPrimaryColumnNamesForMyTable() {
-        $myTable = $this->currentTable;
-        $valuesToInsert = array_diff(
-            $this->getColumnNamesForTable($myTable),
-            $this->getPrimaryColumnNamesForTable($myTable)
-        );
-        return $valuesToInsert;
-    }
-
-    public function getColumnsOfRow() {
+    public function getColumnNames() {
         $publicAttributes = get_object_vars($this->sqlQueryResult);
         $columnNames = array();
         foreach ($publicAttributes as $name => $content) {
@@ -141,7 +115,7 @@ class DatabaseRow
 
     public function toArray() {
         $dataArray = array();
-        $columns = $this->getColumnsOfRow();
+        $columns = $this->getColumnNames();
         foreach ($columns as $columnName) {
             $dataArray[$columnName] = $this->getValueForKey($columnName);
         }

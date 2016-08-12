@@ -121,7 +121,7 @@ $(document).on('click', '#edit-delete-image', function(){
 });
 
 // Image Thumbnail
-function loadFile(event) {	
+function loadFile(event) {
 	var src = URL.createObjectURL(event.target.files[0]);
 
 	$(".edit-image-image a img").prop("src", src);

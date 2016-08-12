@@ -36,7 +36,6 @@ $data = post_to_array($post_clean);
 $crud = $data['crud'][0];
 
 arr_to_list($data);
-echo "<b>Operation:</b> ";
 
 $base = new BaseDataController();
 $contact = new ContactDataController(null, $base);
@@ -49,6 +48,15 @@ foreach ($data as $table_name => $tables) {
 	}
 };
 
+// Workarround for missing datastructures if empty
+$tablesNames = array('Address', 'Mail', 'Phone', 'Study');
+foreach ($tablesNames as $tableName) {
+	if (!isset($dataObject[$tableName])) {
+		echo "<br>$tableName fehlt, also setze leeres Array<br>";
+		$dataObject[$tableName] = array();
+	}
+}
+
 $newProfile = new ContactProfile(
 	$dataObject['Contact'][0],
 	$dataObject['Address'],
@@ -57,11 +65,69 @@ $newProfile = new ContactProfile(
 	$dataObject['Study']
 );
 
+var_dump($newProfile);
+
 $newMember = new MemberProfile(
 	$dataObject['Member'][0],
 	$newProfile
 );
 
+// Get Image ID
+global $wpdb;
+$query = "SELECT image FROM Contact WHERE id=%d";
+$query_escaped = $wpdb->prepare($query, $id);
+try {
+	$attachment_id = $base->selectSingleRowByQuery($query_escaped)->getValueForKey('image');
+	echo 'THE ID: ';
+	var_dump($attachment_id);
+	echo '<br><br>';
+}
+catch (LengthException $e) {
+}
+
+echo "<br><b>Image-Operation:</b> ";
+if ($crud['delete_image'] == 'false') {
+	if (!empty($_FILES['upload_image']['name'])) {
+		// upload new Image
+		echo "NEW IMAGE";
+
+		require_once( ABSPATH . 'wp-admin/includes/image.php' );
+		require_once( ABSPATH . 'wp-admin/includes/file.php' );
+		require_once( ABSPATH . 'wp-admin/includes/media.php' );
+		
+		$attachment_id = media_handle_upload('upload_image',0);
+				
+		if (is_wp_error($attachment_id)) {
+			echo "<br>ERROR (Image Upload)<br>";
+			$attachment_id = 'error';
+		} else {
+			// The image was uploaded successfully!
+			$newProfile->contactDatabaseRow->setValueForKey('image', $attachment_id);
+		}
+	}
+	elseif(!empty($attachment_id)) {
+		// use old image
+		echo "OLD IMAGE";
+		$newProfile->contactDatabaseRow->setValueForKey('image', $attachment_id);
+	}
+	else {
+		// no image/delete old image
+		echo "NO IMAGE";
+	}
+}
+else {
+	echo 'DELETE IMAGE';
+	$newProfile->contactDatabaseRow->setValueForKey('image', null);
+}
+
+// Debug Output for Image
+if (!empty($attachment_id)) {
+	echo "<br><b>Image-id:</b> $attachment_id <br>";
+	echo "<b>Image-src:</b> $imgsrc_thumb <br>";
+	// echo "OLD Image: <img src='$imgsrc_thumb' class='profile-picture' alt='Profilbild' /> <br>";
+}
+
+echo "<b>Operation:</b> ";
 // Call SQL-Functions for each Data-Set
 if($crud['mode'] == 'edit' && !empty($crud['id'])) {
 	
@@ -69,46 +135,16 @@ if($crud['mode'] == 'edit' && !empty($crud['id'])) {
 	echo "UPDATE ";
 	$id = $crud['id'];
 
-	// Get Image ID
-	global $wpdb;
-	$query = "SELECT id FROM Image WHERE contact_id=%d";
-	$query_escaped = $wpdb->prepare($query, $id);
-	try {
-		$attachment_id = $base->tryToSelectSingleRowByQuery($query_escaped)->getValueForKey('id');
-	}
-	catch (LengthException $e) {
-	}
 	
+	$member->updateSingleMemberProfile($newMember);
 
-	// $member->updateSingleMemberByProfile($id, $newMember);
-	$contact->updateSingleContactProfile($newProfile);
-	// CONTACT NEU ERSTELLEN
-	
-	// // delete old data
-	// $contact->deleteSingleContactByID($id);
-
-	// // insert new data
-	// foreach ($data as $table => $content) {
-	// 	foreach ($content as $index => $cols) {	
-	// 		if ($table == 'Contact') { 
-	// 			$target = 'id';
-	// 		}
-	// 		else { 
-	// 			$target = 'contact';	
-	// 		}
-
-	// 		$cols[$target] = $id;	
-
-	// 		$wpdb->insert($table, $cols);
-	// 	}
-	// }
 }
 elseif($crud['mode'] == 'delete') {
 	
 	// DELETE
 	echo "DELETE ";
 	$id = $crud['id'];
-	$contact->deleteSingleContactByID($id);
+	$member->deleteSingleMemberByID($id);
 }
 else {
 
@@ -126,50 +162,7 @@ else {
 echo "<br><b>Contact-ID:</b> $id";
 
 
-echo "<br><b>Image-Operation:</b> ";
-if (!empty($_FILES['upload_image']['name'])) {
-	// upload new Image
-	echo "NEW IMAGE";
 
-	require_once( ABSPATH . 'wp-admin/includes/image.php' );
-	require_once( ABSPATH . 'wp-admin/includes/file.php' );
-	require_once( ABSPATH . 'wp-admin/includes/media.php' );
-	
-	$attachment_id = media_handle_upload('upload_image',0);
-			
-	if (is_wp_error($attachment_id)) {
-		echo "<br>ERROR (Image Upload)<br>";
-	} else {
-		// The image was uploaded successfully!
-		$base->tryToInsertData('Image',
-			array(
-				'id' => $attachment_id,
-				'contact_id' => $id
-			)
-		);
-	}
-}
-elseif(!empty($attachment_id) && $crud['delete_image'] == 'false') {
-	// use old image
-	echo "OLD IMAGE";
-	$base->tryToInsertData('Image',
-		array(
-			'id' => $attachment_id,
-			'contact_id' => $id
-		)
-	);
-}
-else {
-	// no image/delete old image
-	echo "NO IMAGE";
-}
-
-// Debug Output for Image
-if (!empty($attachment_id)) {
-	echo "<br><b>Image-id:</b> $attachment_id <br>";
-	echo "<b>Image-src:</b> $imgsrc_thumb <br>";
-	// echo "OLD Image: <img src='$imgsrc_thumb' class='profile-picture' alt='Profilbild' /> <br>";
-}
 
 //Debug Output continue
 echo "<br><b>Errors:</b> ";
@@ -181,8 +174,8 @@ else {
 }
 echo "<hr>";
 
-echo "<h3>Data</h3>";
-arr_to_list($data);
+echo "<h3>DataObject</h3>";
+arr_to_list($dataObject);
 echo "<hr>";
 
 echo "<h3>Files</h3>";

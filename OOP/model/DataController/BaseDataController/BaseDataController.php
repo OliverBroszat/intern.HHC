@@ -57,13 +57,9 @@ class BaseDataController {
         }
     }
 
-    public function print_msg($msg) {
-        echo "$msg<br>";
-    }
-
-
-    public function tryToSelectSingleRowByQuery($sqlQuery) {
-        $selectedRows = $this->tryToSelectMultipleRowsByQuery($sqlQuery);
+    // Völlig in Ordnung
+    public function selectSingleRowByQuery($sqlQuery) {
+        $selectedRows = $this->selectMultipleRowsByQuery($sqlQuery);
         if (sizeof($selectedRows) != 1) {
             $errorMessage = "More than 1 row was selected by SQL query '$sqlQuery' in BaseDataController::tryToSelectSingleRowByQuery()";
             throw new LengthException($errorMessage);
@@ -71,14 +67,29 @@ class BaseDataController {
         return $selectedRows[0];
     }
 
-    public function tryToSelectMultipleRowsByQuery($sqlQuery) {
+    // Völlig okay
+    public function selectMultipleRowsByQuery($sqlQuery) {
         $requestedRowsUnwrapped = $this->wpDatabaseConnection->get_results($sqlQuery);
         $this->onWordpressErrorThrowException();
         $requestedRowsWrapped = $this->wrapSQLResultsIntoDatabaseRows($requestedRowsUnwrapped);
         return $requestedRowsWrapped;
     }
 
-    public function tryToInsertData($table, $dataToInsert, $dataFormat=null) {
+    public function selectSingleRowByIDInTable($ID, $table) {
+        $query = "SELECT * FROM $table WHERE id=$ID";
+        return $this->selectSingleRowByQuery($query);
+    }
+
+    public function selectMultipleRowsByIDInTable($IDs, $table) {
+        $rows = array();
+        foreach ($IDs as $ID) {
+            array_push($rows, $this->selectSingleRowByIDInTable($ID, $table));
+        }
+        return $rows;
+    }
+
+    // Schnittstelle zur WP Anbindung
+    private function insertData($table, $dataToInsert, $dataFormat=null) {
         $numberOfAffectedRows = $this->wpDatabaseConnection->insert($table, $dataToInsert, $dataFormat);
         $this->onWordpressErrorThrowException();
         // TODO: $numberOfAffectedRows müsste an dieser Stelle 1
@@ -86,13 +97,25 @@ class BaseDataController {
         return $numberOfAffectedRows;
     }
 
-    public function tryToInsertRow($table, $row) {
+    /*
+    NOTE: ID wird nicht automatisch gesetzt!!!
+    */
+    public function insertSingleRowInTable($row, $table) {
         $dataArray = $row->toArray();
-        $this->tryToInsertData(
+        $this->insertData(
             $table,
-            $insertArray,
+            $dataArray,
             null
         );
+    }
+
+    /*
+    NOTE: ID wird nicht automatisch gesetzt!!!
+    */
+    public function insertMultipleRowsInTable($rows, $table) {
+        foreach ($rows as $row) {
+            $this->insertSingleRowInTable($row, $table);
+        }
     }
 
     /**
@@ -107,22 +130,26 @@ class BaseDataController {
     * 
     * @return void
     */
-    public function tryToInsertRowWithAutoUpdateSingleAutoPrimary($table, $row) {
+    public function insertSingleRowWithAutoUpdateSingleAutoPrimaryInTable($row, $table) {
         // TODO: also check for data type like auto-inc INT
-
         $this->throwExceptionOnMultiplePrimaryColumnsForTable($table);
         $columnsToUnset = $this->getPrimaryColumnNamesForTable($table);
         $row->deleteMultipleColumnsWithName($columnsToUnset);
-        $this->tryToInsertRow($table, $row);
+        $this->insertSingleRowInTable($row, $table);
         // We can be sure, there is exactly one primary auto-inc INT key
         $nameOfPrimaryKey = $this->getPrimaryColumnNamesForTable($table)[0];
         $row->setValueForKey($nameOfPrimaryKey, $this->getIdFromLastInsert());
     }
 
+    public function insertMultipleRowsWithAutoUpdateSingleAutoPrimaryInTable($rows, $table) {
+        foreach ($rows as $row) {
+            $this->insertSingleRowWithAutoUpdateSingleAutoPrimaryInTable($row, $table);
+        }
+    }
+
+    // Prüft, ob eine Tabelle nur einen einzigen Primary Key hat
     private function throwExceptionOnMultiplePrimaryColumnsForTable($table) {
         $primaryColumns = $this->getPrimaryColumnNamesForTable($table);
-        echo 'XXXXXXXXXXXXXXXXXXXXX<br><br>';
-        var_dump($primaryColumns);
         $numberOfPrimaryColumns = count($primaryColumns);
         if ($numberOfPrimaryColumns != 1) {
             $errorMessage = "Table '$table' must have one primary column but has $numberOfPrimaryColumns";
@@ -130,7 +157,8 @@ class BaseDataController {
         }
     }
 
-    public function tryToUpdateData($table, $dataToUpdate, $sqlWhereStatement, $updateDataFormat=null, $whereFormat=null) {
+    // Schnittstellenfunktion zu Wordpress
+    private function updateData($table, $dataToUpdate, $sqlWhereStatement, $updateDataFormat=null, $whereFormat=null) {
         $numberOfAffectedRows = $this->wpDatabaseConnection->update($table, $dataToUpdate, $sqlWhereStatement, $updateDataFormat, $whereFormat);
         $this->onWordpressErrorThrowException();
         if ($numberOfAffectedRows == false) {
@@ -142,25 +170,28 @@ class BaseDataController {
         }
     }
 
-    public function tryToUpdateRowInTable($row, $table) {
+    // UPDATE
+    // Nimmt eine Row und bereitet alles für den Wordpress-Style UPDATE vor
+    // geht davon aus, dass ALLE Daten für den Update korrekt sind!
+    public function updateSingleRowInTable($row, $table) {
         $dataArray = $row->toArray();
-        $tablePrimaries = $this->getPrimaryColumnNamesForTable($table);
-        //$whereArray = array_filter($dataArray, function ($name) {return in_array($name, $tablePrimaries);});
-        $whereArray = array();
-        foreach ($dataArray as $key => $value) {
-            if (in_array($key, $tablePrimaries)) {
-                $whereArray[$key] = $value;
-            }
-        }
+        $whereArray = $this->getPrimaryDataArrayForRowInTable($row, $table);
         // TODO: Add datatypes. How to?
         $dataFormatArray = null;
         $whereFormatArray = null;
-        $this->tryToUpdateData($table, $dataArray, $whereArray, $dataFormatArray, $whereFormatArray);
+        $this->updateData($table, $dataArray, $whereArray, $dataFormatArray, $whereFormatArray);
     }
 
+    public function updateMultipleRowsInTable($rows, $table) {
+        foreach ($rows as $row) {
+            $this->updateSingleRowInTable($row, $table);
+        }
+    }
+
+    // Funktionen um Namen 
     public function getColumnNamesForTable($table) {
         $sqlQuery = "SHOW COLUMNS FROM $table";
-        $columnNameResults = $this->tryToSelectMultipleRowsByQuery($sqlQuery);
+        $columnNameResults = $this->selectMultipleRowsByQuery($sqlQuery);
         $filteredColumnNames = $this->filterValuesFromRowsForSingleKey(
             'Field',
             $columnNameResults
@@ -170,7 +201,7 @@ class BaseDataController {
 
     public function getPrimaryColumnNamesForTable($table) {
         $sqlQuery = "SHOW KEYS FROM $table WHERE Key_name='PRIMARY';";
-        $columnNameResults = $this->tryToSelectMultipleRowsByQuery($sqlQuery);
+        $columnNameResults = $this->selectMultipleRowsByQuery($sqlQuery);
         $filteredColumnNames = DatabaseRow::filterValuesFromRowsForSingleKey(
             'Column_name',
             $columnNameResults
@@ -186,19 +217,19 @@ class BaseDataController {
         return $valuesToInsert;
     }
 
-    private function getPrimaryDataArrayForRow($row, $table) {
-        $primaryKeys = $this->getPrimaryColumnNamesForTable($table);
-        var_dump($row);
-        echo '<br>';
-        var_dump($primaryKeys);
-        $valuesOfPrimaryKeys = array_map(
-            function ($key) { global $row; return $row->getValueForKey($key); },
-            $primaryKeys
-        );
-        return array_combine($primaryKeys, $valuesOfPrimaryKeys);
+    // Gibt ein Array aller Prmarschlüssel mit ihren jeweiligen Werten aus einer Row zurück
+    // Wofür brauche ich das?
+    public function getPrimaryDataArrayForRowInTable($row, $table) {
+        $tablePrimaries = $this->getPrimaryColumnNamesForTable($table);
+        $dataArray = array();
+        foreach ($tablePrimaries as $key) {
+            $dataArray[$key] = $row->getValueForKey($key);
+        }
+        return $dataArray;
     }
 
-    public function tryToDeleteData($table, $sqlWhereStatement, $whereFormat=null) {
+    // Delete Schnittstellenfunktion für Wordpress-Style Delete
+    private function deleteData($table, $sqlWhereStatement, $whereFormat=null) {
         $numberOfAffectedRows = $this->wpDatabaseConnection->delete($table, $sqlWhereStatement, $whereFormat);
         $this->onWordpressErrorThrowException();
         // When there is a wp internal error (wrong parameter type etc), then $wpdb->last_error is not set i.e. not catched by onWordpressErrorThrowException(). However, in case of such an error, the delete function only returns false
@@ -209,6 +240,31 @@ class BaseDataController {
         }
     }
 
+    public function deleteSingleRowFromTable($row, $table) {
+        // TODO: No data types for whereFormat
+        $whereArray = $this->getPrimaryDataArrayForRowInTable($row, $table);
+        $this->deleteData($table, $whereArray, null); // <<< !!! null shouldn't be there!
+    }
+
+    public function deleteMultipleRowsFromTable($rows, $table) {
+        foreach ($rows as $row) {
+            $this->deleteSingleRowFromTable($row, $table);
+        }
+    }
+
+    public function deleteSingleRowFromTableByID($table, $ID) {
+        $row = $this->selectSingleRowByIDInTable($ID, $table);
+        $this->deleteSingleRowFromTable($row, $table);
+    }
+
+    public function deleteMultipleRowsFromTableByID($table, $IDs) {
+        foreach ($IDs as $ID) {
+            $this->deleteSingleRowFromTableByID($table, $ID);
+        }
+    }
+
+    // Schon im BaseDataController vorhanden!!!!!
+    // Löschen
     public function prepareSqlQuery($query, $args) {
         return $this->wpDatabaseConnection->prepare($query, $args);
     }
@@ -217,13 +273,14 @@ class BaseDataController {
         $insertId = $this->wpDatabaseConnection->insert_id;
         if ($insertId == false) {
             $errorMessage = 'No id from last SQL insert statement could be found';
-            throw RuntimeException($errorMessage);
+            throw new RuntimeException($errorMessage);
         }
         else {
             return $insertId;
         }
     }
 
+    // Wird gebraucht, wenn SQL results von wordpress geholt werden
     private static function wrapSQLResultsIntoDatabaseRows($unwrappedRows) {
         $wrappedRows = array();
         foreach ($unwrappedRows as $row) {
