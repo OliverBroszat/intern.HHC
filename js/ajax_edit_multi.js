@@ -13,21 +13,19 @@ function edit_multi(){
 	}
 
 	var content = `
-		<h2>Multi-Edit</h2>
-		(macht noch nichts)
-
 		<h3>Zu ändernde Werte:</h3>
-		<form>
+		<form class="ui form" method="POST">
+			<input type="text" name="test" value="Hallo Welt!">
 			<table>
 				<tr>
-					<td>
+					<td width="50%">
 						<div class='ui toggle checkbox'>
 							<input type='checkbox' tabindex='0' class='hidden'>
-							<label class='multi_edit_check' target='multi_edit_value_position'>HHC Position</label>
+							<label class='multi_edit_check' target="multi_edit_value_position" >HHC Position</label>
 						</div>
 					</td>
-					<td>
-						<select class='ui fluid dropdown multi_edit_value' id='multi_edit_value_position' name='multi_edit_value'  style='width:auto' disabled='disabled'>
+					<td width="50%">
+						<select class='ui fluid dropdown multi_edit_value_position' name='Member-position'  style='width:auto' disabled>
 							<option value='mitglied'>Mitglied</option>
 							<option value='ressortleiter'>Ressortleiter</option>
 							<option value='alumni'>Alumni</option>
@@ -39,25 +37,24 @@ function edit_multi(){
 					<td>
 						<div class='ui toggle checkbox'>
 							<input type='checkbox' tabindex='0' class='hidden'>
-							<label class='multi_edit_check' value='multi_edit_value_status'>HHC Status</label>
+							<label class='multi_edit_check' target="multi_edit_value_status">HHC Status</label>
 						</div>
 					</td>
 					<td>
-						<select class='ui fluid dropdown multi_edit_value' id='multi_edit_value_status' name='multi_edit_value' style='width:auto'>
-							<option value='aktiv'>Aktiv</option>
-							<option value='inaktiv'>Inaktiv</option>
+						<select class='ui fluid dropdown multi_edit_value_status' name='Member-active' style='width:auto' disabled>
+							<option value='0'>Aktiv</option>
+							<option value='1'>Inaktiv</option>
 						</select>
 					</td>
 				</tr>
 			</table>
 
-			<h3>Zu ändernde IDs:</h3>
-			
+			<h3>Zu ändernde IDs:</h3>	
 			<div class='id-list'></div>
 			
 		</form>
 		
-		<div id='popup-footer'>
+		<div class='popup-footer'>
 			<button type='button' onclick='edit_multi_save()' class='ui blue button icon labeled'>
 				<i class='save icon'></i>
 				Speichern
@@ -74,7 +71,7 @@ function edit_multi(){
 	`;
 
 	// open popup
-	popup(content, 'edit-multi');
+	popup(content, 'edit-multi', "Edit-Multi");
 
 	// generate ID list
 	var id_selectable_list = `
@@ -87,8 +84,6 @@ function edit_multi(){
 		id_selectable_list += "<div class='item selected' data-value='"+members_checked[i]+"'>"+members_checked[i]+"</div>";
 	}
 	id_selectable_list += "</div></div>";
-	// append ID list
-	$('.edit-multi .popup-content form').append(id_selectable_list);
 
 	// activate semantic UI
 	$('.ui.dropdown').dropdown('set selected',members_checked);
@@ -98,13 +93,10 @@ function edit_multi(){
 };
 
 
-// Toggle disabled
+// Toggle Dropdowns
 $(document).on('click','.multi_edit_check',function(){
-	
-	var id = $('this').prop('target');
-	var x = $('this');
-	// alert(x.classList);
-	$('#'+id).attr('disabled',!this.checked);
+	var target = $(this).attr("target");
+	$('.'+target).toggleClass('disabled');
 });
 
 
@@ -123,11 +115,33 @@ function edit_multi_save(){
 			// OK
 			popup_close();
 
-			$('.edit-multi .popup-content').html("<h2>Updating...</h2><div class='modal'></div>");
-			var form = $(".edit-multi form");
-			var data = new FormData(form);
+			// $('.edit-multi .popup-content').html("<h2>Updating...</h2><div class='modal'></div>");
+
+			var data = $(".edit-multi form").serialize()
+			var form = new FormData(".edit-multi form");
 			
-			data.append('ids', members_checked);
+			var myForm = document.querySelector('.edit-multi form');
+			formData = new FormData(myForm);
+
+			// $('.edit-multi .ui.form')
+			// 	.api({
+			// 	    url: templateDirectory+'/functions/edit/sql_edit_multi.php',
+			// 	    method : 'POST',
+			// 	    serializeForm: true,
+			// 	    beforeSend: function(settings) {
+			// 	    	console.log(settings);
+			// 	    },
+			// 	    onSuccess: function(data) {
+			// 			console.log($.parseJSON(data));				    
+			// 		}
+			// 	});
+
+			// console.log(data);
+			// console.log(form.get('Member-position'));
+
+			for(var pair of formData.entries()) {
+			   console.log(pair[0]+ ', '+ pair[1]); 
+			}
 
 		  	var templateDirectory = document.getElementById('templateDirectory').value; 
 
@@ -138,14 +152,15 @@ function edit_multi_save(){
 				contentType: false,
 				type: 'POST',
 				success: function(data){
-					setTimeout(function(){
-						$('.edit-multi .popup-content').html(`
-							<h2>Die Änderung war erfolgreich!</h2>
-							<pre>`+data+`</pre>
+					console.log($.parseJSON(data));	
+					// setTimeout(function(){
+					// 	$('.edit-multi .popup-content').html(`
+					// 		<h2>Die Änderung war erfolgreich!</h2>
+					// 		<pre>`+data+`</pre>
 
-							<button type='button' onclick='popup_close(); ajax_post()'>Schließen</close>
-						`);
-					}, 600);
+					// 		<button type='button' onclick='popup_close(); ajax_post()'>Schließen</close>
+					// 	`);
+					// }, 600);
 				}
 			});
 		},

@@ -1,6 +1,6 @@
 function edit(id){
 
-	popup(null, 'edit');
+	popup(null, "edit", "Eintrag bearbeiten");
 
 	var data = new FormData();
 	data.append('id', id);
@@ -18,15 +18,8 @@ function edit(id){
 				
 				$('.edit .popup-content').html(data);
 				placeholder_color();
-
-				// Center Popup again after loading. Needs some kind of delay (?)
-				// setTimeout(function(){
-				// 	$(".edit .popup-content-outer").center();
-				// }, 0);
-				
-				// $('#edit-form').validate();
-				
-				// check if image is uploaded
+		
+				// check image buttons
 				if ($(".edit-image-image").find('a').length) {
 					$('#edit-upload-image').hide();
 					$('#edit-delete-image').show();
@@ -111,21 +104,29 @@ $( document ).on('submit', '#edit-form', function(event) {
 
 // Swap Upload-Remove Image Button
 $(document).on('click', '#edit-delete-image', function(){
-	$(".edit-image-image a img").prop("src", '');
-    $(".edit-image-image a").prop("href", '').hide();
+	$(".edit-image-image").html("");
 
 	$('#edit-delete-image').hide();
 	$('#edit-upload-image').show();
 	$('#edit-upload-image').val('');
+
+
+
+	// <a href="http://localhost/wordpress/wp-content/uploads/2016/08/Profilbild-1x1-01b-SW.jpg" target="_blank" onclick="image_popup(this, event)">
+	// 	<img src="http://localhost/wordpress/wp-content/uploads/2016/08/Profilbild-1x1-01b-SW-150x150.jpg" class="profile-picture" alt="Profilbild">
+	// </a>
 
 });
 
 // Image Thumbnail
 function loadFile(event) {
 	var src = URL.createObjectURL(event.target.files[0]);
-
-	$(".edit-image-image a img").prop("src", src);
-    $(".edit-image-image a").prop("href", src).show();
+	
+	$(".edit-image-image").html(`
+		<a href="`+src+`" target="_blank" onclick="image_popup(this, event)">
+			<img src="`+src+`" class="profile-picture" alt="Profilbild">
+		</a>
+	`);
 	
 	$('#edit-upload-image').hide();
     $('#edit-delete-image').show();
@@ -196,4 +197,6 @@ function newMemberTestData() {
 	$("input[name='Member-left']").val('2002-01-01');
 
 	$("textarea[name='Contact-comment']").val('Test');
+
+	placeholder_color();
 }

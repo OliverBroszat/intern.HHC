@@ -26,9 +26,9 @@
 
 .expandablecontent-content {
 	margin: 0 auto;
-    /* max-width: 720px; */
-    padding: 5px;
-    background-color: white;
+	/* max-width: 720px; */
+	padding: 0.25rem 0;
+	background-color: white;
 }
 
 .expandablecontent-last {

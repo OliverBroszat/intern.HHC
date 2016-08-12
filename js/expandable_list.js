@@ -10,15 +10,23 @@ var option_delete = "<button type='button' name='expandablecontent-link'"+
 	"class='expandablecontent-option-delete' onClick='delete_content(\"%%LIST-ID%%\", \"%%ELEMENT-ID%%\");'>-</button>";
 
 var option_append = "<button type='button' name='expandablecontent-link'"+
-	"class='expandablecontent-option-add' onClick='add_content(\"%%LIST-ID%%\", []);'>+</button>";
+	"class='expandablecontent-option-add' onClick='run_add_content(\"%%LIST-ID%%\", []);'>+</button>";
 
 function full_ID(list_ID, element_ID) {
 	return String(list_ID)+'$'+String(element_ID);
 }
 
 function delete_content(list_ID, element_ID) {
-	document.getElementById(list_ID).removeChild(document.getElementById(full_ID(list_ID, element_ID)));
+	var itemCount = $("#" + list_ID + " .expandablecontent-listitem-content").length;
+	if (itemCount > 1) {
+		document.getElementById(list_ID).removeChild(document.getElementById(full_ID(list_ID, element_ID)));
+	}
 }
+
+function run_add_content(list_ID, withData) {
+	add_content(list_ID, withData);
+	placeholder_color();
+};
 
 function add_content(list_ID, withData) {
 	var list = document.getElementById(list_ID);
@@ -94,7 +102,7 @@ function setup_expandablecontent(container_id, list_id, html_template, withData,
 	// Setup list
 	var ul = document.createElement('ul');
 	ul.id = String(list_id);
-	ul.classList.add('expandablecontent-list');
+	ul.classList.add("expandablecontent-list", "ui", "segment");
 	if (small) {
 		ul.classList.add('small');
 	}
