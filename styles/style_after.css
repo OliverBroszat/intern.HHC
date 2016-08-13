@@ -1,0 +1,90 @@
+body {
+	background-color: #f2f2f2;
+}
+
+td, th {
+    padding: 0.25rem 0.5rem;
+}
+
+h1, h2 {
+	font-weight: 300;
+}
+
+h1:first-child {
+	margin-top: 2rem;
+}
+
+a:hover {
+    color: inherit;
+}
+
+.ui.button, .ui.icon.button, .ui.icon.buttons .button{
+   padding-top: 0.65rem;
+   padding-bottom: 0.65rem;
+    margin: 0 0.5rem 0.5rem 0;
+}
+
+ui.multiple.dropdown {
+    padding: 0.5rem;
+}
+
+
+
+
+/* ---------------------------------------------- */
+
+
+.popup-content-outer.panel {
+    padding: 0;
+    border: 0;
+    border-radius: 3px;
+    position: relative;
+    overflow: hidden;
+}
+
+.popup-content {
+    padding: 1.5rem;
+    /* padding-bottom: 0; */
+    border: 1px solid #ccc;
+    border-left: 0;
+    border-right: 0;
+    /* border-bottom: 0; */
+}
+
+.popup-footer {
+    padding-top: 1.5rem;
+    text-align: right;
+}
+
+.image .popup-content {
+    padding: 0;
+    border: none;
+    background-color: transparent;
+}
+
+.edit .popup-content {
+    padding: 0;
+    border: 0;
+    background-color: #fff;
+    /* overflow: hidden; */
+}
+
+div#popup-footer {
+    padding: 1.5rem;
+    background: #fff;
+}
+
+.ui.segment {
+    border: 1px solid #ddd;
+    border-radius: 2px;
+    border-color: rgba(0,0,0,0.05);
+    box-shadow: 0px 1px 3px rgba(0,0,0,0.2);
+}
+
+.small.ui.segment {
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 0;
+}
+

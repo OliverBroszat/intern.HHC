@@ -1,5 +1,14 @@
 <?php  
 
+
+/* register Menu */
+function register_my_menu() {
+  register_nav_menu('header-menu',__( 'Header Menu' ));
+}
+add_action( 'init', 'register_my_menu' );
+
+
+
 if (!function_exists('getRoot')) {
 	function getRoot() {
 		$localhost = array( '127.0.0.1', '::1' ); 
@@ -17,6 +26,78 @@ if (!function_exists('getRoot')) {
 		return $root;
 	}
 }
+
+
+
+// -------- Erster Buchstabe uppercase, bei Wörtern < 3 Zeichen alles uppercase ---------
+if (!function_exists('uppercase')) {
+	function uppercase($string){
+		if(strlen($string)<4){
+			return strtoupper($string);
+		} else{
+			return ucfirst($string);
+		}
+	}
+}
+
+
+
+// --------- change the date from YYYY-MM-DD to DD.MM.YYYY ----------
+if (!function_exists('change_date_format')) {
+	function change_date_format($origDate){
+		if($origDate == "0000-00-00"){
+			return "-";
+		}elseif ($origDate == "") {
+			return "";
+		}else{
+			$newDate = date("d.m.Y", strtotime($origDate));
+			return $newDate;
+		}
+	}
+}
+
+
+
+// --------- Prüfe, ob ein Filter angewählt wurde ----------
+if (!function_exists('check')) {
+	function check($key, $value){
+		global $input;
+
+		$filter = $input['filter'];
+
+
+		if (!empty($filter[$key])) {	
+			$find = array_search($value, $filter[$key]);
+			
+			if ($find !== False) {
+				return " checked ";	
+			}
+		}
+	}
+}	
+
+
+
+// --------- Wandelt 0/1 zu aktiv/inaktiv um ----------
+function bool_to_lbl($boolean){
+	if 		($boolean == '0') 	{ return 'aktiv'; }
+	elseif 	($boolean == '1') 	{ return 'inaktiv'; }
+	else 						{ return $boolean; }
+}
+
+
+
+// --------- Wandelt eine stdClass in ein Array ohne Dublikate um ----------
+function res_to_array($results){
+	$array = array();
+	foreach ($results as $index) {
+		foreach ($index as $value) {
+			array_push($array, $value);
+		}	
+	}
+	return array_values(array_unique($array));
+}
+
 
 	
 // Funktion zum Debuggen. Gibt einen Array in einer Key-Value-TaBeLle (kvtbl) aus.
@@ -86,6 +167,7 @@ if (!function_exists('kvtbl')) {
 		echo $html;
 	}
 }
+
 
 
 // Funktion zum Debuggen. Gibt einen Array in einer verschachtelten Tabelle aus.
@@ -164,6 +246,7 @@ if (!function_exists('arr_to_tbl')) {
 }
 
 
+
 // Funktion zum Debuggen. Gibt einen Array in einer verschachtelten Liste aus.
 if (!function_exists('arr_to_list')) {
 	function arr_to_list($array) {
@@ -185,6 +268,7 @@ if (!function_exists('arr_to_list')) {
 			    	color: #000;
 			    	padding: 4px;
 	    			margin-left: 40px;
+	    			overflow: auto;
 				}
 				.arr_to_list > ul {
 					margin: 0;
@@ -197,11 +281,12 @@ if (!function_exists('arr_to_list')) {
 				}
 			</style>
 		";
+
 		echo "<div class='arr_to_list'>";
 		if (!function_exists('create_list')) {
 			function create_list($array) {	
 				echo "<ul>";
-
+			
 				foreach ($array as $key => $value) {
 					$type = gettype($value);
 
@@ -218,11 +303,109 @@ if (!function_exists('arr_to_list')) {
 			}
 		}
 		create_list($array);
-
 		echo "</div>";
-
 	}
 }
+
+
+
+// Findet in POST den Key und den Index zu einer Value (aus einem HTML-Array)
+function search_in_2d_array($array, $needle) {
+	$result = array();
+	foreach ($array as $key => $value) {
+	    if (is_array($value)) {
+	    	foreach ($value as $index => $val) {
+	    		if ($val == $needle) {
+	    			array_push($result, array('key' => $key, 'index' => $index));
+	    		}
+	    	}
+	    }
+	}
+	return $result;
+}
+
+
+
+// Lösche aus aus dem HTML-Array alle die gesuchten Einträge und re-indiziere das HTML-Array
+function unset_value_in_2d_array($array, $needle) {
+
+	$result = search_in_2d_array($array, $needle);
+
+	foreach ($result as $res) {
+		$key = $res['key'];
+		$index = $res['index'];
+
+		unset($array[$key][$index]);
+		$array[$key] = array_values($array[$key]);
+
+	}
+
+	return $array;
+}
+
+
+
+// Wandele POST in ein geordnetes Array um
+function post_to_array($post) {
+	$data = array();
+	foreach ($post as $key => $value) {	
+		if ($key != 'id') {
+			$temp = explode('-', $key);	
+			$count = count($value);
+
+			for ($i=0; $i < $count; $i++) {
+				if (is_array($value)) {
+					$data[$temp[0]][$i][$temp[1]] = $value[$i];
+				} 
+				else {
+					$data[$temp[0]][$i][$temp[1]] = $value;
+				}
+			}
+		}
+	}
+	return $data;
+}
+
+
+if (!function_exists('autoload')) {
+	function autoload($class_name)
+	{
+	    /**
+	     * Hier müssen alle Ordner angegeben werden,
+	     * die nach den benötigten Dateien durchsucht werden sollen.
+	     */
+	    $directorys = array(
+	        'functions/',
+	        'functions/rechteSystem/',
+	        'functions/apply/',
+	        'functions/edit/',
+	        'functions/html_templates/',
+	        'functions/suchfunktion/',
+	        'functions/register/',
+	        'OOP/model/DataController/BaseDataController/',
+            'OOP/model/DataController/ContactDataController/',
+            'OOP/model/DataController/MemberDataController/'
+	    );
+
+	    //Jedes Verzeichnis soll überprüft werden
+	    foreach($directorys as $directory)
+	    {
+	        //Überprüft ob die Date im aktuell durchsuchten Verzeichnis vorhanden ist.
+	        $root = get_template_directory();
+	        $path = "$root/$directory$class_name" . ".php";
+
+	        if(file_exists($path))
+	        {
+	            require_once($path);
+	            return;
+	        }
+	    }
+	}
+	spl_autoload_register('autoload');
+}
+$root = get_template_directory();
+require_once("$root/import/php/Mustache/Autoloader.php");
+Mustache_Autoloader::register();
 
 
 function __autoload($class_name)

@@ -55,6 +55,6 @@ $(document).ready(function() {
 	$( "#text-box" ).blur(function() {
 		setTimeout(function(){
 			$('#suggestions').toggleClass("show",false); 
-		}, 200);
+		}, 100);
 	})
 });

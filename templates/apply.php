@@ -20,7 +20,7 @@ var_dump(explode(',',$req['Response']['ReturnInfo'][0]['mail_forward_targets']))
 
 
 ?>
-	<div class="outer clearfix">
+	<div class="outer small clearfix">
 		<h1>Bewerbung</h1>
 
 			

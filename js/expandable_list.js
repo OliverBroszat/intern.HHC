@@ -1,8 +1,43 @@
 /*
 
-ExpandableContent
+ExpandableContent Version 2.0
 
-KOMMENTARE WERDEN NOCH HINZUGEFÜGT!!
+TODO:
+- Question to solve: sould javascript expandable list care about existing data?
+>>	YES: We need mustache.js (two versions of mustache)
+		In this case, we need to "inject" the data into the generated code (see example)
+	NO: We have the expandable list syntax on two different places in out project
+		In this case, javascript would load the data via AJAX (time problems?)... 
+- ObjectOriented Approach to all functions below
+- Add Comments!!!
+- Rename everything to expandable LIST (expandable content is something different)
+- Create custom elements like <expandablelist>...</expandablelist>
+	JS: var expandablelist = document.registerElement('exl-container');
+	>> Custom attributes MUST contain a dash
+	>> registerElement returns a constructor for this element
+	>> My Suggestion: 'exl' for expandablelist, so for every attribute we have 'exl-NAME'
+- When having custom element, the expandable-list.js should be included at the beginning of any HTML/PHP code (so that the custom elements are already registered
+- Better CSS please! Round buttons, animations, ...
+
+Structure for YES case:
+
+	html/php file (server-side):
+	...
+	<script src='.../expandable-list.js'></script>
+	...
+	<exl-container name='AddressContainer' template='exl-templates/address' dataSource='address' size='small'/>
+	<exl-container name='MailContainer' template='exl-templates/mail' dataSource='mail' size='small'/>
+	<exl-container name='PhoneContainer' template='exl-templates/phone' dataSource='phone' size='normal'/>
+	...
+	<script>
+	var data = <?php echo $data ?>;
+	setupExlContainer('AddressContainer', data['Address']);
+	setupExlContainer('MailContainer', data['Mail']);
+	setupExlContainer('PhoneContainer', data['Phone']);
+	</script>
+	...
+
+Could be a nice approach. Talk about this!
 
 */
 
@@ -10,15 +45,23 @@ var option_delete = "<button type='button' name='expandablecontent-link'"+
 	"class='expandablecontent-option-delete' onClick='delete_content(\"%%LIST-ID%%\", \"%%ELEMENT-ID%%\");'>-</button>";
 
 var option_append = "<button type='button' name='expandablecontent-link'"+
-	"class='expandablecontent-option-add' onClick='add_content(\"%%LIST-ID%%\", []);'>+</button>";
+	"class='expandablecontent-option-add' onClick='run_add_content(\"%%LIST-ID%%\", []);'>+</button>";
 
 function full_ID(list_ID, element_ID) {
 	return String(list_ID)+'$'+String(element_ID);
 }
 
 function delete_content(list_ID, element_ID) {
-	document.getElementById(list_ID).removeChild(document.getElementById(full_ID(list_ID, element_ID)));
+	var itemCount = $("#" + list_ID + " .expandablecontent-listitem-content").length;
+	if (itemCount > 1) {
+		document.getElementById(list_ID).removeChild(document.getElementById(full_ID(list_ID, element_ID)));
+	}
 }
+
+function run_add_content(list_ID, withData) {
+	add_content(list_ID, withData);
+	placeholder_color();
+};
 
 function add_content(list_ID, withData) {
 	var list = document.getElementById(list_ID);
@@ -94,7 +137,7 @@ function setup_expandablecontent(container_id, list_id, html_template, withData,
 	// Setup list
 	var ul = document.createElement('ul');
 	ul.id = String(list_id);
-	ul.classList.add('expandablecontent-list');
+	ul.classList.add("expandablecontent-list", "ui", "segment");
 	if (small) {
 		ul.classList.add('small');
 	}

@@ -6,7 +6,7 @@
 get_header();
 
 ?>
-	<div class='outer clearfix'>
+	<div class='outer small clearfix'>
 		<h1>Mitgliederdatenbank</h1>
 		
 		<div class="msg">
