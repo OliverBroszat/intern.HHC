@@ -8,3 +8,8 @@
 - Design UserSecurityPass, RP-Matrix, wp-implementation (@???)
 - First design of Appointment Management (@???)
 - First design of Project Management (@???)
+- Research for custom repo without github
+	-> Access with kraken
+	-> Dev Branch available under dev.intern.hhc-duesseldorf.de or intern.hhc-duesseldorf.de/dev
+	->Master branch available under intern.hhc-duesselorf.de
+	NOTE: Different domains may cause problems with URLs!
