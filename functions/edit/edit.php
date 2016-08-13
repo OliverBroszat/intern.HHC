@@ -36,7 +36,6 @@ $dialog = "Wollen Sie das Fenster wirklich ohne zu speichern schließen? Ungespe
 $html = "
 	<div id='edit'>
 		<form id='edit-form' method='POST' action='".get_template_directory_uri()."/functions/edit/sql_edit.php' enctype='multipart/form-data'>
-			<h2>Eintrag bearbeiten</h2>
 			<div id='popup-content'>
 
 				<h2>Profilbild</h2>

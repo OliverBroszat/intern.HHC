@@ -11,7 +11,7 @@
 // require_once("$root/functions/edit/sql_edit.php");
 
 
-var_dump($_POST);
+print json_encode($_POST);
 
 
 

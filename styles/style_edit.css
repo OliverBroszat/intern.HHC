@@ -21,6 +21,7 @@ body.popup-on{
 	vertical-align: middle;
 	text-align: center;
 	position: relative;
+	pointer-events: none;
 }
 
 .popup-blende {
@@ -29,47 +30,55 @@ body.popup-on{
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0,0.5);
+    background-color: #333;
+    opacity: 0.7;
 }
 
 .popup-content-outer {
 	display: inline-block;
 	margin: auto;
 	text-align: left;
-    min-height: 120px;
-    min-width: 360px;
+	min-height: 120px;
+	min-width: 360px;
 	max-width: 960px;
-    /*top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%);*/
-    box-shadow: 2px 4px 20px rgba(0,0,0,0.4);
-    /* box-shadow: 2px 4px 10px rgba(0,0,0,0.2); */
+	box-shadow: 2px 4px 20px rgba(0,0,0,0.4);
+	pointer-events: all;
 }
 
 .popup-content {
     max-height: 720px;
     overflow: auto;
     position: relative;
+    background-color: #efefef;
 }
 
 .popup-title {
 	display: block;
 	width: 100%;
-	width: calc(100% + 2* 1.5rem);
-	margin-left: -1.5rem;
-	margin-top: -1.5rem;
-	margin-bottom: 1rem;
-
-	height: 2rem;
-	text-align: center;
-	padding: 0.25rem 0.5rem;
-	background-color: #ddd;
-	border-radius: 4px 4px 0 0;    
+	padding: 1.5rem;
+	background-color: #fff;
+	border-radius: 3px 3px 0 0;
+	text-align: left;
+	font-size: 1.5rem;
 }
 
 .popup-title.hide {
 	display: none;
 }
+
+/* Popup Close */
+.popup-close {
+	position: absolute;
+	top: 1rem;
+	right: 1rem;
+	font-size: 2.5rem;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+.popup-close:hover {
+	 color: #8F3D3D;
+}
+
 
 /* DIALOG */
 
@@ -101,8 +110,8 @@ body.popup-on{
 	max-height: 560px;
 	overflow-y: auto;
 	margin: 0 auto;
-	margin-bottom: 1rem;
 	border: 1px solid #ccc;
+	border-width: 1px 0;
 }
 
 #popup-footer{
@@ -139,8 +148,10 @@ td {
 }
 
 .edit-image img, .edit-image a{
-	height: 100%;
+	height: auto;
 	width: auto;
+	max-width: 100%;
+	max-height: 100%;
 }
 
 .edit-image-buttons{
@@ -154,22 +165,8 @@ td {
 }
 
 #edit #popup-content{
-	background-color: #f6f7f9;
+	background-color: #efefef;
 	padding: 1rem;
-}
-
-#edit .expandablecontent-list:not(.small) .expandablecontent-listitem-content {
-    background-color: #fff;
-    box-shadow: 0 1px 2px 0 rgba(34,36,38,.15);
-    margin: 1rem 0;
-    padding: 1em;
-    border-radius: .28571429rem;
-    border: 1px solid rgba(34,36,38,.15);
-
-}
-
-#edit .expandablecontent-list:not(.small) .expandablecontent-listitem-content{
-    margin-bottom: 0.5rem;
 }
 
 #edit .expandablecontent-listitem-content table.form {
