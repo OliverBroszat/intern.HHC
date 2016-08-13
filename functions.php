@@ -404,7 +404,7 @@ if (!function_exists('autoload')) {
 	spl_autoload_register('autoload');
 }
 $root = get_template_directory();
-require_once("$root/Mustache/Autoloader.php");
+require_once("$root/import/php/Mustache/Autoloader.php");
 Mustache_Autoloader::register();
 
 ?>

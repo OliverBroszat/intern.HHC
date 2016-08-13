@@ -36,6 +36,11 @@ echo $m->render('test', array('name' => 'Peter'));
 </div>
 
 <script>
+$.get('template.mst', function(template) {
+	var rendered = Mustache.render(template, {name: "Luke"});
+	$('#target').html(rendered);
+});
+
 var view = {
   title: "Joe",
   calc: function () {
