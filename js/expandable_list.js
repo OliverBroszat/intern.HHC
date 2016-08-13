@@ -1,8 +1,43 @@
 /*
 
-ExpandableContent
+ExpandableContent Version 2.0
 
-KOMMENTARE WERDEN NOCH HINZUGEFÜGT!!
+TODO:
+- Question to solve: sould javascript expandable list care about existing data?
+>>	YES: We need mustache.js (two versions of mustache)
+		In this case, we need to "inject" the data into the generated code (see example)
+	NO: We have the expandable list syntax on two different places in out project
+		In this case, javascript would load the data via AJAX (time problems?)... 
+- ObjectOriented Approach to all functions below
+- Add Comments!!!
+- Rename everything to expandable LIST (expandable content is something different)
+- Create custom elements like <expandablelist>...</expandablelist>
+	JS: var expandablelist = document.registerElement('exl-container');
+	>> Custom attributes MUST contain a dash
+	>> registerElement returns a constructor for this element
+	>> My Suggestion: 'exl' for expandablelist, so for every attribute we have 'exl-NAME'
+- When having custom element, the expandable-list.js should be included at the beginning of any HTML/PHP code (so that the custom elements are already registered
+- Better CSS please! Round buttons, animations, ...
+
+Structure for YES case:
+
+	html/php file (server-side):
+	...
+	<script src='.../expandable-list.js'></script>
+	...
+	<exl-container name='AddressContainer' template='exl-templates/address' dataSource='address' size='small'/>
+	<exl-container name='MailContainer' template='exl-templates/mail' dataSource='mail' size='small'/>
+	<exl-container name='PhoneContainer' template='exl-templates/phone' dataSource='phone' size='normal'/>
+	...
+	<script>
+	var data = <?php echo $data ?>;
+	setupExlContainer('AddressContainer', data['Address']);
+	setupExlContainer('MailContainer', data['Mail']);
+	setupExlContainer('PhoneContainer', data['Phone']);
+	</script>
+	...
+
+Could be a nice approach. Talk about this!
 
 */
 
