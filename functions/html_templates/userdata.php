@@ -101,7 +101,7 @@ function getContactEditTemplate($data) {
 					Mail Adresse
 				</td>
 				<td colspan='2'>
-					<div id='expandablecontent-mail' class='expandablecontent-container small'></div>
+					<exl-container id='mail-list' template='mails' source='mail'></exl-container>
 				</td>
 			</tr>
 			<style>
@@ -123,13 +123,12 @@ function getContactEditTemplate($data) {
 			</tr>
 		</table>
 	</div>
-	<script src='".get_template_directory_uri()."/js/expandable_list.js'></script>
+	<script src='".get_template_directory_uri()."/import/js/Mustache/mustache_v2.2.1.js'></script>
+	<script src='".get_template_directory_uri()."/js/expandableList.js'></script>
 	<script>
-	var tmp_mail = `
-		<input type='hidden' name='Mail-contact[]' value='".extractData($data['info'], 'id')."'></input>
-		<input type='hidden' name='Mail-id[]' value='%%DATA-id%%'></input>
-		<td><input id='mail_description-%%FULL-ID%%' class='mail_content' type='text' name='Mail-description[]' placeholder='Beschreibung' value='%%DATA-description%%' style='width: 45%; margin-right: 10px;'/></td><td><input id='mail_content_%%FULL-ID%%' class='mail_content' type='email' name='Mail-address[]' placeholder='E-Mail' value='%%DATA-address%%' style='width: 45%;'/></td>
-	`;
+	initializeExpandableList();
+	setupExlContainerWithID('mail-list', ".json_encode($data['detail']).");
+
 	setup_expandablecontent('expandablecontent-mail', 'mail', tmp_mail, ".toJSArrayString($data['mails']).", 1);
 
 	var tmp_phone = `
@@ -147,7 +146,7 @@ function getAddressEditTemplate($data) {
 		$resl = "<h2>Adressen</h2>
 
 		<div id='expandablecontent-address' class='expandablecontent-container'></div>
-		<script src='".get_template_directory_uri()."/js/expandable_list.js'>
+		<script src='".get_template_directory_uri()."/js/expandableList.js'>
 		</script>
 		<script>
 			var tmp_address = `
@@ -200,7 +199,7 @@ function getStudyEditTemplate($data) {
 
 		<div id='expandablecontent-study' class='expandablecontent-container'></div>
 
-		<script src='".get_template_directory_uri()."/js/expandable_list.js'></script>
+		<script src='".get_template_directory_uri()."/js/expandableList.js'></script>
 
 		<script>
 			var tmp_study = `$study_tmp`;
@@ -322,7 +321,7 @@ function getFileEditTemplate($data) {
 		<table class='form'>
 			<tr><td colspan='2'><div id='expandablecontent-files' class='expandablecontent-container small'></div></td></tr>
 		</table>
-		<script src='".get_template_directory_uri()."/js/expandable_list.js'></script>
+		<script src='".get_template_directory_uri()."/js/expandableList.js'></script>
 		<script>
 		var tmp_files = \"<input id='%%desc_FULL-ID%%' type='text'name='File-filedescription[]' placeholder='Bezeichnung' value='%%DATA-filedescription%%' style='width: 45%;'/><input id='file_%%FULL-ID%%' type='file' name='File-apply_file[]' style='width: 45%;'/>\";
 		setup_expandablecontent('expandablecontent-files', 'files', tmp_files, ".toJSArrayString($data['files']).", 1);
