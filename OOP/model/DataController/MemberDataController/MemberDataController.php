@@ -47,7 +47,7 @@ class MemberDataController {
     private $contactDataController;
     private $userSecurityPass;
 
-    public function __construct($userSecurityPass, $contactDataController) {
+    public function __construct( , $contactDataController) {
         $this->userSecurityPass = $userSecurityPass;
         //$this->ifUserNotLoggedInThrowException();
         $this->contactDataController = $contactDataController;
