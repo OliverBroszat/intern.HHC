@@ -60,9 +60,12 @@ class BaseDataController {
     // Völlig in Ordnung
     public function selectSingleRowByQuery($sqlQuery) {
         $selectedRows = $this->selectMultipleRowsByQuery($sqlQuery);
-        if (sizeof($selectedRows) != 1) {
+        if (sizeof($selectedRows) > 1) {
             $errorMessage = "More than 1 row was selected by SQL query '$sqlQuery' in BaseDataController::tryToSelectSingleRowByQuery()";
             throw new LengthException($errorMessage);
+        } elseif (sizeof($selectedRows) == 0) {
+        	$errorMessage = "No row was selected by SQL query '$sqlQuery' in BaseDataController::tryToSelectSingleRowByQuery()";
+        	throw new LengthException($errorMessage);
         }
         return $selectedRows[0];
     }
@@ -77,7 +80,7 @@ class BaseDataController {
 
     public function selectSingleRowByIDInTable($ID, $table) {
         $query = "SELECT * FROM $table WHERE id=$ID";
-        return $this->selectSingleRowByQuery($query);
+        return $this->selectSingleRowByQuery($query);    		
     }
 
     public function selectMultipleRowsByIDInTable($IDs, $table) {

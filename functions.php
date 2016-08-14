@@ -382,8 +382,11 @@ if (!function_exists('autoload')) {
 	        'functions/html_templates/',
 	        'functions/suchfunktion/',
 	        'functions/register/',
+	    	'functions/MemberDataController',	
+	    	'OOP/model/DataController/',
 	        'OOP/model/DataController/BaseDataController/',
             'OOP/model/DataController/ContactDataController/',
+	    	'OOP/model/UserSecurityPass/',
             'OOP/model/DataController/MemberDataController/'
 	    );
 

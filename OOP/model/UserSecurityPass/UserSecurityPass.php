@@ -59,20 +59,12 @@ class UserSecurityPass {
     // Getter / Setter
 
     public function getCurrentUserID() {
-        return $this->currentUserID;
+        $currentUser = wp_get_current_user();
+        return $currentUser->ID;
     }
 
     public function userHasRole($userRole) {
         
     }
 }
-
-$securityPass = new UserSecurityPass();
-if ($securityPass->userIsLoggedIn()) {
-    echo 'Hallo, Mitglied!';
-}
-else {
-    echo 'Hallo, Fremder!';
-}
-
 ?>
