@@ -1,0 +1,15 @@
+<exl-wrapper id='exl-wrapper-{{exl-id}}' class='exl wrapper {{exl-size}}'>
+	<input type='hidden' id='contentTemplate-{{exl-id}}' value='{{exl-contentTemplate}}'/>
+	<input type='hidden' id='exl-itemCounter-{{exl-id}}' value='{{exl-numberOfItems}}'/>
+	<exl-list id='exl-list-{{exl-id}}' class='exl list ui segment small'>
+		{{# exl-content}}
+			<exl-listitem id='exl-listitem-{{exl-id}}-{{content-id}}' class='exl listitem'>
+				<exl-content id='exl-content-{{exl-id}}-{{content-id}}' class='exl content'>
+					{{{content-rendered}}}
+				</exl-content>
+				<button type='button' id='exl-button-delete-{{exl-id}}-{{content-id}}' class='exl button delete' onClick='deleteListItemForContainerWithID("{{exl-id}}", {{content-id}});'>-</button>
+			</exl-listitem>
+		{{/ exl-content}}
+	</exl-list>
+	<button type='button' id='exl-button-add-{{exl-id}}' class='exl button add' onClick='addNewListItemForContainerWithID("{{exl-id}}");'>+</button>
+</exl-wrapper>
