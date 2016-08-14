@@ -1,5 +1,9 @@
 - Discuss the entire project and explain the new OOP Approach (@ALL)
+<<<<<<< HEAD
 - See all TODOs in branch 'betterExpandableList' js/expandable_list.js (@Alex)
+=======
+- See all TODOs in js/expandable_list.js (@Alex)
+>>>>>>> BetterExplandableList.JS
 - Design Filter Object für simple Database Queries (@DanielH)
 - Refactor Database and create ER Model for visualization (@Oliver)
 - Write ApplicationDataController and AssessmentDataController (@Robin)
@@ -7,9 +11,13 @@
 
 - Design UserSecurityPass, RP-Matrix, wp-implementation (@???)
 - First design of Appointment Management (@???)
+<<<<<<< HEAD
 - First design of Project Management (@???)
 - Research for custom repo without github
 	-> Access with kraken
 	-> Dev Branch available under dev.intern.hhc-duesseldorf.de or intern.hhc-duesseldorf.de/dev
 	->Master branch available under intern.hhc-duesselorf.de
 	NOTE: Different domains may cause problems with URLs!
+=======
+- First design of Project Management (@???)
+>>>>>>> BetterExplandableList.JS

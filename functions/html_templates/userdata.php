@@ -203,11 +203,8 @@ function getStudyEditTemplate($data) {
 		<script src='".get_template_directory_uri()."/js/expandable_list.js'></script>
 
 		<script>
-
 			var tmp_study = `$study_tmp`;
 			setup_expandablecontent('expandablecontent-study', 'study', tmp_study, ".toJSArrayString($data['studies']).", 1);
-			
-
 
 			var data = " . toJSArrayString($data['studies']) . ";
 
@@ -215,23 +212,6 @@ function getStudyEditTemplate($data) {
 			select_option('degree-study--', data, 'degree');
 			select_option('school-study--', data, 'school');
 
-
-
-
-			// Show/Hide OTHER
-			function showDiv(elem) {
-				var hiddenDiv = $('#hidden_div-'+elem.id)
-				if(elem.value == 'other') {
-					hiddenDiv.show();
-					hiddenDiv.prop( 'disabled', false );
-				} else {
-					hiddenDiv.hide();
-					hiddenDiv.prop( 'disabled', true );
-				}
-			}
-			
-
-			
 		</script>";
 	return $resl;
 }

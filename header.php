@@ -18,9 +18,9 @@ global $user_ID;
 	<meta charset='UTF-8'>
 	<meta name='viewport' content='width=device-width, initial-scale=1'>
 	
-	<script src='<?php echo $root_uri; ?>/import/1.12.0.jquery.min.js'></script>
-	<script src='<?php echo $root_uri; ?>/import/1.11.4.jquery-ui.min.js'></script>
-	<link rel='stylesheet' href='<?php echo $root_uri; ?>/import/1.11.4.jquery-ui.min.css'>
+	<script src='<?php echo $root_uri; ?>/import/js/JQuery/1.12.0.jquery.min.js'></script>
+	<script src='<?php echo $root_uri; ?>/import/js/JQuery/1.11.4.jquery-ui.min.js'></script>
+	<link rel='stylesheet' href='<?php echo $root_uri; ?>/import/js/JQuery/1.11.4.jquery-ui.min.css'>
 
 	
 	<!-- <script src='<?php echo $root_uri; ?>/import/jquery.validate.min.js'></script> -->
