@@ -384,7 +384,8 @@ if (!function_exists('autoload')) {
 	        'functions/register/',
 	        'OOP/model/DataController/BaseDataController/',
             'OOP/model/DataController/ContactDataController/',
-            'OOP/model/DataController/MemberDataController/'
+            'OOP/model/DataController/MemberDataController/',
+            'OOP/model/DataController/ApplicationDataController/'
 	    );
 
 	    //Jedes Verzeichnis soll überprüft werden

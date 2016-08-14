@@ -101,7 +101,7 @@ class BaseDataController {
     NOTE: ID wird nicht automatisch gesetzt!!!
     */
     public function insertSingleRowInTable($row, $table) {
-        $dataArray = $row->toArray();
+            $dataArray = $row->toArray();
         $this->insertData(
             $table,
             $dataArray,
@@ -113,7 +113,9 @@ class BaseDataController {
     NOTE: ID wird nicht automatisch gesetzt!!!
     */
     public function insertMultipleRowsInTable($rows, $table) {
+
         foreach ($rows as $row) {
+
             $this->insertSingleRowInTable($row, $table);
         }
     }
