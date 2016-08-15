@@ -33,6 +33,25 @@ $data = array(
 
 	<exl-container id='mails' template='name-list' source='personData' class='exl-container'></exl-container><br>
 
+<?php
+echo 'Start<br>';
+$mustache = new Mustache_Engine(
+	array(
+		'partials' => array('memberTemplate' => 'Hallo {{name}}!<br>')
+	)
+);
+$tmpl = "{{# members}}Template für {{name}}: {{> memberTemplate}}{{/ members}}";
+$data = array(
+	'members' => array (
+		array('name' => 'Alex'),
+		array('name' => 'Peter')
+	)
+);
+echo $mustache->render($tmpl, $data);
+echo 'End<br><br><br>';
+
+?>
+
 	<script>
 		initializeExpandableList();
 		setupExlContainerWithID('mails', <?php echo json_encode($data); ?>);
