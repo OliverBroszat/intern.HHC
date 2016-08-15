@@ -56,6 +56,30 @@ if (!function_exists('change_date_format')) {
 	}
 }
 
+if(!function_exists('array_to_string')) {
+	function array_to_string($array, $seperator = ', ') {
+		$string = '';
+		$base = new BaseDataController();		
+		foreach ($array as $value) {
+			$tmp = "%s";
+			$prepValue = $base->prepareSqlQuery($tmp, $value);
+			$string .= $prepValue.$seperator;
+		}
+		$string = rtrim($string, $seperator);
+		return $string;
+	}
+}
+
+if(!function_exists('wrap_values_of_array')) {
+	function wrap_values_of_array($array, $wrapper = "'") {
+		foreach ($array as $key => $value) {
+			$array[$key] = $wrapper.$value.$wrapper;
+		}
+		return $array;
+	}
+}
+
+
 
 
 // --------- Prüfe, ob ein Filter angewählt wurde ----------
@@ -287,7 +311,7 @@ if (!function_exists('arr_to_list')) {
 			function create_list($array) {	
 				echo "<ul>";
 			
-				foreach ($array as $key => $value) {
+				foreach ((array) $array as $key => $value) {
 					$type = gettype($value);
 
 					if (is_array($value) || is_object($value)) {
@@ -296,7 +320,7 @@ if (!function_exists('arr_to_list')) {
 						echo "</li>";
 					}
 					else {
-						echo "<li>[<b>$key</b>] ($type)  ->  <i>".var_export($value, true)."</i></li>";
+						echo "<li>[<b>$key</b>] ($type)  ->  <i>".print_r($value, true)."</i></li>";
 					}
 				}
 				echo "</ul>";
@@ -384,16 +408,17 @@ if (!function_exists('autoload')) {
 	        'functions/register/',
 	        'OOP/model/DataController/BaseDataController/',
             'OOP/model/DataController/ContactDataController/',
-            'OOP/model/DataController/MemberDataController/'
-	    );
+            'OOP/model/DataController/MemberDataController/',
+            'OOP/model/SearchController/',
+            'OOP/model/SearchController/Filter/',
 
+	    );
 	    //Jedes Verzeichnis soll überprüft werden
 	    foreach($directorys as $directory)
 	    {
 	        //Überprüft ob die Date im aktuell durchsuchten Verzeichnis vorhanden ist.
 	        $root = get_template_directory();
 	        $path = "$root/$directory$class_name" . ".php";
-
 	        if(file_exists($path))
 	        {
 	            require_once($path);
@@ -406,37 +431,5 @@ if (!function_exists('autoload')) {
 $root = get_template_directory();
 require_once("$root/import/php/Mustache/Autoloader.php");
 Mustache_Autoloader::register();
-
-
-function __autoload($class_name)
-{
-	/**
-	 * Hier müssen alle Ordner angegeben werden,
-	 * die nach den benötigten Dateien durchsucht werden sollen.
-	 */
-	$directorys = array(
-			'functions/',
-			'functions/rechteSystem/',
-			'functions/apply/',
-			'functions/edit/',
-			'functions/html_templates/',
-			'functions/suchfunktion/',
-			'functions/register/'
-	);
-
-	//Jedes Verzeichnis soll überprüft werden
-	foreach($directorys as $directory)
-	{
-		//Überprüft ob die Date im aktuell durchsuchten Verzeichnis vorhanden ist.
-		$root = get_template_directory();
-		$path = "$root/$directory$class_name" . ".php";
-
-		if(file_exists($path))
-		{
-			require_once($path);
-			return;
-		}
-	}
-}
 
 ?>

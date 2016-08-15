@@ -80,14 +80,17 @@ class MemberDataController {
             $unpreparedMemberSqlQuery,
             $ID
         );
-        $memberRow = $this->baseDataController->tryToSelectSingleRowByQuery($preparedMemberSqlQuery);
+        $memberRow = $this->baseDataController->selectSingleRowByQuery($preparedMemberSqlQuery);
         return new MemberProfile($memberRow, $contactProfile);
     }
 
     public function getMultipleMemberProfilesByContactID($IDs) {
+        $memberProfiles = array();
         foreach ($IDs as $ID) {
-            $this->getSingleMemberProfileByID($ID);
+            $currentMemberProfile = $this->getSingleMemberProfileByContactID($ID);
+            array_push($memberProfiles, $currentMemberProfile);
         }
+        return $memberProfiles;
     }
 
     public function getCurrentMemberProfile() {
