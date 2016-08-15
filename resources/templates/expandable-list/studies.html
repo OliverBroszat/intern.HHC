@@ -1,0 +1,70 @@
+<table class='form'>
+	<input type='hidden' name='Study-contact[]' value='{{contact}}'></input>
+	<input type='hidden' name='Study-id[]' value='{{id}}'></input>
+	<tr>
+		<td style='vertical-align: top;'>Status</td>
+		<td style='vertical-align: top;'>
+			<select name='Study-status[]'>
+				<option disabled selected value class='placeholder'>Status</option>
+				<option value='active'>Aktiv</option>
+				<option value='done'>Abgeschlossen</option>
+				<option value='cancelled'>Abgebrochen</option>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td>Abschluss</td>
+		<td>
+			<select id='degree-{{exl-full-id}}' name='Study-degree[]' onChange='showDiv(this);'>
+
+				<option value='b_sc'>Bachelor of Science</option>
+				<option value='m_sc'>Master of Science</option>
+				<option value='b_a'>Bachelor of Arts</option>
+				<option value='m_a'>Master of Arts</option>
+				<option value='exam'>Staatsexamen</option>
+				<option value='diplom'>Diplom</option>
+				<option value='other'>Anderer Abschluss...</option>
+
+			</select>
+
+		</td>
+		<td>
+			<input id='hidden_div-degree-{{exl-full-id}}' type='text' name='Study-degree[]' placeholder='anderer Abschluss...' value='{{other_extra}}' disabled style='display:none;'/>
+		</td>
+	</tr>
+	<tr>
+		<td>Fach</td>
+		<td>
+			<input type='text' name='Study-course[]' placeholder='Fach' value='{{course}}'/>
+		</td>
+		<td>
+			<input type='text' name='Study-focus[]' placeholder='(Schwerpunkt)' value='{{focus}}'/>
+		</td>
+	</tr>
+	<tr>
+		<td width ='20%' style='vertical-align: top;'>Universität</td>
+		<td width='40%' style='vertical-align: top;'>
+			<select id='school-{{exl-full-id}}' name='Study-school[]' onChange='showDiv(this);'>
+				<option disabled selected value class='placeholder'>Universität</option>
+				<option value='Heinrich-Heine-Universität' {{checked-HHU}}>Heinrich-Heine-Universität</option>
+				<option value='FH Düsseldorf' {{checked-FH}}>FH Düsseldorf</option>
+				<option value='Universität Duisburg-Essen' {{checked-DUE}}>Universität Duisburg-Essen</option>
+				<option value='Universität Köln' {{checked-KOELN}}>Universität Köln</option>
+				<option value='FOM' {{checked-FOM}}>FOM</option>
+				<option value='Bergische Universität Wuppertal' {{checked-WUPPERTAL}}>Bergische Universität Wuppertal</option>
+				<option value='other' {{checked-OTHER}}>andere Universität...</option>
+			</select>
+		</td>
+		<td width='40%' style='vertical-align:top;'>
+			<input id='hidden_div-school-{{exl-full-id}}' type='text' name='Study-school[]' placeholder='andere Hochschule...' value='{{other-text}}' disabled style='display:none;'/>
+			<br>
+		</td>
+	</tr>
+	<tr>
+		<td>Beginn / Ende</td>
+		<td style='vertical-align:top;'><input type='date' name='Study-start[]' value='{{start}}'/></td>
+		<td style='vertical-align:top;'><input type='date' name='Study-end[]' value='{{end}}'/></td>
+	</tr>
+	<tr>
+	</tr>
+</table>

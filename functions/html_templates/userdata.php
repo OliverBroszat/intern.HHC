@@ -46,7 +46,7 @@ function getContactEditTemplate($data) {
 			'mail_content' => 'test@123456.de'
 		)
 	);*/
-	var_dump($data['detail']);
+
 	$resl = "		
 	<h2>Persönliche Angaben</h2>
 	<input type='hidden' name='Contact-id' value='".extractData($data['info'], 'id')."'></input>
@@ -144,20 +144,15 @@ function getAddressEditTemplate($data) {
 
 
 function getStudyEditTemplate($data) {
-	$root = get_template_directory_uri();
-	$study_tmp = file_get_contents("$root/functions/html_templates/study_edit.php");
-	$study_tmp = trim(preg_replace('/\s\s+/', ' ', $study_tmp));
-	$study_tmp = str_replace(array("\r\n", "\r", "\n"), "", $study_tmp);
 
 	$resl = "
 
 		<h2>Studienprofile</h2>
 
-		<div id='expandablecontent-study' class='expandablecontent-container'></div>
+		<exl-container id='study-list' template='studies' source='study'></exl-container>
 
 		<script>
-			var tmp_study = `$study_tmp`;
-			setup_expandablecontent('expandablecontent-study', 'study', tmp_study, ".toJSArrayString($data['studies']).", 1);
+			setupExlContainerWithID('study-list', ".json_encode($data['detail']).");
 
 			var data = " . toJSArrayString($data['studies']) . ";
 
@@ -167,6 +162,7 @@ function getStudyEditTemplate($data) {
 
 		</script>";
 	return $resl;
+
 }
 
 
@@ -220,14 +216,14 @@ function getMemberEditTemplate($data) {
 	";
 
 	// Ressort
-		global $wpdb;
-		$ressorts = $wpdb->get_results("SELECT * FROM Ressort");
+	global $wpdb;
+	$ressorts = $wpdb->get_results("SELECT * FROM Ressort");
 
-		foreach ($ressorts as $key => $value) {
-			$selected = '';
-			if ($ressort == $value->name) { $selected = 'selected'; }
-			$resl .= " <option value='".$value->id."' $selected>".uppercase($value->name)."</option>";
-		}
+	foreach ($ressorts as $key => $value) {
+		$selected = '';
+		if ($ressort == $value->name) { $selected = 'selected'; }
+		$resl .= " <option value='".$value->id."' $selected>".uppercase($value->name)."</option>";
+	}
 
 	$resl .= "
 							</select>
