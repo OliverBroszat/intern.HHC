@@ -87,7 +87,7 @@ document.getElementById('text').innerHTML = output;
  */
 function getTemplateByName(templateName) {
 
-	var _path = 'http://localhost/~alex/wordpress/wp-content/themes/intern-hhc/resources/templates/expandable-list/';
+	var _path = 'http://localhost:8080/wordpress/wp-content/themes/intern-hhc/resources/templates/expandable-list/';
 	var loadedTemplate = null;
 	jQuery.ajax({
         url: _path+templateName+'.html',
@@ -366,12 +366,4 @@ function initializeExpandableList() {
 	document.registerElement('exl-content');
 }
 
-
-
-
-
-
-
-
-
-
+initializeExpandableList();
