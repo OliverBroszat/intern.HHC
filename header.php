@@ -41,7 +41,7 @@ global $user_ID;
 	<link rel='stylesheet' href='<?php echo $root_uri; ?>/styles/style_after.css'>
 
 	<script src='<?php echo $root_uri; ?>/import/js/Mustache/mustache_v2.2.1.js'></script>
-	<script src='<?php echo $root_uri; ?>/js/expandableList.js'></script>
+	<script src='<?php echo $root_uri; ?>/import/js/Exl/exl.js'></script>
 
 	<title><?php echo $title; ?></title>
 

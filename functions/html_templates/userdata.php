@@ -124,8 +124,8 @@ function getContactEditTemplate($data) {
 		</table>
 	</div>
 	<script>
-	setupExlContainerWithID('mail-list', ".json_encode($data['detail']).");
-	setupExlContainerWithID('phone-list', ".json_encode($data['detail']).");
+	Exl.setupExlContainerWithID('mail-list', ".json_encode($data['detail']).");
+	Exl.setupExlContainerWithID('phone-list', ".json_encode($data['detail']).");
 	</script>";
 	return $resl;
 }
@@ -137,7 +137,7 @@ function getAddressEditTemplate($data) {
 	<exl-container id='address-list' template='addresses' source='address'></exl-container>
 	</script>
 	<script>
-		setupExlContainerWithID('address-list', ".json_encode($data['detail']).");
+		Exl.setupExlContainerWithID('address-list', ".json_encode($data['detail']).");
 	</script>";
 	return $resl;
 }
@@ -152,7 +152,7 @@ function getStudyEditTemplate($data) {
 		<exl-container id='study-list' template='studies' source='study'></exl-container>
 
 		<script>
-			setupExlContainerWithID('study-list', ".json_encode($data['detail']).");
+			Exl.setupExlContainerWithID('study-list', ".json_encode($data['detail']).");
 
 			var data = " . toJSArrayString($data['studies']) . ";
 
