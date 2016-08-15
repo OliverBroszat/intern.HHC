@@ -110,7 +110,12 @@ class MemberDataController {
 
     public function updateSingleMemberProfile($memberProfile) {
         $this->contactDataController->updateSingleContactProfile($memberProfile->contactProfile);
-        $this->baseDataController->updateSingleRowInTable($memberProfile->memberDatabaseRow, 'Member');
+        try {
+            $this->baseDataController->updateSingleRowInTable($memberProfile->memberDatabaseRow, 'Member');
+        }
+        catch (InvalidArgumentException $e) {
+            // No rows where updated - ignore this case
+        }
     }
 
     public function updateMultipleMembersByProfile($memberProfiles) {
