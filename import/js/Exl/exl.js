@@ -214,6 +214,7 @@ function ExlClass() {
 			var content = Mustache.render(contentTemplate, dataset);
 			exl_content.push({
 				'exl-content-id': i,
+				'exl-content-full-id': exlContainer.id+'-'+i,
 				'exl-content-rendered': content
 			});
 			i++;
@@ -369,6 +370,8 @@ function ExlClass() {
 	 * @param listItemID The exl-listitem's ID
 	 */
 	this.deleteListItemForContainerWithID = function(exlContainerID, listItemID) {
+		console.log('exlContainerID: '+exlContainerID);
+		console.log('listItemID: '+listItemID);
 		var exlList = document.getElementById('exl-list-'+exlContainerID);
 		var fullItemID = 'exl-listitem-'+exlContainerID+'-'+listItemID;
 		var listItem = document.getElementById(fullItemID);
