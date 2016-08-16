@@ -94,14 +94,14 @@ function getContactEditTemplate($data) {
 					Skype Name
 				</td>
 				<td colspan='3'>
-					<input type='text' name='Contact-skype_name' placeholder='Skype Name' value='".extractData($data['info'], 'skype_name')."'/>'
+					<input type='text' name='Contact-skype_name' placeholder='Skype Name' value='".extractData($data['info'], 'skype_name')."'/>
 			</tr>
 			<tr>
 				<td>
 					Mail Adresse
 				</td>
 				<td colspan='2'>
-					<div id='expandablecontent-mail' class='expandablecontent-container small'></div>
+					<exl-container id='mail-list' template='mails' source='mail'></exl-container>
 				</td>
 			</tr>
 			<style>
@@ -118,93 +118,41 @@ function getContactEditTemplate($data) {
 					Telefonnummer
 				</td>
 				<td colspan='2'>
-					<div id='expandablecontent-phone' class='expandablecontent-container small'></div>
+					<exl-container id='phone-list' template='phones' source='phone'></exl-container>
 				</td>
 			</tr>
 		</table>
 	</div>
-	<script src='".get_template_directory_uri()."/js/expandable_list.js'></script>
 	<script>
-	var tmp_mail = `
-		<input type='hidden' name='Mail-contact[]' value='".extractData($data['info'], 'id')."'></input>
-		<input type='hidden' name='Mail-id[]' value='%%DATA-id%%'></input>
-		<td><input id='mail_description-%%FULL-ID%%' class='mail_content' type='text' name='Mail-description[]' placeholder='Beschreibung' value='%%DATA-description%%' style='width: 45%; margin-right: 10px;'/></td><td><input id='mail_content_%%FULL-ID%%' class='mail_content' type='email' name='Mail-address[]' placeholder='E-Mail' value='%%DATA-address%%' style='width: 45%;'/></td>
-	`;
-	setup_expandablecontent('expandablecontent-mail', 'mail', tmp_mail, ".toJSArrayString($data['mails']).", 1);
-
-	var tmp_phone = `
-		<input type='hidden' name='Phone-contact[]' value='".extractData($data['info'], 'id')."'></input>
-		<input type='hidden' name='Phone-id[]' value='%%DATA-id%%'></input>
-		<td><input id='phone_description-%%FULL-ID%%' class='phone_content' type='text' name='Phone-description[]' placeholder='Beschreibung' value='%%DATA-description%%' style='width: 45%; margin-right: 10px;'/></td><td><input id='phone_content_%%FULL-ID%%' class='phone_content' type='text' name='Phone-number[]' placeholder='Telefonnummer' value='%%DATA-number%%' style='width: 45%;'/></td>
-	`;
-	setup_expandablecontent('expandablecontent-phone', 'phone', tmp_phone, ".toJSArrayString($data['phones']).", 1);
+	Exl.setupExlContainerWithID('mail-list', ".json_encode($data['detail']).");
+	Exl.setupExlContainerWithID('phone-list', ".json_encode($data['detail']).");
 	</script>";
 	return $resl;
 }
 
 
 function getAddressEditTemplate($data) {
-		$resl = "<h2>Adressen</h2>
+	$resl = "<h2>Adressen</h2>
 
-		<div id='expandablecontent-address' class='expandablecontent-container'></div>
-		<script src='".get_template_directory_uri()."/js/expandable_list.js'>
-		</script>
-		<script>
-			var tmp_address = `
-				<table class='form'>
-					<input type='hidden' name='Address-contact[]' value='".extractData($data['info'], 'id')."'></input>
-					<input type='hidden' name='Address-id[]' value='%%DATA-id%%'></input>
-					<tr>
-						<td colspan='2'>
-							<input type='text' name='Address-description[]' placeholder='Beschreibung' value='%%DATA-description%%'>
-						</td>
-					</tr>
-					<tr>
-						<td width='20%'>Straße / Nr.</td>
-						<td width='30%'>
-							<input type='text'name='Address-street[]' placeholder='Straße' value='%%DATA-street%%'/>
-						</td>
-						<td width='30%'>
-							<input type='text' name='Address-number[]'placeholder='Nr.' value='%%DATA-number%%'/>
-						</td>
-						<td width='20%'>
-							<input type='text' name='Address-addr_extra[]' placeholder='(Zusatz)' value='%%DATA-addr_extra%%'/>
-						</td>
-					</tr>
-					<tr>
-						<td>Wohnort</td>
-						<td>
-							<input type='text' name='Address-postal[]'placeholder='PLZ' value='%%DATA-postal%%'/>
-						</td>
-						<td>
-							<input type='text' name='Address-city[]' placeholder='Stadt'value='%%DATA-city%%'/>
-						</td>
-					</tr>
-				</table>
-			`;
-		setup_expandablecontent('expandablecontent-address', 'address', tmp_address, ".toJSArrayString($data['addresses']).", 1);
-		</script>";
+	<exl-container id='address-list' template='addresses' source='address'></exl-container>
+	</script>
+	<script>
+		Exl.setupExlContainerWithID('address-list', ".json_encode($data['detail']).");
+	</script>";
 	return $resl;
 }
 
 
 function getStudyEditTemplate($data) {
-	$root = get_template_directory_uri();
-	$study_tmp = file_get_contents("$root/functions/html_templates/study_edit.php");
-	$study_tmp = trim(preg_replace('/\s\s+/', ' ', $study_tmp));
-	$study_tmp = str_replace(array("\r\n", "\r", "\n"), "", $study_tmp);
 
 	$resl = "
 
 		<h2>Studienprofile</h2>
 
-		<div id='expandablecontent-study' class='expandablecontent-container'></div>
-
-		<script src='".get_template_directory_uri()."/js/expandable_list.js'></script>
+		<exl-container id='study-list' template='studies' source='study'></exl-container>
 
 		<script>
-			var tmp_study = `$study_tmp`;
-			setup_expandablecontent('expandablecontent-study', 'study', tmp_study, ".toJSArrayString($data['studies']).", 1);
+			Exl.setupExlContainerWithID('study-list', ".json_encode($data['detail']).");
 
 			var data = " . toJSArrayString($data['studies']) . ";
 
@@ -214,6 +162,7 @@ function getStudyEditTemplate($data) {
 
 		</script>";
 	return $resl;
+
 }
 
 
@@ -267,14 +216,14 @@ function getMemberEditTemplate($data) {
 	";
 
 	// Ressort
-		global $wpdb;
-		$ressorts = $wpdb->get_results("SELECT * FROM Ressort");
+	global $wpdb;
+	$ressorts = $wpdb->get_results("SELECT * FROM Ressort");
 
-		foreach ($ressorts as $key => $value) {
-			$selected = '';
-			if ($ressort == $value->name) { $selected = 'selected'; }
-			$resl .= " <option value='".$value->id."' $selected>".uppercase($value->name)."</option>";
-		}
+	foreach ($ressorts as $key => $value) {
+		$selected = '';
+		if ($ressort == $value->name) { $selected = 'selected'; }
+		$resl .= " <option value='".$value->id."' $selected>".uppercase($value->name)."</option>";
+	}
 
 	$resl .= "
 							</select>
@@ -322,7 +271,6 @@ function getFileEditTemplate($data) {
 		<table class='form'>
 			<tr><td colspan='2'><div id='expandablecontent-files' class='expandablecontent-container small'></div></td></tr>
 		</table>
-		<script src='".get_template_directory_uri()."/js/expandable_list.js'></script>
 		<script>
 		var tmp_files = \"<input id='%%desc_FULL-ID%%' type='text'name='File-filedescription[]' placeholder='Bezeichnung' value='%%DATA-filedescription%%' style='width: 45%;'/><input id='file_%%FULL-ID%%' type='file' name='File-apply_file[]' style='width: 45%;'/>\";
 		setup_expandablecontent('expandablecontent-files', 'files', tmp_files, ".toJSArrayString($data['files']).", 1);

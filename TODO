@@ -1,23 +1,27 @@
-- Discuss the entire project and explain the new OOP Approach (@ALL)
-<<<<<<< HEAD
-- See all TODOs in branch 'betterExpandableList' js/expandable_list.js (@Alex)
-=======
-- See all TODOs in js/expandable_list.js (@Alex)
->>>>>>> BetterExplandableList.JS
+==================================================
+TODO
+==================================================
+- Rethink the Exception in update functions when no row is updated. Code gets ugly and no scenario where this was really
+	necessary has been occured yet
 - Design Filter Object für simple Database Queries (@DanielH)
 - Refactor Database and create ER Model for visualization (@Oliver)
 - Write ApplicationDataController and AssessmentDataController (@Robin)
-- New CSS design (@DanielH)
 
-- Design UserSecurityPass, RP-Matrix, wp-implementation (@???)
-- First design of Appointment Management (@???)
-<<<<<<< HEAD
+- Design UserSecurityPass, RP-Matrix, wp-implementation (@Oliver)
+- First design of Appointment Management (@Robin)
 - First design of Project Management (@???)
 - Research for custom repo without github
 	-> Access with kraken
 	-> Dev Branch available under dev.intern.hhc-duesseldorf.de or intern.hhc-duesseldorf.de/dev
 	->Master branch available under intern.hhc-duesselorf.de
 	NOTE: Different domains may cause problems with URLs!
-=======
-- First design of Project Management (@???)
->>>>>>> BetterExplandableList.JS
+- First design of Project Management (@Robin)
+
+
+==================================================
+DONE
+==================================================
+
+- Discuss the entire project and explain the new OOP Approach (@ALL)
+- See all TODOs in branch 'betterExpandableList' js/expandable_list.js (@Alex)
+- New CSS design (@DanielH)

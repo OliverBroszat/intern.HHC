@@ -102,9 +102,20 @@ class MemberDataController {
         // TODO: implement filter objects!
     }
 
+    public function getRessortDatabaseRowForMember($memberProfile) {
+        $ressortID = $memberProfile->memberDatabaseRow->getValueForKey('ressort');
+        $ressortDatabaseRow = $baseDataController->selectSingleRowByIDInTable($ressortID, 'Ressort');
+        return $ressortDatabaseRow;
+    }
+
     public function updateSingleMemberProfile($memberProfile) {
         $this->contactDataController->updateSingleContactProfile($memberProfile->contactProfile);
-        $this->baseDataController->updateSingleRowInTable($memberProfile->memberDatabaseRow, 'Member');
+        try {
+            $this->baseDataController->updateSingleRowInTable($memberProfile->memberDatabaseRow, 'Member');
+        }
+        catch (InvalidArgumentException $e) {
+            // No rows where updated - ignore this case
+        }
     }
 
     public function updateMultipleMembersByProfile($memberProfiles) {
