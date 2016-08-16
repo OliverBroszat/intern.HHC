@@ -16,6 +16,7 @@ TODO
 	->Master branch available under intern.hhc-duesselorf.de
 	NOTE: Different domains may cause problems with URLs!
 - First design of Project Management (@Robin)
+- Moving all middleware and backend functionality in API directory? frontend could access all functionality via JS...
 
 
 ==================================================
