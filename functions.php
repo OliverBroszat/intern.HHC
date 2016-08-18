@@ -404,7 +404,10 @@ if (!function_exists('autoload')) {
 	}
 	spl_autoload_register('autoload');
 }
+
 $_TEMPLATE_DIRECTORY = get_template_directory();
+$_TEMPLATE_URL = get_template_directory_uri();
+
 require_once("$_TEMPLATE_DIRECTORY/import/php/Mustache/Autoloader.php");
 Mustache_Autoloader::register();
 $options =  array('extension' => '.html');
