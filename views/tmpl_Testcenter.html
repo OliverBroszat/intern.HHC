@@ -1,0 +1,105 @@
+<!-- Since this will be included in a wordpres template, we are already in a wrapper div
+and can just start to design the content -->
+
+<style>
+
+tr:nth-child(even) {
+	background: #DDD;
+}
+tr:nth-child(odd) {
+	background: #EEE;
+}
+
+tr:first-child {
+	background: #CCC;
+	font-weight: bold;
+	font-size: 24pt;
+	border-bottom: 2px solid #AAA;
+	min-height: 35px;
+}
+
+td {
+	vertical-align: middle;
+}
+
+.option-panel:after {
+	content: ".";
+    clear: both;
+    display: block;
+    visibility: hidden;
+    height: 0px;
+}
+
+.global-option {
+	float: right;
+	margin: 10px 0;
+}
+
+</style>
+
+<h1>Unit Test Overview</h1>
+<hr>
+<br><br>
+
+<div class='option-panel'>
+	<button class='global-option' onclick="startAllTests();">Alle Module testen</button>
+</div>
+
+<table>
+	<tr>
+		<td>Modul</td>
+		<td>Test</td>
+		<td>Info</td>
+		<td>Optionen</td>
+		<td>Ergebnis</td>
+	</tr>
+{{# modules}}
+	<tr>
+		<td style='font-weight: bold;'>{{module-name}}</td>
+		<td></td>
+		<td>{{module-info}}</td>
+		<td><button id='button-start-{{test-id}}' type='button' onclick="startModuleTestWithName('{{module-name}}');">Modul testen</button></td>
+		<td></td>
+	</tr>
+	{{# module-tests}}
+		<tr id='testrow-{{test-id}}'>
+			<td></td>
+			<td>{{test-name}}</td>
+			<td>{{test-info}}</td>
+			<td><button id='button-start-{{test-id}}' type='button' onclick="startSingleTestWithURL('{{test-id}}', '{{test-url}}');">Test starten</button></td>
+			<td><div id='testresult-{{test-id}}'></div></td>
+		</tr>
+	{{/ module-tests}}
+{{/ modules}}
+</table>
+
+<script>
+
+function startSingleTestWithURL(testID, testURL) {
+	$('#button-start-'+testID).prop('disabled', true);
+	$.ajax(
+	{
+		type: 'GET',
+		url: testURL,
+		statusCode: {
+			404: function() {
+				$('#testresult-'+testID).text('404: Invalid URL');
+			},
+			200: function () {
+				$('#testresult-'+testID).text('Test gefunden!');
+				$('#button-start-'+testID).prop('disabled', false);
+			}
+		}
+	}
+	);
+}
+
+function startModuleTestWithName(moduleName) {
+	alert('Starte Modul "'+moduleName+'"');
+}
+
+function startAllTests() {
+	alert('Starte alle Tests');
+}
+
+</script>
