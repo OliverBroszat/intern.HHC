@@ -35,10 +35,15 @@ loadWordpressFunctions();
 // phpUnit is also loaded!
 // Everything is just fine :) Now test!
 
-class Test1 extends TestCase {
+class T_BaseDataController extends TestCase {
 
 	protected $information = "This is my first test case";
 
+}
+
+if ($_GET['command'] == 'run') {
+    $test = new T_BaseDataController();
+    echo $test->getResultsFromTest();
 }
 
 ?>

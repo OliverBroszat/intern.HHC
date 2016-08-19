@@ -59,8 +59,9 @@ class TestCase {
 		return json_encode($data);
 	}
 
-	protected final function getResultsFromTest() {
+	public function getResultsFromTest() {
 		// Bereite Array für Test vor
+		echo 'TEST ERGEBNIS!';
 	}
 
 	protected function runTest() {
