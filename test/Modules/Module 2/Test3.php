@@ -35,7 +35,7 @@ loadWordpressFunctions();
 // phpUnit is also loaded!
 // Everything is just fine :) Now test!
 
-class Test1 extends TestCase {
+class Test3 extends TestCase {
 
 	protected $information = "This is my third test case";
 
