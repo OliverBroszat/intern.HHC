@@ -385,7 +385,8 @@ if (!function_exists('autoload')) {
 	        'OOP/model/DataController/BaseDataController/',
             'OOP/model/DataController/ContactDataController/',
             'OOP/model/DataController/MemberDataController/',
-            'OOP/model/DataController/ApplicationDataController/'
+            'OOP/model/DataController/ApplicationDataController/',
+            'OOP/Test/'
 	    );
 
 	    //Jedes Verzeichnis soll überprüft werden
