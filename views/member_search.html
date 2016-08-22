@@ -35,7 +35,7 @@
 							<select class="ui fluid dropdown" name="sort" id="sort" onchange="ajax_post()">
 								<!-- <option value="">Sort</option> -->
 								{{# sort_categories}}
-									<option value='{{value}}'>{{name}}</option>
+								<option value='{{value}}'>{{name}}</option>
 								{{/ sort_categories}}
 							</select>
 						</div>
@@ -55,39 +55,33 @@
 				<h2>Filtern nach:</h2>
 
 				<!-- Filter categories was '$filter' before -->
-				{{# filter_categories}}
-					<table>
-						<tr>
-							<th colspan='{{cols}}'>{{title}}</th>
-						</tr>
-						<!-- filter_items was data before -->
-						{{# filter_items}}
-							<td style='widht: {{width}}%'>
-								<table>
-									{{# rows}}
-										<tr>
-											{{# data}}
-												<td width='1px'>
-													<div class='ui checkbox'>
-												    	<input 
-															type='checkbox' 
-															tabindex='0' 
-															name='f_{{name}}_list[]'
-															value='{{value}}' 
-															id='f_{{name}}_{{value}}'
-															class='hidden filtercheckbox_{{name}}'
-														/>
-														<label>{{display_name}}</label>
-												    </div>
-												</td>
-											{{/ data}}
-										</tr>
-									{{/ rows}}
-								</table>
-							</td>
-						{{/ filter_items}}
-					</table>
-				{{/ filter_categories}}
+				{{# filters}}
+				<table>
+					<tr>
+						<th colspan='{{num_of_columns}}'>{{title}}</th>
+					</tr>
+					<!-- filter_items was data before -->
+					{{# filter_rows}}
+					<tr>
+						{{# row_items}}
+						<td width='{{width}}%'>
+							<div class='ui checkbox'>
+						    	<input 
+									type='checkbox' 
+									tabindex='0' 
+									name='f_{{list_name}}_list[]'
+									value='{{item_value}}' 
+									id='f_{{list_name}}_{{item_value}}'
+									class='hidden filtercheckbox_{{name}}'
+								/>
+								<label>{{item_display_name}}</label>
+						    </div>
+						</td>
+						{{/ row_items}}
+					</tr>
+					{{/ filter_rows}}
+				</table>
+				{{/ filters}}
 				<input type="hidden" disabled name="templateDirectory" id="templateDirectory" value="{{root_path}}">
 				<button type='button' class='fluid ui labeled icon button' onclick="ajax_post();"><i class="refresh icon"></i>Aktualisieren</button>
 			</div>
