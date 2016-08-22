@@ -35,10 +35,17 @@ loadWordpressFunctions();
 // phpUnit is also loaded!
 // Everything is just fine :) Now test!
 
-class Test2 extends TestCase {
+class T_DataController_ContactDataController extends TestCase {
 
 	protected $information = "This is my second test case";
 
+}
+
+if(str_replace('\\', '/', __FILE__) == $_SERVER['SCRIPT_FILENAME']) {
+    if ($_GET['command'] == 'run') {
+        $test = new T_DataController_ContactDataController();
+        echo $test->getResultsFromTest();
+    }
 }
 
 ?>
