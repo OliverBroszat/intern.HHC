@@ -28,7 +28,7 @@ function popup(content, name, title) {
             <div class='popup-blende' style="display: none;"></div>
             <div class='popup-wrapper' style="display: none;">
                 <div class='popup-content-outer panel'>
-                    <div class='popup-close'>&#215;</div>
+                    <div class='pupup-close-button-top popup-close'>&#215;</div>
                     <div class="popup-title ` + hide + `">` + title + `</div>
                     <div class='popup-content'>
                         ` + content + `
@@ -81,6 +81,10 @@ function popup_close() {
 
 $(document).on("click", ".popup-close, .popup-blende", function() {
     popup_close();
+});
+
+$(document).on("click", ".reload-form .popup-close, .reload-form .popup-blende", function() {
+    ajax_post();
 });
 
 

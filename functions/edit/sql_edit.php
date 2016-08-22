@@ -8,7 +8,7 @@ if(in_array($_SERVER['REMOTE_ADDR'], $localhost)){
 } 
 require_once("$root/wp-load.php");
 
-echo "<button type='button' onclick='popup_close(); ajax_post()' style='margin: 1rem auto; display: block;'>Schließen</button>";
+echo "<button type='button' class='popup-close' style='margin: 1rem auto; display: block;'>Schließen</button>";
 echo "<hr>";
 echo "<h2>DEBUG-Output</h2>";
 
