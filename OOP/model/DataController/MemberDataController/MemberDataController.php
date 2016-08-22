@@ -75,7 +75,7 @@ class MemberDataController {
 
     public function getSingleMemberProfileByContactID($ID) {
         $contactProfile = $this->contactDataController->getSingleContactProfileByID($ID);
-        $unpreparedMemberSqlQuery = "SELECT * FROM Member WHERE contact=%d;";
+        $unpreparedMemberSqlQuery = "SELECT Member.contact, Member.active, Member.position, Member.joined, Member.left, Ressort.name  FROM Member INNER JOIN Ressort ON Member.ressort = Ressort.id WHERE contact=%d;";
         $preparedMemberSqlQuery = $this->baseDataController->prepareSqlQuery(
             $unpreparedMemberSqlQuery,
             $ID

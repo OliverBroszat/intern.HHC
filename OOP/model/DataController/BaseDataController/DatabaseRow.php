@@ -122,6 +122,18 @@ class DatabaseRow
         return $dataArray;
     }
 
+    public function childsToArray() {
+        $dataArray = array();
+        $indices = $this->getColumnNames();
+        foreach ($indices as $index) {
+           $columnNames = $index->getColumnNames();
+           foreach ($index as $key => $value) {
+                $dataArray[$index][$columnName] = $this->getValueForKey($key);
+           }
+        }
+        return $dataArray;
+    }
+
     public function deleteSingleColumnWithName($name) {
         unset($this->sqlQueryResult->$name);
     }

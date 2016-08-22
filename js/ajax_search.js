@@ -7,12 +7,19 @@ function ajax_post() {
 	var url = form.attr( "action" );
 
 	$.post( url, form.serialize(), function( result ) {	
-		var data = $.parseJSON(result);
+		// var data = $.parseJSON(result);
 
-		console.log(data['debug']);
+		// console.log(data['debug']);
 
-		$( "#search-results-title" ).html( "Suchergebnisse (" + data['number'] + ")" );
-		$( "#list-container" ).html(data['html'] );
+		// $( "#search-results-title" ).html( "Suchergebnisse (" + data['number'] + ")" );
+		// $( "#list-container" ).html(data['html'] );
+		
+		// Insert HTML-Resutl
+		$( "#list-container" ).html(result);
+		// Semantic UI
+		$('.ui.checkbox').checkbox();
+		$('.ui.dropdown').dropdown();
+		// Remove Loading Animation
 		$( "#list-container .modal" ).remove();
 	});
 }

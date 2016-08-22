@@ -83,23 +83,23 @@ class SearchController {
 
 
 
-	private function whereFilter() {
-		echo "***************";
-		print_r($this->searchData->getFilter());
-		echo "***************";
-		if (!empty($this->searchData->getFilter())) {
-			$sql = '';
-			foreach ($this->searchData->getFilter() as $key => $array) {
-				foreach ($array as $value) {
-					$sql .= "{$key} = '{$value}' OR ";
-				}
-			}
-			return rtrim($sql, ' OR ');
-		}
-		else {
-			return 'true';
-		}
-	}
+	// private function whereFilter() {
+	// 	echo "***************";
+	// 	print_r($this->searchData->getFilter());
+	// 	echo "***************";
+	// 	if (!empty($this->searchData->getFilter())) {
+	// 		$sql = '';
+	// 		foreach ($this->searchData->getFilter() as $key => $array) {
+	// 			foreach ($array as $value) {
+	// 				$sql .= "{$key} = '{$value}' OR ";
+	// 			}
+	// 		}
+	// 		return rtrim($sql, ' OR ');
+	// 	}
+	// 	else {
+	// 		return 'true';
+	// 	}
+	// }
 
 	private function searchWordsQuery() {
 		$searchRange = array( 
