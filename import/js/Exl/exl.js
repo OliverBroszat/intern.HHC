@@ -309,7 +309,6 @@ function ExlClass() {
 		var listItem = document.getElementById(fullItemID);
 		// TODO: NOTE: element.removeChild() should actually not be used due to poor browser support
 		exlList.removeChild(listItem);
-
 	}
 
 
@@ -323,11 +322,19 @@ function ExlClass() {
 	 */
 	this.setupExlContainerWithData = function (exlContainer, data) {
 		var dataSourceName = exlContainer.getAttribute('source');
-		var containerData = data[dataSourceName];
+		console.log(dataSourceName);
+		try {
+			var containerData = data[dataSourceName];
+		}
+		catch (e) {
+			// Data source was not given, so render template without any content data
+			var containerData = { };
+		}
 		var exlFormattedData = getExlDataArrayForContainerWithData(exlContainer, containerData);
 		var exlWrapperTemplate = getWrapperTemplate('__exl-template');
 	    var fullResult = Mustache.render(exlWrapperTemplate, exlFormattedData);
 	    exlContainer.innerHTML = fullResult;
+	    Exl.addNewListItemForContainerWithID(exlContainer.getAttribute('id'));
 	}
 
 	/**
