@@ -19,7 +19,7 @@ Finish that later...
 
 class TestCase {
 
-	protected $information = "This is a generic information strig and should be updated!";
+	protected $information = "This is a generic information string and should be updated!";
 	
 	public function start() {
 		$command = $_GET['command'];
@@ -61,12 +61,16 @@ class TestCase {
 
 	public function getResultsFromTest() {
 		// Bereite Array für Test vor
-		echo 'TEST ERGEBNIS!';
+		echo 'This test is not implemented yet!';
 	}
 
 	protected function runTest() {
 		// TODO: Overwrite this method with your test code!
 	}
+
+	protected function debug($message) {
+        echo "<b>$message</b><br>";
+    }
 }
 
 ?>
