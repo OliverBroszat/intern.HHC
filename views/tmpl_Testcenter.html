@@ -19,7 +19,7 @@ tr:first-child {
 }
 
 td {
-	vertical-align: middle;
+	vertical-align: top;
 }
 
 .option-panel:after {
@@ -59,7 +59,7 @@ td {
 		<td></td>
 		<td>{{module-info}}</td>
 		<!-- TODO: Implement 'test all' function! -->
-		<td><button id='button-start-{{test-id}}' disabled="disabled" type='button' onclick="startModuleTestWithName('{{module-name}}');">Modul testen</button></td>
+		<td><button id='button-start-{{test-id}}' type='button' onclick="startModuleTestWithName('{{module-name}}');">Modul testen</button></td>
 		<td></td>
 	</tr>
 	{{# module-tests}}
@@ -87,7 +87,8 @@ function startSingleTestWithURL(testID, testURL) {
 				$('#testresult-'+testID).text('404: Invalid URL');
 			},
 			200: function (responseHTML) {
-				$('#testresult-'+testID).text(responseHTML);
+				console.log(responseHTML);
+				$('#testresult-'+testID).html(responseHTML);
 				$('#button-start-'+testID).prop('disabled', false);
 			}
 		}
