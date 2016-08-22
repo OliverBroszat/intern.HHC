@@ -411,6 +411,7 @@ if (!function_exists('autoload')) {
             'OOP/model/DataController/MemberDataController/',
             'OOP/model/SearchController/',
             'OOP/model/SearchController/Filter/',
+            'OOP/model/Translator/',
 
 	    );
 	    //Jedes Verzeichnis soll überprüft werden
