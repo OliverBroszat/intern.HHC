@@ -122,11 +122,13 @@ class SearchController {
 
 		$sql = '
 			SELECT Contact.id 
-			FROM Contact, Address, Phone, Study
+			FROM Contact, Address, Phone, Study, Member, Ressort
 			WHERE
 				Contact.id = Address.contact AND 
 				Contact.id = Phone.contact AND
 				Contact.id = Study.contact AND
+				Contact.id = Member.contact AND
+				Member.ressort = Ressort.id AND
 		';
 
 		if (!empty($this->searchData->getSearchWords()[0])) {
@@ -145,6 +147,8 @@ class SearchController {
 		else {
 			$sql .= 'true';
 		}
+
+		$sql .= " ORDER BY ".$this->searchData->getSort()." ".$this->searchData->getOrder();
 
 		return $sql;
 	}

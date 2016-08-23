@@ -69,35 +69,13 @@ foreach ($memberProfiles as $number => $memberProfile) {
 }
 
 // RENDER
-echo $mustache->render('memberProfileTemplate', $data);
+$html = $mustache->render('memberProfileTemplate', $data);
 
+$number = sizeof($memberProfiles);
 
-// $number = sizeof($memberProfiles);
+$return = array(
+	'number' => $number,
+	'html' => $html
+);
 
-// $return = array(
-// 	'number' => $number,
-// 	'html' => $html
-// );
-
-// print json_encode($return);
-
-// return $html;
-
-
-
-
-
-// $root = get_template_directory();
-// require_once("$root/functions/suchfunktion/prepareSQL.php");
-// require_once("$root/functions/suchfunktion/getData.php");
-// require_once("$root/functions/suchfunktion/postProcess.php");
-// require_once("$root/functions/suchfunktion/createHTML.php");
-
-// // SQL-Abfrage vorbereiten
-// $queries = prepareSQL($input, $search_select, $search_range);
-// // Datenbankabfrage
-// $data = getData($queries);
-// // Post-Processing
-// $final = postProcess($data);
-// // HTML-Tabelle
-// $html = createHTML($final);
+print json_encode($return);

@@ -22,7 +22,7 @@ get_header();
 	<h1>Mitgliederliste</h1>
 	
 <!-- Suchfeld + Suchbutton -->
-<form method="POST" id="form-suche" action="<?php echo get_template_directory_uri(); ?>/functions/suchfunktion/AcceptAjax.php">
+<form method="POST" id="form-suche" action="<?php echo get_template_directory_uri(); ?>/functions/search/sql_search.php">
 	<div id="search-box">
 		<div class="ui segment search-box-cell">
 			<div class="search-box-cell">
