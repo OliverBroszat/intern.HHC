@@ -35,10 +35,9 @@ table, table.form{
 }
 
 th{
-	background: #f6f7f9;
-	background: linear-gradient(to bottom,#fefefe 0,#f6f7f9 100%);
+	background: transparent;
+	/* background: linear-gradient(to bottom,#fefefe 0,#f6f7f9 100%); */
 	color: #4f4f4f;
-
 	border-bottom: 1px solid #cacaca;
 }
 
@@ -171,12 +170,8 @@ main.container {
 	padding: 0.15rem 0;
 	vertical-align: top;
 }
-.filter table, .filter button{
-	margin-top: 1rem;
-}
-
-.filter table table {
-    margin-top: 0;
+.filter > table, .filter button{
+	margin: 0.75rem 0;
 }
 
 .search-box-cell{

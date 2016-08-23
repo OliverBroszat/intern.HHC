@@ -56,7 +56,7 @@ function popup_close() {
 
     if (id == 1) {
         // last Popup
-        $(id_active).fadeOut(50, function() { 
+        $(id_active).fadeOut(0, function() { 
             // remove popup + blende 
             $(this).remove();
             // reset body
@@ -66,7 +66,7 @@ function popup_close() {
     } 
     else {
         // not last popup
-        $(id_active  + " .popup-wrapper").fadeOut(50, function() { 
+        $(id_active  + " .popup-wrapper").fadeOut(0, function() { 
             // remove popup
              $(id_active).remove();
         });

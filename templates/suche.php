@@ -107,7 +107,7 @@ foreach ($filters->getSearchFilter() as $filter) {
 			
 				<input type="hidden" disabled name="templateDirectory" id="templateDirectory" value="<?php echo get_template_directory_uri(); ?>">
 
-				<button type='button' class='fluid ui labeled icon button' onclick="ajax_post();">
+				<button type='button' class='fluid ui labeled icon basic button' onclick="ajax_post();">
 					<i class="refresh icon"></i>
 					Aktualisieren
 				</button>
@@ -118,17 +118,17 @@ foreach ($filters->getSearchFilter() as $filter) {
 	<main class="container">
 		<div class="ui segment actions">					
 
-			<button type='button' class='ui labeled icon button' id='new-entry' value='new' onclick="edit('');">
+			<button type='button' class='ui labeled icon basic button' id='new-entry' value='new' onclick="edit('');">
 				<i class="file outline icon"></i>
 				Neu
 			</button>
 
-			<button type='button' class='ui labeled icon button' onclick='edit_multi()'>
+			<button type='button' class='ui labeled icon basic button' onclick='edit_multi()'>
 				<i class="edit icon"></i>
 				Edit selected
 			</button>
 
-			<button type='button' class='ui labeled icon button' onclick='select_all()'>
+			<button type='button' class='ui labeled icon basic button' onclick='select_all()'>
 				<i class="checkmark box icon"></i>
 				Select/Deselect all
 			</button>
