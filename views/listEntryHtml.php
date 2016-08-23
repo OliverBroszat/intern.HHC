@@ -120,42 +120,47 @@
 
 
 			<div id='tabs-{{number}}'>
-				<ul>
-					<li><a href='#tabs-{{number}}-1'>Studiengänge</a></li>
-					<li><a href='#tabs-{{number}}-2'>Fähigkeiten</a></li>
-					<li><a href='#tabs-{{number}}-3'>Notizen</a></li>
-				</ul>
-				<div id='tabs-{{number}}-1'>
+				<div class="ui top attached tabular menu">
+					<a class="item active" data-tab="tabs-{{number}}-1">Studiengänge</a>
+					<a class="item" data-tab="tabs-{{number}}-2">Fähigkeiten</a>
+					<a class="item" data-tab="tabs-{{number}}-3">Notizen</a>
+				</div>
+				<div class="ui bottom attached tab segment active" data-tab='tabs-{{number}}-1'>
 					{{# studies}}
 						<table style='margin-top: 1rem;'>
 							<tr>
-								<th colspan='2' style='text-align: center;'>{{course}}</th>
+								<th colspan='4' style='text-align: center;'>{{course}}</th>
 							</tr>
 							<tr>
-								<td width='30%'>Status: </td>
-								<td>
+								<td width='25%'>Status: </td>
+								<td colspan='3'>
 									<span class="study_status">{{status}}</span>
 								</td>
 							</tr>
+							<tr>
+								<td>Start: </td>
+								<td>{{start}}</td>
+								<td width='25%'>Ende: </td>
+								<td>{{end}}</td>
+							</tr>
 						 	<tr>
 					 			<td>(Hoch-)Schule: </td>
-					 			<td>{{school}}</td>
+					 			<td colspan='3'>{{school}}</td>
 					 		</tr>
 					 		<tr>
 					 			<td>Abschluss: </td>
-					 			<td>{{degree}}</td>
+					 			<td colspan='3'>{{degree}}</td>
 					 		</tr>
 						</table>
 					{{/ studies}}
 				</div>
-				<div id='tabs-{{number}}-2'>
+				<div class="ui bottom attached tab segment" data-tab='tabs-{{number}}-2'>
 					Fähigkeiten <i>(wird noch nicht unterstützt...)</i>
 				</div>
-				<div id='tabs-{{number}}-3'>
+				<div class="ui bottom attached tab segment" data-tab='tabs-{{number}}-3'>
 					{{{contact.comment}}}
 				</div>
 			</div>
-			<script>$(function() {$("#tabs-{{number}}").tabs();});</script>
 		</div>
 	</td>
 </tr>

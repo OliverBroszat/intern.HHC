@@ -19,6 +19,7 @@ function ajax_post() {
 		// Semantic UI
 		$('.ui.checkbox').checkbox();
 		$('.ui.dropdown').dropdown();
+		$('.ui.menu .item').tab();
 		// Remove Loading Animation
 		$( "#list-container .modal" ).remove();
 	});
