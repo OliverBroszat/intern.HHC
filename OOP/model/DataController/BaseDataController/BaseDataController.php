@@ -164,12 +164,9 @@ class BaseDataController {
         $numberOfAffectedRows = $this->wpDatabaseConnection->update($table, $dataToUpdate, $sqlWhereStatement, $updateDataFormat, $whereFormat);
         $this->onWordpressErrorThrowException();
         if ($numberOfAffectedRows == false) {
-            $readableDataToUpdate = json_encode($dataToUpdate);
-            $readableSqlWhereStatement = json_encode($sqlWhereStatement);
-            $readableUpdateDataFormat = json_encode($updateDataFormat);
-            $readableWhereFormat = json_encode($whereFormat);
-            throw new InvalidArgumentException("No rows were updated in table '$table' with update data '$readableDataToUpdate', where statement '$readableWhereStatement', data format '$readableUpdateDataFormat' and where format '$readableWhereFormat'");
+            return 0;
         }
+        return $numberOfAffectedRows;
     }
 
     // UPDATE
@@ -236,10 +233,9 @@ class BaseDataController {
         $this->onWordpressErrorThrowException();
         // When there is a wp internal error (wrong parameter type etc), then $wpdb->last_error is not set i.e. not catched by onWordpressErrorThrowException(). However, in case of such an error, the delete function only returns false
         if ($numberOfAffectedRows == false) {
-            $readableSqlWhereStatement = json_encode($sqlWhereStatement);
-            $readableWhereFormat = json_encode($whereFormat);
-            throw new InvalidArgumentException("No row was deleted in table '$table' with where statement '$readableSqlWhereStatement' and where format '$readableWhereFormat'");
+            return 0;
         }
+        return $numberOfAffectedRows;
     }
 
     public function deleteSingleRowFromTable($row, $table) {

@@ -66,11 +66,63 @@ $newProfile = new ContactProfile(
 );
 
 var_dump($newProfile);
+echo '<br><br><br>';
 
 $newMember = new MemberProfile(
 	$dataObject['Member'][0],
 	$newProfile
 );
+
+// TODO: Validate data and remove empty/invalid inputs
+foreach ($newProfile->addressDatabaseRows as $id => $addrRow) {
+	echo 'ID: '.$id.'---';
+	if (empty($addrRow->getOptionalValueForKey('description')) ||
+		empty($addrRow->getOptionalValueForKey('street')) ||
+		empty($addrRow->getOptionalValueForKey('number')) ||
+		empty($addrRow->getOptionalValueForKey('postal')) ||
+		empty($addrRow->getOptionalValueForKey('city'))) {
+		echo '<br>ENTFERNE: ';
+		var_dump($addrRow);
+		echo '<br><br>';
+		unset($newProfile->addressDatabaseRows[$id]);
+	}
+}
+foreach ($newProfile->mailDatabaseRows as $id => $mailRow) {
+	echo 'ID: '.$id.'---';
+	if (empty($mailRow->getOptionalValueForKey('description')) ||
+		empty($mailRow->getOptionalValueForKey('address'))) {
+		echo '<br>ENTFERNE: ';
+		var_dump($mailRow);
+		echo '<br><br>';
+		unset($newProfile->mailDatabaseRows[$id]);
+	}
+}
+foreach ($newProfile->phoneDatabaseRows as $id => $phoneRow) {
+	echo 'ID: '.$id.'---';
+	if (empty($phoneRow->getOptionalValueForKey('description')) ||
+		empty($phoneRow->getOptionalValueForKey('number'))) {
+		echo '<br>ENTFERNE: ';
+		var_dump($phoneRow);
+		echo '<br><br>';
+		unset($newProfile->phoneDatabaseRows[$id]);
+	}
+}
+foreach ($newProfile->studyDatabaseRows as $id => $studyRow) {
+	echo 'ID: '.$id.'---';
+	if (empty($studyRow->getOptionalValueForKey('status')) ||
+		empty($studyRow->getOptionalValueForKey('school')) ||
+		empty($studyRow->getOptionalValueForKey('course')) ||
+		empty($studyRow->getOptionalValueForKey('degree')) ||
+		empty($studyRow->getOptionalValueForKey('start'))) {
+		echo '<br>ENTFERNE: ';
+		var_dump($studyRow);
+		echo '<br><br>';
+		unset($newProfile->studyDatabaseRows[$id]);
+	}
+}
+
+var_dump($newProfile);
+echo '<br><br><br>';
 
 // Get Image ID
 global $wpdb;

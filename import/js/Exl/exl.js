@@ -52,8 +52,6 @@ function ExlClass() {
 			'root_path': pathWithoutFile+'/',
 			'template_path': pathWithoutFile+'/'+'exlTemplates/'
 		};
-		console.log('ROOT PATH: '+exlConfig['root_path']);
-		console.log('TMPL PATH: '+exlConfig['template_path']);
 		return exlConfig;
 
 	}

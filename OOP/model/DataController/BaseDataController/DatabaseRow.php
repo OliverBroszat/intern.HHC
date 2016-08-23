@@ -84,6 +84,11 @@ class DatabaseRow
         $valueForKey = $this->sqlQueryResult->$key;
         return $valueForKey;
     }
+
+    // Will return the key or null
+    public function getOptionalValueForKey($key) {
+        return $this->sqlQueryResult->$key;
+    }
     
     // NOTE: Prüft nicht, ob der Wert 'key' existiert!
     public function setValueForKey($key, $value) {
@@ -100,7 +105,7 @@ class DatabaseRow
         $attributes = $this->getColumnNames();
         if (!in_array($key, $attributes)) {
             $errorMessage = "The key '$key' does not exist. Maybe use setValueForKey()?";
-            throw InvalidArgumentException($errorMessage);
+            throw new InvalidArgumentException($errorMessage);
         }
     }
 
