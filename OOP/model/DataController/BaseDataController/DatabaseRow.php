@@ -100,7 +100,7 @@ class DatabaseRow
         $attributes = $this->getColumnNames();
         if (!in_array($key, $attributes)) {
             $errorMessage = "The key '$key' does not exist. Maybe use setValueForKey()?";
-            throw InvalidArgumentException($errorMessage);
+            throw new InvalidArgumentException($errorMessage);
         }
     }
 
