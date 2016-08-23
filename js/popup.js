@@ -110,9 +110,13 @@ function popup_close_dialog(message) {
 
 function image_popup(href, event) {   
     event.preventDefault();
-    popup("<img src='" + href + "'>", "image");
-    $(".popup.image .popup-content").toggleClass("modal");
-    setTimeout(function() {
+    var array = href.href.split('/');
+    var src = array[array.length - 1];
+    if (src != '#') {
+        popup("<img src='" + href + "'>", "image");
         $(".popup.image .popup-content").toggleClass("modal");
-    }, 300);
+        setTimeout(function() {
+            $(".popup.image .popup-content").toggleClass("modal");
+        }, 300);
+    }
 }

@@ -4,23 +4,38 @@
 			<table>	
 				{{# contact}}
 				<tr>
-					<td class='number' rowspan='4' style='vertical-align: top;' width='5%'>
+					<td class='number' rowspan='5' style='vertical-align: top;' width='5%'>
 						<div class="ui checkbox">
 					    	<input type="checkbox" name='member_list[]' value='{{id}}' class='member_list hidden'>
 					    	<label></label>
 					    </div>
-
-						<!-- <input type='checkbox' name='member_list[]' value='{{id}}' class='member_list'> -->
-						<br>----<br>
-						{{number}}
-						<br>----<br>
-						{{id}}
 					</td>
-					<td class='profile' rowspan='4' width='20%'>
-						IMG
+					<td class='profile' rowspan='5' width='25%'>
+						<a href='{{image.source}}' target='_blank' onclick='image_popup(this, event)'>
+							<img src="{{image.thumbnail}}" class='profile-picture' alt='Profilbild'>
+						</a>
 					</td>
-					<td class='contact_name' width='70%'><b>{{first_name}} {{last_name}}</b></td>
-					<td align='right' width='5%'><div class='status {{member.active}}'></div></td>
+					<td class='contact_name' width='65%'><b>{{first_name}} {{last_name}}</b></td>
+					<td align='right' width='5%'>
+						<div class='status {{member.active}}'></div>
+					</td>
+				</tr>
+				<tr>
+					<td class='contact-id'> ID: {{id}}</td>
+					<td align='right' rowspan='4' style="vertical-align: bottom;">
+						<!-- Buttons -->
+						<button type='button' class='fluid ui icon mini basic button labeled' value='{{contact.id}}' onclick='edit(this.value)'>
+							<i class='edit icon'></i>
+							EDIT
+						</button>
+						<button type='button' class='fluid ui icon mini basic button labeled' value='{{number}}' onclick='expand_content(this.value)'>
+							<i class='eye icon'></i>
+							DETAILS
+						</button>
+					</td>
+				</tr>
+				<tr>
+					<td class='birth-date'> Geb.: {{birth_date}}</td>
 				</tr>
 				{{/ contact}}
 				{{# member}}
@@ -31,20 +46,7 @@
 					<td class='ressort' >Ressort: {{name}}</td>
 				</tr>
 				{{/ member}}
-				<tr>
-					<td>
-						<button type='button' class='fluid ui icon mini basic button' value='{{number}}' onclick='expand_content(this.value)'>
-							<i class='eye icon'></i>
-							DETAILS
-						</button>
-					</td>
-					<td>
-						<button type='button' class='ui icon mini basic button labeled' value='{{contact.id}}' onclick='edit(this.value)'>
-							<i class='edit icon'></i>
-							Edit
-						</button>
-					</td>
-				</tr>
+				
 			</table>
 		</div>
 		<div id='slide_content_show_detail_{{number}}' class='detail-content' style='display: none; overflow: hidden; position: relative;'>

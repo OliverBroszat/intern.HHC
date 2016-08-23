@@ -71,7 +71,11 @@ a, a:link, a:visited, a:active, a:focus, a:hover {
 	font-size: inherit;
 	text-decoration: none;
 	color: inherit;
-} 
+}
+
+a[href="#"]:hover {
+	cursor:  default;
+}
 
 p a, p a:visited{
 	color: #667F99;
