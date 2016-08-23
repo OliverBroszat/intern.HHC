@@ -16,11 +16,11 @@ function ajax_post() {
 		
 		// Insert HTML-Resutl
 		$( "#list-container" ).html(result);
+		// Remove Loading Animation
+		$( "#list-container .modal" ).remove();
 		// Semantic UI
 		$('.ui.checkbox').checkbox();
 		$('.ui.dropdown').dropdown();
 		$('.ui.menu .item').tab();
-		// Remove Loading Animation
-		$( "#list-container .modal" ).remove();
 	});
 }

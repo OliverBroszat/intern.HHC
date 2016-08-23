@@ -185,6 +185,7 @@ foreach ($filters->getSearchFilter() as $filter) {
 <script>
 	function expand_content(value){
 		$('#slide_content_show_detail_'+value).slideToggle(300);
+		$('#slide-content-button-'+value+' i').toggleClass('down');
 	}
 </script>
 

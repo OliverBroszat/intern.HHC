@@ -28,8 +28,8 @@
 							<i class='edit icon'></i>
 							EDIT
 						</button>
-						<button type='button' class='fluid ui icon mini basic button labeled' value='{{number}}' onclick='expand_content(this.value)'>
-							<i class='eye icon'></i>
+						<button type='button' class='fluid ui icon mini basic button labeled' id='slide-content-button-{{number}}' value='{{number}}' onclick='expand_content(this.value)'>
+							<i class='chevron up down icon'></i>
 							DETAILS
 						</button>
 					</td>
@@ -158,7 +158,7 @@
 					Fähigkeiten <i>(wird noch nicht unterstützt...)</i>
 				</div>
 				<div class="ui bottom attached tab segment" data-tab='tabs-{{number}}-3'>
-					{{{contact.comment}}}
+					<pre>{{{contact.comment}}}</pre>
 				</div>
 			</div>
 		</div>
