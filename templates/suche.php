@@ -28,75 +28,6 @@ $sort_categories = array(
 );
 
 
-
-
-
-
-// // Filter-Data
-// $ressorts = res_to_array($wpdb->get_results("SELECT name FROM Ressort"));
-// $positions = res_to_array($wpdb->get_results("SELECT position FROM Member"));
-// $status = array('0', '1');
-// $schools = res_to_array($wpdb->get_results("SELECT school FROM Study"));
-
-// $filter = array(
-// 	array('name' => 'ressort', 'title' => 'Ressort', 'data' => $ressorts, 'cols' => 2),
-// 	array('name' => 'position', 'title' => 'HHC Position', 'data' => $positions, 'cols' => 2),
-// 	array('name' => 'status', 'title' => 'HHC Status', 'data' => $status, 'cols' => 2),
-// 	array('name' => 'uni', 'title' => 'Universität', 'data' => $schools, 'cols' => 1)
-// );
-
-
-// foreach ($filter as $category) {
-// 	$cols = $category['cols'];
-// 	$data = $category['data'];
-// 	$name = $category['name'];
-
-// 	echo("
-// 		<table>
-// 			<tr>
-// 				<th colspan='$cols'>
-// 					".$category['title']."
-// 				</th>
-// 			</tr>
-			
-				
-// 	");
-
-// 	for ($i=0; $i < $cols; $i++) { 		
-// 		$count = count($data)/$cols;
-// 		// Problem: doppelte Einträge, wenn $count einen Rest hat
-
-// 		$width = 100/$cols;
-// 		echo "<td style='width:".$width."%'><table>";
-		
-// 		for ($j=0; $j < $count; $j++) { 					
-// 			$value = $data[$j + $i * $count];
-// 			if($value != '') {
-// 				echo "
-// 					<tr>
-// 						<td width='1px'>
-// 							<div class='ui checkbox'>
-// 						    	<input 
-// 									type='checkbox' 
-// 									tabindex='0' 
-// 									name='f_".$name."_list[]'
-// 									value='$value' 
-// 									id='f_".$name."_".$value."'
-// 									class='hidden filtercheckbox_".$name."'
-// 								>
-// 						      <label>".uppercase(bool_to_lbl($value))."</label>
-// 						    </div>
-// 						</td>
-
-// 					</tr>
-// 				";				
-// 			}
-// 		}
-// 		echo "</td></table>";
-// 	}
-// 	echo "</tr></table>";
-// }
-
 // Filter-Data
 global $wpdb;
 $filter_values = array(
@@ -125,8 +56,6 @@ for ($filterNumber=0; $filterNumber < sizeof($filterTitles); $filterNumber++) {
 	$sizeOfRows = $numberOfColumns[$filterNumber];
 	$numberOfFiltersInCurrentRow = 0;
 	$currentFilterValues = $filter_values[$filterNumber];
-	var_dump($currentFilterValues);
-	echo '<br>';
 	$currentRow = array('row_items' => array());
 	foreach ($currentFilterValues as $value) {
 		$currentItem = array(
