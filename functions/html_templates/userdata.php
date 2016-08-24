@@ -101,7 +101,7 @@ function getContactEditTemplate($data) {
 					Mail Adresse
 				</td>
 				<td colspan='2'>
-					<exl-container id='mail-list' template='mails' source='mail'></exl-container>
+					<exl-container id='mail-list' template='mails' source='mail' min-templates='1'></exl-container>
 				</td>
 			</tr>
 			<style>
@@ -118,7 +118,7 @@ function getContactEditTemplate($data) {
 					Telefonnummer
 				</td>
 				<td colspan='2'>
-					<exl-container id='phone-list' template='phones' source='phone'></exl-container>
+					<exl-container id='phone-list' template='phones' source='phone' min-templates='1'></exl-container>
 				</td>
 			</tr>
 		</table>
@@ -134,7 +134,7 @@ function getContactEditTemplate($data) {
 function getAddressEditTemplate($data) {
 	$resl = "<h2>Adressen</h2>
 
-	<exl-container id='address-list' template='addresses' source='address'></exl-container>
+	<exl-container id='address-list' template='addresses' source='address' min-templates='1'></exl-container>
 	</script>
 	<script>
 		Exl.setupExlContainerWithID('address-list', ".json_encode($data['detail']).");
@@ -149,7 +149,7 @@ function getStudyEditTemplate($data) {
 
 		<h2>Studienprofile</h2>
 
-		<exl-container id='study-list' template='studies' source='study'></exl-container>
+		<exl-container id='study-list' template='studies' source='study' min-templates='1'></exl-container>
 
 		<script>
 			Exl.setupExlContainerWithID('study-list', ".json_encode($data['detail']).");
