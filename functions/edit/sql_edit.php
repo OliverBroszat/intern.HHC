@@ -73,50 +73,86 @@ $newMember = new MemberProfile(
 	$newProfile
 );
 
+$requiredFieldsForContact = array('prefix', 'first_name', 'last_name', 'birth_date');
+$requiredFieldsForAddress = array('description', 'street', 'number', 'postal', 'city');
+$requiredFieldsForMail = array('description', 'address');
+$requiredFieldsForPhone = array('description', 'number');
+$requiredFieldsForStudy = array('status', 'school', 'course', 'degree', 'start');
+$requiredFieldsForMember = array('ressort', 'active', 'position', 'joined');
+
+function allFieldsSetInRow($fields, $row) {
+	foreach ($fields as $field) {
+		if (empty($row->getOptionalValueForKey($field))) {
+			return false;
+		}
+	}
+	return true;
+}
+
+function atLeastOneFieldSetInRow($fields, $row) {
+	foreach ($fields as $field) {
+		if (!empty($row->getOptionalValueForKey($field))) {
+			return true;
+		}
+	}
+	return false;
+}
+
+function allFieldsEmptyInRow($fields, $row) {
+	return !atLeastOneFieldSetInRow($fields, $row);
+}
+
 // TODO: Validate data and remove empty/invalid inputs
+$contactRow = $newProfile->contactDatabaseRow;
+if (!allFieldsSetInRow($requiredFieldsForContact, $contactRow)) {
+	die('Invalid Contact Data!');
+}
+$memberRow = $newMember->memberDatabaseRow;
+if (!allFieldsSetInRow($requiredFieldsForMember, $memberRow)) {
+	die('Invalid Member Data!');
+}
+
 foreach ($newProfile->addressDatabaseRows as $id => $addrRow) {
-	echo 'ID: '.$id.'---';
-	if (empty($addrRow->getOptionalValueForKey('description')) ||
-		empty($addrRow->getOptionalValueForKey('street')) ||
-		empty($addrRow->getOptionalValueForKey('number')) ||
-		empty($addrRow->getOptionalValueForKey('postal')) ||
-		empty($addrRow->getOptionalValueForKey('city'))) {
+	if ( (!allFieldsSetInRow($requiredFieldsForAddress, $addrRow)) && (atLeastOneFieldSetInRow($requiredFieldsForAddress, $addrRow)) ) {
+		die('Invalid Address Data!');
+	}
+	if (allFieldsEmptyInRow($requiredFieldsForAddress, $addrRow)) {
 		echo '<br>ENTFERNE: ';
 		var_dump($addrRow);
-		echo '<br><br>';
+		echo '<br>';
 		unset($newProfile->addressDatabaseRows[$id]);
 	}
 }
-foreach ($newProfile->mailDatabaseRows as $id => $mailRow) {
-	echo 'ID: '.$id.'---';
-	if (empty($mailRow->getOptionalValueForKey('description')) ||
-		empty($mailRow->getOptionalValueForKey('address'))) {
+foreach ($newProfile->mailDatabaseRows as $id => $row) {
+	if ( (!allFieldsSetInRow($requiredFieldsForMail, $row)) && (atLeastOneFieldSetInRow($requiredFieldsForMail, $row)) ) {
+		die('Invalid Mail Data!');
+	}
+	if (allFieldsEmptyInRow($requiredFieldsForMail, $row)) {
 		echo '<br>ENTFERNE: ';
-		var_dump($mailRow);
-		echo '<br><br>';
+		var_dump($row);
+		echo '<br>';
 		unset($newProfile->mailDatabaseRows[$id]);
 	}
 }
-foreach ($newProfile->phoneDatabaseRows as $id => $phoneRow) {
-	echo 'ID: '.$id.'---';
-	if (empty($phoneRow->getOptionalValueForKey('description')) ||
-		empty($phoneRow->getOptionalValueForKey('number'))) {
+foreach ($newProfile->phoneDatabaseRows as $id => $row) {
+	if ( (!allFieldsSetInRow($requiredFieldsForPhone, $row)) && (atLeastOneFieldSetInRow($requiredFieldsForPhone, $row)) ) {
+		die('Invalid Phone Data!');
+	}
+	if (allFieldsEmptyInRow($requiredFieldsForPhone, $row)) {
 		echo '<br>ENTFERNE: ';
-		var_dump($phoneRow);
-		echo '<br><br>';
+		var_dump($row);
+		echo '<br>';
 		unset($newProfile->phoneDatabaseRows[$id]);
 	}
 }
-foreach ($newProfile->studyDatabaseRows as $id => $studyRow) {
-	echo 'ID: '.$id.'---';
-	if (empty($studyRow->getOptionalValueForKey('status')) ||
-		empty($studyRow->getOptionalValueForKey('school')) ||
-		empty($studyRow->getOptionalValueForKey('course')) ||
-		empty($studyRow->getOptionalValueForKey('degree')) ||
-		empty($studyRow->getOptionalValueForKey('start'))) {
+foreach ($newProfile->studyDatabaseRows as $id => $row) {
+	if ( (!allFieldsSetInRow($requiredFieldsForStudy, $row)) && (atLeastOneFieldSetInRow($requiredFieldsForStudy, $row)) ) {
+		die('Invalid Study Data!');
+	}
+	if (allFieldsEmptyInRow($requiredFieldsForStudy, $row)) {
 		echo '<br>ENTFERNE: ';
-		var_dump($studyRow);
-		echo '<br><br>';
+		var_dump($row);
+		echo '<br>';
 		unset($newProfile->studyDatabaseRows[$id]);
 	}
 }
