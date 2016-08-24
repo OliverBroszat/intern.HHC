@@ -300,9 +300,17 @@ function ExlClass() {
 	 * @param listItemID The exl-listitem's ID
 	 */
 	this.deleteListItemForContainerWithID = function(exlContainerID, listItemID) {
-		console.log('exlContainerID: '+exlContainerID);
-		console.log('listItemID: '+listItemID);
+		var exlContainer = document.getElementById(exlContainerID);
 		var exlList = document.getElementById('exl-list-'+exlContainerID);
+		var numberOfListItems = exlList.children.length;
+		var minNumberOfItems = exlContainer.getAttribute('min-templates');
+		if (minNumberOfItems == null) {
+			minNumberOfItems = 0;
+		}
+		if (numberOfListItems-1 < minNumberOfItems) {
+			// TODO: Error popup on List Item
+			return;
+		}
 		var fullItemID = 'exl-listitem-'+exlContainerID+'-'+listItemID;
 		var listItem = document.getElementById(fullItemID);
 		// TODO: NOTE: element.removeChild() should actually not be used due to poor browser support
@@ -319,8 +327,8 @@ function ExlClass() {
 	 * @param data Datastructure as json
 	 */
 	this.setupExlContainerWithData = function (exlContainer, data) {
+		console.log('Let the debugging begin!');
 		var dataSourceName = exlContainer.getAttribute('source');
-		console.log(dataSourceName);
 		try {
 			var containerData = data[dataSourceName];
 		}
@@ -328,11 +336,24 @@ function ExlClass() {
 			// Data source was not given, so render template without any content data
 			var containerData = { };
 		}
+		try {
+			var exlMinTemplates = exlContainer.getAttribute('min-templates');
+		}
+		catch (e) {
+			var exlMinTemplates = 0;
+		}
+		console.log(containerData);
 		var exlFormattedData = getExlDataArrayForContainerWithData(exlContainer, containerData);
 		var exlWrapperTemplate = getWrapperTemplate('__exl-template');
 	    var fullResult = Mustache.render(exlWrapperTemplate, exlFormattedData);
 	    exlContainer.innerHTML = fullResult;
-	    Exl.addNewListItemForContainerWithID(exlContainer.getAttribute('id'));
+	    // Add default empty templates
+	    var containerID = exlContainer.getAttribute('id');
+	    var numberOfListItems = document.getElementById('exl-list-'+containerID).children.length;
+	    while (numberOfListItems < exlMinTemplates) {
+	    	Exl.addNewListItemForContainerWithID(containerID);
+	    	numberOfListItems++;
+	    }
 	}
 
 	/**
