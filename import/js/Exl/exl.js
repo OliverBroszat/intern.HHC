@@ -342,16 +342,17 @@ function ExlClass() {
 		catch (e) {
 			var exlMinTemplates = 0;
 		}
+	    var exlContainerID = exlContainer.getAttribute('id');
+		console.log("Daten für "+exlContainerID+":");
 		console.log(containerData);
 		var exlFormattedData = getExlDataArrayForContainerWithData(exlContainer, containerData);
 		var exlWrapperTemplate = getWrapperTemplate('__exl-template');
 	    var fullResult = Mustache.render(exlWrapperTemplate, exlFormattedData);
 	    exlContainer.innerHTML = fullResult;
 	    // Add default empty templates
-	    var containerID = exlContainer.getAttribute('id');
-	    var numberOfListItems = document.getElementById('exl-list-'+containerID).children.length;
+	    var numberOfListItems = document.getElementById('exl-list-'+exlContainerID).children.length;
 	    while (numberOfListItems < exlMinTemplates) {
-	    	Exl.addNewListItemForContainerWithID(containerID);
+	    	Exl.addNewListItemForContainerWithID(exlContainerID);
 	    	numberOfListItems++;
 	    }
 	}

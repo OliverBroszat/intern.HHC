@@ -69,7 +69,7 @@ $studyDataFormatted = array(
 		)
 	)
 );
-$testData2 = array('detail' => $testData);
+$testData2 = array('detail' => $studyDataFormatted);
 
 // echo "<br><br>*************************<br>";
 // arr_to_list($data);

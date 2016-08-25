@@ -80,9 +80,13 @@ $requiredFieldsForPhone = array('description', 'number');
 $requiredFieldsForStudy = array('status', 'school', 'course', 'degree', 'start');
 $requiredFieldsForMember = array('ressort', 'active', 'position', 'joined');
 
+function isNullOrEmptyString($data) {
+	return is_null($data) || ($data == '');
+}
+
 function allFieldsSetInRow($fields, $row) {
 	foreach ($fields as $field) {
-		if (empty($row->getOptionalValueForKey($field))) {
+		if (isNullOrEmptyString($row->getOptionalValueForKey($field))) {
 			return false;
 		}
 	}
@@ -91,7 +95,7 @@ function allFieldsSetInRow($fields, $row) {
 
 function atLeastOneFieldSetInRow($fields, $row) {
 	foreach ($fields as $field) {
-		if (!empty($row->getOptionalValueForKey($field))) {
+		if (!isNullOrEmptyString($row->getOptionalValueForKey($field))) {
 			return true;
 		}
 	}
@@ -108,6 +112,7 @@ if (!allFieldsSetInRow($requiredFieldsForContact, $contactRow)) {
 	die('Invalid Contact Data!');
 }
 $memberRow = $newMember->memberDatabaseRow;
+var_dump(empty("0"));
 if (!allFieldsSetInRow($requiredFieldsForMember, $memberRow)) {
 	die('Invalid Member Data!');
 }
