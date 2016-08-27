@@ -20,7 +20,7 @@ function ajax_search_suggestions(input) {
 		
 
 		$.ajax({
-			url: templateDirectory+'/functions/suchfunktion/search_suggestions.php',
+			url: templateDirectory+'/functions/search/search_suggestions.php',
 			data: data,
 			processData: false,
 			contentType: false,

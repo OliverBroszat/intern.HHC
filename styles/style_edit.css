@@ -67,7 +67,7 @@ body.popup-on{
 }
 
 /* Popup Close */
-.popup-close {
+.pupup-close-button-top {
 	position: absolute;
 	top: 1rem;
 	right: 1rem;
@@ -75,7 +75,7 @@ body.popup-on{
     cursor: pointer;
     transition: all 0.15s ease;
 }
-.popup-close:hover {
+.pupup-close-button-top:hover {
 	 color: #8F3D3D;
 }
 

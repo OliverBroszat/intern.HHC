@@ -25,7 +25,7 @@ $query = "
 		FROM (
 			SELECT * 
 			FROM (
-				SELECT first_name, last_name, id, skype_name FROM Contact 
+				SELECT first_name, last_name, id FROM Contact 
 				UNION 
 				SELECT last_name, first_name, last_name FROM Contact
 				UNION 
@@ -72,7 +72,7 @@ foreach ($result as $index) {
 $suggest = array_unique($suggest);
 
 // ---------- Suchwort in Suchvorschlag markieren und ausgeben ---------- 
-
+$html = '';
 foreach ($suggest as $value) {
 
 	$pos = stripos($value, $search_text[0]);
@@ -81,9 +81,11 @@ foreach ($suggest as $value) {
 	$value_marked = substr_replace($value, '</b>', $pos_end, 0);
 	$value_marked = substr_replace($value_marked, '<b>', $pos, 0);
 
-	echo "<div class='suggestion' id='$value' onclick='add_to_search_box(this.id)'>$value_marked</div>";
+	$html .= "<div class='suggestion' id='$value' onclick='add_to_search_box(this.id)'>$value_marked</div>";
+
 
 }
+print $html;
 
 
 ?>

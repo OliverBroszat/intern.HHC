@@ -153,6 +153,7 @@ function edit_multi_save(){
 				type: 'POST',
 				success: function(data){
 					console.log($.parseJSON(data));	
+					$('.edit-multi').addClass('reload-form');
 					// setTimeout(function(){
 					// 	$('.edit-multi .popup-content').html(`
 					// 		<h2>Die Änderung war erfolgreich!</h2>

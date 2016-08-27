@@ -28,7 +28,7 @@ function popup(content, name, title) {
             <div class='popup-blende' style="display: none;"></div>
             <div class='popup-wrapper' style="display: none;">
                 <div class='popup-content-outer panel'>
-                    <div class='popup-close'>&#215;</div>
+                    <div class='pupup-close-button-top popup-close'>&#215;</div>
                     <div class="popup-title ` + hide + `">` + title + `</div>
                     <div class='popup-content'>
                         ` + content + `
@@ -56,7 +56,7 @@ function popup_close() {
 
     if (id == 1) {
         // last Popup
-        $(id_active).fadeOut(50, function() { 
+        $(id_active).fadeOut(0, function() { 
             // remove popup + blende 
             $(this).remove();
             // reset body
@@ -66,7 +66,7 @@ function popup_close() {
     } 
     else {
         // not last popup
-        $(id_active  + " .popup-wrapper").fadeOut(50, function() { 
+        $(id_active  + " .popup-wrapper").fadeOut(0, function() { 
             // remove popup
              $(id_active).remove();
         });
@@ -81,6 +81,10 @@ function popup_close() {
 
 $(document).on("click", ".popup-close, .popup-blende", function() {
     popup_close();
+});
+
+$(document).on("click", ".reload-form .popup-close, .reload-form .popup-blende", function() {
+    ajax_post();
 });
 
 
@@ -106,9 +110,13 @@ function popup_close_dialog(message) {
 
 function image_popup(href, event) {   
     event.preventDefault();
-    popup("<img src='" + href + "'>", "image");
-    $(".popup.image .popup-content").toggleClass("modal");
-    setTimeout(function() {
+    var array = href.href.split('/');
+    var src = array[array.length - 1];
+    if (src != '#') {
+        popup("<img src='" + href + "'>", "image");
         $(".popup.image .popup-content").toggleClass("modal");
-    }, 300);
+        setTimeout(function() {
+            $(".popup.image .popup-content").toggleClass("modal");
+        }, 300);
+    }
 }

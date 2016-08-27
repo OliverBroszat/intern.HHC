@@ -91,6 +91,7 @@ $( document ).on('submit', '#edit-form', function(event) {
 				// Debug Output
 				$(".edit .popup-content").html(result);
 				$('.edit .popup-content').removeClass('modal');
+				$('.edit').addClass('reload-form');
 			}, 100);
         },
         error: function (xhr, desc, err)

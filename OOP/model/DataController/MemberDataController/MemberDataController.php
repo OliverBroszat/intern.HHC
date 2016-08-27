@@ -75,19 +75,22 @@ class MemberDataController {
 
     public function getSingleMemberProfileByContactID($ID) {
         $contactProfile = $this->contactDataController->getSingleContactProfileByID($ID);
-        $unpreparedMemberSqlQuery = "SELECT * FROM Member WHERE contact=%d;";
+        $unpreparedMemberSqlQuery = "SELECT Member.contact, Member.active, Member.position, Member.joined, Member.left, Ressort.name  FROM Member INNER JOIN Ressort ON Member.ressort = Ressort.id WHERE contact=%d;";
         $preparedMemberSqlQuery = $this->baseDataController->prepareSqlQuery(
             $unpreparedMemberSqlQuery,
             $ID
         );
-        $memberRow = $this->baseDataController->tryToSelectSingleRowByQuery($preparedMemberSqlQuery);
+        $memberRow = $this->baseDataController->selectSingleRowByQuery($preparedMemberSqlQuery);
         return new MemberProfile($memberRow, $contactProfile);
     }
 
     public function getMultipleMemberProfilesByContactID($IDs) {
+        $memberProfiles = array();
         foreach ($IDs as $ID) {
-            $this->getSingleMemberProfileByID($ID);
+            $currentMemberProfile = $this->getSingleMemberProfileByContactID($ID);
+            array_push($memberProfiles, $currentMemberProfile);
         }
+        return $memberProfiles;
     }
 
     public function getCurrentMemberProfile() {
