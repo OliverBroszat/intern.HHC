@@ -6,27 +6,46 @@
 		<td style='vertical-align: top;'>Status</td>
 		<td style='vertical-align: top;'>
 			<select name='Study-status[]'>
-				<option disabled {{no-status-selected}} value class='placeholder'>Status</option>
-				{{# status}}
-				<option value="{{name}}" {{selected}}>{{name}}</option>
-				{{/ status}}
+				<option disabled selected value class='placeholder'>Status</option>
+				<option id='status-option-{{exl-full-id}}-active' value="active">Aktuell</option>
+				<option id='status-option-{{exl-full-id}}-cancelled' value="cancelled">Abgebrochen</option>
+				<option id='status-option-{{exl-full-id}}-done' value="done">Abgeschlossen</option>
 			</select>
 		</td>
+		<script>
+			if ("{{status}}" != "") {
+				document.getElementById('status-option-{{exl-full-id}}-{{status}}').selected=true;
+			}
+		</script>
 	</tr>
 	<tr>
 		<td>Abschluss</td>
 		<td>
 			<select id='degree-{{exl-full-id}}' name='Study-degree[]' onChange='showDiv(this);'>
-				<option disabled {{no-degree-selected}} class='placeholder'>Abschluss</option>
-				{{# degrees}}
-				<option value="{{name}}" {{selected}}>{{name}}</option>
-				{{/ degrees}}
+				<option disabled selected class='placeholder'>Abschluss</option>
+				<option id='degree-option-{{exl-full-id}}-b_sc' value="b_sc">Bachelor of Science</option>
+				<option id='degree-option-{{exl-full-id}}-m_sc' value="m_sc">Master of Science</option>
+				<option id='degree-option-{{exl-full-id}}-b_a' value="b_a">Bachelor of Arts</option>
+				<option id='degree-option-{{exl-full-id}}-m_a' value="m_a">Master of Arts</option>
+				<option id='degree-option-{{exl-full-id}}-other' value="other">anderer Abschluss...</option>
 			</select>
-
 		</td>
 		<td>
-			<input id='hidden_div-degree-{{exl-full-id}}' type='text' name='Study-degree[]' placeholder='anderer Abschluss...' value='{{other-degree-text}}' disabled style='display:none;'/>
+			<input id='hidden_div-degree-{{exl-full-id}}' type='text' name='Study-degree[]' placeholder='anderer Abschluss...'
+			style='display:none;' disabled/>
 		</td>
+		<script>
+			if ($.inArray("{{degree}}", ['b_sc', 'm_sc', 'b_a', 'm_a']) != -1) {
+				document.getElementById('degree-option-{{exl-full-id}}-{{degree}}').selected=true;
+			}
+			else if ("{{degree}}" != "") {
+				var otherInput = $('#hidden_div-degree-{{exl-full-id}}');
+				otherInput.show();
+				otherInput.prop('disabled', false);
+				document.getElementById('degree-option-{{exl-full-id}}-other').selected=true;
+				document.getElementById('hidden_div-degree-{{exl-full-id}}').setAttribute('value', '{{degree}}');
+			}
+		</script>
 	</tr>
 	<tr>
 		<td>Fach</td>
@@ -41,17 +60,41 @@
 		<td width ='20%' style='vertical-align: top;'>Universität</td>
 		<td width='40%' style='vertical-align: top;'>
 			<select id='school-{{exl-full-id}}' name='Study-school[]' onChange='showDiv(this);'>
-				<option disabled {{no-school-selected}} class='placeholder'>Hochschule</option>
-				{{# schools}}
-				<option value="{{name}}" {{selected}}>{{name}}</option>
-				{{/ schools}}
-				<option value='other' {{other-school-selected}}>andere Universität...</option>
+				<option disabled selected class='placeholder'>Hochschule</option>
+				<option id='school-option-{{exl-full-id}}-1' value='Heinrich-Heine-Universität'>Heinrich-Heine-Universität</option>
+				<option id='school-option-{{exl-full-id}}-2' value='Universität Duisburg Essen'>Universität Duisburg Essen</option>
+				<option id='school-option-{{exl-full-id}}-3' value='Universität Köln'>Universität Köln</option>
+				<option id='school-option-{{exl-full-id}}-4' value='FOM'>FOM</option>
+				<option id='school-option-{{exl-full-id}}-other' value='other'>andere Universität...</option>
 			</select>
 		</td>
 		<td width='40%' style='vertical-align:top;'>
-			<input id='hidden_div-school-{{exl-full-id}}' type='text' name='Study-school[]' placeholder='andere Hochschule...' value='{{other-school-text}}' disabled style='display:none;'/>
+			<input id='hidden_div-school-{{exl-full-id}}' type='text' name='Study-school[]' placeholder='andere Hochschule...'
+			disabled style='display:none;'/>
 			<br>
 		</td>
+		<script>
+			console.log("School is {{school}}");
+			var translator = {
+				"Heinrich-Heine-Universität": 1,
+				"Universität Duisburg Essen": 2,
+				"Universität Köln": 3,
+				"FOM": 4
+			};
+			if ("{{school}}" != "") {
+				var schoolNumber = translator["{{school}}"];
+				if (schoolNumber != null) {
+					document.getElementById('school-option-{{exl-full-id}}-'+schoolNumber).selected=true;
+				}
+				else if ("{{school}}" != "") {
+					var otherInput = $('#hidden_div-school-{{exl-full-id}}');
+					otherInput.show();
+					otherInput.prop('disabled', false);
+					document.getElementById('school-option-{{exl-full-id}}-other').selected=true;
+					document.getElementById('hidden_div-school-{{exl-full-id}}').setAttribute('value', '{{school}}');
+				}
+			}
+		</script>
 	</tr>
 	<tr>
 		<td>Beginn / Ende</td>

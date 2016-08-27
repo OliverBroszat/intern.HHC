@@ -200,7 +200,7 @@ function ExlClass() {
 		newExlContent.classList.add('exl', 'content');
 
 		var renderedContentTemplate = Mustache.render(contentTemplate, {});
-		newExlContent.innerHTML = renderedContentTemplate;
+		$(newExlContent).html(renderedContentTemplate);
 		return newExlContent;
 
 	}
@@ -246,8 +246,8 @@ function ExlClass() {
 
 		var newExlContent = createEmptyExlContent(contentTemplate, exlContainerID, newItemID);
 		var newDeleteButton = createNewDeleteButton(exlContainerID, newItemID);
-		newListItem.appendChild(newExlContent);
-		newListItem.appendChild(newDeleteButton);
+		$(newListItem).append(newExlContent);
+		$(newListItem).append(newDeleteButton);
 
 		return newListItem;
 	}
@@ -285,7 +285,7 @@ function ExlClass() {
 		var newItemID = currentMaxID + 1;
 
 		var newListItem = createEmptyListItem(contentTemplate, exlContainerID, newItemID);
-		exlListNode.appendChild(newListItem);
+		$(exlListNode).append(newListItem);
 	    updateItemCounterForID(exlContainerID, +1);
 
 	}
@@ -327,7 +327,6 @@ function ExlClass() {
 	 * @param data Datastructure as json
 	 */
 	this.setupExlContainerWithData = function (exlContainer, data) {
-		console.log('Let the debugging begin!');
 		var dataSourceName = exlContainer.getAttribute('source');
 		try {
 			var containerData = data[dataSourceName];
@@ -343,12 +342,10 @@ function ExlClass() {
 			var exlMinTemplates = 0;
 		}
 	    var exlContainerID = exlContainer.getAttribute('id');
-		console.log("Daten für "+exlContainerID+":");
-		console.log(containerData);
 		var exlFormattedData = getExlDataArrayForContainerWithData(exlContainer, containerData);
 		var exlWrapperTemplate = getWrapperTemplate('__exl-template');
 	    var fullResult = Mustache.render(exlWrapperTemplate, exlFormattedData);
-	    exlContainer.innerHTML = fullResult;
+	    $(exlContainer).html(fullResult);
 	    // Add default empty templates
 	    var numberOfListItems = document.getElementById('exl-list-'+exlContainerID).children.length;
 	    while (numberOfListItems < exlMinTemplates) {
