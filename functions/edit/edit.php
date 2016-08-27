@@ -24,56 +24,6 @@ $id = $_POST['id'];
 $queries = prepareSQL($id);
 // Datenbankabfrage
 $data = getData($queries)[$id];
-// echo '***********IN EDIT.PHP************<br><br>';
-// var_dump(json_encode($data));
-// echo '<br><br>*********************************';
-
-
-// Study-Daten müssen überarbeitet werden, damit Sie Mustache-Konform sind
-
-$studyDataFormatted = array(
-	'study' => array(
-		array(
-			'id' => 299,
-			'contact' => 199,
-			'course' => 'Informatik',
-			'focus' => 'Algorithmen und Datenstrukturen',
-			'start' => '2012-10-01',
-			'end' => '0000-00-00',
-			'no-status-selected' => '',
-			'status' => array(
-				array('name' => 'active', 'selected' => ''),
-				array('name' => 'cancelled', 'selected' => ''),
-				array('name' => 'done', 'selected' => 'selected')
-			),
-			'no-degree-selected' => '',
-			'other-degree-selected' => '',
-			'other-degree-text' => '',
-			'degrees' => array(
-				array('name' => 'Bachelor of Science', 'selected' => ''),
-				array('name' => 'Master of Science', 'selected' => ''),
-				array('name' => 'Bachelor of Arts', 'selected' => 'selected'),
-				array('name' => 'Master of Arts', 'selected' => '')
-			),
-			'no-school-selected' => '',
-			'other-school-selected' => false,
-			'other-school-text' => '',
-			'schools' => array(
-				array('name' => 'Heinrich Heine Universität', 'selected' => 'selected'),
-				array('name' => 'FH Düsseldorf', 'selected' => ''),
-				array('name' => 'Universität Duisburg Essen', 'selected' => ''),
-				array('name' => 'Universität Köln', 'selected' => 'selected'),
-				array('name' => 'FOM', 'selected' => ''),
-				array('name' => 'Bergische Universität Wuppertal', 'selected' => '')
-			)
-		)
-	)
-);
-$testData2 = array('detail' => $studyDataFormatted);
-
-// echo "<br><br>*************************<br>";
-// arr_to_list($data);
-// echo "<br>*************************<br><br>";
 
 // Text für den Schließen-Dialog
 $dialog = "Wollen Sie das Fenster wirklich ohne zu speichern schließen? Ungespeicherte Änderungen gehen verloren.";
@@ -105,7 +55,7 @@ $html = "
 
 				".getContactEditTemplate($data)."<br>
 				".getAddressEditTemplate($data)."<br>
-				".getStudyEditTemplate($testData2)."<br>
+				".getStudyEditTemplate($data)."<br>
 				".getMemberEditTemplate($data)."<br>
 				
 				<h2>Kommentare</h2>

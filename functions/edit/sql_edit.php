@@ -27,7 +27,6 @@ function delete_member($id) {
 	$contact->deleteSingleContactByID($id);
 }
 
-
 // Lösche alle Einträge mit 'other'
 $post_clean = unset_value_in_2d_array($_POST, 'other');
 // Wandele POST in einen geordneteren Array um
@@ -43,7 +42,11 @@ $member = new MemberDataController(null, $contact);
 
 $dataObject = array();
 foreach ($data as $table_name => $tables) {
+	print_r("aktuelle Tabelle: $table_name<br>");
 	foreach ($tables as $index => $values) {
+		print_r("Aktueller Index: $index<br>");
+		var_dump($values);
+		echo '<br>';
 		$dataObject[$table_name][$index] = new DatabaseRow((object) $values);
 	}
 };
@@ -65,9 +68,6 @@ $newProfile = new ContactProfile(
 	$dataObject['Study']
 );
 
-var_dump($newProfile);
-echo '<br><br><br>';
-
 $newMember = new MemberProfile(
 	$dataObject['Member'][0],
 	$newProfile
@@ -87,6 +87,7 @@ function isNullOrEmptyString($data) {
 function allFieldsSetInRow($fields, $row) {
 	foreach ($fields as $field) {
 		if (isNullOrEmptyString($row->getOptionalValueForKey($field))) {
+			print_r("$field wurde nicht gefunden");
 			return false;
 		}
 	}
@@ -161,9 +162,6 @@ foreach ($newProfile->studyDatabaseRows as $id => $row) {
 		unset($newProfile->studyDatabaseRows[$id]);
 	}
 }
-
-var_dump($newProfile);
-echo '<br><br><br>';
 
 // Get Image ID
 global $wpdb;

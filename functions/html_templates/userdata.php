@@ -153,13 +153,10 @@ function getStudyEditTemplate($data) {
 
 		<script>
 			Exl.setupExlContainerWithID('study-list', ".json_encode($data['detail']).");
-
-			var data = " . toJSArrayString($data['studies']) . ";
-
-			select_option('study_status_study--', data, 'status');
-			select_option('degree-study--', data, 'degree');
-			select_option('school-study--', data, 'school');
-
+			// var data = " . toJSArrayString($data['studies']) . ";
+			// select_option('study_status_study--', data, 'status');
+			// select_option('degree-study--', data, 'degree');
+			// select_option('school-study--', data, 'school');
 		</script>";
 	return $resl;
 
