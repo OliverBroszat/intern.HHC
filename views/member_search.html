@@ -3,7 +3,7 @@
 	<h1>Mitgliederliste</h1>
 	
 	<!-- Suchfeld + Suchbutton -->
-	<form method="POST" id="form-suche" action="{{root_path}}/functions/suchfunktion/AcceptAjax.php">
+	<form method="POST" id="form-suche" action="{{root_path}}/functions/search/sql_search.php">
 
 		<!-- Suchbox -->
 		<div id="search-box">
@@ -12,7 +12,7 @@
 					<div class="fluid ui right action left icon input">
 						<i class="search icon"></i>
 					  	<input type="text" name="search_text" id='text-box' onkeyup="ajax_search_suggestions(this.value)" placeholder="Suchen" >
-					  	<button class="ui primary icon button"  style="padding-left: 2rem; padding-right: 2rem;" id='start-search'><i class="search icon"></i></button>
+					  	<button class="ui primary icon basic button"  style="padding-left: 2rem; padding-right: 2rem;" id='start-search'><i class="search icon"></i></button>
 					</div>
 					<div id="suggestions"></div>
 					<script>
@@ -83,7 +83,7 @@
 				</table>
 				{{/ filters}}
 				<input type="hidden" disabled name="templateDirectory" id="templateDirectory" value="{{root_path}}">
-				<button type='button' class='fluid ui labeled icon button' onclick="ajax_post();"><i class="refresh icon"></i>Aktualisieren</button>
+				<button type='button' class='fluid ui labeled icon basic button' onclick="ajax_post();"><i class="refresh icon"></i>Aktualisieren</button>
 			</div>
 
 		</div>
@@ -93,11 +93,11 @@
 	<main class="container">
 		<div class="ui segment actions">					
 
-			<button type='button' class='ui labeled icon button' id='new-entry' value='new' onclick="edit('');"><i class="file outline icon"></i>Neu</button>
+			<button type='button' class='ui labeled icon basic button' id='new-entry' value='new' onclick="edit('');"><i class="file outline icon"></i>Neu</button>
 
-			<button type='button' class='ui labeled icon button' onclick='edit_multi()'><i class="edit icon"></i>Edit selected</button>
+			<button type='button' class='ui labeled icon basic button' onclick='edit_multi()'><i class="edit icon"></i>Edit selected</button>
 
-			<button type='button' class='ui labeled icon button' onclick='select_all()'><i class="checkmark box icon"></i>Select/Deselect all</button>
+			<button type='button' class='ui labeled icon basic button' onclick='select_all()'><i class="checkmark box icon"></i>Select/Deselect all</button>
 
 		</div>
 
