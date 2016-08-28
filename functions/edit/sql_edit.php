@@ -225,7 +225,9 @@ if($crud['mode'] == 'edit' && !empty($crud['id'])) {
 	// UPDATE OLD => DELETE OLD and INSERT NEW with OLD ID
 	echo "UPDATE ";
 	$id = $crud['id'];
-
+	// New datasets have still no contact id
+	// So set this now!
+	$newProfile->updateDataWithContactId($crud['id']);
 	
 	$member->updateSingleMemberProfile($newMember);
 

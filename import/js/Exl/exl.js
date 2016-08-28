@@ -199,7 +199,12 @@ function ExlClass() {
 		newExlContent.id = 'exl-content-'+exlContainerID+'-'+newItemID;
 		newExlContent.classList.add('exl', 'content');
 
-		var renderedContentTemplate = Mustache.render(contentTemplate, {});
+		var dataset = {
+			'exl-content-id': newItemID,
+			'exl-content-full-id': exlContainerID+'-'+newItemID
+		};
+		console.log(dataset);
+		var renderedContentTemplate = Mustache.render(contentTemplate, dataset);
 		$(newExlContent).html(renderedContentTemplate);
 		return newExlContent;
 
@@ -284,6 +289,8 @@ function ExlClass() {
 		var currentMaxID = parseInt(document.getElementById('exl-item-counter-'+exlContainerID).value);
 		var newItemID = currentMaxID + 1;
 
+		console.log(exlContainerID);
+		console.log(newItemID);
 		var newListItem = createEmptyListItem(contentTemplate, exlContainerID, newItemID);
 		$(exlListNode).append(newListItem);
 	    updateItemCounterForID(exlContainerID, +1);
