@@ -391,7 +391,8 @@ function ExlClass() {
 	 */
 	this.setupExlContainerWithData = function (exlContainer, data) {
 		var dataSourceName = exlContainer.getAttribute('source');
-		var containerData = data[dataSourceName];
+		// var containerData = data[dataSourceName];
+		var containerData = data;
 		var exlFormattedData = getExlDataArrayForContainerWithData(exlContainer, containerData);
 		var exlWrapperTemplate = getWrapperTemplate('__exl-template');
 	    var fullResult = Mustache.render(exlWrapperTemplate, exlFormattedData);
@@ -407,6 +408,8 @@ function ExlClass() {
 	 * @param data Datastructure as json
 	 */
 	this.setupExlContainerWithID = function(exlContainerID, data) {
+		console.log('DATA: \n');
+		console.log(data);
 		var exlContainer = document.getElementById(exlContainerID);
 		this.setupExlContainerWithData(exlContainer, data);
 	}

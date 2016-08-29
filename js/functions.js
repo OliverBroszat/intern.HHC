@@ -53,7 +53,7 @@ $(document).ready(function() {
 });
 
 
-function select_option(id_base, data, key) {
+function select_option_exl(id_base, data, key) {
 	// for each Studienprofil
 	for (var i = 0; i < data.length; i++) {
 		
@@ -87,6 +87,40 @@ function select_option(id_base, data, key) {
 			hiddenDiv.prop( 'disabled', false );
 		}
 	}
+};
+
+function select_option(id_base, data, key) {
+		
+	var id = id_base;
+	var value = data;                   
+	var options = $('#' + id + ' option');
+	var inList = false;
+	
+	// for each option in the select-input
+	for (var j = 1; j < options.length; j++) {      
+		// check value
+		if (options[j].value == value ) {
+			// set value
+			$('#' + id).val(options[j].value);
+			inList = true;
+		}
+	}
+	
+	// value is not one of the options
+	if (value == '' || value == null) {
+		$('#' + id).val(null);
+	}
+	else if (!inList) {
+		// set value to 'other'
+		$('#' + id).val('other');
+		
+		// show hiddenDiv with value
+		var hiddenDiv = $('#hidden_div-'+ id)
+		hiddenDiv.val(value);
+		hiddenDiv.show();
+		hiddenDiv.prop( 'disabled', false );
+	}
+
 };
 
 

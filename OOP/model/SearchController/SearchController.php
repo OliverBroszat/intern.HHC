@@ -156,9 +156,6 @@ class SearchController {
 
 
 
-
-
-
 // // Filter
 // $input = array(
 // 		'search' => $_POST['search_text'],

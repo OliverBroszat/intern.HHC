@@ -1,0 +1,68 @@
+<div id="edit">
+	<form id="edit-form" method="POST" action="/functions/edit/sql_edit.php" enctype="multipart/form-data">
+		<div id="popup-content">
+		
+			{{# contact}}			
+				{{> editImage}}				
+				{{> editContactBox}}
+				<script>
+					select_option('contact-prefix', '{{prefix}}', 'prefix');
+				</script>
+			{{/ contact}}
+			
+			<h2>Mails</h2>
+
+			<input type="hidden" value="{{mails}}">
+			
+			<table>
+				{{# mails}}
+					<tr>
+						<td>{{description}}</td>
+						<td>{{address}}</td>
+					</tr>
+				{{/ mails}}
+			</table>
+			
+
+			<exl-container id='mail-list' template='mails' source='mails'></exl-container>
+			<script>
+				Exl.setupExlContainerWithID('mail-list', '{{{mails}}}');
+			</script>
+
+
+			{{# studies}}
+
+			{{/ studies}}
+
+
+			{{# member}}
+
+			{{/ member}}
+
+			
+			<h2>Kommentare</h2>
+			<div class="ui segment">
+				<textarea name="Contact-comment" rows="4">{{contact.comment}}</textarea>
+			</div>
+
+		</div>
+		<div id="popup-footer">
+
+			<button type="submit" id="edit-save" name="edit" value="{{contact.id}}" class="ui blue button icon labeled">
+				<i class="save icon"></i>
+				Speichern
+			</button>
+			<button type="submit" id="edit-delete" name="delete" value="{{contact.id}}" class="ui red button icon labeled">
+				<i class="delete icon"></i>
+				Löschen
+			</button>
+			<button type="button" onclick="popup_close('Wollen Sie das Fenster wirklich ohne zu speichern schließen? Ungespeicherte Änderungen gehen verloren.');" class="ui button icon labeled">
+				<i class="ban icon"></i>
+				Abbrechen
+			</button>
+			<button type="button" onclick="newMemberTestData()" class="ui button">
+				Test-Daten
+			</button>
+		</div>
+	</form>
+</div>

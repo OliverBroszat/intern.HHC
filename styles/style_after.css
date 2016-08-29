@@ -24,6 +24,20 @@ a:hover {
     margin: 0 0.5rem 0.5rem 0;
 }
 
+.ui.button.transparent {
+    box-shadow: none;
+    background: transparent !important;
+    border: none;
+    color: rgba(0,0,0,0.4) !important;
+}
+
+.ui.button.transparent:hover {
+    box-shadow: none;
+    background: transparent !important;
+    border: none;
+
+}
+
 ui.multiple.dropdown {
     padding: 0.5rem;
 }
@@ -88,3 +102,14 @@ div#popup-footer {
     padding: 0;
 }
 
+
+
+
+table.liste tr:nth-child(even) .ui.bottom.attached.tab.segment {
+    background-color: #f6f7f9;
+}
+
+
+table.liste tr:nth-child(even) .ui.tabular.menu .item.active {
+     background-color: #f6f7f9;
+}

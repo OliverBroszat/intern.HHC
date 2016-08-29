@@ -11,8 +11,8 @@ function ajax_post() {
 
 	// sent form data via AJAX to url (/functions/search/sql_search.php)
 	$.post( url, form.serialize(), function( result ) {	
-		var data = $.parseJSON(result);
 
+		var data = $.parseJSON(result);
 		// Insert HTML result
 		$( "#list-container" ).html(data['html'] );
 		// Insert number of search results in title

@@ -1,5 +1,5 @@
 <tr>
-	<td class='list-entry'>
+	<td class='list-entry' id='list-entry-{{number}}'>
 		<div id='fix_content_show_detail_{{number}}' class='fix-content'>
 			<table>	
 				{{# contact}}
@@ -127,9 +127,9 @@
 				</div>
 				<div class="ui bottom attached tab segment active" data-tab='tabs-{{number}}-1'>
 					{{# studies}}
-						<table style='margin-top: 1rem;'>
+						<table class='study' style='margin-top: 1rem;'>
 							<tr>
-								<th colspan='4' style='text-align: center;'>{{course}}</th>
+								<th colspan='4'>{{course}}</th>
 							</tr>
 							<tr>
 								<td width='25%'>Status: </td>
@@ -158,9 +158,12 @@
 					Fähigkeiten <i>(wird noch nicht unterstützt...)</i>
 				</div>
 				<div class="ui bottom attached tab segment" data-tab='tabs-{{number}}-3'>
-					<pre>{{{contact.comment}}}</pre>
+					{{{contact.comment}}}
 				</div>
 			</div>
+			<button type='button' class='fluid ui icon basic button transparent' value='{{number}}' onclick='expand_content(this.value)'>
+				<i class='chevron up icon'></i>
+			</button>
 		</div>
 	</td>
 </tr>

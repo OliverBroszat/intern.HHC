@@ -602,5 +602,6 @@ table.liste tr:nth-child(even) .ui-tabs-active{
 	}
 	#form-suche td, #form-sortieren td{
 		display: block;
+		width: 100%;
 	}
 }

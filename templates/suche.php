@@ -136,14 +136,9 @@ foreach ($filters->getSearchFilter() as $filter) {
 		</div><!-- /panel -->
 
 <!--  Suchergebnisse -->
-		<div class='ui segment'>
-			
-				<h2 id='search-results-title'>Suchergebnisse (0)</h2>
-				<div id='list-container'>
-					<!--<div class="modal"> Place at bottom of page </div>-->
-					<?php echo $html ?>
-				</div>
-			
+		<div class='ui segment' id='search-results'>			
+			<h2 id='search-results-title'>Suchergebnisse (0)</h2>
+			<div id='list-container'></div>			
 		</div><!-- /panel -->
 	</main>
 	
