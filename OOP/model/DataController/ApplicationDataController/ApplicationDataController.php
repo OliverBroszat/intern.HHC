@@ -87,6 +87,11 @@ class ApplicationDataController {
 		return $myProfile;
 	}
 }
+echo '<b>Erhaltene Daten:<br></b>';
+var_dump($_POST);
+echo '<br><br><b>Erhaltene Dateien:<br></b>';
+var_dump($_FILE);
+var_dump($_FILES);
 $ApplicationDataController = new ApplicationDataController();
 $myProfile = $ApplicationDataController->processPostToProfile($_POST);
 $ApplicationDataController->createApplicationFromForm($myProfile);

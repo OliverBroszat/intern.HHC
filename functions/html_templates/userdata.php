@@ -266,11 +266,12 @@ function getMemberEditTemplate($data) {
 function getFileEditTemplate($data) {
 	$resl = "<h2>Anlagen</h2>
 		<table class='form'>
-			<tr><td colspan='2'><div id='expandablecontent-files' class='expandablecontent-container small'></div></td></tr>
+			<tr><td colspan='2'>
+			<exl-container id='file-list' template='files' source='files' min-templates='1'></exl-container>
+			</td></tr>
 		</table>
 		<script>
-		var tmp_files = \"<input id='%%desc_FULL-ID%%' type='text'name='File-filedescription[]' placeholder='Bezeichnung' value='%%DATA-filedescription%%' style='width: 45%;'/><input id='file_%%FULL-ID%%' type='file' name='File-apply_file[]' style='width: 45%;'/>\";
-		setup_expandablecontent('expandablecontent-files', 'files', tmp_files, ".toJSArrayString($data['files']).", 1);
+		Exl.setupExlContainerWithID('file-list', ".json_encode($data['file']).");
 		</script>";
 	return $resl;
 }
