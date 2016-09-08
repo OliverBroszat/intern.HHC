@@ -1,6 +1,6 @@
 <?php
 
-class SucheModel{
+class SucheModel extends MustacheData{
 private $baseDataController;
 
 public $sort_categories;
@@ -54,6 +54,8 @@ public function fillFilterData(){
 }
 
 public function __construct(){
+	parent::__construct();
+	
 	$this->baseDataController = new BaseDataController();
 	
 	$this->root_path = get_template_directory_uri();

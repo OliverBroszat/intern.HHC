@@ -62,17 +62,36 @@ class UserSecurityPass {
         return $this->currentUserID;
     }
 
+    /**
+     * Ermittelt ob der User eine bestimmte Rolle hat.
+     * @param String $userRole
+     * @return boolean der Rolle zugeordnet oder nicht
+     */
     public function userHasRole($userRole) {
+        //TODO machs richtig gez. Oli
         
+    	return true;
     }
-}
-
-$securityPass = new UserSecurityPass();
-if ($securityPass->userIsLoggedIn()) {
-    echo 'Hallo, Mitglied!';
-}
-else {
-    echo 'Hallo, Fremder!';
+    
+    /**
+     * Ermittelt ob der User ein bestimmtes Recht hat.
+     * @param String $userRight
+     * @return boolean Recht vorhanden oder nicht
+     */
+    public function userHasRight($userRight) {
+    	//TODO machs richtig gez. Oli
+    	
+    	return false;
+    }
+    
+    /**
+     * Ermittelt ob der User Mitglied einer bestimmten Gruppe ist.
+     * @param unknown $userGroup
+     * @return boolean Mittglied der Gruppe oder nicht
+     */
+    public function userHasGroup($userGroup) {
+    	
+    }
 }
 
 ?>

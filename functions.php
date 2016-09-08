@@ -411,6 +411,7 @@ if (!function_exists('autoload')) {
             'OOP/Controller/DataController/MemberDataController/',
             'OOP/Controller/SearchController/',
             'OOP/Controller/SearchController/Filter/',
+	    	'OOP/Controller/UserSecurityPass/',
             'OOP/model/Translator/',
 	    	'OOP/model/MustacheModels/',
             'OOP/Controller/DataController/MemberDataController/',
