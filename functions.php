@@ -406,15 +406,15 @@ if (!function_exists('autoload')) {
 	        'functions/html_templates/',
 	        'functions/suchfunktion/',
 	        'functions/register/',
-	        'OOP/model/DataController/BaseDataController/',
-            'OOP/model/DataController/ContactDataController/',
-            'OOP/model/DataController/MemberDataController/',
-            'OOP/model/SearchController/',
-            'OOP/model/SearchController/Filter/',
+	        'OOP/Controller/DataController/BaseDataController/',
+            'OOP/Controller/DataController/ContactDataController/',
+            'OOP/Controller/DataController/MemberDataController/',
+            'OOP/Controller/SearchController/',
+            'OOP/Controller/SearchController/Filter/',
             'OOP/model/Translator/',
-
-            'OOP/model/DataController/MemberDataController/',
-            'OOP/model/DataController/ApplicationDataController/'
+	    	'OOP/model/MustacheModels/',
+            'OOP/Controller/DataController/MemberDataController/',
+            'OOP/Controller/DataController/ApplicationDataController/'
 	    );
 	    //Jedes Verzeichnis soll überprüft werden
 	    foreach($directorys as $directory)
