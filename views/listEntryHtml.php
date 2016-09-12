@@ -24,12 +24,12 @@
 					<td class='contact-id'> ID: {{id}}</td>
 					<td align='right' rowspan='4' style="vertical-align: bottom;">
 						<!-- Buttons -->
-						{{# userHasCanEdit }}
+						{{# userCanEditMemberProfiles }}
 						<button type='button' class='fluid ui icon mini basic button labeled' value='{{contact.id}}' onclick='edit(this.value)'>
 							<i class='edit icon'></i>
 							EDIT
 						</button>
-						{{/ userHasCanEdit }}
+						{{/ userCanEditMemberProfiles }}
 						
 						<button type='button' class='fluid ui icon mini basic button labeled' id='slide-content-button-{{number}}' value='{{number}}' onclick='expand_content(this.value)'>
 							<i class='chevron up down icon'></i>

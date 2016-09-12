@@ -6,7 +6,7 @@ class MustacheData{
 		$this->userSecurityPass = new UserSecurityPass();
 	}
 	
-	public function userHasCanEdit(){
-		return $this->userSecurityPass->userHasRight("edit");
+	public function userCanEditMemberProfiles(){
+		return $this->userSecurityPass->userHasRight("editMemberProfiles");
 	}
 }

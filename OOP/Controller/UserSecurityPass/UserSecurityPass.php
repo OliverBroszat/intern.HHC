@@ -32,6 +32,9 @@ require_once("$root/wp-load.php");
  */
 
 class UserSecurityPass {
+	private $baseDataController;
+	private $contactDataController;
+	private $memberDataController;
 
     private $currentWPUser;
 
@@ -50,10 +53,12 @@ class UserSecurityPass {
 
     private function setupPassForMember() {
         $this->currentWPUser = wp_get_current_user();
+        $this->createMemberDataController();
     }
 
     private function setupPassForVisitor() {
         $this->currentWPUser = NULL;
+        $this->createContactDataController();
     }
 
     // Getter / Setter
@@ -91,6 +96,16 @@ class UserSecurityPass {
      */
     public function userHasGroup($userGroup) {
     	
+    }
+    
+    private function createMemberDataController(){
+    	$this->createContactDataController();
+    	$memberDataController = new MemberDataController(null, $this->contactDataController);
+    }
+    
+    private function createContactDataController(){  	
+    	$this->baseDataController = new BaseDataController();
+    	$this->contactDataController = new ContactDataController(null, $this->baseDataController);
     }
 }
 
