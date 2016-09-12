@@ -94,7 +94,12 @@ class MemberDataController {
     }
 
     public function getCurrentMemberProfile() {
-        //
+    	$wordpressID = wp_get_current_user()->ID;
+    	$query = "SELECT id from contact where wordpressID = $wordpressID";
+        $contactDatabaseRow = $this->baseDataController->selectSingleRowByQuery($query);
+		$contactID = $contactDatabaseRow->getValueForKey("id");
+
+		return $this->getSingleMemberProfileByContactID($contactID);
     }
 
     public function getAllMemberProfiles() {

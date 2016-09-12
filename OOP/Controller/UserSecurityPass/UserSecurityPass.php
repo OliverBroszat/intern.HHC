@@ -54,6 +54,8 @@ class UserSecurityPass {
     private function setupPassForMember() {
         $this->currentWPUser = wp_get_current_user();
         $this->createMemberDataController();
+        
+       $profile = $this->memberDataController->getCurrentMemberProfile();
     }
 
     private function setupPassForVisitor() {
@@ -100,7 +102,7 @@ class UserSecurityPass {
     
     private function createMemberDataController(){
     	$this->createContactDataController();
-    	$memberDataController = new MemberDataController(null, $this->contactDataController);
+    	$this->memberDataController = new MemberDataController(null, $this->contactDataController);
     }
     
     private function createContactDataController(){  	
