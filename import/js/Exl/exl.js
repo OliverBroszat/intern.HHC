@@ -390,7 +390,7 @@ function ExlClass() {
 	 * @param data Datastructure as json
 	 */
 	this.setupExlContainerWithData = function (exlContainer, data) {
-		var dataSourceName = exlContainer.getAttribute('source');
+		// var dataSourceName = exlContainer.getAttribute('source');
 		// var containerData = data[dataSourceName];
 		var containerData = data;
 		var exlFormattedData = getExlDataArrayForContainerWithData(exlContainer, containerData);
@@ -408,8 +408,6 @@ function ExlClass() {
 	 * @param data Datastructure as json
 	 */
 	this.setupExlContainerWithID = function(exlContainerID, data) {
-		console.log('DATA: \n');
-		console.log(data);
 		var exlContainer = document.getElementById(exlContainerID);
 		this.setupExlContainerWithData(exlContainer, data);
 	}

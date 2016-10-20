@@ -4,7 +4,7 @@
 	<tr>
 		<td style='vertical-align: top;'>Status</td>
 		<td style='vertical-align: top;'>
-			<select name='Study-status[]'>
+			<select id='study-status' name='Study-status[]'>
 				<option disabled selected value class='placeholder'>Status</option>
 				<option value='active'>Aktiv</option>
 				<option value='done'>Abgeschlossen</option>
@@ -15,7 +15,7 @@
 	<tr>
 		<td>Abschluss</td>
 		<td>
-			<select id='degree-{{exl-full-id}}' name='Study-degree[]' onChange='showDiv(this);'>
+			<select id='study-degree degree-{{exl-full-id}}' name='Study-degree[]' onChange='showDiv(this);'>
 
 				<option value='b_sc'>Bachelor of Science</option>
 				<option value='m_sc'>Master of Science</option>
@@ -44,7 +44,7 @@
 	<tr>
 		<td width ='20%' style='vertical-align: top;'>Universität</td>
 		<td width='40%' style='vertical-align: top;'>
-			<select id='school-{{exl-full-id}}' name='Study-school[]' onChange='showDiv(this);'>
+			<select id='study-school school-{{exl-full-id}}' name='Study-school[]' onChange='showDiv(this);'>
 				<option disabled selected value class='placeholder'>Universität</option>
 				<option value='Heinrich-Heine-Universität' {{checked-HHU}}>Heinrich-Heine-Universität</option>
 				<option value='FH Düsseldorf' {{checked-FH}}>FH Düsseldorf</option>

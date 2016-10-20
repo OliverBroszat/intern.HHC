@@ -18,6 +18,12 @@ a:hover {
     color: inherit;
 }
 
+fieldset {
+    border: none;
+    margin: 0;
+    padding: 0;
+}
+
 .ui.button, .ui.icon.button, .ui.icon.buttons .button{
    padding-top: 0.65rem;
    padding-bottom: 0.65rem;

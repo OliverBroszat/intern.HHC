@@ -20,16 +20,32 @@ $memberController = new MemberDataController(null, new ContactDataController(nul
 // get MemberProfile
 $memberProfile = $memberController->getSingleMemberProfileByContactID($id);
 
-// create Translator
-$translator = new Translator();
-// Transform MemberProfile to data used with Musatche
-$encode = array('mails', 'phones', 'addresses', 'studies');
-$data = $translator->transformSingleMemberProfileToData($memberProfile, $encode);
+
+if (!empty($memberProfile->memberDatabaseRow)) {
+	// create Translator
+	$translator = new Translator();
+	// Transform MemberProfile to data used with Musatche
+	$encode = array('mails', 'phones', 'addresses', 'studies');
+	$data = $translator->transformSingleMemberProfileToData($memberProfile, $encode);
+
+	$translatedProfile = $translator->translateSingleMemberProfile($memberProfile);
+	$translatedData = $translator->transformSingleMemberProfileToData($translatedProfile, $encode);	
+}
+else {
+	// fix for new-button --- does not work :(
+	$translatedData = $MemberProfile;
+}
 
 // create mustache object
 $mustache = new Mustache_Engine(array(
     'loader' => new Mustache_Loader_FilesystemLoader(get_template_directory() . '/views/edit', array('extension' => '.html')),
 ));
+
+
+$data = array('data' => $data, 'translatedData' => $translatedData, 'dir' => get_template_directory_uri());
+
+
+// arr_to_list($data);
 
 // RENDER editMember Template with Mustache
 $html = $mustache->render('editMember', $data);

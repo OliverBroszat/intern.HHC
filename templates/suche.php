@@ -118,7 +118,7 @@ foreach ($filters->getSearchFilter() as $filter) {
 	<main class="container">
 		<div class="ui segment actions">					
 
-			<button type='button' class='ui labeled icon basic button' id='new-entry' value='new' onclick="edit('');">
+			<button type='button' class='ui labeled icon basic button' id='new-entry' value='new' onclick="edit('new');">
 				<i class="file outline icon"></i>
 				Neu
 			</button>

@@ -16,7 +16,8 @@ $memberProfiles = $searchController->search();
 
 // Prepare Data for Mustache
 $translator = new Translator();
-$data = $translator->transformMultipleMemberProfilesToData($memberProfiles);
+$translatedProfiles = $translator->translateMultipleMemberProfiles($memberProfiles);
+$data = $translator->transformMultipleMemberProfilesToData($translatedProfiles);
 
 // create mustache object
 $mustache = new Mustache_Engine(array(

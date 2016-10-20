@@ -107,7 +107,7 @@ class Translator {
 	public function translateContactDatabaseRow($contactDatabaseRow) {
 		$translation = $this->translations['contact'];
 		// Birth Dtae
-		// $contactDatabaseRow->setValueForKey('birth_date', $translation['birth_date']($contactDatabaseRow->getValueForKey('birth_date')));
+		$contactDatabaseRow->setValueForKey('birth_date', $translation['birth_date']($contactDatabaseRow->getValueForKey('birth_date')));
 		// Image
 		$contactDatabaseRow->setValueForKey('image', $translation['image']($contactDatabaseRow->getValueForKey('image'), $contactDatabaseRow->getValueForKey('prefix')));
 		// Comment
@@ -169,15 +169,23 @@ class Translator {
 
 
 
-	public function translateMemberProfile($memberProfile) {
+	public function translateSingleMemberProfile($memberProfile) {
 		$memberProfile->ContactProfile = $this->translateContactProfile($memberProfile->contactProfile);
 		$memberProfile->memberDatabaseRow = $this->translateMemberDatabaseRow($memberProfile->memberDatabaseRow);
 		return $memberProfile;
 	}
 
-	public function transformSingleMemberProfileToData($memberProfile, $encode=false) {
-		$this->translateMemberProfile($memberProfile);
+	public function translateMultipleMemberProfiles($memberProfiles) {
+		$translatedProfiles = array();
+		foreach ($memberProfiles as $memberProfile) {
+			array_push($translatedProfiles, $this->translateSingleMemberProfile($memberProfile));
+		}
 
+		// print_r($translatedProfiles);
+		return $translatedProfiles;
+	}
+
+	public function transformSingleMemberProfileToData($memberProfile, $encode=false) {
 		$addresses = array();
 		foreach ($memberProfile->contactProfile->addressDatabaseRows as $key => $value) {
 			array_push($addresses, $value->toArray());

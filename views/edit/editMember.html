@@ -1,49 +1,55 @@
 <div id="edit">
-	<form id="edit-form" method="POST" action="/functions/edit/sql_edit.php" enctype="multipart/form-data">
+	<form id="edit-form" method="POST" action="{{dir}}/functions/edit/sql_edit.php" enctype="multipart/form-data">
 		<div id="popup-content">
 		
+		{{# translatedData}}
+			{{# contact}}
+				{{> editImage}}	
+			{{/ contact}}			
+		{{/ translatedData}}
+
+		{{# data}}
+			
+
 			{{# contact}}			
-				{{> editImage}}				
 				{{> editContactBox}}
-				<script>
-					select_option('contact-prefix', '{{prefix}}', 'prefix');
-				</script>
 			{{/ contact}}
-			
-			<h2>Mails</h2>
+			<script> select_option('contact-prefix', '{{contact.prefix}}', 'prefix'); </script>
 
-			<input type="hidden" value="{{mails}}">
-			
-			<table>
-				{{# mails}}
-					<tr>
-						<td>{{description}}</td>
-						<td>{{address}}</td>
-					</tr>
-				{{/ mails}}
-			</table>
-			
+			<h2>Addressen</h2>
+			<div class="ui segment">
+				<exl-container id='address-list' template='addresses'></exl-container>
+			</div>
+	
 
-			<exl-container id='mail-list' template='mails' source='mails'></exl-container>
+			<h2>Studienprofile</h2>
+			<div class="ui segment">
+				<exl-container id='study-list' template='studies'></exl-container>
+			</div>
+			
 			<script>
-				Exl.setupExlContainerWithID('mail-list', '{{{mails}}}');
+				{{# studies}}
+					select_option('study-status', '{{status}}', 'status');
+					select_option('study-degree', '{{degree}}', 'degree');
+					select_option('study-school', '{{school}}', 'school');
+				{{/ studies}}
 			</script>
-
-
-			{{# studies}}
-
-			{{/ studies}}
-
-
-			{{# member}}
-
+			
+			{{# member}}						
+				{{> editMemberBox}}
 			{{/ member}}
+			<script>
+				select_option('member-active', '{{member.active}}', 'active');
+				select_option('member-ressort', '{{member.ressort}}', 'ressort');
+				select_option('member-position', '{{member.position}}', 'position');
+			</script>			
 
 			
 			<h2>Kommentare</h2>
 			<div class="ui segment">
 				<textarea name="Contact-comment" rows="4">{{contact.comment}}</textarea>
 			</div>
+
 
 		</div>
 		<div id="popup-footer">
@@ -66,3 +72,10 @@
 		</div>
 	</form>
 </div>
+
+<script>
+	Exl.setupExlContainerWithID('address-list', {{{addresses}}});
+	Exl.setupExlContainerWithID('study-list', {{{studies}}});
+</script>
+
+{{/ data }}
