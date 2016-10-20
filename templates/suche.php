@@ -132,12 +132,13 @@ foreach ($filters->getSearchFilter() as $filter) {
 				<i class="checkmark box icon"></i>
 				Select/Deselect all
 			</button>
-			<script src='<?php echo get_template_directory_uri(); ?>/js/ajax_download_csv.js'></script>
 			
-			<form action='<?php echo get_template_directory_uri(); ?>/functions/download_csv.php' style='display: inline-block;'>
-				<!-- <button type='button' onclick='download_csv()'>Download CSV</button> -->
-				<button type='submit'>Download CSV</button>
-			</form>
+			<script src='<?php echo get_template_directory_uri(); ?>/js/ajax_download_csv.js'></script>
+
+			<button type='button' class='ui labeled icon basic button' onclick="download_csv()">
+				<i class="download icon"></i>
+				Download CSV
+			</button>
 
 		</div><!-- /panel -->
 

@@ -30,6 +30,11 @@ fieldset {
     margin: 0 0.5rem 0.5rem 0;
 }
 
+button.ui.labeled.icon.basic.button {
+    padding-left: 3.2rem !important;
+    padding-right: 1rem !important;
+}
+
 .ui.button.transparent {
     box-shadow: none;
     background: transparent !important;
