@@ -8,33 +8,6 @@ if(in_array($_SERVER['REMOTE_ADDR'], $localhost)){
 } 
 require_once("$root/wp-load.php");
 
-
-date_default_timezone_set('Europe/Berlin');
-// output headers so that the file is downloaded rather than displayed
-header('Content-Type: text/csv; charset=utf-8');
-header('Content-Disposition: attachment; filename=mitgliederliste_'.date('Y-m-d_H-m-s').'.csv');
-header("Cache-Control: no-cache, no-store, must-revalidate");
-header("Pragma: no-cache"); 
-header("Expires: 0"); 
-
-// create a file pointer connected to the output stream
-// $output = fopen('php://output', 'w');
-
-//fetch the data
-// $list = array (
-// 	array("Vornam","Nachname","Stadt","Land"),
-// 	array("Peter","Griffin","Oslo","Norway"),
-// 	array("Glenn","Quagmire","Oslo","Norway"),
-// );
-
-
-
-// loop over the rows, outputting them
-// foreach ($list as $line){
-//   	fputcsv($output, $line, ";");
-// }
-
-
 // create searchController with $_POST-Data
 $searchController = new searchController($_POST);
 // Get MemberProfiles
@@ -82,9 +55,17 @@ foreach ($memberProfiles as $memberProfile) {
 	// }
 }
 
+date_default_timezone_set('Europe/Berlin');
 $file_name = 'mitgliederliste_'.date('Y-m-d_H-m-s').'.csv';
-$myfile = fopen($file_name, "w") or die("Unable to open file!");
-fwrite($myfile, $txt);
-fclose($myfile);
 
+$handle = fopen($file_name, "w") or die("Unable to open file!");
+fwrite($handle, $txt);
+fclose($handle);
+
+header('Content-Type: text/csv; charset=utf-8');
+header('Content-Disposition: attachment; filename=$file_name');
+header("Cache-Control: no-cache, no-store, must-revalidate");
+header("Pragma: no-cache"); 
+header('Expires: '.gmdate('D, d M Y H:i:s \G\M\T', time() + (60))); // 60 Sek
+  
 print $file_name;
