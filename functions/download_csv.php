@@ -8,21 +8,31 @@ if(in_array($_SERVER['REMOTE_ADDR'], $localhost)){
 } 
 require_once("$root/wp-load.php");
 
-// create searchController with $_POST-Data
-$searchController = new searchController($_POST);
+
 // Get MemberProfiles
-$memberProfiles = $searchController->search();
+$ids = $_GET['id'];
+$memberController = new MemberDataController(null, new ContactDataController(null, new BaseDataController));
+$memberProfiles = $memberController->getMultipleMemberProfilesByContactID($ids);
 
 
 $txt = '';
 // KEYS
-foreach ($memberProfiles[0]->memberDatabaseRow->toArray() as $key => $value) {
-	$txt .= "member-$key;";
-}
 foreach ($memberProfiles[0]->contactProfile->contactDatabaseRow->toArray() as $key => $value) {
 	if($key != 'comment') {
 		$txt .= "contact-$key;";
 	}	
+}
+foreach ($memberProfiles[0]->memberDatabaseRow->toArray() as $key => $value) {
+	$txt .= "member-$key;";
+}
+foreach ($memberProfiles[0]->contactProfile->addressDatabaseRows[0]->toArray() as $key => $value) {
+	$txt .= "address-$key;";
+}
+foreach ($memberProfiles[0]->contactProfile->phoneDatabaseRows[0]->toArray() as $key => $value) {
+	$txt .= "phone-$key;";
+}
+foreach ($memberProfiles[0]->contactProfile->mailDatabaseRows[0]->toArray() as $key => $value) {
+	$txt .= "mail-$key;";
 }
 foreach ($memberProfiles[0]->contactProfile->studyDatabaseRows[0]->toArray() as $key => $value) {
 	$txt .= "study-$key;";
@@ -31,41 +41,49 @@ $txt .= "\n";
 
 // VALUES
 foreach ($memberProfiles as $memberProfile) {
-	foreach ($memberProfile->memberDatabaseRow->toArray() as $key => $value) {
-		$txt .= "$value;";
-	}
 	foreach ($memberProfile->contactProfile->contactDatabaseRow->toArray() as $key => $value) {
-		if($key != 'comment') {
-			$txt .= "$value;";
-		}
+		$temp = trim(preg_replace('/\s+/', ' ', $value)).';';
+		if(!empty($temp)){ $txt .= $temp; }
+		else { $txt .= ';'; }
+	}
+	foreach ($memberProfile->memberDatabaseRow->toArray() as $key => $value) {
+		$temp = trim(preg_replace('/\s+/', ' ', $value)).';';
+		if(!empty($temp)){ $txt .= $temp; }
+		else { $txt .= ';'; }
+	}
+	foreach ($memberProfile->contactProfile->addressDatabaseRows[0]->toArray() as $key => $value) {
+		$temp = trim(preg_replace('/\s+/', ' ', $value)).';';
+		if(!empty($temp)){ $txt .= $temp; }
+		else { $txt .= ';'; }
+	}
+	foreach ($memberProfile->contactProfile->phoneDatabaseRows[0]->toArray() as $key => $value) {
+		$temp = trim(preg_replace('/\s+/', ' ', $value)).';';
+		if(!empty($temp)){ $txt .= $temp; }
+		else { $txt .= ';'; }
+	}
+	foreach ($memberProfile->contactProfile->mailDatabaseRows[0]->toArray() as $key => $value) {
+		$temp = trim(preg_replace('/\s+/', ' ', $value)).';';
+		if(!empty($temp)){ $txt .= $temp; }
+		else { $txt .= ';'; }
 	}
 	foreach ($memberProfile->contactProfile->studyDatabaseRows[0]->toArray() as $key => $value) {
-		$txt .= "$value;";
+		$temp = trim(preg_replace('/\s+/', ' ', $value)).';';
+		if(!empty($temp)){ $txt .= $temp; }
+		else { $txt .= ';'; }
 	}
 	$txt .= "\n";
-
-	// foreach ($memberProfile->contactProfile as $table => $rows) {
-	// 	foreach ($rows as $index => $address) {
-	// 		foreach ($address->	toArray() as $key => $value) {
-	// 			echo "$table-$index-$key: $value; ";
-	// 		}
-	// 		echo "<br>";	
-	// 	}
-	// 	echo "<br>";	
-	// }
 }
 
-date_default_timezone_set('Europe/Berlin');
-$file_name = 'mitgliederliste_'.date('Y-m-d_H-m-s').'.csv';
 
-$handle = fopen($file_name, "w") or die("Unable to open file!");
-fwrite($handle, $txt);
-fclose($handle);
+/* ------ FILE ------ */
+date_default_timezone_set('Europe/Berlin'); 
+// output headers so that the file is downloaded rather than displayed 
+header('Content-Type: text/csv; charset=utf-8'); 
+header('Content-Disposition: attachment; filename=mitgliederliste_'.date('Y-m-d_H-m-s').'.csv'); 
+ 
+// create a file pointer connected to the output stream 
+$file = fopen('php://output', 'w'); 
 
-header('Content-Type: text/csv; charset=utf-8');
-header('Content-Disposition: attachment; filename=$file_name');
-header("Cache-Control: no-cache, no-store, must-revalidate");
-header("Pragma: no-cache"); 
-header('Expires: '.gmdate('D, d M Y H:i:s \G\M\T', time() + (60))); // 60 Sek
-  
-print $file_name;
+// write data to file
+fwrite($file, $txt);
+fclose($file);

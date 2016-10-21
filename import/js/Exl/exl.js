@@ -120,8 +120,8 @@ function ExlClass() {
 			'root_path': pathWithoutFile+'/',
 			'template_path': pathWithoutFile+'/'+'exlTemplates/'
 		};
-		console.log('ROOT PATH: '+exlConfig['root_path']);
-		console.log('TMPL PATH: '+exlConfig['template_path']);
+		// console.log('ROOT PATH: '+exlConfig['root_path']);
+		// console.log('TMPL PATH: '+exlConfig['template_path']);
 		return exlConfig;
 
 	}
@@ -370,8 +370,8 @@ function ExlClass() {
 	 * @param listItemID The exl-listitem's ID
 	 */
 	this.deleteListItemForContainerWithID = function(exlContainerID, listItemID) {
-		console.log('exlContainerID: '+exlContainerID);
-		console.log('listItemID: '+listItemID);
+		// console.log('exlContainerID: '+exlContainerID);
+		// console.log('listItemID: '+listItemID);
 		var exlList = document.getElementById('exl-list-'+exlContainerID);
 		var fullItemID = 'exl-listitem-'+exlContainerID+'-'+listItemID;
 		var listItem = document.getElementById(fullItemID);
@@ -434,9 +434,9 @@ function ExlClass() {
 }
 
 var Exl = new ExlClass();
-console.log(Exl);
-console.log(Exl.initializeExpandableList);
-console.log(Exl.config)
+// console.log(Exl);
+// console.log(Exl.initializeExpandableList);
+// console.log(Exl.config)
 
 
 
