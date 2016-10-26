@@ -188,7 +188,6 @@ class BaseDataController {
         }
     }
 
-    // Funktionen um Namen 
     public function getColumnNamesForTable($table) {
         $sqlQuery = "SHOW COLUMNS FROM $table";
         $columnNameResults = $this->selectMultipleRowsByQuery($sqlQuery);
@@ -198,6 +197,35 @@ class BaseDataController {
         );
         return $filteredColumnNames;
     }
+
+    public function getColumnNamesForMultipleTables($tables, $ingoreColumns = array()) {
+        $sqlQuery = "
+            SELECT COLUMN_NAME
+            FROM INFORMATION_SCHEMA.COLUMNS 
+            WHERE ";
+
+        $whereQuery = '';
+        foreach ($tables as $table) {
+            $whereQuery .= " OR `TABLE_NAME`='$table'";
+        }
+        $sqlQuery .= ltrim($whereQuery, ' OR ');
+
+        $columnNameResults = $this->selectMultipleRowsByQuery($sqlQuery);
+        $filteredColumnNames = DatabaseRow::filterValuesFromRowsForSingleKey(
+            'COLUMN_NAME',
+            $columnNameResults
+        );
+
+		if (!empty($ingoreColumns)) {
+			foreach ($ingoreColumns as $key => $ignoreColumn) {
+				if(($key = array_search($ignoreColumn, $filteredColumnNames)) !== false) {
+				    unset($filteredColumnNames[$key]);
+				}
+			}
+       }
+        return $filteredColumnNames;
+    }
+
 
     public function getNumberOfColumnsForTable($table) {
         $columns = $this->getColumnNamesForTable($table);

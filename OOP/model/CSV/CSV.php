@@ -67,8 +67,8 @@ class CSV {
 	public function generateCsvForMemberProfiles($memberProfiles) {
 		// get max number of databseRows per table (e.g. max number of mails, a member has)
 		$this->getMaxNumberOfDatabaseRowsForMemberProfiles($memberProfiles);
-		// generate header of csv file
-		$this->generateCsvHeader(array('contact', 'phone', 'mail', 'address', 'study', 'member'));
+		// generate header of csv file (except for 'member')
+		$this->generateCsvHeader(array('contact', 'phone', 'mail', 'address', 'study', array('tables' => array('member', 'ressort'), 'ignoreColumns' => array('id', 'description'))));
 		// generate body of csv file
 		foreach($memberProfiles as $memberProfile) {
 			$this->generateCsvForMemberProfile($memberProfile);
@@ -84,8 +84,13 @@ class CSV {
 	 */
 	private function generateCsvHeader($tableNames){
 		foreach ($tableNames as $tableName) {
-			$columns = $this->base->getColumnNamesForTable($tableName);		
-			
+			if (is_array($tableName)) {
+				$columns = $this->base->getColumnNamesForMultipleTables($tableName['tables'], $tableName['ignoreColumns']);
+				$tableName = $tableName['tables'][0];
+			}
+			else {
+				$columns = $this->base->getColumnNamesForTable($tableName);		
+			}
 			for ($i=1; $i <= $this->maxNumberOfDatabaseRows[$tableName]; $i++) { 
 				$this->maxNumberOfDatabaseRows[$tableName] > 1 ? $index="-$i" : $index ='' ;
 				foreach ($columns as $column) {
