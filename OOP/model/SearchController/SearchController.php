@@ -122,13 +122,13 @@ class SearchController {
 
 		$sql = '
 			SELECT Contact.id 
-			FROM Contact, Address, Phone, Study, Member, Ressort
-			WHERE
-				Contact.id = Address.contact AND 
-				Contact.id = Phone.contact AND
-				Contact.id = Study.contact AND
-				Contact.id = Member.contact AND
-				Member.ressort = Ressort.id AND
+			FROM Contact
+			LEFT JOIN address ON contact.id = address.contact 
+			LEFT JOIN phone ON contact.id = phone.contact 
+			LEFT JOIN study ON contact.id = study.contact 
+			INNER JOIN member ON contact.id = member.contact 
+			INNER JOIN ressort ON member.ressort = ressort.id 
+			WHERE 
 		';
 
 		if (!empty($this->searchData->getSearchWords()[0])) {
