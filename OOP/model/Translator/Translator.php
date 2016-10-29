@@ -116,12 +116,14 @@ class Translator {
 	}
 
 	public function translateMemberDatabaseRow($memberDatabaseRow) {
-		$translation = $this->translations['member'];
-		$memberDatabaseRow->setValueForKey('active', $translation['active'][$memberDatabaseRow->getValueForKey('active')]);
-		$memberDatabaseRow->setValueForKey('position', $translation['position']($memberDatabaseRow->getValueForKey('position')));
-		$memberDatabaseRow->setValueForKey('name', $translation['name']($memberDatabaseRow->getValueForKey('name')));
-		$memberDatabaseRow->setValueForKey('joined', $translation['joined']($memberDatabaseRow->getValueForKey('joined')));
-		$memberDatabaseRow->setValueForKey('left', $translation['left']($memberDatabaseRow->getValueForKey('left')));
+		if (!empty($memberDatabaseRow)) {
+			$translation = $this->translations['member'];
+			$memberDatabaseRow->setValueForKey('active', $translation['active'][$memberDatabaseRow->getValueForKey('active')]);
+			$memberDatabaseRow->setValueForKey('position', $translation['position']($memberDatabaseRow->getValueForKey('position')));
+			$memberDatabaseRow->setValueForKey('name', $translation['name']($memberDatabaseRow->getValueForKey('name')));
+			$memberDatabaseRow->setValueForKey('joined', $translation['joined']($memberDatabaseRow->getValueForKey('joined')));
+			$memberDatabaseRow->setValueForKey('left', $translation['left']($memberDatabaseRow->getValueForKey('left')));
+		}	
 		return $memberDatabaseRow;
 	}
 
@@ -206,9 +208,14 @@ class Translator {
 			array_push($studies, $value->toArray());
 		}
 
+		if(!empty($memberProfile->memberDatabaseRow)){
+			$member  = $memberProfile->memberDatabaseRow->toArray();
+		}
+		else{ $member  = $memberProfile->memberDatabaseRow;	}
+
 		// organize Data for single Member
 		$data = array(
-			'member' => $memberProfile->memberDatabaseRow->toArray(),
+			'member' => $member,
 			'contact' => $memberProfile->contactProfile->contactDatabaseRow->toArray(),
 			'addresses' => $addresses,
 			'mails' => $mails,

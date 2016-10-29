@@ -161,11 +161,9 @@
 					{{{contact.comment}}}
 				</div>
 			</div>
-			<a href="#list-entry-{{number}}">
-				<button type='button' class='fluid ui icon basic button transparent' value='{{number}}' onclick='expand_content(this.value)'>
-					<i class='chevron up icon'></i>
-				</button>
-			</a>
+			<button type='button' class='fluid ui icon basic button transparent' value='{{number}}' onclick="scrollToTarget('#list-entry-{{number}}'); expand_content(this.value);">
+				<i class='chevron up icon'></i>
+			</button>
 		</div>
 	</td>
 </tr>

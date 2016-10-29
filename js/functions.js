@@ -130,3 +130,9 @@ function getScrollBarWidth() {
 	$outer.remove();
 	return 100 - widthWithScroll;
 };
+
+function scrollToTarget(target) {
+	$('html, body').animate({
+        scrollTop: $(target).offset().top
+    }, 300);
+};

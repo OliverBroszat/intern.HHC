@@ -15,7 +15,6 @@ function edit_multi(){
 	var content = `
 		<h3>Zu ändernde Werte:</h3>
 		<form class="ui form" method="POST">
-			<input type="text" name="test" value="Hallo Welt!">
 			<table>
 				<tr>
 					<td width="50%">

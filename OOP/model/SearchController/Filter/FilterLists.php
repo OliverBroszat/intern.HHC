@@ -33,17 +33,26 @@ loadWordpressFunctions();
 // TODO: make static
 class FilterLists {
 	private $searchFilter;
+    private $applyFilter;
 
-	public function __construct() {
-		$this->searchFilter = array(
-			"Ressort" => new FilterRessort(),
-			"Position" => new FilterPosition(),
-			"Status" => new FilterStatus(),
-			"School" => new FilterSchool()
-		);
-	}
+	public function __construct() {}
+
 
 	public function getSearchFilter(){
-		return $this->searchFilter;
+		$this->searchFilter = array(
+            "Ressort" => new FilterRessort(),
+            "Position" => new FilterPosition(),
+            "Status" => new FilterStatus(),
+            "School" => new FilterSchool()
+        );
+        return $this->searchFilter;
 	}
+
+    //just an example
+    public function getApplyFilter(){
+        $this->applyFilter = array(
+            "status" => new Filter('Status of Application', 'apply', 'status')
+        );
+        return $this->applyFilter;
+    }
 }
