@@ -33,19 +33,20 @@ class ApplicationDataModel {
     public function createApplicationForContact($contactID) {
     	$contactData = $this->baseDataController->selectSingleRowByIDInTable($contactID, 'contact');
     	$newRow = new DatabaseRow((object)array('contact' => $contactData->getvalueforkey('id'), 'income' => date('d/m/Y'), 'state' => 'new', 'assessment_template' => 1));
-    	$this->baseDataController->insertSingleRowInTable($newRow, "application");
+    	$this->baseDataController->insertSingleRowInTable($newRow, "application");      
     }
 
     // Status einer Bewerbung verändern
     public function setStateForApplication($applicationID, $newState) {
-    	$updRow = $baseDataController->selectSingleRowByIDInTable($applicationID, 'application');
+    	$updRow = $this->baseDataController->selectSingleRowByIDInTable($applicationID, 'application');
     	$updRow['state'] = $newState;
-    	$baseDataController->updateSingleRowInTable($updRow, 'application');
+    	$this->baseDataController->updateSingleRowInTable($updRow, 'application');
     }
 
     // vorhandene Bewerbung zu einem Kontakt holen
     public function getApplicationByContact($contactID) {
-    	return $baseDataController->selectSingleRowByIDInTable($contactID, 'application');
+        // return $this->baseDataController->selectSingleRowByIDInTable($contactID, 'application');
+    	return $this->baseDataController->selectSingleRowByQuery("SELECT * FROM `application` WHERE `contact` = $contactID;");
     }
 
     // Anlage mit Bewerbung verbinden
@@ -60,6 +61,14 @@ class ApplicationDataModel {
     		$this->addSingleAttachmentToApplication($applicationID, $attachmentID);
     	}
     }
-}
 
-?>
+    public function getAttachmentsForApplication($applicationID) {
+        $attachmentIDs = $this->baseDataController->selectMultipleRowsByQuery("SELECT `attachmentID` FROM `applicationattachment` WHERE `applicationID` = $applicationID;");
+        
+        $files = array();
+        foreach ($attachmentIDs as $attachmentID) {
+            array_push($files, wp_get_attachment_image_src($attachmentID->getValueForKey('attachmentID'), $size=''));
+        }
+        return $files;
+    }
+}
