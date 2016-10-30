@@ -21,10 +21,10 @@ require_once("$root/functions/html_templates/userdata.php");
 		<form action="<?php echo get_template_directory_uri(); ?>\OOP\model\DataController\ApplicationDataController\ApplicationDataController.php" method='POST' enctype='multipart/form-data'>	
 
 			<?php
-				echo "<div class='panel'>".getContactEditTemplate(null)."</div><br>";
-				echo "<div class='panel'>".getAddressEditTemplate(null)."</div><br>";
-				echo "<div class='panel'>".getStudyEditTemplate(null)."</div><br>";
-				echo "<div class='panel'>".getFileEditTemplate(null)."</div><br>";
+				echo getContactEditTemplate(null);
+				echo getAddressEditTemplate(null);
+				echo getStudyEditTemplate(null);
+				echo getFileEditTemplate(null);
 			?>
 			<button type='submit' class='registrieren'>Bewerbung abschicken!</button>
 

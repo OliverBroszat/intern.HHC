@@ -132,13 +132,17 @@ function getContactEditTemplate($data) {
 
 
 function getAddressEditTemplate($data) {
-	$resl = "<h2>Adressen</h2>
+	$resl = "
+		<h2>Adressen</h2>
+		<div class='ui segment'>
+			<exl-container id='address-list' template='addresses' source='address' min-templates='1'></exl-container>
+			</script>
+			<script>
+				Exl.setupExlContainerWithID('address-list', ".json_encode($data['detail']).");
+			</script>
+		</div>
+	";
 
-	<exl-container id='address-list' template='addresses' source='address' min-templates='1'></exl-container>
-	</script>
-	<script>
-		Exl.setupExlContainerWithID('address-list', ".json_encode($data['detail']).");
-	</script>";
 	return $resl;
 }
 
@@ -146,18 +150,19 @@ function getAddressEditTemplate($data) {
 function getStudyEditTemplate($data) {
 
 	$resl = "
-
 		<h2>Studienprofile</h2>
+		<div class='ui segment'>
+			<exl-container id='study-list' template='studies' source='study' min-templates='1'></exl-container>
 
-		<exl-container id='study-list' template='studies' source='study' min-templates='1'></exl-container>
-
-		<script>
-			Exl.setupExlContainerWithID('study-list', ".json_encode($data['detail']).");
-			// var data = " . toJSArrayString($data['studies']) . ";
-			// select_option('study_status_study--', data, 'status');
-			// select_option('degree-study--', data, 'degree');
-			// select_option('school-study--', data, 'school');
-		</script>";
+			<script>
+				Exl.setupExlContainerWithID('study-list', ".json_encode($data['detail']).");
+				// var data = " . toJSArrayString($data['studies']) . ";
+				// select_option('study_status_study--', data, 'status');
+				// select_option('degree-study--', data, 'degree');
+				// select_option('school-study--', data, 'school');
+			</script>
+		</div>
+	";
 	return $resl;
 
 }
@@ -264,15 +269,19 @@ function getMemberEditTemplate($data) {
 
 
 function getFileEditTemplate($data) {
-	$resl = "<h2>Anlagen</h2>
-		<table class='form'>
-			<tr><td colspan='2'>
-			<exl-container id='file-list' template='files' source='files' min-templates='1'></exl-container>
-			</td></tr>
-		</table>
-		<script>
-		Exl.setupExlContainerWithID('file-list', ".json_encode($data['file']).");
-		</script>";
+	$resl = "
+		<h2>Anlagen</h2>
+		<div class='ui segment'>
+			<table class='form'>
+				<tr><td colspan='2'>
+				<exl-container id='file-list' template='files' source='files' min-templates='1'></exl-container>
+				</td></tr>
+			</table>
+			<script>
+			Exl.setupExlContainerWithID('file-list', ".json_encode($data['file']).");
+			</script>
+		</div>
+	";
 	return $resl;
 }
 
