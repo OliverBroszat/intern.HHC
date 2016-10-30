@@ -23,8 +23,8 @@ class SearchData {
 		$searchFilters = $filterLists->getSearchFilter();
 		$filter = array();
 		foreach ($searchFilters as $sfKey => $value) {
-			$key = "{$value->getTable()}.{$value->getColumn()}";
-			$name = "filter_{$value->getTable()}-{$value->getColumn()}";
+			$key = "{$value->getTable()}.{$value->getColumn()}"; // e.g. Contact.birth_date
+			$name = "filter_{$value->getTable()}-{$value->getColumn()}"; //e.g. "filter_Contact--birth_date"
 			$filter[$key] = $post[$name];
 			$filter[$key]['class'] = $sfKey;
 		}

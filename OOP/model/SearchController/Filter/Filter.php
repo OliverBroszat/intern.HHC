@@ -46,10 +46,7 @@ class Filter {
 		$this->columnCount = $columnCount;
 
 		$base = new BaseDataController();
-		$query = "SELECT DISTINCT $this->column FROM $this->table ORDER BY $this->column";
-
 		$optionsRows = $base->selectMultipleRowsByQuery("SELECT DISTINCT {$this->column} FROM {$this->table} ORDER BY {$this->column}");
-
 		$optionsArray = DatabaseRow::filterValuesFromRowsForSingleKey($this->column, $optionsRows);
 		$this->options = $optionsArray;
 	}

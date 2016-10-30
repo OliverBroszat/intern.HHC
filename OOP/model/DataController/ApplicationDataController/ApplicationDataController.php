@@ -104,24 +104,6 @@ class ApplicationDataController {
 		return $myProfile;
 	}
 
-	private function uploadFilesOLD() {	
-		require_once( ABSPATH . 'wp-admin/includes/image.php' );
-		require_once( ABSPATH . 'wp-admin/includes/file.php' );
-		require_once( ABSPATH . 'wp-admin/includes/media.php' );
-
-		$attachmentId = media_handle_upload('File-apply_file',0);
-
-		// Debug Output for Image
-		if (!empty($attachmentId)) {
-			echo "<br><b>Media-id:</b><br>";
-			var_dump($attachmentId);
-		}
-		else {
-			echo "Media upload failed";
-		}
-
-	}
-
 	private function uploadFiles() {
 		if ( $_FILES ) { 
 		    $files = $_FILES["File-apply_file"];  

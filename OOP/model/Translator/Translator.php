@@ -116,12 +116,14 @@ class Translator {
 	}
 
 	public function translateMemberDatabaseRow($memberDatabaseRow) {
-		$translation = $this->translations['member'];
-		$memberDatabaseRow->setValueForKey('active', $translation['active'][$memberDatabaseRow->getValueForKey('active')]);
-		$memberDatabaseRow->setValueForKey('position', $translation['position']($memberDatabaseRow->getValueForKey('position')));
-		$memberDatabaseRow->setValueForKey('name', $translation['name']($memberDatabaseRow->getValueForKey('name')));
-		$memberDatabaseRow->setValueForKey('joined', $translation['joined']($memberDatabaseRow->getValueForKey('joined')));
-		$memberDatabaseRow->setValueForKey('left', $translation['left']($memberDatabaseRow->getValueForKey('left')));
+		if (!empty($memberDatabaseRow)) {
+			$translation = $this->translations['member'];
+			$memberDatabaseRow->setValueForKey('active', $translation['active'][$memberDatabaseRow->getValueForKey('active')]);
+			$memberDatabaseRow->setValueForKey('position', $translation['position']($memberDatabaseRow->getValueForKey('position')));
+			$memberDatabaseRow->setValueForKey('name', $translation['name']($memberDatabaseRow->getValueForKey('name')));
+			$memberDatabaseRow->setValueForKey('joined', $translation['joined']($memberDatabaseRow->getValueForKey('joined')));
+			$memberDatabaseRow->setValueForKey('left', $translation['left']($memberDatabaseRow->getValueForKey('left')));
+		}	
 		return $memberDatabaseRow;
 	}
 
@@ -169,9 +171,136 @@ class Translator {
 
 
 
-	public function translateMemberProfile($memberProfile) {
+	public function translateSingleMemberProfile($memberProfile) {
 		$memberProfile->ContactProfile = $this->translateContactProfile($memberProfile->contactProfile);
 		$memberProfile->memberDatabaseRow = $this->translateMemberDatabaseRow($memberProfile->memberDatabaseRow);
 		return $memberProfile;
+	}
+
+	public function translateMultipleMemberProfiles($memberProfiles) {
+		$translatedProfiles = array();
+		foreach ($memberProfiles as $memberProfile) {
+			array_push($translatedProfiles, $this->translateSingleMemberProfile($memberProfile));
+		}
+
+		// print_r($translatedProfiles);
+		return $translatedProfiles;
+	}
+
+	public function transformSingleMemberProfileToData($memberProfile, $encode=false) {
+		$addresses = array();
+		foreach ($memberProfile->contactProfile->addressDatabaseRows as $key => $value) {
+			array_push($addresses, $value->toArray());
+		}
+
+		$mails = array();
+		foreach ($memberProfile->contactProfile->mailDatabaseRows as $key => $value) {
+			array_push($mails, $value->toArray());
+		}
+
+		$phones = array();
+		foreach ($memberProfile->contactProfile->phoneDatabaseRows as $key => $value) {
+			array_push($phones, $value->toArray());
+		}
+
+		$studies = array();
+		foreach ($memberProfile->contactProfile->studyDatabaseRows as $key => $value) {
+			array_push($studies, $value->toArray());
+		}
+
+		if(!empty($memberProfile->memberDatabaseRow)){
+			$member  = $memberProfile->memberDatabaseRow->toArray();
+		}
+		else{ $member  = $memberProfile->memberDatabaseRow;	}
+
+		// organize Data for single Member
+		$data = array(
+			'member' => $member,
+			'contact' => $memberProfile->contactProfile->contactDatabaseRow->toArray(),
+			'addresses' => $addresses,
+			'mails' => $mails,
+			'phones' => $phones,
+			'studies' => $studies
+		);
+
+		return ($encode) ? $this->jsonEncode($data, $encode) : $data;
+	}
+
+
+	public function transformMultipleMemberProfilesToData($memberProfiles) {
+		$data = array();
+		foreach ($memberProfiles as $number => $memberProfile) {
+			$member = $this->transformSingleMemberProfileToData($memberProfile);
+			$member['number'] = $number + 1;
+			array_push($data, $member);
+		}
+		return $data;
+	}
+
+
+	public function transformSingleApplicationToData($application, $encode=false) {
+		$addresses = array();
+		foreach ($memberProfile->contactProfile->addressDatabaseRows as $key => $value) {
+			array_push($addresses, $value->toArray());
+		}
+
+		$mails = array();
+		foreach ($memberProfile->contactProfile->mailDatabaseRows as $key => $value) {
+			array_push($mails, $value->toArray());
+		}
+
+		$phones = array();
+		foreach ($memberProfile->contactProfile->phoneDatabaseRows as $key => $value) {
+			array_push($phones, $value->toArray());
+		}
+
+		$studies = array();
+		foreach ($memberProfile->contactProfile->studyDatabaseRows as $key => $value) {
+			array_push($studies, $value->toArray());
+		}
+
+		if(!empty($memberProfile->memberDatabaseRow)){
+			$member  = $memberProfile->memberDatabaseRow->toArray();
+		}
+		else{ $member  = $memberProfile->memberDatabaseRow;	}
+
+		// organize Data for single Member
+		$data = array(
+			'member' => $member,
+			'contact' => $memberProfile->contactProfile->contactDatabaseRow->toArray(),
+			'addresses' => $addresses,
+			'mails' => $mails,
+			'phones' => $phones,
+			'studies' => $studies
+		);
+
+		return ($encode) ? $this->jsonEncode($data, $encode) : $data;
+	}
+
+	public function transformMultipleApplicationsToData($applications) {
+		$data = array();
+		foreach ($applications as $number => $application) {
+			$temp = $this->transformSingleApplicationToData($application);
+			$temp['number'] = $number + 1;
+			array_push($data, $temp);
+		}
+		return $temp;
+	}
+
+	/**
+	 * jsconEncode
+	 * 
+	 * encodes array to json
+	 *
+	 * @param data Dataset created by transformSingleMemberProfileToData from memberProfile
+	 * @return data json encoed
+	 */
+	private function jsonEncode($data, $encode) {
+		foreach ($data as $key => $values) {
+			if (in_array($key, $encode)) {
+				$data[$key] = json_encode($values);
+			}
+		}
+		return $data;
 	}
 }

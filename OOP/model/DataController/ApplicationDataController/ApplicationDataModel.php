@@ -49,6 +49,25 @@ class ApplicationDataModel {
     	return $this->baseDataController->selectSingleRowByQuery("SELECT * FROM `application` WHERE `contact` = $contactID;");
     }
 
+    public function getAllApplications(){
+        return $this->baseDataController->selectMultipleRowsByQuery("SELECT * FROM `application`");
+    }
+
+    public function getAllApplicationsWithStates($states){
+        $sql = '';
+        if (!empty($states)) {
+          foreach ($staest as $state) {
+               $sql .= "`state` = `$state` OR ";
+            }
+            $sql = rtrim($sql, ' OR ');
+        }
+        else {
+            $sql = 'true';
+        }
+
+        return $this->baseDataController->selectMultipleRowsByQuery("SELECT * FROM `application` WHERE $sql");
+    }
+
     // Anlage mit Bewerbung verbinden
     public function addSingleAttachmentToApplication($applicationID, $attachmentID) {
     	$newRow =new DatabaseROw((object)array('applicationID' => $applicationID, 'attachmentID' => $attachmentID));

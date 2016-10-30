@@ -390,6 +390,17 @@ function post_to_array($post) {
 	return $data;
 }
 
+/**  
+ * convert string to windows-1252 charset for excel (used for downloading a .csv file)  
+ * @param  string $string   
+ * @return string           
+ */  
+function convertToWindowsCharset($string) {  
+  $charset = mb_detect_encoding($string, "UTF-8, ISO-8859-1, ISO-8859-15", true);  
+  $string = mb_convert_encoding($string, "Windows-1252", $charset);  
+  return $string;  
+} 
+ 
 
 if (!function_exists('autoload')) {
 	function autoload($class_name)
@@ -412,6 +423,7 @@ if (!function_exists('autoload')) {
             'OOP/model/SearchController/',
             'OOP/model/SearchController/Filter/',
             'OOP/model/Translator/',
+            'OOP/model/CSV/',
 
             'OOP/model/DataController/MemberDataController/',
             'OOP/model/DataController/ApplicationDataController/'

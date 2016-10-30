@@ -109,4 +109,93 @@ $data = array(
 
 echo $mustache->render('member_search', $data);
 
-?>
+			
+				<input type="hidden" disabled name="templateDirectory" id="templateDirectory" value="<?php echo get_template_directory_uri(); ?>">
+
+				<button type='button' class='fluid ui labeled icon basic button' onclick="ajax_post();">
+					<i class="refresh icon"></i>
+					Aktualisieren
+				</button>
+		</div><!-- /panel -->
+	</div><!-- /sidebar -->
+	</form>
+
+	<main class="container">
+		<div class="ui segment actions">					
+
+			<button type='button' class='ui labeled icon basic button' id='new-entry' value='new' onclick="edit('new');">
+				<i class="file outline icon"></i>
+				Neu
+			</button>
+
+			<button type='button' class='ui labeled icon basic button' onclick='edit_multi()'>
+				<i class="edit icon"></i>
+				Edit selected
+			</button>
+
+			<button type='button' class='ui labeled icon basic button' onclick='select_all()'>
+				<i class="checkmark box icon"></i>
+				Select/Deselect all
+			</button>
+			
+			<script src='<?php echo get_template_directory_uri(); ?>/js/ajax_download_csv.js'></script>
+
+			<button type='button' class='ui labeled icon basic button' onclick="download_csv()">
+				<i class="download icon"></i>
+				Download CSV
+			</button>
+
+		</div><!-- /panel -->
+
+<!--  Suchergebnisse -->
+		<div class='ui segment' id='search-results'>			
+			<h2 id='search-results-title'>Suchergebnisse (0)</h2>
+			<div id='list-container'></div>			
+		</div><!-- /panel -->
+	</main>
+	
+</div><!-- /outer -->
+
+
+<!-- Semantic UI -->
+<script>
+	$('.ui.checkbox').checkbox();
+	$('.ui.dropdown').dropdown();
+</script>
+
+<!-- Import ajax_post() function -->
+<script src="<?php echo get_template_directory_uri(); ?>/js/ajax_search.js"></script>
+
+<!-- Call AJAX Search on page load -->
+<script>window.onload=ajax_post;</script>
+
+<!-- Call AJAX Search on #form-suche submit -->
+<script>
+	$("#form-suche").submit(function(e){
+	    e.preventDefault();
+	    $("#start-search").focus();
+	    ajax_post();
+
+	});
+</script>
+
+<!-- AJAX Search Suggestions -->
+<script src="<?php echo get_template_directory_uri(); ?>/js/ajax_search_suggestions.js"></script>
+
+ <!-- AJAX Edit -->
+<script src="<?php echo get_template_directory_uri(); ?>/js/ajax_edit.js"></script> 
+
+<!-- Multi-Edit -->
+<script src="<?php echo get_template_directory_uri(); ?>/js/ajax_edit_multi.js"></script> 
+
+<!-- Expand Detail Content -->
+<script>
+	function expand_content(value){
+		$('#slide_content_show_detail_'+value).slideToggle(300);
+		$('#slide-content-button-'+value+' i').toggleClass('down');
+	}
+</script>
+
+
+
+<?php get_footer(); ?>

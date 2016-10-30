@@ -190,6 +190,13 @@ td {
     margin: 1rem 0;
 }
 
+@media screen and (max-width: 500px) {
+	.mail_content {
+		display: block;
+		margin-bottom: 5px;
+		width: 100% !important;
+	}
+}
 
 
 @media screen and (max-width: 960px){
