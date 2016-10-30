@@ -48,7 +48,7 @@ class ApplicationDataController {
 		$applicationID = $this->createApplicationFromForm($profile);
 
 		$attachmentIDs = $this->uploadFiles();
-		$this->ApplicationDataModel->addMultipleAttachmentsToApplication($applicationID, $attachmentIDs);
+		$this->ApplicationDataModel->addMultipleAttachmentsToApplication($applicationID, $attachmentIDs, $postvar['File-filedescription']);
 
 		// DEBUG
 		$files = $this->ApplicationDataModel->getAttachmentsForApplication($applicationID);

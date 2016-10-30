@@ -74,25 +74,31 @@ class ApplicationDataModel {
     }
 
     // Anlage mit Bewerbung verbinden
-    public function addSingleAttachmentToApplication($applicationID, $attachmentID) {
-    	$newRow =new DatabaseROw((object)array('applicationID' => $applicationID, 'attachmentID' => $attachmentID));
+    public function addSingleAttachmentToApplication($applicationID, $attachmentID, $description) {
+    	$newRow =new DatabaseROw((object)array(
+            'applicationID' => $applicationID, 
+            'attachmentID' => $attachmentID, 
+            'description' => $description, ));
     	$this->baseDataController->insertSingleRowInTable($newRow, 'applicationattachment');
     }
 
     // mehrere Anlagen zu einer Bewerbung hinzufügen
-    public function addMultipleAttachmentsToApplication($applicationID, $attachmentIDs) {
-    	foreach($attachmentIDs as $attachmentID) {
-    		$this->addSingleAttachmentToApplication($applicationID, $attachmentID);
-    	}
+    public function addMultipleAttachmentsToApplication($applicationID, $attachmentIDs, $descriptions) {
+        for ($i=0; $i < sizeOf($attachmentIDs); $i++) { 
+            $this->addSingleAttachmentToApplication($applicationID, $attachmentIDs[$i], $descriptions[$i]);
+        }
     }
 
     public function getAttachmentsForApplication($applicationID) {
-        $attachmentIDs = $this->baseDataController->selectMultipleRowsByQuery("SELECT `attachmentID` FROM `applicationattachment` WHERE `applicationID` = $applicationID;");
-        
+        $attachments = $this->baseDataController->selectMultipleRowsByQuery("SELECT `attachmentID`, `description` FROM `applicationattachment` WHERE `applicationID` = $applicationID;");
+       
         $files = array();
-        foreach ($attachmentIDs as $attachmentID) {
-            array_push($files, wp_get_attachment_image_src($attachmentID->getValueForKey('attachmentID'), $size='thumbnail')); // thumbnail is only for testing purpose
-        }
+        for ($i=0; $i < sizeof($attachments); $i++) { 
+            $files[$i] = array(
+                'description' => $attachments[$i]->getValueForKey('description'),
+                'url' => get_the_guid($attachments[$i]->getValueForKey('attachmentID'))
+            );
+        }          
         return $files;
     }
 }
