@@ -237,55 +237,66 @@ class Translator {
 		return $data;
 	}
 
-
-	public function transformSingleApplicationToData($application, $encode=false) {
-		$addresses = array();
-		foreach ($memberProfile->contactProfile->addressDatabaseRows as $key => $value) {
-			array_push($addresses, $value->toArray());
-		}
-
-		$mails = array();
-		foreach ($memberProfile->contactProfile->mailDatabaseRows as $key => $value) {
-			array_push($mails, $value->toArray());
-		}
-
-		$phones = array();
-		foreach ($memberProfile->contactProfile->phoneDatabaseRows as $key => $value) {
-			array_push($phones, $value->toArray());
-		}
-
-		$studies = array();
-		foreach ($memberProfile->contactProfile->studyDatabaseRows as $key => $value) {
-			array_push($studies, $value->toArray());
-		}
-
-		if(!empty($memberProfile->memberDatabaseRow)){
-			$member  = $memberProfile->memberDatabaseRow->toArray();
-		}
-		else{ $member  = $memberProfile->memberDatabaseRow;	}
-
-		// organize Data for single Member
+	public function transformSingleContactProfileToData($contactProfile, $encode=false) {
 		$data = array(
-			'member' => $member,
-			'contact' => $memberProfile->contactProfile->contactDatabaseRow->toArray(),
-			'addresses' => $addresses,
-			'mails' => $mails,
-			'phones' => $phones,
-			'studies' => $studies
+			'contact' => $this->transfromSingleDatabaseRowToData($contactProfile->contactDatabaseRow),
+			'addresses' => $this->transformMultipleDatabaseRowsToData($contactProfile->addressDatabaseRows),
+			'mails' => $this->transformMultipleDatabaseRowsToData($contactProfile->mailDatabaseRows),
+			'phones' => $this->transformMultipleDatabaseRowsToData($contactProfile->phoneDatabaseRows),
+			'studies' => $this->transformMultipleDatabaseRowsToData($contactProfile->studyDatabaseRows),
 		);
+		return ($encode) ? $this->jsonEncode($data, $encode) : $data;
+	}
+
+
+	public function transformSingleApplicationProfileToData($applicationProfile, $encode=false) {
+		$data = array(
+			'application' => $applicationProfile->applicationDatabaseRow->toArray(),
+			'attachments' => $applicationProfile->attachmentDatabaseRows
+		);
+
+		$contactProfile = $this->transformSingleContactProfileToData($applicationProfile->contactProfile);
+		foreach ($contactProfile as $key => $values) {
+			$data[$key] = $values;
+		}
 
 		return ($encode) ? $this->jsonEncode($data, $encode) : $data;
 	}
 
-	public function transformMultipleApplicationsToData($applications) {
+	public function transformMultipleApplicationProfilesToData($applicationProfiles) {
 		$data = array();
-		foreach ($applications as $number => $application) {
-			$temp = $this->transformSingleApplicationToData($application);
+		foreach ($applicationProfiles as $number => $applicationProfile) {
+			$temp = $this->transformSingleApplicationProfileToData($applicationProfile);
 			$temp['number'] = $number + 1;
 			array_push($data, $temp);
 		}
-		return $temp;
+		return $data;
 	}
+
+	public function transfromSingleDatabaseRowToData($databaseRow) {
+		if (!empty($databaseRow)) {
+
+			$data = $databaseRow->toArray();
+		}
+		else {
+			$data = NULL;
+		}
+		return $data;
+	}
+
+	public function transformMultipleDatabaseRowsToData($databaseRows) {
+		if (!empty($databaseRows)) {
+			$data = array();
+			foreach ($databaseRows as $databaseRow) {
+				array_push($data, $this->transfromSingleDatabaseRowToData($databaseRow));
+			}
+		}
+		else {
+			$data = NULL;
+		}
+		return $data;
+	}
+
 
 	/**
 	 * jsconEncode
