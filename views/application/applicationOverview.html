@@ -1,5 +1,82 @@
 <div class = "outer clearfix">
 	<h1>Application Overview</h1>
-	<div class="ui segment">
-		{{test}}		
-	</div>
+	
+	<!-- Suchfeld + Suchbutton -->
+	<form method="POST" id="form-suche" action="{{root_path}}/functions/search/sql_search.php">
+
+		<button id="sidebar-toggle" class="search" onclick="$(this).toggleClass('show'); $('.sidebar').slideToggle(300);">Suchoptionen</button>
+
+		<!-- Sortieren -->
+		<div class = "sidebar">
+
+			<div class='ui segment'>
+				<h2>Sortieren nach:</h2>
+				<div class="ui form">
+					<div class="fields">
+						<div class="ten wide field">
+							<select class="ui fluid dropdown" name="sort" id="sort" onchange="">
+								<!-- <option value="">Sort</option> -->
+								{{# sort_categories}}
+								<option value='{{value}}'>{{name}}</option>
+								{{/ sort_categories}}
+							</select>
+						</div>
+						<div class="six wide field"				>
+							<select class="ui fluid dropdown" name="order" id="order" onchange="">
+								<!-- <option value="">Order</option> -->
+								<option value="asc">A-Z</option>
+								<option value="desc">Z-A</option>
+							</select>
+						</div>
+					</div>
+				</div>
+			</div>
+	
+			<!-- Filter -->
+			<div class = "ui segment filter">
+				<h2>Filtern nach:</h2>
+				{{# filters}}
+					{{{ . }}}
+				{{/ filters}}
+
+
+				<input type="hidden" disabled name="templateDirectory" id="templateDirectory" value="{{root_path}}">
+				<button type='button' class='fluid ui labeled icon basic button' onclick="">
+					<i class="refresh icon"></i>
+					Aktualisieren
+				</button>
+			</div>
+
+		</div>
+
+	</form>
+
+	<main class="container">
+		<!--  Applications -->
+		<div class='ui segment'>			
+				<h2 id='search-results-title'>Applications ({{numberOfApplications}})</h2>
+				<div id='list-container'>
+					<table class='liste search_results'>
+						{{# applications }} 
+							{{> listEntry}}
+						{{/ applications }} 
+					</table>
+				</div>		
+		</div>
+	</main>
+</div><!-- outer -->
+
+
+<!-- Semantic UI -->
+<script>
+	$('.ui.checkbox').checkbox();
+	$('.ui.dropdown').dropdown();
+	$('.tabular.menu .item').tab();
+</script>
+
+<!-- Expand Content -->
+<script>
+	function expand_content(target){
+		$(target).slideToggle(300);
+	}
+</script>
