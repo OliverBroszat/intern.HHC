@@ -1,0 +1,131 @@
+
+<div class = "outer clearfix">
+	<h1>Mitgliederliste</h1>
+	
+	<!-- Suchfeld + Suchbutton -->
+	<form method="POST" id="form-suche" action="{{root_path}}/functions/search/sql_search.php">
+
+		<!-- Suchbox -->
+		<div id="search-box">
+			<div class="ui segment search-box-cell">
+				<div class="search-box-cell">
+					<div class="fluid ui right action left icon input">
+						<i class="search icon"></i>
+					  	<input type="text" name="search_text" id='text-box' onkeyup="ajax_search_suggestions(this.value)" placeholder="Suchen" >
+					  	<button class="ui primary icon button"  style="padding-left: 2rem; padding-right: 2rem;" id='start-search'><i class="search icon"></i></button>
+					</div>
+					<div id="suggestions"></div>
+					<script>
+						$("#suggestions").css("width", $("#text-box").css("width"));
+					</script>
+				</div>
+			</div>
+		</div>
+
+		<button id="sidebar-toggle" class="search" onclick="$(this).toggleClass('show'); $('.sidebar').slideToggle(300);">Suchoptionen</button>
+
+		<!-- Sortieren -->
+		<div class = "sidebar">
+
+			<div class='ui segment'>
+				<h2>Sortieren nach:</h2>
+				<div class="ui form">
+					<div class="fields">
+						<div class="ten wide field">
+							<select class="ui fluid dropdown" name="sort" id="sort" onchange="ajax_post()">
+								<!-- <option value="">Sort</option> -->
+								{{# sort_categories}}
+								<option value='{{value}}'>{{name}}</option>
+								{{/ sort_categories}}
+							</select>
+						</div>
+						<div class="six wide field"				>
+							<select class="ui fluid dropdown" name="order" id="order" onchange="ajax_post()">
+								<!-- <option value="">Order</option> -->
+								<option value="asc">A-Z</option>
+								<option value="desc">Z-A</option>
+							</select>
+						</div>
+					</div>
+				</div>
+			</div>
+	
+			<!-- Filter -->
+			<div class = "ui segment filter">
+				<h2>Filtern nach:</h2>
+				{{# filters}}
+					{{{ . }}}
+				{{/ filters}}
+
+				<input type="hidden" disabled name="templateDirectory" id="templateDirectory" value="{{root_path}}">
+				<button type='button' class='fluid ui labeled icon basic button' onclick="ajax_post();">
+					<i class="refresh icon"></i>
+					Aktualisieren
+				</button>
+			</div>
+
+		</div>
+
+	</form>
+			
+	<main class="container">
+		<div class="ui segment actions">					
+
+			<button type='button' class='ui labeled icon basic button' id='new-entry' value='new' onclick="edit('');"><i class="file outline icon"></i>Neu</button>
+
+			<button type='button' class='ui labeled icon basic button' onclick='edit_multi()'><i class="edit icon"></i>Edit selected</button>
+
+			<button type='button' class='ui labeled icon basic button' onclick='select_all()'><i class="checkmark box icon"></i>Select/Deselect all</button>
+
+		</div>
+
+		<!--  Suchergebnisse -->
+		<div class='ui segment'>
+			
+				<h2 id='search-results-title'>Suchergebnisse (0)</h2>
+				<div id='list-container'>
+					<!-- Will be added on loading via AJAX -->
+				</div>
+			
+		</div><!-- /panel -->
+	</main>
+	
+</div><!-- /outer -->
+
+
+<!-- Semantic UI -->
+<script>
+	$('.ui.checkbox').checkbox();
+	$('.ui.dropdown').dropdown();
+</script>
+
+<!-- Import ajax_post() function -->
+<script src="{{root_path}}/js/ajax_search.js"></script>
+
+<!-- Call AJAX Search on page load -->
+<script>window.onload=ajax_post;</script>
+
+<!-- Call AJAX Search on #form-suche submit -->
+<script>
+	$("#form-suche").submit(function(e){
+	    e.preventDefault();
+	    $("#start-search").focus();
+	    ajax_post();
+	});
+</script>
+
+<!-- AJAX Search Suggestions -->
+<script src="{{root_path}}/js/ajax_search_suggestions.js"></script>
+
+ <!-- AJAX Edit -->
+<script src="{{root_path}}/js/ajax_edit.js"></script> 
+
+<!-- Multi-Edit -->
+<script src="{{root_path}}/js/ajax_edit_multi.js"></script> 
+
+<!-- Expand Detail Content -->
+<script>
+	function expand_content(value){
+		$('#slide_content_show_detail_'+value).slideToggle(300);
+	}
+</script>

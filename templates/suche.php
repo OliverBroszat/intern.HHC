@@ -9,7 +9,7 @@
 
 get_header();
 $root_uri = get_template_directory_uri();
-$viewpath = $root_uri.'/views';
+$viewpath = $root_uri.'/views/search';
 
 $mustache = new Mustache_Engine(array(
     'loader' => new Mustache_Loader_FilesystemLoader(

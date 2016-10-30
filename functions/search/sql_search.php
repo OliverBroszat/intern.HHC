@@ -21,7 +21,7 @@ $data = $translator->transformMultipleMemberProfilesToData($translatedProfiles);
 
 // create mustache object
 $mustache = new Mustache_Engine(array(
-    'loader' => new Mustache_Loader_FilesystemLoader(get_template_directory() . '/views', array('extension' => '.html')),
+    'loader' => new Mustache_Loader_FilesystemLoader(get_template_directory() . '/views/search', array('extension' => '.html')),
 ));
 
 // RENDER with Mustache
