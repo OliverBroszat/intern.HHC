@@ -33,7 +33,7 @@ loadWordpressFunctions();
 // TODO: make static
 class FilterLists {
 	private $searchFilter;
-    private $applyFilter;
+    private $applicationFilter;
 
 	public function __construct() {}
 
@@ -49,10 +49,11 @@ class FilterLists {
 	}
 
     //just an example
-    public function getApplyFilter(){
-        $this->applyFilter = array(
-            "status" => new Filter('Status of Application', 'apply', 'status')
+    public function getApplicationFilter(){
+        $this->applicationFilter = array(
+            "state" => new Filter('State of Application', 'application', 'state'),
+            "School" => new FilterSchool()
         );
-        return $this->applyFilter;
+        return $this->applicationFilter;
     }
 }
