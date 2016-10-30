@@ -32,7 +32,7 @@ class ApplicationDataModel {
     // neue eingehende Bewerbung erstellen
     public function createApplicationForContact($contactID) {
     	$contactData = $this->baseDataController->selectSingleRowByIDInTable($contactID, 'contact');
-    	$newRow = new DatabaseRow((object)array('contact' => $contactData->getvalueforkey('id'), 'income' => date('d/m/Y'), 'state' => 'new', 'assessment_template' => 1));
+        $newRow = new DatabaseRow((object)array('contact' => $contactData->getvalueforkey('id'), 'income' => date('Y-m-d'), 'state' => 'new', 'assessment_template' => 1));
     	$this->baseDataController->insertSingleRowInTable($newRow, "application");      
     }
 
@@ -41,6 +41,11 @@ class ApplicationDataModel {
     	$updRow = $this->baseDataController->selectSingleRowByIDInTable($applicationID, 'application');
     	$updRow['state'] = $newState;
     	$this->baseDataController->updateSingleRowInTable($updRow, 'application');
+    }
+
+     // vorhandene Bewerbung mit ihrer ID holen
+    public function getApplicationByID($applicationID) {
+        return $this->baseDataController->selectSingleRowByQuery("SELECT * FROM `application` WHERE `id` = $applicationID;");
     }
 
     // vorhandene Bewerbung zu einem Kontakt holen
@@ -86,7 +91,7 @@ class ApplicationDataModel {
         
         $files = array();
         foreach ($attachmentIDs as $attachmentID) {
-            array_push($files, wp_get_attachment_image_src($attachmentID->getValueForKey('attachmentID'), $size=''));
+            array_push($files, wp_get_attachment_image_src($attachmentID->getValueForKey('attachmentID'), $size='thumbnail')); // thumbnail is only for testing purpose
         }
         return $files;
     }
