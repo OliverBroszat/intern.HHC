@@ -237,6 +237,67 @@ class Translator {
 		return $data;
 	}
 
+	public function transformSingleContactProfileToData($contactProfile, $encode=false) {
+		$data = array(
+			'contact' => $this->transfromSingleDatabaseRowToData($contactProfile->contactDatabaseRow),
+			'addresses' => $this->transformMultipleDatabaseRowsToData($contactProfile->addressDatabaseRows),
+			'mails' => $this->transformMultipleDatabaseRowsToData($contactProfile->mailDatabaseRows),
+			'phones' => $this->transformMultipleDatabaseRowsToData($contactProfile->phoneDatabaseRows),
+			'studies' => $this->transformMultipleDatabaseRowsToData($contactProfile->studyDatabaseRows),
+		);
+		return ($encode) ? $this->jsonEncode($data, $encode) : $data;
+	}
+
+
+	public function transformSingleApplicationProfileToData($applicationProfile, $encode=false) {
+		$data = array(
+			'application' => $applicationProfile->applicationDatabaseRow->toArray(),
+			'attachments' => $applicationProfile->attachmentDatabaseRows
+		);
+
+		$contactProfile = $this->transformSingleContactProfileToData($applicationProfile->contactProfile);
+		foreach ($contactProfile as $key => $values) {
+			$data[$key] = $values;
+		}
+
+		return ($encode) ? $this->jsonEncode($data, $encode) : $data;
+	}
+
+	public function transformMultipleApplicationProfilesToData($applicationProfiles) {
+		$data = array();
+		foreach ($applicationProfiles as $number => $applicationProfile) {
+			$temp = $this->transformSingleApplicationProfileToData($applicationProfile);
+			$temp['number'] = $number + 1;
+			array_push($data, $temp);
+		}
+		return $data;
+	}
+
+	public function transfromSingleDatabaseRowToData($databaseRow) {
+		if (!empty($databaseRow)) {
+
+			$data = $databaseRow->toArray();
+		}
+		else {
+			$data = NULL;
+		}
+		return $data;
+	}
+
+	public function transformMultipleDatabaseRowsToData($databaseRows) {
+		if (!empty($databaseRows)) {
+			$data = array();
+			foreach ($databaseRows as $databaseRow) {
+				array_push($data, $this->transfromSingleDatabaseRowToData($databaseRow));
+			}
+		}
+		else {
+			$data = NULL;
+		}
+		return $data;
+	}
+
+
 	/**
 	 * jsconEncode
 	 * 

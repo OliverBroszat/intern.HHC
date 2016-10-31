@@ -27,7 +27,6 @@ function delete_member($id) {
 	$contact->deleteSingleContactByID($id);
 }
 
-
 // Lösche alle Einträge mit 'other'
 $post_clean = unset_value_in_2d_array($_POST, 'other');
 // Wandele POST in einen geordneteren Array um
@@ -43,7 +42,11 @@ $member = new MemberDataController(null, $contact);
 
 $dataObject = array();
 foreach ($data as $table_name => $tables) {
+	print_r("aktuelle Tabelle: $table_name<br>");
 	foreach ($tables as $index => $values) {
+		print_r("Aktueller Index: $index<br>");
+		var_dump($values);
+		echo '<br>';
 		$dataObject[$table_name][$index] = new DatabaseRow((object) $values);
 	}
 };
@@ -65,12 +68,100 @@ $newProfile = new ContactProfile(
 	$dataObject['Study']
 );
 
-var_dump($newProfile);
-
 $newMember = new MemberProfile(
 	$dataObject['Member'][0],
 	$newProfile
 );
+
+$requiredFieldsForContact = array('prefix', 'first_name', 'last_name', 'birth_date');
+$requiredFieldsForAddress = array('description', 'street', 'number', 'postal', 'city');
+$requiredFieldsForMail = array('description', 'address');
+$requiredFieldsForPhone = array('description', 'number');
+$requiredFieldsForStudy = array('status', 'school', 'course', 'degree', 'start');
+$requiredFieldsForMember = array('ressort', 'active', 'position', 'joined');
+
+function isNullOrEmptyString($data) {
+	return is_null($data) || ($data == '');
+}
+
+function allFieldsSetInRow($fields, $row) {
+	foreach ($fields as $field) {
+		if (isNullOrEmptyString($row->getOptionalValueForKey($field))) {
+			print_r("$field wurde nicht gefunden");
+			return false;
+		}
+	}
+	return true;
+}
+
+function atLeastOneFieldSetInRow($fields, $row) {
+	foreach ($fields as $field) {
+		if (!isNullOrEmptyString($row->getOptionalValueForKey($field))) {
+			return true;
+		}
+	}
+	return false;
+}
+
+function allFieldsEmptyInRow($fields, $row) {
+	return !atLeastOneFieldSetInRow($fields, $row);
+}
+
+// TODO: Validate data and remove empty/invalid inputs
+$contactRow = $newProfile->contactDatabaseRow;
+if (!allFieldsSetInRow($requiredFieldsForContact, $contactRow)) {
+	die('Invalid Contact Data!');
+}
+$memberRow = $newMember->memberDatabaseRow;
+var_dump(empty("0"));
+if (!allFieldsSetInRow($requiredFieldsForMember, $memberRow)) {
+	die('Invalid Member Data!');
+}
+
+foreach ($newProfile->addressDatabaseRows as $id => $addrRow) {
+	if ( (!allFieldsSetInRow($requiredFieldsForAddress, $addrRow)) && (atLeastOneFieldSetInRow($requiredFieldsForAddress, $addrRow)) ) {
+		die('Invalid Address Data!');
+	}
+	if (allFieldsEmptyInRow($requiredFieldsForAddress, $addrRow)) {
+		echo '<br>ENTFERNE: ';
+		var_dump($addrRow);
+		echo '<br>';
+		unset($newProfile->addressDatabaseRows[$id]);
+	}
+}
+foreach ($newProfile->mailDatabaseRows as $id => $row) {
+	if ( (!allFieldsSetInRow($requiredFieldsForMail, $row)) && (atLeastOneFieldSetInRow($requiredFieldsForMail, $row)) ) {
+		die('Invalid Mail Data!');
+	}
+	if (allFieldsEmptyInRow($requiredFieldsForMail, $row)) {
+		echo '<br>ENTFERNE: ';
+		var_dump($row);
+		echo '<br>';
+		unset($newProfile->mailDatabaseRows[$id]);
+	}
+}
+foreach ($newProfile->phoneDatabaseRows as $id => $row) {
+	if ( (!allFieldsSetInRow($requiredFieldsForPhone, $row)) && (atLeastOneFieldSetInRow($requiredFieldsForPhone, $row)) ) {
+		die('Invalid Phone Data!');
+	}
+	if (allFieldsEmptyInRow($requiredFieldsForPhone, $row)) {
+		echo '<br>ENTFERNE: ';
+		var_dump($row);
+		echo '<br>';
+		unset($newProfile->phoneDatabaseRows[$id]);
+	}
+}
+foreach ($newProfile->studyDatabaseRows as $id => $row) {
+	if ( (!allFieldsSetInRow($requiredFieldsForStudy, $row)) && (atLeastOneFieldSetInRow($requiredFieldsForStudy, $row)) ) {
+		die('Invalid Study Data!');
+	}
+	if (allFieldsEmptyInRow($requiredFieldsForStudy, $row)) {
+		echo '<br>ENTFERNE: ';
+		var_dump($row);
+		echo '<br>';
+		unset($newProfile->studyDatabaseRows[$id]);
+	}
+}
 
 // Get Image ID
 global $wpdb;

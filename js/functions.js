@@ -28,6 +28,17 @@ function dialog(message, yesCallback, noCallback) {
 
 }
 
+function showDiv(elem) {
+	var hiddenDiv = $('#hidden_div-'+elem.id)
+	if(elem.value == 'other') {
+		hiddenDiv.show();
+		hiddenDiv.prop( 'disabled', false );
+	} else {
+		hiddenDiv.hide();
+		hiddenDiv.prop( 'disabled', true );
+	}
+}
+
 // Center-Function
 
 // jQuery.fn.center = function () {

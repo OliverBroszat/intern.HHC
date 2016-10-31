@@ -179,6 +179,18 @@ table.liste td {
 	border-bottom: 0;
 }
 
+/* Table Grid */
+.table-grid {
+	margin: 0 !important;
+}
+.table-grid td {
+	padding: 0;
+}
+.table-grid tr td:not(:first-child) {
+	padding-left: 0.5rem;
+}
+
+
 /* ------ INPUTS ------ */
 
 input{

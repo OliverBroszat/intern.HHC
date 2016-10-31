@@ -124,27 +124,24 @@ class ContactDataController {
         $this->updateContactProfileForTable($contactProfile, 'Address');
         echo 'Adresse geupdated<br>';
         $this->updateContactProfileForTable($contactProfile, 'Mail');
+        echo 'Mail geupdated<br>';
         $this->updateContactProfileForTable($contactProfile, 'Phone');
+        echo 'Phone geupdated<br>';
         $this->updateContactProfileForTable($contactProfile, 'Study');
+        echo 'Study geupdated<br>';
         echo 'Update durch<br>';
     }
 
     private function updateContactProfileForTable($contactProfile, $table) {
-        try {
-            // Delete rows that dont appear in profile anymore
-            $rowsToDelete = $this->getRowsToDeleteFromContactProfileForTable($contactProfile, $table);
-            $this->baseDataController->deleteMultipleRowsFromTable($rowsToDelete, $table);
-            // Update rows that where already in database and still remain in profile
-            $rowsToUpdate = $this->getRowsToUpdateFromContactProfileForTable($contactProfile, $table);
-            $this->baseDataController->updateMultipleRowsInTable($rowsToUpdate, $table);
-            // Create new Rows
-            $newRowsToCreate = $this->getRowsToCreateFromContactProfileForTable($contactProfile, $table);
-            $this->baseDataController->insertMultipleRowsWithAutoUpdateSingleAutoPrimaryInTable($newRowsToCreate, $table);
-        }
-        catch (InvalidArgumentException $e) {
-            // This only occurs when there was no row updated
-            // Can be gnored in this case
-        }
+        // Delete rows that dont appear in profile anymore
+        $rowsToDelete = $this->getRowsToDeleteFromContactProfileForTable($contactProfile, $table);
+        $this->baseDataController->deleteMultipleRowsFromTable($rowsToDelete, $table);
+        // Update rows that where already in database and still remain in profile
+        $rowsToUpdate = $this->getRowsToUpdateFromContactProfileForTable($contactProfile, $table);
+        $this->baseDataController->updateMultipleRowsInTable($rowsToUpdate, $table);
+        // Create new Rows
+        $newRowsToCreate = $this->getRowsToCreateFromContactProfileForTable($contactProfile, $table);
+        $this->baseDataController->insertMultipleRowsWithAutoUpdateSingleAutoPrimaryInTable($newRowsToCreate, $table);
     }
 
     // Filtert alle Rows für ein gegebenes Attribut (Adress, Mail, ...) nach leeren IDs

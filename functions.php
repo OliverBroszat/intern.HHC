@@ -425,6 +425,8 @@ if (!function_exists('autoload')) {
             'OOP/model/Translator/',
             'OOP/model/CSV/',
 
+            'OOP/model/DataController/MemberDataController/',
+            'OOP/model/DataController/ApplicationDataController/'
 	    );
 	    //Jedes Verzeichnis soll überprüft werden
 	    foreach($directorys as $directory)

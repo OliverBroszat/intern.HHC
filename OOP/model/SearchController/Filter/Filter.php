@@ -121,7 +121,7 @@ class Filter {
 		}
 		$html .= '</tr></table>';
 
-		echo $html;
+		return $html;
 	}
 
 	function getFilterQuery($array) {
