@@ -44,3 +44,5 @@ $data = array(
 echo $mustache->render('member_search', $data);
 
 ?>
+
+<link rel=stylesheet href="<?php echo $root_uri; ?>/styles/searchResultsStyle.css">

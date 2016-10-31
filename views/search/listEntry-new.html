@@ -1,0 +1,169 @@
+<tr>
+	<td class='list-entry' id='list-entry-{{number}}'>
+		<div id='fix_content_show_detail_{{number}}' class='fix-content'>
+			<table>	
+				<tr>
+					<td class='number' rowspan='2' style='vertical-align: top;'>
+						<div class="ui checkbox">
+					    	<input type="checkbox" name='member_list[]' value='{{contact.id}}' class='member_list hidden'>
+					    	<label></label>
+					    </div>
+					</td>
+					<td class='profile' rowspan='2'>
+						<a href='{{contact.image.source}}' target='_blank' onclick='image_popup(this, event)'>
+							<img src="{{contact.image.thumbnail}}" class='profile-picture {{member.active}}' alt='Profilbild'>
+						</a>
+					</td>
+					<td class='contact_name' valign="top" onclick='member_details({{contact.id}})'>
+						<b>{{contact.first_name}} {{contact.last_name}}</b><br>
+						Position: {{member.position}}, Ressort: {{member.name}}
+					</td>
+					<td align='right'>
+
+						<!-- Buttons -->
+						<button type='button' class='circular ui icon mini basic button' value='{{contact.id}}' onclick='edit(this.value)'>
+							<i class='edit icon'></i>
+						</button>
+						<button type='button' class='circular ui icon mini basic button' id='slide-content-button-{{number}}' value='{{number}}' onclick='member_details({{contact.id}})'>
+							<i class='unhide icon'></i>
+						</button>
+						<br>
+
+						{{# mails}}
+							<a href="mailto:{{address}}"  class="tooltip">
+								<span class="tooltiptext">{{description}}</span>
+								<button type='button' class='circular ui icon mini basic button'>
+									<i class='mail icon'></i>
+								</button>
+							</a>
+						{{/ mails}}
+						{{# phones}}
+							<a href="mailto:{{number}}"  class="tooltip">
+								<span class="tooltiptext">{{description}}</span>
+								<button type='button' class='circular ui icon mini basic button'>
+									<i class='phone icon'></i>
+								</button>
+							</a>
+						{{/ phones}}
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div id='slide_content_show_detail_{{number}}' class='detail-content' style='display: none; overflow: hidden; position: relative;'>
+			<div class='info-list'>
+				<div class='data-block'>
+					<div class='data-set'>
+						<span class='data-set-title'>Hinterlegte Adressen</span>
+						<div class='scroll-list'>
+							<table>
+								{{# addresses}}
+									<tr>
+										<td width='10%'>{{description}}</td>
+										<td>
+											{{street}} {{number}} {{addr_extra}}<br>
+											{{postal}} {{city}}
+										</td>
+									</tr>
+								{{/ addresses}}
+							</table>
+						</div>
+					</div>
+					<div class='data-set'>
+						<span class='data-set-title'>E-Mail</span>
+						<div class='scroll-list'>
+							<table>
+								{{# mails}}
+									<tr>
+										<td width='10%'>{{description}}</td>
+										<td>
+											<a href='mailto:{{address}}'>{{address}}</a>
+										</td>
+									</tr>
+								{{/ mails}}
+							</table>
+						</div>
+					</div>
+					<div class='data-set'>
+						<span class='data-set-title'>Telefonnummern</span>
+						<div class='scroll-list'>
+							<table>
+								{{# phones}}
+									<tr>
+										<td width='10%'>{{description}}</td>
+										<td>
+											<a href='tel:{{number}}'>{{number}}</a>
+										</td>
+									</tr>
+								{{/ phones}}
+							</table>
+						</div>
+					</div>
+				</div>
+				<div class='data-block'>
+					<div class='data-set'>
+						<span class='data-set-title'>HHC-Mitgliedschaft</span>
+						<div class='scroll-list'>
+							<table>
+								<tr>
+									<td width='10%'>Beitritt</td>
+									<td>{{member.joined}}</td>
+								</tr>
+								<tr>
+									<td width='10%'>Austritt</td>
+									<td>{{member.left}}</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+			<div id='tabs-{{number}}'>
+				<div class="ui top attached tabular menu">
+					<a class="item active" data-tab="tabs-{{number}}-1">Studiengänge</a>
+					<a class="item" data-tab="tabs-{{number}}-2">Fähigkeiten</a>
+					<a class="item" data-tab="tabs-{{number}}-3">Notizen</a>
+				</div>
+				<div class="ui bottom attached tab segment active" data-tab='tabs-{{number}}-1'>
+					{{# studies}}
+						<table class='study' style='margin-top: 1rem;'>
+							<tr>
+								<th colspan='4'>{{course}}</th>
+							</tr>
+							<tr>
+								<td width='25%'>Status: </td>
+								<td colspan='3'>
+									<span class="study_status">{{status}}</span>
+								</td>
+							</tr>
+							<tr>
+								<td>Start: </td>
+								<td>{{start}}</td>
+								<td width='25%'>Ende: </td>
+								<td>{{end}}</td>
+							</tr>
+						 	<tr>
+					 			<td>(Hoch-)Schule: </td>
+					 			<td colspan='3'>{{school}}</td>
+					 		</tr>
+					 		<tr>
+					 			<td>Abschluss: </td>
+					 			<td colspan='3'>{{degree}}</td>
+					 		</tr>
+						</table>
+					{{/ studies}}
+				</div>
+				<div class="ui bottom attached tab segment" data-tab='tabs-{{number}}-2'>
+					Fähigkeiten <i>(wird noch nicht unterstützt...)</i>
+				</div>
+				<div class="ui bottom attached tab segment" data-tab='tabs-{{number}}-3'>
+					{{{contact.comment}}}
+				</div>
+			</div>
+			<button type='button' class='fluid ui icon basic button transparent' value='{{number}}' onclick="scrollToTarget('#list-entry-{{number}}'); expand_content(this.value);">
+				<i class='chevron up icon'></i>
+			</button>
+		</div>
+	</td>
+</tr>

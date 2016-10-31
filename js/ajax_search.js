@@ -27,3 +27,36 @@ function ajax_post() {
 		$('.ui.menu .item').tab();
 	});
 }
+
+
+function member_details(id){
+
+	popup(null, "member-details", "Deatils");
+
+	var data = new FormData();
+	data.append('id', id);
+
+  	var templateDirectory = document.getElementById('templateDirectory').value; 
+
+	$.ajax({
+  		url: templateDirectory+'/functions/search/member_details.php',
+	  	data: data,
+		processData: false,
+		contentType: false,
+		type: 'POST',
+		success: function(data){
+			setTimeout(function(){
+				
+				$('.member-details .popup-content').html(data);
+				placeholder_color();
+		
+				// check image buttons
+				if ($(".edit-image-image a").attr('href') != '#') {
+					$('#edit-upload-image').hide();
+					$('#edit-delete-image').show();
+				}
+
+			}, 0);
+		}
+	});
+}
