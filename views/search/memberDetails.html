@@ -1,0 +1,193 @@
+<div id="edit">
+	<form id="edit-form" method="POST" action="{{dir}}/functions/edit/sql_edit.php" enctype="multipart/form-data">
+		<div id="popup-content">
+
+			<div id='tabs'>
+				<div class="ui top attached tabular menu">
+					<a class="item active" data-tab="tabs-1">Infos</a>
+					<a class="item" data-tab="tabs-2">Contact</a>
+					<a class="item" data-tab="tabs-3">Studienprofile</a>
+					<a class="item" data-tab="tabs-4">Mitgliedschaft</a>
+					<a class="item" data-tab="tabs-5">Notizen</a>
+				</div>
+				
+				<div class="ui bottom attached tab segment active" data-tab='tabs-1'>
+					<!-- INFOS -->
+					<span class='data-set-title'>Persönliche Daten</span>
+					<table>
+						{{# contact}}
+							<tr>
+								<td width='10%'>Anrede:</td>
+								<td>{{prefix}}</td>
+							</tr>
+							<tr>
+								<td>Name:</td>
+								<td>{{first_name}} {{last_name}}</td>
+							</tr>
+							<tr>
+								<td>Geburtsdatum:</td>
+								<td>{{birth_date}}
+							</tr>
+						{{/ contact}}
+					</table>
+					<br>
+
+					<span class='data-set-title'>Adressen</span>
+					<table>
+						{{# addresses}}
+							<tr>
+								<td width='10%'>{{# description}}{{ . }}:{{/ description}}</td>
+								<td>
+									{{street}} {{number}} {{addr_extra}}<br>
+									{{postal}} {{city}}
+								</td>
+							</tr>
+						{{/ addresses}}
+					</table>
+				</div>
+				
+				<div class="ui bottom attached tab segment" data-tab='tabs-2'>
+					<!-- CONTACT -->
+					<!-- Mails -->
+					<div class='data-block'>			
+						<div class='data-set'>
+							<span class='data-set-title'>E-Mail</span>
+							<table>
+								{{# mails}}
+									<tr>
+										<td width='10%'>{{# description}}{{ . }}:{{/ description}}</td>
+										<td>
+											<a href='mailto:{{address}}'>{{address}}</a>
+										</td>
+									</tr>
+								{{/ mails}}
+							</table>
+						</div><!-- /data-set -->
+					</div><!-- /data-block -->
+					
+					<!-- Phones -->
+					<div class='data-block'>			
+						<div class='data-set'>
+							<span class='data-set-title'>Telefonnummern</span>
+							<table>
+								{{# phones}}
+									<tr>
+										<td width='10%'>{{# description}}{{ . }}:{{/ description}}</td>
+										<td>
+											<a href='tel:{{number}}'>{{number}}</a>
+										</td>
+									</tr>
+								{{/ phones}}
+							</table>
+						</div><!-- /data-set -->
+					</div><!-- /data-block -->
+					
+					{{# contact.skype_name}}
+					<!-- Skype -->
+					<div class='data-block'>			
+						<div class='data-set'>
+							<span class='data-set-title'>Skype</span>
+							<table>
+									<tr>
+										<td width='10%'>Benutzername: </td>
+										<td>
+											<a href='skype:{{ . }}?chat'>{{ . }}</a>
+										</td>
+									</tr>
+							</table>
+						</div><!-- /data-set -->
+					</div><!-- /data-block -->
+					{{/ contact.skype_name}}
+				</div><!-- /ui tab -->
+
+
+				<div class="ui bottom attached tab segment" data-tab='tabs-3'>
+					{{# studies}}
+						<table class='study' style='margin-top: 1rem;'>
+							<tr>
+								<th colspan='4'>{{course}}</th>
+							</tr>
+							<tr>
+								<td width='25%'>Status: </td>
+								<td colspan='3'>
+									<span class="study_status">{{status}}</span>
+								</td>
+							</tr>
+							<tr>
+								<td>Start: </td>
+								<td>{{start}}</td>
+								<td width='25%'>Ende: </td>
+								<td>{{end}}</td>
+							</tr>
+						 	<tr>
+					 			<td>(Hoch-)Schule: </td>
+					 			<td colspan='3'>{{school}}</td>
+					 		</tr>
+					 		<tr>
+					 			<td>Abschluss: </td>
+					 			<td colspan='3'>{{degree}}</td>
+					 		</tr>
+						</table>
+					{{/ studies}}
+				</div>
+				
+				<div class="ui bottom attached tab segment" data-tab='tabs-4'>
+					<!-- MEMBER -->
+					<div class='data-block'>			
+						<div class='data-set'>
+							<span class='data-set-title'>HHC-Mitgliedschaft</span>
+							<table>
+								<tr>
+									<td width='10%'>Status:</td>
+									<td>{{member.active}}</td>
+								</tr>
+								<tr>
+									<td width='10%'>Position:</td>
+									<td>{{member.position}}</td>
+								</tr>
+								<tr>
+									<td width='10%'>Ressort:</td>
+									<td>{{member.name}}</td>
+								</tr>
+								<tr>
+									<td width='10%'>Beitritt:</td>
+									<td>{{member.joined}}</td>
+								</tr>
+								<tr>
+									<td width='10%'>Austritt:</td>
+									<td>{{member.left}}</td>
+								</tr>
+							</table>
+						</div><!-- /data-set -->
+					</div><!-- /data-block -->
+				</div><!-- /ui tab -->
+
+				<div class="ui bottom attached tab segment" data-tab='tabs-5'>
+					<!-- COMMENT -->
+						<div class='data-block'>			
+							<div class='data-set'>
+								<textarea name="Contact-comment" rows="12">{{{contact.comment}}}</textarea>
+							</div><!-- /data-set -->
+					</div><!-- /data-block -->
+				</div><!-- /ui tab -->
+			</div><!-- /tabs -->
+			<script>$('.tabular.menu .item').tab();</script>
+		</div><!-- /popup-content -->
+
+		<div id="popup-footer">
+
+			<button type="button" name="edit" value="{{contact.id}}" onclick="edit(this.value)" class="ui blue button icon labeled">
+				<i class="edit icon"></i>
+				Bearbeiten
+			</button>
+			<button type="submit" id="edit-delete" name="delete" value="{{contact.id}}" class="ui red button icon labeled">
+				<i class="delete icon"></i>
+				Löschen
+			</button>
+			<button type="button" onclick="popup_close('Wollen Sie das Fenster wirklich ohne zu speichern schließen? Ungespeicherte Änderungen gehen verloren.');" class="ui button icon labeled">
+				<i class="ban icon"></i>
+				Schließen
+			</button>
+		</div>
+	</form>
+</div>

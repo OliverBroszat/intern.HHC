@@ -20,7 +20,7 @@ function edit(id){
 				placeholder_color();
 		
 				// check image buttons
-				if ($(".edit-image-image").find('a').length) {
+				if ($(".edit-image-image a").attr('href') != '#') {
 					$('#edit-upload-image').hide();
 					$('#edit-delete-image').show();
 				}
@@ -91,6 +91,7 @@ $( document ).on('submit', '#edit-form', function(event) {
 				// Debug Output
 				$(".edit .popup-content").html(result);
 				$('.edit .popup-content').removeClass('modal');
+				$('.edit').addClass('reload-form');
 			}, 100);
         },
         error: function (xhr, desc, err)
@@ -104,18 +105,12 @@ $( document ).on('submit', '#edit-form', function(event) {
 
 // Swap Upload-Remove Image Button
 $(document).on('click', '#edit-delete-image', function(){
-	$(".edit-image-image").html("");
+	$(".edit-image-image a").attr('href', '#');
+	imagePlaceholder();
 
 	$('#edit-delete-image').hide();
 	$('#edit-upload-image').show();
 	$('#edit-upload-image').val('');
-
-
-
-	// <a href="http://localhost/wordpress/wp-content/uploads/2016/08/Profilbild-1x1-01b-SW.jpg" target="_blank" onclick="image_popup(this, event)">
-	// 	<img src="http://localhost/wordpress/wp-content/uploads/2016/08/Profilbild-1x1-01b-SW-150x150.jpg" class="profile-picture" alt="Profilbild">
-	// </a>
-
 });
 
 // Image Thumbnail
@@ -134,31 +129,20 @@ function loadFile(event) {
 
 // Image Placeholder
 function imagePlaceholder() {
-	var target = $(".edit-image-image>.profile-picture");
-
-	if (target.length) {
-		console.log('ist da');
-	}
-	else {
-		if (!$(".edit-image-image a").is(":visible")) {
-			$(".edit-image-image").prepend("<img src='' class='profile-picture'>");
+	var target = $(".edit-image-image a");
+	if (target.attr('href') == '#') {
+		var gender = $("#edit [name='Contact-prefix']").val();
+		if (gender == 'Herr') {
+			var src = "http://localhost/wordpress/wp-content/themes/intern-hhc/resources/images/profile_placeholder_male.png";
 		}
-	}
-
-
-	var female = "http://localhost/wordpress/wp-content/themes/intern-hhc/resources/images/profile_placeholder_female.png";
-	var male = "http://localhost/wordpress/wp-content/themes/intern-hhc/resources/images/profile_placeholder_male.png";
-	var gender = $("Contact-prefix").val();
-
-	if (gender == 'Frau') {
-		target.prop("src", female);
-	}
-	else {
-		target.prop("src", male);
+		else {
+			var src = "http://localhost/wordpress/wp-content/themes/intern-hhc/resources/images/profile_placeholder_female.png";
+		}
+		target.html("<img src='"+src+"' class='profile-picture'>")	
 	}
 };
 
-$(document).on("change", "select[name='Contact-prefix']", function() {
+$(document).on("change", "#edit [name='Contact-prefix']", function() {
 	imagePlaceholder();
 });
 

@@ -40,13 +40,30 @@ class ApplicationDataController {
 	public function __construct() {
 		$base = new BaseDataController();
 		$this->ContactDataController = new ContactDataController(null, $base);
-		$this->ApplicationDataModel = new ApplicationDataModel($base);
+		$this->ApplicationDataModel = new ApplicationDataModel($base);		
+	}
+
+	public function createApplicationFromPostWithFiles($postvar) {
+		$profile = $this->processPostToProfile($postvar);
+		$applicationID = $this->createApplicationFromForm($profile);
+
+		$attachmentIDs = $this->uploadFiles();
+		$this->ApplicationDataModel->addMultipleAttachmentsToApplication($applicationID, $attachmentIDs, $postvar['File-filedescription']);
+
+		// DEBUG
+		$files = $this->ApplicationDataModel->getAttachmentsForApplication($applicationID);
+		var_dump($files);
 	}
 
 	public function createApplicationFromForm($profile) {
 		$this->ContactDataController->createSingleContactByProfile($profile);
 		$contactID = $profile->contactDatabaseRow->getValueForKey('id');
 		$this->ApplicationDataModel->createApplicationForContact($contactID);
+
+		$newApplication = $this->ApplicationDataModel->getApplicationByContact($contactID);
+		$newApplicationID = $newApplication->getValueForKey('id');
+
+		return $newApplicationID;
 	}
 
 	public function processPostToProfile($postvar) {
@@ -86,15 +103,61 @@ class ApplicationDataController {
 		);
 		return $myProfile;
 	}
+
+	private function uploadFiles() {
+		if ( $_FILES ) { 
+		    $files = $_FILES["File-apply_file"];  
+		     $attachmentIDs = array();
+		    foreach ($files['name'] as $key => $value) {            
+	            if ($files['name'][$key]) { 
+	                $file = array( 
+	                    'name' => $files['name'][$key],
+	                    'type' => $files['type'][$key], 
+	                    'tmp_name' => $files['tmp_name'][$key], 
+	                    'error' => $files['error'][$key],
+	                    'size' => $files['size'][$key]
+	                ); 
+	                $_FILES = array ("File-apply_file" => $file);            
+	                foreach ($_FILES as $file => $array) {              
+	                   $newupload = $this->my_handle_attachment($file);
+	                   array_push($attachmentIDs, $newupload);
+	                }
+					
+	            } 
+	        } 
+	    }
+	    echo "<hr>IDS:";
+	    var_dump($attachmentIDs);
+	    echo "<hr>";
+	    return $attachmentIDs;
+	}
+
+
+	private function my_handle_attachment($file_handler) {
+		// check to make sure its a successful upload
+		if ($_FILES[$file_handler]['error'] !== UPLOAD_ERR_OK) __return_false();
+
+		require_once(ABSPATH . "wp-admin" . '/includes/image.php');
+		require_once(ABSPATH . "wp-admin" . '/includes/file.php');
+		require_once(ABSPATH . "wp-admin" . '/includes/media.php');
+
+		$attach_id = media_handle_upload( $file_handler, 0);
+		if ( is_numeric( $attach_id ) ) {
+			return $attach_id;
+		}
+	}
+
 }
+
+// DEBUG OUTPUT
+echo '<b>Erhaltene Daten:<br></b>';
+var_dump($_POST);
+echo '<br><br><b>Erhaltene Dateien:<br></b>';
+var_dump($_FILES);
+
+echo "<hr>";
+
+
+// Controlling
 $ApplicationDataController = new ApplicationDataController();
-$myProfile = $ApplicationDataController->processPostToProfile($_POST);
-$ApplicationDataController->createApplicationFromForm($myProfile);
-// Mit Contact Application erstellen
-
-// Anhänge in Datenbank speichern
-
-// Application mit Anhängen verknüpfen
-
-// Ergebnis anzeigen
-?>
+$ApplicationDataController->createApplicationFromPostWithFiles($_POST);

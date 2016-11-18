@@ -1,0 +1,83 @@
+<div id="edit">
+	<form id="edit-form" method="POST" action="{{dir}}/functions/edit/sql_edit.php" enctype="multipart/form-data">
+		<div id="popup-content">
+		
+		{{# translatedData}}
+			{{# contact}}
+				{{> editImage}}	
+			{{/ contact}}			
+		{{/ translatedData}}
+
+		{{# data}}
+			
+
+			{{# contact}}			
+				{{> editContactBox}}
+			{{/ contact}}
+			<script> select_option('contact-prefix', '{{contact.prefix}}', 'prefix'); </script>
+
+			<h2>Addressen</h2>
+			<div class="ui segment">
+				<exl-container id='address-list' template='addresses'></exl-container>
+			</div>
+	
+
+			<h2>Studienprofile</h2>
+			<div class="ui segment">
+				<exl-container id='study-list' template='studies'></exl-container>
+			</div>
+			
+			<script>
+				{{# studies}}
+					select_option('study-status', '{{status}}', 'status');
+					select_option('study-degree', '{{degree}}', 'degree');
+					select_option('study-school', '{{school}}', 'school');
+				{{/ studies}}
+			</script>
+			
+			{{# member}}						
+				{{> editMemberBox}}
+			{{/ member}}
+			<script>
+				select_option('member-active', '{{member.active}}', 'active');
+				select_option('member-ressort', '{{member.ressort}}', 'ressort');
+				select_option('member-position', '{{member.position}}', 'position');
+			</script>			
+
+			
+			<h2>Kommentare</h2>
+			<div class="ui segment">
+				<textarea name="Contact-comment" rows="4">{{contact.comment}}</textarea>
+			</div>
+
+
+		</div>
+		<div id="popup-footer">
+
+			<button type="submit" id="edit-save" name="edit" value="{{contact.id}}" class="ui blue button icon labeled">
+				<i class="save icon"></i>
+				Speichern
+			</button>
+			<button type="submit" id="edit-delete" name="delete" value="{{contact.id}}" class="ui red button icon labeled">
+				<i class="delete icon"></i>
+				Löschen
+			</button>
+			<button type="button" onclick="popup_close('Wollen Sie das Fenster wirklich ohne zu speichern schließen? Ungespeicherte Änderungen gehen verloren.');" class="ui button icon labeled">
+				<i class="ban icon"></i>
+				Abbrechen
+			</button>
+			<button type="button" onclick="newMemberTestData()" class="ui button">
+				Test-Daten
+			</button>
+		</div>
+	</form>
+</div>
+
+<script>
+	Exl.setupExlContainerWithID('mail-list', {{{mails}}});
+	Exl.setupExlContainerWithID('phone-list', {{{phones}}});
+	Exl.setupExlContainerWithID('address-list', {{{addresses}}});
+	Exl.setupExlContainerWithID('study-list', {{{studies}}});
+</script>
+
+{{/ data }}

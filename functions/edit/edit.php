@@ -5,93 +5,58 @@
 */
 
 // Load WP-Functions
-$localhost = array( '127.0.0.1', '::1' ); 
+$localhost = array('127.0.0.1', '::1');
 $root = realpath($_SERVER["DOCUMENT_ROOT"]); 
-if(in_array($_SERVER['REMOTE_ADDR'], $localhost)){ 
-    $root = realpath($_SERVER["CONTEXT_DOCUMENT_ROOT"]).'/wordpress'; 
-} 
+if(in_array($_SERVER['REMOTE_ADDR'], $localhost)){
+    $root = realpath($_SERVER["CONTEXT_DOCUMENT_ROOT"]).'/wordpress';
+}
 require_once("$root/wp-load.php");
 
-$root = get_template_directory();
-require_once("$root/functions/suchfunktion/prepareSQL.php");
-require_once("$root/functions/suchfunktion/getData.php");
-require_once("$root/functions/html_templates/userdata.php");
-
-
+// get ID
 $id = $_POST['id'];
 
-// SQL-Abfrage vorbereiten
-$queries = prepareSQL($id);
-// Datenbankabfrage
-$data = getData($queries)[$id];
+// create mustache object
+$mustache = new Mustache_Engine(array(
+    'loader' => new Mustache_Loader_FilesystemLoader(get_template_directory() . '/views/edit', array('extension' => '.html')),
+));
 
-// echo "<br><br>*************************<br>";
-// arr_to_list($data);
-// echo "<br>*************************<br><br>";
+if ($id != 'new') {
+	/*** EDIT Contact ***/
 
-// Text für den Schließen-Dialog
-$dialog = "Wollen Sie das Fenster wirklich ohne zu speichern schließen? Ungespeicherte Änderungen gehen verloren.";
+	// create MemberDataController
+	$memberController = new MemberDataController(null, new ContactDataController(null, new BaseDataController));
+	// get MemberProfile
+	$memberProfile = $memberController->getSingleMemberProfileByContactID($id);
 
-// Finale HTML-Ausgabe
-$html = "
-	<div id='edit'>
-		<form id='edit-form' method='POST' action='".get_template_directory_uri()."/functions/edit/sql_edit.php' enctype='multipart/form-data'>
-			<div id='popup-content'>
+	// create Translator
+	$translator = new Translator();
+	// specify which tables need JSON encoding to work with EXL
+	$encode = array('mails', 'phones', 'addresses', 'studies');
+	
+	// (I) Transform MemberProfile to data (array) used with Musatche
+	$data = $translator->transformSingleMemberProfileToData($memberProfile, $encode);
 
-				<h2>Profilbild</h2>
-				<div class='ui segment edit-image clearfix'>
-					<div class='edit-image-image'>
-						".$data['image']."
-					</div>
-					<div class='edit-image-buttons'>
-						<input type='file' accept='image/*' onchange='$(\"#delete_image\").val(\"false\"); loadFile(event);' class='full-width' id='edit-upload-image' placeholder='Upload' name='upload_image'>
-						
-						<button type='button' class='ui icon button fluid' id='edit-delete-image' style='display:none;' 
-							onclick=\"$('#delete_image').val('true')\">
-							<i class='remove icon'></i>							
-							Löschen &nbsp; / 
-							<i class='upload icon'></i>
-							Hochladen
-						</button>
-						<input type='hidden' id='delete_image' name='crud-delete_image' value='false'>
-					</div>						
-				</div><br>
+	// (II) Translate raw values from MemberProfile to readable values (e.g. member.active: 0 -> 'Aktiv')
+	$translatedProfile = $translator->translateSingleMemberProfile($memberProfile);
+	// Transform translated MemberProfile (II) to data (array) used with Musatche
+	$translatedData = $translator->transformSingleMemberProfileToData($translatedProfile, $encode);	
 
-				".getContactEditTemplate($data)."<br>
-				".getAddressEditTemplate($data)."<br>
-				".getStudyEditTemplate($data)."<br>
-				".getMemberEditTemplate($data)."<br>
-				
-				<h2>Kommentare</h2>
-				<div class='ui segment'>
-					<textarea name='Contact-comment' rows='4'>".$data['info']->comment."</textarea>
-				</div>
+	// combine (I) with (II) and the template_directory 
+	$data = array('data' => $data, 'translatedData' => $translatedData, 'dir' => get_template_directory_uri());
+	// RENDER editMember Template (/views/edit/editMember.html) with Mustache
+	$html = $mustache->render('editMember', $data);
 
-			</div>
-			<div id='popup-footer'>
-
-				<button type='submit' id='edit-save' name='edit' value='".$data['info']->id."' class='ui blue button icon labeled'>
-					<i class='save icon'></i>
-					Speichern
-				</button>
-				<button type='submit' id='edit-delete' name='delete' value='".$data['info']->id."' class='ui red button icon labeled'>
-					<i class='delete icon'></i>
-					Löschen
-				</button>
-				<button type='button' onclick=\"popup_close('".$dialog."');\"class='ui button icon labeled'>
-					<i class='ban icon'></i>
-					Abbrechen
-				</button>
-				<button type='button' onclick='newMemberTestData()' class='ui button'>
-					Test-Daten
-				</button>
-			</div>
-		</form>
-	</div>
-";
+}
+else {
+	/*** Create New Contact ***/
+	
+	// fake data for profile image
+	$data = array('translatedData' => array('contact' => array('image' => array('thumbnail' => get_template_directory_uri().'/resources/images/profile_placeholder_female.png', 'source' => '#' ))));
+	
+	// RENDER newMember Template (/views/edit/newMember.html) with Mustache
+	$html = $mustache->render('newMember', $data);
+}
 
 
+// return HTML
 echo $html;
-
-?>
-

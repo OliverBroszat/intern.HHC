@@ -28,6 +28,17 @@ function dialog(message, yesCallback, noCallback) {
 
 }
 
+function showDiv(elem) {
+	var hiddenDiv = $('#hidden_div-'+elem.id)
+	if(elem.value == 'other') {
+		hiddenDiv.show();
+		hiddenDiv.prop( 'disabled', false );
+	} else {
+		hiddenDiv.hide();
+		hiddenDiv.prop( 'disabled', true );
+	}
+}
+
 // Center-Function
 
 // jQuery.fn.center = function () {
@@ -53,7 +64,7 @@ $(document).ready(function() {
 });
 
 
-function select_option(id_base, data, key) {
+function select_option_exl(id_base, data, key) {
 	// for each Studienprofil
 	for (var i = 0; i < data.length; i++) {
 		
@@ -89,10 +100,50 @@ function select_option(id_base, data, key) {
 	}
 };
 
+function select_option(id_base, data, key) {
+		
+	var id = id_base;
+	var value = data;                   
+	var options = $('#' + id + ' option');
+	var inList = false;
+	
+	// for each option in the select-input
+	for (var j = 1; j < options.length; j++) {      
+		// check value
+		if (options[j].value == value ) {
+			// set value
+			$('#' + id).val(options[j].value);
+			inList = true;
+		}
+	}
+	
+	// value is not one of the options
+	if (value == '' || value == null) {
+		$('#' + id).val(null);
+	}
+	else if (!inList) {
+		// set value to 'other'
+		$('#' + id).val('other');
+		
+		// show hiddenDiv with value
+		var hiddenDiv = $('#hidden_div-'+ id)
+		hiddenDiv.val(value);
+		hiddenDiv.show();
+		hiddenDiv.prop( 'disabled', false );
+	}
+
+};
+
 
 function getScrollBarWidth() {
 	var $outer = $("<div>").css({visibility: "hidden", width: 100, overflow: "scroll"}).appendTo("body"), 
 		widthWithScroll = $("<div>").css({width: "100%"}).appendTo($outer).outerWidth();
 	$outer.remove();
 	return 100 - widthWithScroll;
+};
+
+function scrollToTarget(target) {
+	$('html, body').animate({
+        scrollTop: $(target).offset().top
+    }, 300);
 };

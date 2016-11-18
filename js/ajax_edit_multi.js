@@ -15,7 +15,6 @@ function edit_multi(){
 	var content = `
 		<h3>Zu ändernde Werte:</h3>
 		<form class="ui form" method="POST">
-			<input type="text" name="test" value="Hallo Welt!">
 			<table>
 				<tr>
 					<td width="50%">
@@ -153,6 +152,7 @@ function edit_multi_save(){
 				type: 'POST',
 				success: function(data){
 					console.log($.parseJSON(data));	
+					$('.edit-multi').addClass('reload-form');
 					// setTimeout(function(){
 					// 	$('.edit-multi .popup-content').html(`
 					// 		<h2>Die Änderung war erfolgreich!</h2>

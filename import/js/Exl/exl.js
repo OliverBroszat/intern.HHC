@@ -200,7 +200,7 @@ function ExlClass() {
 		newExlContent.classList.add('exl', 'content');
 
 		var renderedContentTemplate = Mustache.render(contentTemplate, {});
-		newExlContent.innerHTML = renderedContentTemplate;
+		$(newExlContent).html(renderedContentTemplate);
 		return newExlContent;
 
 	}
@@ -246,8 +246,8 @@ function ExlClass() {
 
 		var newExlContent = createEmptyExlContent(contentTemplate, exlContainerID, newItemID);
 		var newDeleteButton = createNewDeleteButton(exlContainerID, newItemID);
-		newListItem.appendChild(newExlContent);
-		newListItem.appendChild(newDeleteButton);
+		$(newListItem).append(newExlContent);
+		$(newListItem).append(newDeleteButton);
 
 		return newListItem;
 	}
@@ -285,7 +285,7 @@ function ExlClass() {
 		var newItemID = currentMaxID + 1;
 
 		var newListItem = createEmptyListItem(contentTemplate, exlContainerID, newItemID);
-		exlListNode.appendChild(newListItem);
+		$(exlListNode).append(newListItem);
 	    updateItemCounterForID(exlContainerID, +1);
 
 	}
@@ -300,9 +300,17 @@ function ExlClass() {
 	 * @param listItemID The exl-listitem's ID
 	 */
 	this.deleteListItemForContainerWithID = function(exlContainerID, listItemID) {
-		console.log('exlContainerID: '+exlContainerID);
-		console.log('listItemID: '+listItemID);
+		var exlContainer = document.getElementById(exlContainerID);
 		var exlList = document.getElementById('exl-list-'+exlContainerID);
+		var numberOfListItems = exlList.children.length;
+		var minNumberOfItems = exlContainer.getAttribute('min-templates');
+		if (minNumberOfItems == null) {
+			minNumberOfItems = 0;
+		}
+		if (numberOfListItems-1 < minNumberOfItems) {
+			// TODO: Error popup on List Item
+			return;
+		}
 		var fullItemID = 'exl-listitem-'+exlContainerID+'-'+listItemID;
 		var listItem = document.getElementById(fullItemID);
 		// TODO: NOTE: element.removeChild() should actually not be used due to poor browser support
@@ -320,7 +328,6 @@ function ExlClass() {
 	 */
 	this.setupExlContainerWithData = function (exlContainer, data) {
 		var dataSourceName = exlContainer.getAttribute('source');
-		console.log(dataSourceName);
 		try {
 			var containerData = data[dataSourceName];
 		}
@@ -328,11 +335,23 @@ function ExlClass() {
 			// Data source was not given, so render template without any content data
 			var containerData = { };
 		}
+		try {
+			var exlMinTemplates = exlContainer.getAttribute('min-templates');
+		}
+		catch (e) {
+			var exlMinTemplates = 0;
+		}
+	    var exlContainerID = exlContainer.getAttribute('id');
 		var exlFormattedData = getExlDataArrayForContainerWithData(exlContainer, containerData);
 		var exlWrapperTemplate = getWrapperTemplate('__exl-template');
 	    var fullResult = Mustache.render(exlWrapperTemplate, exlFormattedData);
-	    exlContainer.innerHTML = fullResult;
-	    Exl.addNewListItemForContainerWithID(exlContainer.getAttribute('id'));
+	    $(exlContainer).html(fullResult);
+	    // Add default empty templates
+	    var numberOfListItems = document.getElementById('exl-list-'+exlContainerID).children.length;
+	    while (numberOfListItems < exlMinTemplates) {
+	    	Exl.addNewListItemForContainerWithID(exlContainerID);
+	    	numberOfListItems++;
+	    }
 	}
 
 	/**

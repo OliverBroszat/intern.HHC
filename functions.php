@@ -56,6 +56,30 @@ if (!function_exists('change_date_format')) {
 	}
 }
 
+if(!function_exists('array_to_string')) {
+	function array_to_string($array, $seperator = ', ') {
+		$string = '';
+		$base = new BaseDataController();		
+		foreach ($array as $value) {
+			$tmp = "%s";
+			$prepValue = $base->prepareSqlQuery($tmp, $value);
+			$string .= $prepValue.$seperator;
+		}
+		$string = rtrim($string, $seperator);
+		return $string;
+	}
+}
+
+if(!function_exists('wrap_values_of_array')) {
+	function wrap_values_of_array($array, $wrapper = "'") {
+		foreach ($array as $key => $value) {
+			$array[$key] = $wrapper.$value.$wrapper;
+		}
+		return $array;
+	}
+}
+
+
 
 
 // --------- Prüfe, ob ein Filter angewählt wurde ----------
@@ -287,7 +311,7 @@ if (!function_exists('arr_to_list')) {
 			function create_list($array) {	
 				echo "<ul>";
 			
-				foreach ($array as $key => $value) {
+				foreach ((array) $array as $key => $value) {
 					$type = gettype($value);
 
 					if (is_array($value) || is_object($value)) {
@@ -296,7 +320,7 @@ if (!function_exists('arr_to_list')) {
 						echo "</li>";
 					}
 					else {
-						echo "<li>[<b>$key</b>] ($type)  ->  <i>".var_export($value, true)."</i></li>";
+						echo "<li>[<b>$key</b>] ($type)  ->  <i>".print_r($value, true)."</i></li>";
 					}
 				}
 				echo "</ul>";
@@ -366,6 +390,17 @@ function post_to_array($post) {
 	return $data;
 }
 
+/**  
+ * convert string to windows-1252 charset for excel (used for downloading a .csv file)  
+ * @param  string $string   
+ * @return string           
+ */  
+function convertToWindowsCharset($string) {  
+  $charset = mb_detect_encoding($string, "UTF-8, ISO-8859-1, ISO-8859-15", true);  
+  $string = mb_convert_encoding($string, "Windows-1252", $charset);  
+  return $string;  
+} 
+ 
 
 if (!function_exists('autoload')) {
 	function autoload($class_name)
@@ -385,16 +420,20 @@ if (!function_exists('autoload')) {
 	        'OOP/model/DataController/BaseDataController/',
             'OOP/model/DataController/ContactDataController/',
             'OOP/model/DataController/MemberDataController/',
+            'OOP/model/SearchController/',
+            'OOP/model/SearchController/Filter/',
+            'OOP/model/Translator/',
+            'OOP/model/CSV/',
+
+            'OOP/model/DataController/MemberDataController/',
             'OOP/model/DataController/ApplicationDataController/'
 	    );
-
 	    //Jedes Verzeichnis soll überprüft werden
 	    foreach($directorys as $directory)
 	    {
 	        //Überprüft ob die Date im aktuell durchsuchten Verzeichnis vorhanden ist.
 	        $root = get_template_directory();
 	        $path = "$root/$directory$class_name" . ".php";
-
 	        if(file_exists($path))
 	        {
 	            require_once($path);

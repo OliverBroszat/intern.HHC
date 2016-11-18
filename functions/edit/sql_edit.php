@@ -8,7 +8,7 @@ if(in_array($_SERVER['REMOTE_ADDR'], $localhost)){
 } 
 require_once("$root/wp-load.php");
 
-echo "<button type='button' onclick='popup_close(); ajax_post()' style='margin: 1rem auto; display: block;'>Schließen</button>";
+echo "<button type='button' class='popup-close' style='margin: 1rem auto; display: block;'>Schließen</button>";
 echo "<hr>";
 echo "<h2>DEBUG-Output</h2>";
 
@@ -27,7 +27,6 @@ function delete_member($id) {
 	$contact->deleteSingleContactByID($id);
 }
 
-
 // Lösche alle Einträge mit 'other'
 $post_clean = unset_value_in_2d_array($_POST, 'other');
 // Wandele POST in einen geordneteren Array um
@@ -43,7 +42,11 @@ $member = new MemberDataController(null, $contact);
 
 $dataObject = array();
 foreach ($data as $table_name => $tables) {
+	print_r("aktuelle Tabelle: $table_name<br>");
 	foreach ($tables as $index => $values) {
+		print_r("Aktueller Index: $index<br>");
+		var_dump($values);
+		echo '<br>';
 		$dataObject[$table_name][$index] = new DatabaseRow((object) $values);
 	}
 };
@@ -65,9 +68,6 @@ $newProfile = new ContactProfile(
 	$dataObject['Study']
 );
 
-var_dump($newProfile);
-echo '<br><br><br>';
-
 $newMember = new MemberProfile(
 	$dataObject['Member'][0],
 	$newProfile
@@ -80,9 +80,14 @@ $requiredFieldsForPhone = array('description', 'number');
 $requiredFieldsForStudy = array('status', 'school', 'course', 'degree', 'start');
 $requiredFieldsForMember = array('ressort', 'active', 'position', 'joined');
 
+function isNullOrEmptyString($data) {
+	return is_null($data) || ($data == '');
+}
+
 function allFieldsSetInRow($fields, $row) {
 	foreach ($fields as $field) {
-		if (empty($row->getOptionalValueForKey($field))) {
+		if (isNullOrEmptyString($row->getOptionalValueForKey($field))) {
+			print_r("$field wurde nicht gefunden");
 			return false;
 		}
 	}
@@ -91,7 +96,7 @@ function allFieldsSetInRow($fields, $row) {
 
 function atLeastOneFieldSetInRow($fields, $row) {
 	foreach ($fields as $field) {
-		if (!empty($row->getOptionalValueForKey($field))) {
+		if (!isNullOrEmptyString($row->getOptionalValueForKey($field))) {
 			return true;
 		}
 	}
@@ -108,6 +113,7 @@ if (!allFieldsSetInRow($requiredFieldsForContact, $contactRow)) {
 	die('Invalid Contact Data!');
 }
 $memberRow = $newMember->memberDatabaseRow;
+var_dump(empty("0"));
 if (!allFieldsSetInRow($requiredFieldsForMember, $memberRow)) {
 	die('Invalid Member Data!');
 }
@@ -156,9 +162,6 @@ foreach ($newProfile->studyDatabaseRows as $id => $row) {
 		unset($newProfile->studyDatabaseRows[$id]);
 	}
 }
-
-var_dump($newProfile);
-echo '<br><br><br>';
 
 // Get Image ID
 global $wpdb;

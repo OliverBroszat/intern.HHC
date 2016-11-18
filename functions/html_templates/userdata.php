@@ -101,7 +101,7 @@ function getContactEditTemplate($data) {
 					Mail Adresse
 				</td>
 				<td colspan='2'>
-					<exl-container id='mail-list' template='mails' source='mail'></exl-container>
+					<exl-container id='mail-list' template='mails' source='mail' min-templates='1'></exl-container>
 				</td>
 			</tr>
 			<style>
@@ -118,7 +118,7 @@ function getContactEditTemplate($data) {
 					Telefonnummer
 				</td>
 				<td colspan='2'>
-					<exl-container id='phone-list' template='phones' source='phone'></exl-container>
+					<exl-container id='phone-list' template='phones' source='phone' min-templates='1'></exl-container>
 				</td>
 			</tr>
 		</table>
@@ -132,13 +132,17 @@ function getContactEditTemplate($data) {
 
 
 function getAddressEditTemplate($data) {
-	$resl = "<h2>Adressen</h2>
+	$resl = "
+		<h2>Adressen</h2>
+		<div class='ui segment'>
+			<exl-container id='address-list' template='addresses' source='address' min-templates='1'></exl-container>
+			</script>
+			<script>
+				Exl.setupExlContainerWithID('address-list', ".json_encode($data['detail']).");
+			</script>
+		</div>
+	";
 
-	<exl-container id='address-list' template='addresses' source='address'></exl-container>
-	</script>
-	<script>
-		Exl.setupExlContainerWithID('address-list', ".json_encode($data['detail']).");
-	</script>";
 	return $resl;
 }
 
@@ -146,21 +150,19 @@ function getAddressEditTemplate($data) {
 function getStudyEditTemplate($data) {
 
 	$resl = "
-
 		<h2>Studienprofile</h2>
+		<div class='ui segment'>
+			<exl-container id='study-list' template='studies' source='study' min-templates='1'></exl-container>
 
-		<exl-container id='study-list' template='studies' source='study'></exl-container>
-
-		<script>
-			Exl.setupExlContainerWithID('study-list', ".json_encode($data['detail']).");
-
-			var data = " . toJSArrayString($data['studies']) . ";
-
-			select_option('study_status_study--', data, 'status');
-			select_option('degree-study--', data, 'degree');
-			select_option('school-study--', data, 'school');
-
-		</script>";
+			<script>
+				Exl.setupExlContainerWithID('study-list', ".json_encode($data['detail']).");
+				// var data = " . toJSArrayString($data['studies']) . ";
+				// select_option('study_status_study--', data, 'status');
+				// select_option('degree-study--', data, 'degree');
+				// select_option('school-study--', data, 'school');
+			</script>
+		</div>
+	";
 	return $resl;
 
 }
@@ -267,14 +269,19 @@ function getMemberEditTemplate($data) {
 
 
 function getFileEditTemplate($data) {
-	$resl = "<h2>Anlagen</h2>
-		<table class='form'>
-			<tr><td colspan='2'><div id='expandablecontent-files' class='expandablecontent-container small'></div></td></tr>
-		</table>
-		<script>
-		var tmp_files = \"<input id='%%desc_FULL-ID%%' type='text'name='File-filedescription[]' placeholder='Bezeichnung' value='%%DATA-filedescription%%' style='width: 45%;'/><input id='file_%%FULL-ID%%' type='file' name='File-apply_file[]' style='width: 45%;'/>\";
-		setup_expandablecontent('expandablecontent-files', 'files', tmp_files, ".toJSArrayString($data['files']).", 1);
-		</script>";
+	$resl = "
+		<h2>Anlagen</h2>
+		<div class='ui segment'>
+			<table class='form'>
+				<tr><td colspan='2'>
+				<exl-container id='file-list' template='files' source='files' min-templates='1'></exl-container>
+				</td></tr>
+			</table>
+			<script>
+			Exl.setupExlContainerWithID('file-list', ".json_encode($data['file']).");
+			</script>
+		</div>
+	";
 	return $resl;
 }
 

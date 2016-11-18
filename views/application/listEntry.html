@@ -1,0 +1,188 @@
+<tr>
+	<td class='list-entry' id='list-entry-{{number}}'>
+		<div id='fix_content_show_detail_{{number}}' class='fix-content'>
+			<table>	
+				{{# contact}}
+				<tr>
+					<td class='number' rowspan='5' style='vertical-align: top;' width='5%'>
+						<div class="ui checkbox">
+					    	<input type="checkbox" name='member_list[]' value='{{id}}' class='member_list hidden'>
+					    	<label></label>
+					    </div>
+					</td>
+					<td class='contact_name' width='30%'><b>{{first_name}} {{last_name}}</b></td>
+					<td align='right' width='65%' rowspan='5' style="vertical-align: bottom;">
+						<!-- ACTION Buttons -->
+						<table class="table-grid">
+							<tr>
+								<td>
+									<button type="button" class="fluid ui icon mini basic button labeled">
+										<i class='calendar icon'></i>
+										Make Appointment
+									</button>
+								</td>
+							
+								<td>
+									<button type="button" class="fluid ui icon mini basic button labeled">
+										<i class='circle notched icon'></i>
+										Change State
+									</button>
+								</td>
+							</tr>
+						</table>
+						
+						<!-- SHOW Buttons -->
+						<button type="button" class="fluid ui icon mini basic button labeled" id="slide-content-button-{{number}}" value="{{number}}" onclick="expand_content('#slide_content_show_attachments_'+value)">
+							<i class='chevron up down icon'></i>
+							Attachments
+						</button>
+						<button type="button" class="fluid ui icon mini basic button labeled" id="slide-content-button-{{number}}" value="{{number}}" onclick="expand_content('#slide_content_show_detail_'+value);">
+							<i class='chevron up down icon'></i>
+							Contact Details
+						</button>
+					</td>
+				</tr>
+				<tr>
+					<td class='contact-id'> ID: {{id}}</td>
+				</tr>
+				<tr>
+					<td class='birth-date'> Geb.: {{birth_date}}</td>
+				</tr>
+				{{/ contact}}
+
+				{{# application}}
+					<tr>
+						<td class='application-state'> State: {{state}}</td>
+					</tr>
+					<tr>
+						<td class='application-income'> Income: {{income}}</td>
+					</tr>
+				{{/ application}}
+			</table>
+		</div>
+
+		<!-- ATTACHMENTS -->
+		<div id='slide_content_show_attachments_{{number}}' class='detail-content' style='display: none; overflow: hidden; position: relative;'>
+			<div class='info-list'>
+				<div class='data-block'>
+					<div class='data-set'>
+						<span class='data-set-title'>Attachments</span>
+						<div class='scroll-list'>
+							<table>
+								{{# attachments}}
+									<tr>
+										<td width='10%'>{{description}}</td>
+										<td>
+											<a href="{{url}}" target="_blank">{{url}}</a>
+										</td>							
+									</tr>
+								{{/ attachments}}
+							</table>
+						</div>
+					</div><!-- /data-set -->
+				</div><!-- /data-block -->
+			</div><!-- /info-list -->
+
+			<button type='button' class='fluid ui icon basic button transparent' value='{{number}}' onclick="expand_content('#slide_content_show_attachments_'+value);">
+				<i class='chevron up icon'></i>
+			</button>
+		</div><!-- /ATTACHMENTS -->
+
+		<!-- DETAILS -->
+		<div id='slide_content_show_detail_{{number}}' class='detail-content' style='display: none; overflow: hidden; position: relative;'>
+			<div class='info-list'>
+				<div class='data-block'>
+					<div class='data-set'>
+						<span class='data-set-title'>Hinterlegte Adressen</span>
+						<div class='scroll-list'>
+							<table>
+								{{# addresses}}
+									<tr>
+										<td width='10%'>{{description}}</td>
+										<td>
+											{{street}} {{number}} {{addr_extra}}<br>
+											{{postal}} {{city}}
+										</td>
+									</tr>
+								{{/ addresses}}
+							</table>
+						</div>
+					</div>
+					<div class='data-set'>
+						<span class='data-set-title'>E-Mail</span>
+						<div class='scroll-list'>
+							<table>
+								{{# mails}}
+									<tr>
+										<td width='10%'>{{description}}</td>
+										<td>
+											<a href='mailto:{{address}}'>{{address}}</a>
+										</td>
+									</tr>
+								{{/ mails}}
+							</table>
+						</div>
+					</div>
+					<div class='data-set'>
+						<span class='data-set-title'>Telefonnummern</span>
+						<div class='scroll-list'>
+							<table>
+								{{# phones}}
+									<tr>
+										<td width='10%'>{{description}}</td>
+										<td>
+											<a href='tel:{{number}}'>{{number}}</a>
+										</td>
+									</tr>
+								{{/ phones}}
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+			<div id='tabs-{{number}}'>
+				<div class="ui top attached tabular menu">
+					<a class="item active" data-tab="tabs-{{number}}-1">Studiengänge</a>
+					<a class="item" data-tab="tabs-{{number}}-2">Notizen</a>
+				</div>
+				<div class="ui bottom attached tab segment active" data-tab='tabs-{{number}}-1'>
+					{{# studies}}
+						<table class='study' style='margin-top: 1rem;'>
+							<tr>
+								<th colspan='4'>{{course}}</th>
+							</tr>
+							<tr>
+								<td width='25%'>Status: </td>
+								<td colspan='3'>
+									<span class="study_status">{{status}}</span>
+								</td>
+							</tr>
+							<tr>
+								<td>Start: </td>
+								<td>{{start}}</td>
+								<td width='25%'>Ende: </td>
+								<td>{{end}}</td>
+							</tr>
+						 	<tr>
+					 			<td>(Hoch-)Schule: </td>
+					 			<td colspan='3'>{{school}}</td>
+					 		</tr>
+					 		<tr>
+					 			<td>Abschluss: </td>
+					 			<td colspan='3'>{{degree}}</td>
+					 		</tr>
+						</table>
+					{{/ studies}}
+				</div>
+				<div class="ui bottom attached tab segment" data-tab='tabs-{{number}}-2'>
+					{{{contact.comment}}}
+				</div>
+			</div>
+			<button type='button' class='fluid ui icon basic button transparent' value='{{number}}' onclick="scrollToTarget('#list-entry-{{number}}'); expand_content('#slide_content_show_detail_'+value);">
+				<i class='chevron up icon'></i>
+			</button>
+		</div>
+	</td>
+</tr>

@@ -1,0 +1,60 @@
+<h2>Persönliche Angaben</h2>
+<input type="hidden" name="Contact-id" value="{{id}}"></input>
+<div class="ui segment">
+	<table class="form">
+		<tr>
+			<td width="20%">
+				Anrede
+			</td>
+			<td width="40%">
+				<select name="Contact-prefix" id="contact-prefix">
+					<option disabled selected value class="placeholder">Anrede</option>
+					<option value="Herr">Herr</option>
+					<option value="Frau">Frau</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				Name
+			</td>
+			<td>	
+				<input type="text" name="Contact-first_name" placeholder="Vorname" required minlength="2" value="{{first_name}}"/>
+			</td>
+			<td width="40%">
+				<input type="text" name="Contact-last_name" placeholder="Nachname" required minlength="2" value="{{last_name}}"/>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				Geburtstag
+			</td>
+			<td colspan="3">
+				<input type="date" name="Contact-birth_date" placeholder="YYYY-MM-DD" value="{{birth_date}}"/>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				Skype Name
+			</td>
+			<td colspan="3">
+				<input type="text" name="Contact-skype_name" placeholder="Skype Name" value="{{skype_name}}"/>
+		</tr>
+		<tr>
+			<td>
+				Mail Adresse
+			</td>
+			<td colspan='2'>
+				<exl-container id='mail-list' template='mails'></exl-container>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				Telefonnummer
+			</td>
+			<td colspan='2'>
+				<exl-container id='phone-list' template='phones'></exl-container>
+			</td>
+		</tr>
+	</table>
+</div>

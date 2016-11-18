@@ -67,7 +67,7 @@ body.popup-on{
 }
 
 /* Popup Close */
-.popup-close {
+.pupup-close-button-top {
 	position: absolute;
 	top: 1rem;
 	right: 1rem;
@@ -75,7 +75,7 @@ body.popup-on{
     cursor: pointer;
     transition: all 0.15s ease;
 }
-.popup-close:hover {
+.pupup-close-button-top:hover {
 	 color: #8F3D3D;
 }
 
@@ -190,6 +190,13 @@ td {
     margin: 1rem 0;
 }
 
+@media screen and (max-width: 500px) {
+	.mail_content {
+		display: block;
+		margin-bottom: 5px;
+		width: 100% !important;
+	}
+}
 
 
 @media screen and (max-width: 960px){

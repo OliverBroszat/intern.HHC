@@ -191,11 +191,17 @@ class BaseDataController {
     public function getColumnNamesForTable($table) {
         $sqlQuery = "SHOW COLUMNS FROM $table";
         $columnNameResults = $this->selectMultipleRowsByQuery($sqlQuery);
-        $filteredColumnNames = $this->filterValuesFromRowsForSingleKey(
+        $filteredColumnNames = DatabaseRow::filterValuesFromRowsForSingleKey(
             'Field',
             $columnNameResults
         );
         return $filteredColumnNames;
+    }
+
+    public function getNumberOfColumnsForTable($table) {
+        $columns = $this->getColumnNamesForTable($table);
+        $numberOfColumns = sizeof($columns);
+        return $numberOfColumns;
     }
 
     public function getPrimaryColumnNamesForTable($table) {
