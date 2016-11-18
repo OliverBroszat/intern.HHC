@@ -513,6 +513,30 @@ table.liste tr:nth-child(even) .ui-tabs-active{
 }
 
 
+/* File Icons (Test) */
+[id*="show_attachments"] [href$=".pdf"]:before{
+    content: "";
+    display: inline-block;
+    width: 1.25rem;
+    height: 1rem;
+    background-image: url('http://findicons.com/files/icons/2711/free_icons_for_windows8_metro/128/pdf.png');
+    background-size: 1rem;
+    background-repeat: no-repeat;
+}
+
+[id*="show_attachments"] [href$=".jpg"]:before,
+[id*="show_attachments"] [href$=".png"]:before {
+    content: "";
+    display: inline-block;
+    width: 1.25rem;
+    height: 1rem;
+    background-image: url('https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-image-128.png');
+    background-size: 1rem;
+    background-repeat: no-repeat;
+    opacity: 0.75;
+}
+
+
 
 /*--------- Media Queries --------- */
 @media screen and (max-width: 960px){
