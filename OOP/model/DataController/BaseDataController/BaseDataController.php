@@ -27,7 +27,7 @@ if (!function_exists('loadWordpressFunctions')) {
     function loadWordpressFunctions() {
         $serverRootPath = realpath($_SERVER["DOCUMENT_ROOT"]);
         if (serverIsRunningOnLocalHost()) {
-            $serverRootPath = realpath($_SERVER["CONTEXT_DOCUMENT_ROOT"]).'/wordpress';
+            $serverRootPath = realpath($_SERVER["CONTEXT_DOCUMENT_ROOT"]); //.'/wordpress';
         }
         require_once("$serverRootPath/wp-load.php");
     }
@@ -122,14 +122,14 @@ class BaseDataController {
 
     /**
     * tryToInsertRowWithAutoUpdateSinglePrimary
-    * 
+    *
     * Insert data from a given DatabaseRow object that has one auto-increment
     * integer primary key. After insertion, the primary value will be updated
     * automatically.
     *
     * @param String         $table      The table to insert the DatabaseRow
     * @param DatabaseRow    $row        DatabaseRow object containing data to insert
-    * 
+    *
     * @return void
     */
     public function insertSingleRowWithAutoUpdateSingleAutoPrimaryInTable($row, $table) {
@@ -187,7 +187,7 @@ class BaseDataController {
         }
     }
 
-    // Funktionen um Namen 
+    // Funktionen um Namen
     public function getColumnNamesForTable($table) {
         $sqlQuery = "SHOW COLUMNS FROM $table";
         $columnNameResults = $this->selectMultipleRowsByQuery($sqlQuery);
