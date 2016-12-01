@@ -6,43 +6,7 @@
  * Time: 23:36
  */
 
-
-/*
- * Because we're outside the wordpress template directory, no wordpress functionality will be
- * pre-includes for us :(
- * In this block we include all necessary functions and an autoloader by loading the 'wp-load.php'.
- * NOTE: on local host this file has a different path!
- */
-
-if (!function_exists('serverIsRunningOnLocalHost')) {
-    function serverIsRunningOnLocalHost() {
-        $localHostAddresses = array('127.0.0.1', '::1');
-        $currentServerIPAddress = $_SERVER['REMOTE_ADDR'];
-        if(in_array($currentServerIPAddress, $localHostAddresses)){
-            return true;
-        }
-        return false;
-    }
-}
-
-if (!function_exists('getServerRootPath')) {
-    function getServerRootPath() {
-        $serverRootPath = realpath($_SERVER["DOCUMENT_ROOT"]);
-        if (serverIsRunningOnLocalHost()) {
-            $serverRootPath = realpath($_SERVER["CONTEXT_DOCUMENT_ROOT"]).'/wordpress';
-        }
-        return $serverRootPath;
-    }
-}
-
-if (!function_exists('loadWordpressFunctions')) {
-    function loadWordpressFunctions() {
-        $serverRootPath = getServerRootPath();
-        require_once("$serverRootPath/wp-load.php");
-    }
-}
-
-loadWordpressFunctions();
+require_once(explode('wp-content',__DIR__)[0].'wp-load.php');
 
 /**
  * Class DatabaseRow
@@ -89,7 +53,7 @@ class DatabaseRow
     public function getOptionalValueForKey($key) {
         return $this->sqlQueryResult->$key;
     }
-    
+
     // NOTE: Prüft nicht, ob der Wert 'key' existiert!
     public function setValueForKey($key, $value) {
         $this->sqlQueryResult->$key = $value;
