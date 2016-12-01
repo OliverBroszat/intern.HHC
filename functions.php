@@ -8,27 +8,6 @@ function register_my_menu() {
 add_action( 'init', 'register_my_menu' );
 
 
-
-if (!function_exists('getRoot')) {
-	function getRoot() {
-		$localhost = array( '127.0.0.1', '::1' ); 
-		 
-		$root = realpath($_SERVER["DOCUMENT_ROOT"]); 
-
-		if(in_array($_SERVER['REMOTE_ADDR'], $localhost)){ 
-		    $root = realpath($_SERVER["CONTEXT_DOCUMENT_ROOT"]).'/wordpress'; 
-		} 
-
-		require_once("$root/wp-load.php");
-
-		$root = get_template_directory();
-		
-		return $root;
-	}
-}
-
-
-
 // -------- Erster Buchstabe uppercase, bei Wörtern < 3 Zeichen alles uppercase ---------
 if (!function_exists('uppercase')) {
 	function uppercase($string){
@@ -124,7 +103,7 @@ function res_to_array($results){
 
 
 	
-// Funktion zum Debuggen. Gibt einen Array in einer Key-Value-TaBeLle (kvtbl) aus.
+// Funktion zum Debuggen. Gibt einen Array in einer Key-Value-Tabelle (kvtbl) aus.
 // Angepasst an den Aufbau des $_POST Objekts:
 if (!function_exists('kvtbl')) {
 	function kvtbl($post){

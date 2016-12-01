@@ -15,6 +15,7 @@
 
 */
 
+
 /*
 	Selects the wordpress attachment ID of the users currently selected
 	image from the wordpress media database and returns an HTML image
@@ -110,15 +111,10 @@ function getData($queries){
 	}
 
 	if($wpdb->last_error !== ''){
-
-		$root = realpath($_SERVER["DOCUMENT_ROOT"]);  
-		if (strpos($root, '\\')){  
-		  // localhost  
-		  $root .= "/wordpress";  
-		}  
-		require_once("$root/wp-load.php");
+	    // wordpress autoloader
+		require_once(explode('wp-content',__DIR__)[0].'wp-load.php');
+		
 	    $root = get_template_directory();
-
 	    header("Location: $root/templates/error.php?$wpdb->last_error");
 	}
 	return $data;

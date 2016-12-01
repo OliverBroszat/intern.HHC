@@ -6,7 +6,9 @@
  * Time: 23:36
  */
 
+// wordpress autoloader
 require_once(explode('wp-content',__DIR__)[0].'wp-load.php');
+
 
 /**
  * Class DatabaseRow

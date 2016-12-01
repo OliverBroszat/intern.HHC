@@ -1,26 +1,8 @@
 <?php
-if (!function_exists('serverIsRunningOnLocalHost')) {
-    function serverIsRunningOnLocalHost() {
-        $localHostAddresses = array('127.0.0.1', '::1');
-        $currentServerIPAddress = $_SERVER['REMOTE_ADDR'];
-        if(in_array($currentServerIPAddress, $localHostAddresses)){
-            return true;
-        }
-        return false;
-    }
-}
 
-if (!function_exists('loadWordpressFunctions')) {
-    function loadWordpressFunctions() {
-        $serverRootPath = realpath($_SERVER["DOCUMENT_ROOT"]);
-        if (serverIsRunningOnLocalHost()) {
-            $serverRootPath = realpath($_SERVER["CONTEXT_DOCUMENT_ROOT"]).'/wordpress';
-        }
-        require_once("$serverRootPath/wp-load.php");
-    }
-}
+// wordpress autoloader
+require_once(explode('wp-content',__DIR__)[0].'wp-load.php');
 
-loadWordpressFunctions();
 
 class ApplicationDataModel {
     private $baseDataController;

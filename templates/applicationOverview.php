@@ -49,7 +49,7 @@ foreach ($filters->getApplicationFilter() as $filter) {
 $data = array(
 	'applications' => $applications,
 	'numberOfApplications' => $numberOfApplications,
-	'root_path' => $root_uri,
+	'root_path' => get_template_directory_uri(),
 	'sort_categories' => $sort_categories,
 	'filters' => $filtersHTML,
 
