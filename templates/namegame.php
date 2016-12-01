@@ -79,25 +79,14 @@ $randomAnswer = rand(1,4);
 $char = getRandomCharAndNames();
 ?>
 
+<style>
+	.button {
+		min-width: 30%;
+	}
+</style>
+
 <h1>Name Game!</h1>
 <main>
-	<style>
-		.button {
-			background-color:#ff6600;
-			padding: 5px;
-			padding-left:20px;
-			padding-right:20px;
-			border-radius:20px;
-			border-style:none;
-			color:#fff;
-			font-family:'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif;
-			min-width:30%;
-		}
-		.btn-space {
-	   	 margin-left: 25px;
-			margin-right: 25px;
-		}
-	</style>
   <div class="outer small clearfix">
     <div class="ui segment">
 	  <div align="center">
@@ -108,7 +97,7 @@ $char = getRandomCharAndNames();
 			repeat();
 		?>
 		<form action="." method="POST">
-			<input type="submit" class="button" name="startbtn" value="n&auml;chste Frage" />
+			<input type="submit" class="ui button orange" name="startbtn" value="n&auml;chste Frage" />
 		</form>
 		<?php
 		// false answer was clicked
@@ -116,7 +105,7 @@ $char = getRandomCharAndNames();
 			echo( "<p>Die Antwort ist falsch!</p>" );
 		?>
 		<form action="." method="POST">
-			<input type="submit" class="button" name="neueRunde" value="Neue Runde?" />
+			<input type="submit" class="ui button orange" name="neueRunde" value="Neue Runde?" />
 		</form>
 		<?php
 		// game screen
@@ -129,38 +118,38 @@ $char = getRandomCharAndNames();
 					switch ($randomAnswer){
 						case 1:
 					?>
-							<input type="submit" class="button btn-space" name="rightbtn" value="<?=$char->rightName?>" />
-							<input type="submit" class="button btn-space" name="wrongbtn" value="<?=$char->wrongName1?>" />
-							</br></br>
-							<input type="submit" class="button btn-space" name="wrongbtn" value="<?=$char->wrongName2?>" />
-							<input type="submit" class="button btn-space" name="wrongbtn" value="<?=$char->wrongName3?>" />
+							<input type="submit" class="ui button orange" name="rightbtn" value="<?=$char->rightName?>" />
+							<input type="submit" class="ui button orange" name="wrongbtn" value="<?=$char->wrongName1?>" />
+							</br>
+							<input type="submit" class="ui button orange" name="wrongbtn" value="<?=$char->wrongName2?>" />
+							<input type="submit" class="ui button orange" name="wrongbtn" value="<?=$char->wrongName3?>" />
 					<?php
 							break;
 						case 2:
 					?>
-							<input type="submit" class="button btn-space" name="wrongbtn" value="<?=$char->wrongName1?>" />
-							<input type="submit" class="button btn-space" name="rightbtn" value="<?=$char->rightName?>" />
-							</br></br>
-							<input type="submit" class="button btn-space" name="wrongbtn" value="<?=$char->wrongName2?>" />
-							<input type="submit" class="button btn-space" name="wrongbtn" value="<?=$char->wrongName3?>" />
+							<input type="submit" class="ui button orange" name="wrongbtn" value="<?=$char->wrongName1?>" />
+							<input type="submit" class="ui button orange" name="rightbtn" value="<?=$char->rightName?>" />
+							</br>
+							<input type="submit" class="ui button orange" name="wrongbtn" value="<?=$char->wrongName2?>" />
+							<input type="submit" class="ui button orange" name="wrongbtn" value="<?=$char->wrongName3?>" />
 					<?php
 							break;
 						case 3:
 					?>
-							<input type="submit" class="button btn-space" name="wrongbtn" value="<?=$char->wrongName1?>" />
-							<input type="submit" class="button btn-space" name="wrongbtn" value="<?=$char->wrongName2?>" />
-							</br></br>
-							<input type="submit" class="button btn-space" name="rightbtn" value="<?=$char->rightName?>" />
-							<input type="submit" class="button btn-space" name="wrongbtn" value="<?=$char->wrongName3?>" />
+							<input type="submit" class="ui button orange" name="wrongbtn" value="<?=$char->wrongName1?>" />
+							<input type="submit" class="ui button orange" name="wrongbtn" value="<?=$char->wrongName2?>" />
+							</br>
+							<input type="submit" class="ui button orange" name="rightbtn" value="<?=$char->rightName?>" />
+							<input type="submit" class="ui button orange" name="wrongbtn" value="<?=$char->wrongName3?>" />
 					<?php
 							break;
 						case 4:
 					?>
-							<input type="submit" class="button btn-space" name="wrongbtn" value="<?=$char->wrongName1?>" />
-							<input type="submit" class="button btn-space" name="wrongbtn" value="<?=$char->wrongName2?>" />
-							</br></br>
-							<input type="submit" class="button btn-space" name="wrongbtn" value="<?=$char->wrongName3?>" />
-							<input type="submit" class="button btn-space" name="rightbtn" value="<?=$char->rightName?>" />
+							<input type="submit" class="ui button orange" name="wrongbtn" value="<?=$char->wrongName1?>" />
+							<input type="submit" class="ui button orange" name="wrongbtn" value="<?=$char->wrongName2?>" />
+							</br>
+							<input type="submit" class="ui button orange" name="wrongbtn" value="<?=$char->wrongName3?>" />
+							<input type="submit" class="ui button orange" name="rightbtn" value="<?=$char->rightName?>" />
 					<?php
 							break;
 					}
@@ -173,7 +162,7 @@ $char = getRandomCharAndNames();
 			session_unset();
 		?>
 		<form action="." method="POST">
-		    <input type="submit" class="button" name="startbtn" value="Start Game" />
+		    <input type="submit" class="ui button orange" name="startbtn" value="Start Game" />
 		</form>
 		<?php
 		}
