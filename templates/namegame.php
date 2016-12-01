@@ -90,26 +90,29 @@ $char = getRandomCharAndNames();
   <div class="outer small clearfix">
     <div class="ui segment">
 	  <div align="center">
+		
 		<?php
 		// right answer was clicked
-		if(isset($_POST['rightbtn'])){
+		if (isset($_POST['rightbtn'])) :
 			echo( "<p>Die Antwort ist richtig!</p>" );
 			repeat();
 		?>
-		<form action="." method="POST">
-			<input type="submit" class="ui button orange" name="startbtn" value="n&auml;chste Frage" />
-		</form>
+			<form action="." method="POST">
+				<input type="submit" class="ui button orange" name="startbtn" value="n&auml;chste Frage" />
+			</form>
+
 		<?php
 		// false answer was clicked
-		} else if(isset($_POST['wrongbtn'])){
+		elseif (isset($_POST['wrongbtn'])) :
 			echo( "<p>Die Antwort ist falsch!</p>" );
 		?>
-		<form action="." method="POST">
-			<input type="submit" class="ui button orange" name="neueRunde" value="Neue Runde?" />
-		</form>
+			<form action="." method="POST">
+				<input type="submit" class="ui button orange" name="neueRunde" value="Neue Runde?" />
+			</form>
+
 		<?php
 		// game screen
-		} else if(isset($_POST['startbtn'])){
+		elseif (isset($_POST['startbtn'])) :
 		?>
 			<img style="margin: 3rem auto; width: 50%; display: block;" src="<?=$char->url?>" alt="">
 			<h3>
@@ -158,17 +161,18 @@ $char = getRandomCharAndNames();
 			</h3>
 		<?php
 		// start screen when no button is clicked
-		} else {
+		else :	
 			session_unset();
 		?>
-		<form action="." method="POST">
-		    <input type="submit" class="ui button orange" name="startbtn" value="Start Game" />
-		</form>
-		<?php
-		}
-		?>
+			<form action="." method="POST">
+			    <input type="submit" class="ui button orange" name="startbtn" value="Start Game" />
+			</form>
+
+		<?php endif; ?>
+
 	  </div>
     </div>
   </div>
 </main>
+
 <?php get_footer(); ?>
