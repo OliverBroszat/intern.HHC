@@ -111,7 +111,7 @@ $char = getRandomCharAndNames();
 		// game screen
 		} else if(isset($_POST['startbtn'])){
 		?>
-			<img style="margin: 3rem auto; width: 400px; display: block;" src="<?=$char->url?>" alt="">
+			<img style="margin: 3rem auto; width: 50%; display: block;" src="<?=$char->url?>" alt="">
 			<h3>
 				<form action="." method="POST">
 					<?php
