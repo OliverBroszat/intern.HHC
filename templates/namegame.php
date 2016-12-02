@@ -361,7 +361,13 @@ function msgBar(title, content, color) {
       this.remove();
     });
   }, 2000);
-}
+};
+
+$(document).on("click", "button[name='solution']", function(e) {
+  $("#solutions").toggleClass('loading');
+});
+
+
 </script>
 
 <h1>Name Game</h1>
@@ -431,7 +437,7 @@ function msgBar(title, content, color) {
             <div class="img-container">
               <img style="margin: 3rem auto; width: 50%; display: block;" src="<?=$sessionManager->getSelectedChar()->imageUrl?>" alt="">
             </div>
-            <form action="." method="POST">
+            <form action="." method="POST" class="ui segment" id="solutions">
             <?php
               foreach ($sessionManager->getChars() as $char) {
                 echo '<button type="submit" class="ui button blue '.$sessionManager->getDisabledClassIfNotAlive().'" name="solution" value="'.$char->id.'" value="">'.$char->firstName.' '.$char->lastName.'</button>';
@@ -465,7 +471,7 @@ function msgBar(title, content, color) {
             <div class="img-container">
               <img style="margin: 3rem auto; width: 50%; display: block;" src="<?=$sessionManager->getSelectedChar()->imageUrl?>" alt="">
             </div>
-            <form action="." method="POST">
+            <form action="." method="POST" class="ui segment" id="solutions">
             <?php
               foreach ($sessionManager->getChars() as $char) {
                 if($char->id === $sessionManager->getSelectedChar()->id) {
