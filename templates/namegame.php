@@ -437,13 +437,25 @@ $(document).on("click", "button[name='solution']", function(e) {
             <div class="img-container">
               <img style="margin: 3rem auto; width: 50%; display: block;" src="<?=$sessionManager->getSelectedChar()->imageUrl?>" alt="">
             </div>
-            <form action="." method="POST" class="ui segment" id="solutions">
-            <?php
-              foreach ($sessionManager->getChars() as $char) {
-                echo '<button type="submit" class="ui button blue '.$sessionManager->getDisabledClassIfNotAlive().'" name="solution" value="'.$char->id.'" value="">'.$char->firstName.' '.$char->lastName.'</button>';
-              }
-            ?>
-            </form>
+            <div class="ui segment" id="solutions">
+             <form action="." method="POST">
+              <div class="ui grid">
+                <div class="two column row">
+                  <?php
+                    foreach ($sessionManager->getChars() as $char) {
+                      echo '
+                        <div class="column">
+                          <button type="submit" class="ui button blue fluid '.$sessionManager->getDisabledClassIfNotAlive().'" name="solution" value="'.$char->id.'" value="">
+                            '.$char->firstName.' '.$char->lastName.'
+                          </button>
+                        </div>
+                      ';
+                    }
+                  ?>
+                 </div><!-- /.row -->
+                </div><!-- /.grid -->
+              </form>
+            </div><!-- /.segment -->
           <?php endif; ?>
 
         <!-- WRONG -->
@@ -471,22 +483,40 @@ $(document).on("click", "button[name='solution']", function(e) {
             <div class="img-container">
               <img style="margin: 3rem auto; width: 50%; display: block;" src="<?=$sessionManager->getSelectedChar()->imageUrl?>" alt="">
             </div>
-            <form action="." method="POST" class="ui segment" id="solutions">
-            <?php
-              foreach ($sessionManager->getChars() as $char) {
-                if($char->id === $sessionManager->getSelectedChar()->id) {
-                  echo '<button type="submit" class="ui button green '.$sessionManager->getDisabledClassIfNotAlive().'" name="solution" value="'.$char->id.'" value="">'.$char->firstName.' '.$char->lastName.'</button>';
-                } else {
-                  echo '<button type="submit" class="ui button red '.$sessionManager->getDisabledClassIfNotAlive().'" name="solution" value="'.$char->id.'" value="">'.$char->firstName.' '.$char->lastName.'</button>';
-                }
-              }
-            ?>
-            </form>
+            <div class="ui segment" id="solutions">
+              <form action="." method="POST">
+                <div class="ui grid">
+                  <div class="two column row">
+                    <?php
+                      foreach ($sessionManager->getChars() as $char) {
+                        if($char->id === $sessionManager->getSelectedChar()->id) {
+                          echo '
+                            <div class="column">
+                              <button type="submit" class="ui button green fluid '.$sessionManager->getDisabledClassIfNotAlive().'" name="solution" value="'.$char->id.'" value="">
+                                '.$char->firstName.' '.$char->lastName.'
+                              </button>
+                            </div>
+                          ';
+                        } else {
+                          echo '
+                            <div class="column">
+                              <button type="submit" class="ui button red fluid '.$sessionManager->getDisabledClassIfNotAlive().'" name="solution" value="'.$char->id.'" value="">
+                                '.$char->firstName.' '.$char->lastName.'
+                              </button>
+                            </div>
+                          ';
+                        }
+                      }
+                    ?>
+                  </div><!-- /.row -->
+                </div><!-- /.grid -->
+              </form>
+            </div><!-- /.segment -->
           <?php endif; ?>
         <?php endif; ?>
-  	  </div>
-    </div>
-  </div>
+  	  </div><!-- /center -->
+    </div><!-- /.segment -->
+  </div><!-- /.outer -->
 </main>
 
 <?php get_footer(); ?>
