@@ -323,6 +323,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 get_header();
 ?>
 
+<style>
+  .admin-bar {
+    background: transparent;
+  }
+  nav {
+    display: none;
+  }
+</script>
+
 <h1>Name Game</h1>
 <main>
   <div class="outer small clearfix">
