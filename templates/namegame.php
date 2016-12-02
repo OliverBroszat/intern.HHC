@@ -334,33 +334,32 @@ get_header();
      position: relative !important;
   }
   #msgBar {
-    position: absolute !important;
-    top: 0;
-    left:  50%;
-    transform: translate(-50%, 0);
-    min-height: 3rem;
-    padding: 0.5rem 1rem !important;
     width: 100%;
     max-width:  720px;
+    position: absolute !important;
+    top: 0;
+    left: calc(50% - 720px/2);
   }
 </style>
 
 <script>
 function msgBar(title, content, color) {
   $('body').append(`
-    <div class="ui message `+ color + `" id="msgBar">
+    <div class="ui message `+ color + `" id="msgBar" style='display:none'>
       <div class="header">
         `+ title + `
       </div>
       <p>`+ content + `</p>
     </div>
   `);
+  $('#msgBar').transition('jiggle');
 
   setTimeout(function() {
-    $("#msgBar").fadeOut('400', function() {
-      this.remove();
-    });
-  }, 2000);
+    // $("#msgBar").fadeOut('400', function() {
+    //   this.remove();
+    // });
+    $('#msgBar').transition('scale');
+  }, 4000);
 };
 
 $(document).on("click", "button[name='solution']", function(e) {
