@@ -330,6 +330,38 @@ get_header();
   nav {
     display: none;
   }
+  .img-container {
+     position: relative !important;
+  }
+  #msgBar {
+    position: absolute !important;
+    top: 0;
+    left:  50%;
+    transform: translate(-50%, 0);
+    min-height: 3rem;
+    padding: 0.5rem 1rem !important;
+    width: 100%;
+    max-width:  720px;
+  }
+</style>
+
+<script>
+function msgBar(title, content, color) {
+  $('body').append(`
+    <div class="ui message `+ color + `" id="msgBar">
+      <div class="header">
+        `+ title + `
+      </div>
+      <p>`+ content + `</p>
+    </div>
+  `);
+
+  setTimeout(function() {
+    $("#msgBar").fadeOut('400', function() {
+      this.remove();
+    });
+  }, 2000);
+}
 </script>
 
 <h1>Name Game</h1>
@@ -395,8 +427,10 @@ get_header();
           <?php if($sessionManager->areTooFewChars()): ?>
             <span class="ui label large red">Ressort hat zu wenig Bilder!</span>
           <?php else: ?>
-            <img style="margin: 3rem auto; width: 50%; display: block;" src="<?=$sessionManager->getSelectedChar()->imageUrl?>" alt="">
-
+            <script>msgBar('Richtige Antwort!', 'Du hast einen Punkt dazu bekommen.', 'green')</script>
+            <div class="img-container">
+              <img style="margin: 3rem auto; width: 50%; display: block;" src="<?=$sessionManager->getSelectedChar()->imageUrl?>" alt="">
+            </div>
             <form action="." method="POST">
             <?php
               foreach ($sessionManager->getChars() as $char) {
@@ -409,6 +443,8 @@ get_header();
         <!-- WRONG -->
         <?php elseif($sessionManager->isStateWrong()): ?>
           <!-- Load new chars if necessary -->
+          
+          <script>msgBar('Falsche Antwort!', 'Klicke die richtige Antwort an, um fortzufahren.', 'red')</script>
 
           <div class="ui segment">
             <span>Leben</span>
@@ -426,8 +462,9 @@ get_header();
           <?php if($sessionManager->areTooFewChars()): ?>
             <span class="ui label large red">Ressort hat zu wenig Bilder!</span>
           <?php else: ?>
-            <img style="margin: 3rem auto; width: 50%; display: block;" src="<?=$sessionManager->getSelectedChar()->imageUrl?>" alt="">
-
+            <div class="img-container">
+              <img style="margin: 3rem auto; width: 50%; display: block;" src="<?=$sessionManager->getSelectedChar()->imageUrl?>" alt="">
+            </div>
             <form action="." method="POST">
             <?php
               foreach ($sessionManager->getChars() as $char) {
