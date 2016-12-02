@@ -6,171 +6,269 @@
  * @subpackage intern-hhc
  * @since intern-hhc
  */
-session_start();
+// Use sessions
+if(session_id() == '') {
+  session_start();
+}
+
+// Number of lifes
+$defaultLifes = 3;
+
+// Number of chars
+$charCount = 4;
+
+// Check how many lifes we have, set if unset
+if(!isset($_SESSION['lifes'])) {
+  // Start with one life more
+  $_SESSION['lifes'] = $defaultLifes;
+  $_SESSION['points'] = 0;
+  $_SESSION['state'] = 'init';
+}
+
+// Define game modes
+$init = $_SESSION['state'] === 'init';
+$started = $_SESSION['state'] === 'started';
+
+// Decide whether get or post
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  if($init) {
+    $_SESSION['ressort_name'] = $_POST['ressort'];
+    $_SESSION['ressort_description'] = $_POST['ressort'];
+    $_SESSION['state'] = 'started';
+  } else if($started) {
+    if($_POST['retry']) {
+      unset($_SESSION['lifes']);
+      unset($_SESSION['points']);
+      unset($_SESSION['ressort_name']);
+      unset($_SESSION['ressort_description']);
+      unset($_SESSION['state']);
+      unset($_SESSION['randomChars']);
+      unset($_SESSION['selectedChar']);
+    } else if($_SESSION['lifes'] > 0 && isset($_SESSION['selectedChar']) && $_SESSION['selectedChar']->id === $_POST['solution']) {
+      // Increase points
+      $_SESSION['points']++;
+
+      // Clear chars
+      unset($_SESSION['randomChars']);
+      unset($_SESSION['selectedChar']);
+    } else if ($_SESSION['lifes'] > 0) {
+      // Reduce life
+      $_SESSION['lifes']--;
+
+      // Clear Chars
+      unset($_SESSION['randomChars']);
+      unset($_SESSION['selectedChar']);
+    }
+  }
+
+  // Go back to GET
+  wp_redirect('.');
+  exit();
+}
+
+// Get header
 get_header();
-class RandomChar {
 
-  public $url;
-  public $rightName;
-  public $wrongName1;
-  public $wrongName2;
-  public $wrongName3;
-  public $randomNames;
+// Single char
+class Char {
+  public $firstName;
+  public $lastName;
+  public $imageUrl;
+  public $ressortName;
+  public $ressortDescription;
+  public $id;
 
-  public function __construct($url, $rightName, $randomNames, $wrongName1, $wrongName2, $wrongName3) {
-    $this->url = $url;
-    $this->rightName = $rightName;
-    $this->randomNames = $randomNames;
-	  $this->wrongName1 = $wrongName1;
-    $this->wrongName2 = $wrongName2;
-	  $this->wrongName3 = $wrongName3;
+  public function __construct($contactRow) {
+    $this->firstName = $contactRow->getValueForKey('first_name');
+    $this->lastName = $contactRow->getValueForKey('last_name');
+    $this->imageUrl = wp_get_attachment_image_src($contactRow->getValueForKey('image'))[0];
+    $this->ressortName = $contactRow->getValueForKey('ressortName');
+    $this->ressortDescription = $contactRow->getValueForKey('ressortDescription');
+    $this->id = uniqid('', true);
   }
 }
 
-function getRandomCharAndNames() {
-  $base = new BaseDataController();
-  $allImageRows = $base->selectMultipleRowsByQuery("SELECT first_name, last_name, image FROM contact WHERE image IS NOT NULL");
-  $allNames = [];
-  foreach ($allImageRows as $value) {
-    array_push($allNames, [$value->getValueForKey('first_name'), $value->getValueForKey('last_name')]);
+// Random chars
+class RandomChars {
+  public $chars;
+
+  public function __construct($chars, $count) {
+
+    // Get random chars
+    $randomChars = [];
+    for ($i = 0; $i < $count; $i++) {
+      $charIndex = rand(0, sizeof($chars) - 1);
+      array_push($randomChars, $chars[$charIndex]);
+      array_splice($chars, $charIndex, 1);
+    }
+
+    // Set random chars
+    $this->chars = $randomChars;
   }
 
-  $possibleIndices = [];
-  for ($i=0; $i < sizeof($allImageRows); $i++) {
-    array_push($possibleIndices, $i);
+  public function getRandomChar() {
+    return $this->chars[rand(0, sizeof($this->chars) - 1)];
+  }
+}
+
+// All chars
+class Chars {
+  public $chars;
+
+  public function __construct() {
+    // Get new base data controller for fetching the database
+    $base = new BaseDataController();
+
+    // Get all contacts with an image as rows
+    $contactsWithImageRows = $base->selectMultipleRowsByQuery("
+    select *
+    from
+    	(select *
+    	from
+    		(select * from contact where image is not null) as t1
+    		join
+    		(select ressort, contact from member) as t2
+    		on t1.id = t2.contact) as t3
+    	join
+    	(select name as ressortName, id as ressortID, description as ressortDescription from ressort) as t4
+    	on t3.ressort = t4.ressortID
+    ");
+
+    // Create chars from rows
+    $chars = [];
+    foreach ($contactsWithImageRows as $value) {
+      array_push($chars, new Char($value));
+    }
+
+    // Set chars
+    $this->chars = $chars;
   }
 
-  $i = rand(0, sizeof($possibleIndices) - 1);
-  $randomRowIndex = $possibleIndices[$i];
-  array_splice($possibleIndices, $i, 1);
-
-  $i = rand(0, sizeof($possibleIndices) - 1);
-  $randomRowIndex2 = $possibleIndices[$i];
-  array_splice($possibleIndices, $i, 1);
-
-  $i = rand(0, sizeof($possibleIndices) - 1);
-  $randomRowIndex3 = $possibleIndices[$i];
-  array_splice($possibleIndices, $i, 1);
-
-  $i = rand(0, sizeof($possibleIndices) - 1);
-  $randomRowIndex4 = $possibleIndices[$i];
-
-  $image = $allImageRows[$randomRowIndex]->getValueForKey('image');
-  $rightName = $allImageRows[$randomRowIndex]->getValueForKey('first_name') . ' ' . $allImageRows[$randomRowIndex]->getValueForKey('last_name');
-  $wrongName1 = $allImageRows[$randomRowIndex2]->getValueForKey('first_name') . ' ' . $allImageRows[$randomRowIndex2]->getValueForKey('last_name');
-  $wrongName2 = $allImageRows[$randomRowIndex3]->getValueForKey('first_name') . ' ' . $allImageRows[$randomRowIndex3]->getValueForKey('last_name');
-  $wrongName3 = $allImageRows[$randomRowIndex4]->getValueForKey('first_name') . ' ' . $allImageRows[$randomRowIndex4]->getValueForKey('last_name');
-
-  $url = wp_get_attachment_image_src($image)[0];
-  return new RandomChar($url, $rightName, $allNames, $wrongName1, $wrongName2, $wrongName3);
+  public function getRandomChars($count) {
+    return new RandomChars($this->chars, $count);
+  }
 }
 
-// saves number of right answers in a row
-function repeat() {
-	$number = $_SESSION['number'];
-	$number++;
-	echo $number." richtig beantwortet!";
-	$_SESSION['number'] = $number;
+// Single ressort
+class Ressort {
+  public $name;
+  public $description;
+
+  public function __construct($ressortRow) {
+    $this->name = $ressortRow->getValueForKey('name');
+    $this->description = $ressortRow->getValueForKey('description');
+  }
 }
 
-// number to switch the right answer
-$randomAnswer = rand(1,4);
+// All ressorts
+class Ressorts {
+  public $ressorts;
 
-$char = getRandomCharAndNames();
+  public function __construct() {
+    // Get new base data controller for fetching the database
+    $base = new BaseDataController();
+
+    // Get all ressorts as rows
+    $ressortsRows = $base->selectMultipleRowsByQuery("select * from ressort where name != 'unbekannt'");
+
+    // Create ressorts from rows
+    $ressorts = [];
+    foreach ($ressortsRows as $value) {
+      array_push($ressorts, new Ressort($value));
+    }
+
+    // Set ressorts
+    $this->ressorts = $ressorts;
+  }
+}
+
+// Check if game mode
+if($init) {
+  // Query ressorts
+  $ressorts = (new Ressorts())->ressorts;
+} else if($started) {
+
+  // Check, if we are alive!
+  $alive = $_SESSION['lifes'] > 0;
+
+  // Create new random chars if they do not exist yet
+  if(!isset($_SESSION['randomChars']) || !isset($_SESSION['selectedChar'])) {
+    // Get all chars in the database
+    $chars = new Chars();
+
+    // Select random chars
+    $randomChars = $chars->getRandomChars($charCount);
+
+    // Select one char for the game
+    $selectedChar = $randomChars->getRandomChar();
+
+    // Remember last query
+    $_SESSION['randomChars'] = $randomChars;
+    $_SESSION['selectedChar'] = $selectedChar;
+  }
+}
 ?>
 
-<style>
-	.button {
-		min-width: 30%;
-	}
-</style>
-
-<h1>Name Game!</h1>
+<h1>Name Game</h1>
 <main>
   <div class="outer small clearfix">
     <div class="ui segment">
-	  <div align="center">
-		
-		<?php
-		// right answer was clicked
-		if (isset($_POST['rightbtn'])) :
-			echo( "<p>Die Antwort ist richtig!</p>" );
-			repeat();
-		?>
-			<form action="." method="POST">
-				<input type="submit" class="ui button orange" name="startbtn" value="n&auml;chste Frage" />
-			</form>
+  	  <div align="center">
+        <?php if($init): ?>
+          Wähle das Ressort!
+          <script type="text/javascript">
+          $(function() {
+            $('.selection.dropdown').dropdown();
+          });
+          </script>
+          <form class="ui form" action="." method="POST">
+            <div class="field">
+                <label>Ressort</label>
+                <div class="ui selection dropdown">
+                    <input type="hidden" name="ressort" required>
+                    <i class="dropdown icon"></i>
+                    <div class="default text">Ressort</div>
+                    <div class="menu">
+                      <?php
+                        echo '<div class="item" data-value="#all#">Alle Ressorts</div>';
+                        foreach ($ressorts as $ressort) {
+                          echo '<div class="item" data-value="'.$ressort->name.'">'.$ressort->description.'</div>';
+                        }
+                      ?>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="ui button green">Starten!</button>
+          </form>
+        <?php elseif($started): ?>
+          <div class="ui segment">
+            <span>Leben</span>
+            <span class="ui red circular label"><?=$_SESSION['lifes']?></span>
+            <span>Punkte</span>
+            <span class="ui green circular label"><?=$_SESSION['points']?></span>
+            <span>Ressort</span>
+            <span class="ui blue circular label"><?=$_SESSION['ressort_description']?></span>
+          </div>
 
-		<?php
-		// false answer was clicked
-		elseif (isset($_POST['wrongbtn'])) :
-			echo( "<p>Die Antwort ist falsch!</p>" );
-		?>
-			<form action="." method="POST">
-				<input type="submit" class="ui button orange" name="neueRunde" value="Neue Runde?" />
-			</form>
+          <?php if(!$alive): ?>
+            <form action="." method="POST">
+              <button type="submit" class="ui button red" name="retry" value="true">Neu starten!</button>
+            </form>
+          <?php endif; ?>
 
-		<?php
-		// game screen
-		elseif (isset($_POST['startbtn'])) :
-		?>
-			<img style="margin: 3rem auto; width: 50%; display: block;" src="<?=$char->url?>" alt="">
-			<h3>
-				<form action="." method="POST">
-					<?php
-					switch ($randomAnswer){
-						case 1:
-					?>
-							<input type="submit" class="ui button orange" name="rightbtn" value="<?=$char->rightName?>" />
-							<input type="submit" class="ui button orange" name="wrongbtn" value="<?=$char->wrongName1?>" />
-							</br>
-							<input type="submit" class="ui button orange" name="wrongbtn" value="<?=$char->wrongName2?>" />
-							<input type="submit" class="ui button orange" name="wrongbtn" value="<?=$char->wrongName3?>" />
-					<?php
-							break;
-						case 2:
-					?>
-							<input type="submit" class="ui button orange" name="wrongbtn" value="<?=$char->wrongName1?>" />
-							<input type="submit" class="ui button orange" name="rightbtn" value="<?=$char->rightName?>" />
-							</br>
-							<input type="submit" class="ui button orange" name="wrongbtn" value="<?=$char->wrongName2?>" />
-							<input type="submit" class="ui button orange" name="wrongbtn" value="<?=$char->wrongName3?>" />
-					<?php
-							break;
-						case 3:
-					?>
-							<input type="submit" class="ui button orange" name="wrongbtn" value="<?=$char->wrongName1?>" />
-							<input type="submit" class="ui button orange" name="wrongbtn" value="<?=$char->wrongName2?>" />
-							</br>
-							<input type="submit" class="ui button orange" name="rightbtn" value="<?=$char->rightName?>" />
-							<input type="submit" class="ui button orange" name="wrongbtn" value="<?=$char->wrongName3?>" />
-					<?php
-							break;
-						case 4:
-					?>
-							<input type="submit" class="ui button orange" name="wrongbtn" value="<?=$char->wrongName1?>" />
-							<input type="submit" class="ui button orange" name="wrongbtn" value="<?=$char->wrongName2?>" />
-							</br>
-							<input type="submit" class="ui button orange" name="wrongbtn" value="<?=$char->wrongName3?>" />
-							<input type="submit" class="ui button orange" name="rightbtn" value="<?=$char->rightName?>" />
-					<?php
-							break;
-					}
-					?>
-				</form>
-			</h3>
-		<?php
-		// start screen when no button is clicked
-		else :	
-			session_unset();
-		?>
-			<form action="." method="POST">
-			    <input type="submit" class="ui button orange" name="startbtn" value="Start Game" />
-			</form>
+          <img style="margin: 3rem auto; width: 50%; display: block;" src="<?=$_SESSION['selectedChar']->imageUrl?>" alt="">
 
-		<?php endif; ?>
-
-	  </div>
+          <h3>
+              <form action="." method="POST">
+              <?php
+                foreach ($_SESSION['randomChars']->chars as $char) {
+                  echo '<button type="submit" class="ui button blue '.($alive ? '' : 'disabled').'" name="solution" value="'.$char->id.'" value="">'.$char->firstName.' '.$char->lastName.'</button>';
+                }
+              ?>
+              </form>
+          </h3>
+        <?php endif; ?>
+  	  </div>
     </div>
   </div>
 </main>
