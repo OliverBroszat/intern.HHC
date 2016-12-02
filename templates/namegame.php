@@ -499,7 +499,7 @@ $(document).on("click", "button[name='solution']", function(e) {
                         } else {
                           echo '
                             <div class="column">
-                              <button type="submit" class="ui button red fluid '.$sessionManager->getDisabledClassIfNotAlive().'" name="solution" value="'.$char->id.'" value="">
+                              <button type="submit" class="ui button red fluid disabled" name="solution" value="'.$char->id.'" value="">
                                 '.$char->firstName.' '.$char->lastName.'
                               </button>
                             </div>
