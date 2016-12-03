@@ -17,7 +17,7 @@ function getTemplatePart($filename) {
 function notification($title, $content, $color) {
   echo "<script>msgBar(`$title`, `$content`, `$color`)</script>";
 }
- 
+
 // Use sessions
 if(session_id() == '') {
   session_start();
@@ -87,16 +87,16 @@ get_header();
 <link rel=stylesheet href="<?= get_template_directory_uri() ?>/styles/namegame.css">
 <script src="<?= get_template_directory_uri() ?>/js/namegame.js"></script>
 
-<!-- INIT -->
 <?php
   getTemplatePart('wrapperStart');
 
-  if ($sessionManager->isStateInit()): 
+  // INIT
+  if ($sessionManager->isStateInit()):
     getTemplatePart('start');
 
   // STARTED
   elseif ($sessionManager->isStateStarted()):
-   
+
     // Load new chars if necessary
     if (!$sessionManager->areCharsLoaded()) {
       $sessionManager->loadChars($charCount, $allRessortName);
@@ -104,26 +104,30 @@ get_header();
 
     getTemplatePart('interface');
 
-    if ($sessionManager->areTooFewChars()): 
-      getTemplatePart('tooFewChars');
-    else:
-      notification('Richtige Antwort!', 'Du hast einen Punkt dazu bekommen.', 'green');
-      getTemplatePart('rightAnswer');
-    endif; 
-  
-  // WRONG 
-  elseif($sessionManager->isStateWrong()):  
-    getTemplatePart('interface'); 
-  
     if ($sessionManager->areTooFewChars()):
       getTemplatePart('tooFewChars');
-    else: 
-      notification('Falsche Antwort!', 'Klicke die richtige Antwort an, um fortzufahren.', 'red');
-      getTemplatePart('wrongAnswer');
-    endif; 
+    else:
+      if($sessionManager->getAndClearFlash() === 'correct') {
+        notification('Richtige Antwort!', 'Du hast einen Punkt dazu bekommen.', 'green');
+      }
+      getTemplatePart('rightAnswer');
+    endif;
 
-  endif; 
+  // WRONG
+  elseif($sessionManager->isStateWrong()):
+    getTemplatePart('interface');
+
+    if ($sessionManager->areTooFewChars()):
+      getTemplatePart('tooFewChars');
+    else:
+      if($sessionManager->getAndClearFlash() === 'wrong') {
+        notification('Falsche Antwort!', 'Klicke die richtige Antwort an, um fortzufahren.', 'red');
+      }
+      getTemplatePart('wrongAnswer');
+    endif;
+
+  endif;
 
   getTemplatePart('wrapperEnd');
-  
+
 get_footer();

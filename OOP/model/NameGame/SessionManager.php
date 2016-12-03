@@ -51,6 +51,7 @@ class SessionManager {
    unset($_SESSION['ressort_name']);
    unset($_SESSION['ressort_description']);
    unset($_SESSION['state']);
+   unset($_SESSION['flash']);
    $this->clearChars();
  }
 
@@ -91,6 +92,7 @@ class SessionManager {
    if($this->isAlive() && $this->isStateStarted()) {
      $_SESSION['lifes']--;
    }
+   $_SESSION['flash'] = 'wrong';
    $_SESSION['state'] = 'wrong';
  }
 
@@ -98,7 +100,14 @@ class SessionManager {
    $this->clearChars();
    if($this->isStateStarted()) {
      $_SESSION['points']++;
+     $_SESSION['flash'] = 'correct';
    }
    $_SESSION['state'] = 'started';
  }
+
+  public function getAndClearFlash() {
+    $flash = $_SESSION['flash'];
+    unset($_SESSION['flash']);
+    return $flash;
+  }
 }
