@@ -19,5 +19,5 @@
           </div>
       </div>
   </div>
-  <button type="submit" class="ui button green">Starten!</button>
+  <button type="submit" class="ui button green" id="game-start">Starten!</button>
 </form>

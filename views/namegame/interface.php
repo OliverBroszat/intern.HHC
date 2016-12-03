@@ -13,6 +13,6 @@
 
 <div class="ui segment">
   <form action="." method="POST">
-    <button type="submit" class="ui button red" name="reset" value="true">Spiel <?=($sessionManager->isAlive() ? 'abbrechen!' : 'neustarten!')?></button>
+    <button type="submit" class="ui button red" id="game-cancel" name="reset" value="true">Spiel <?=($sessionManager->isAlive() ? 'abbrechen!' : 'neustarten!')?></button>
   </form>
 </div>

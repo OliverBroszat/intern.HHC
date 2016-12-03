@@ -18,8 +18,22 @@ function msgBar(title, content, color) {
 
 // Toggle loading animation on solution submit
 $(document).on("click", "button[name='solution']", function(e) {
-  $("#solutions").toggleClass('loading');
+  // mark selected button
+  $(this).addClass('teal');
+  //loading animation
+  $(".img-container").addClass('loading');
+  // disable all buttons
+  $("#solutions .button").addClass('disabled');
 });
+
+
+// Toggle loading on start/cancel button
+$(document).on("click", "#game-start, #game-cancel", function() {
+  // disable button and toggle loading animation
+  $(this).addClass('loading disabled');
+  // disable buttons and image
+  $(".img-container .segment, #solutions .button").addClass('disabled');
+})
 
 
 // enable semantic ui dropdown
