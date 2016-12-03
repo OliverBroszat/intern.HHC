@@ -1,0 +1,28 @@
+.admin-bar {
+  background: transparent;
+}
+nav {
+  display: none;
+}
+.img-container {
+   position: relative !important;
+}
+#msgBar {
+  width: 100%;
+  max-width:  720px;
+  position: absolute !important;
+  top: 0;
+  left: calc(50% - 720px/2);
+}
+
+@media screen and (max-width: 720px) {
+  #msgBar {
+    left:  0;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .img-container img {
+    width:  100% !important;
+  }
+}

@@ -403,9 +403,9 @@ if (!function_exists('autoload')) {
             'OOP/model/SearchController/Filter/',
             'OOP/model/Translator/',
             'OOP/model/CSV/',
-
             'OOP/model/DataController/MemberDataController/',
-            'OOP/model/DataController/ApplicationDataController/'
+            'OOP/model/DataController/ApplicationDataController/',
+            'OOP/model/NameGame/',
 	    );
 	    //Jedes Verzeichnis soll überprüft werden
 	    foreach($directorys as $directory)

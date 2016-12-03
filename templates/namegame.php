@@ -7,256 +7,17 @@
  * @since intern-hhc
  */
 
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
 
- // Single char
- class Char {
-   public $firstName;
-   public $lastName;
-   public $imageUrl;
-   public $ressortName;
-   public $ressortDescription;
-   public $id;
+// Helper function to require files from the /views/namegame/ directory
+function getTemplatePart($filename) {
+  require_once( get_template_directory() . "/views/namegame/" . $filename . '.php' );
+}
 
-   public function __construct($contactRow) {
-     $this->firstName = $contactRow->getValueForKey('first_name');
-     $this->lastName = $contactRow->getValueForKey('last_name');
-     $this->imageUrl = wp_get_attachment_image_src($contactRow->getValueForKey('image'), $size='')[0];
-     $this->ressortName = $contactRow->getValueForKey('ressortName');
-     $this->ressortDescription = $contactRow->getValueForKey('ressortDescription');
-     $this->id = uniqid('', true);
-   }
- }
-
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-
- // Random chars
- class RandomChars {
-   public $chars;
-
-   public function __construct($chars, $count, $ressortName, $allRessortName) {
-     $byRessortName = function ($var) use ($ressortName, $allRessortName) {
-       return $ressortName === $allRessortName || $var->ressortName === $ressortName;
-     };
-
-     // Filter all chars by ressort name
-     $chars = array_filter($chars, $byRessortName);
-
-     // Not enough chars
-     if(sizeof($chars) < $count) {
-        $this->chars = NULL;
-        return;
-     }
-
-     // Get random chars
-     $randomChars = [];
-     for ($i = 0; $i < $count; $i++) {
-       $charIndex = rand(0, sizeof($chars) - 1);
-       array_push($randomChars, $chars[$charIndex]);
-       array_splice($chars, $charIndex, 1);
-     }
-
-     // Set random chars
-     $this->chars = $randomChars;
-   }
-
-   public function getRandomChar() {
-     if(is_null($this->chars)) {
-       return NULL;
-     }
-
-     return $this->chars[rand(0, sizeof($this->chars) - 1)];
-   }
- }
-
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-
- // All chars
- class Chars {
-   public $chars;
-
-   public function __construct() {
-     // Get new base data controller for fetching the database
-     $base = new BaseDataController();
-
-     // Get all contacts with an image as rows
-     $contactsWithImageRows = $base->selectMultipleRowsByQuery("
-     select *
-     from
-     	(select *
-     	from
-     		(select * from contact where image is not null) as t1
-     		join
-     		(select ressort, contact from member) as t2
-     		on t1.id = t2.contact) as t3
-     	join
-     	(select name as ressortName, id as ressortID, description as ressortDescription from ressort) as t4
-     	on t3.ressort = t4.ressortID
-     ");
-
-     // Create chars from rows
-     $chars = [];
-     foreach ($contactsWithImageRows as $value) {
-       array_push($chars, new Char($value));
-     }
-
-     // Set chars
-     $this->chars = $chars;
-   }
-
-   public function getRandomChars($count, $ressortName, $allRessortName) {
-     return new RandomChars($this->chars, $count, $ressortName, $allRessortName);
-   }
- }
-
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-
- // Single ressort
- class Ressort {
-   public $name;
-   public $description;
-
-   public function __construct($ressortRow) {
-     $this->name = $ressortRow->getValueForKey('name');
-     $this->description = $ressortRow->getValueForKey('description');
-   }
- }
-
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-
- // All ressorts
- class Ressorts {
-   public $ressorts;
-
-   public function __construct() {
-     // Get new base data controller for fetching the database
-     $base = new BaseDataController();
-
-     // Get all ressorts as rows
-     $ressortsRows = $base->selectMultipleRowsByQuery("select * from ressort where name != 'unbekannt'");
-
-     // Create ressorts from rows
-     $ressorts = [];
-     foreach ($ressortsRows as $value) {
-       array_push($ressorts, new Ressort($value));
-     }
-
-     // Set ressorts
-     $this->ressorts = $ressorts;
-   }
- }
-
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-
- // Session manager
- class SessionManager {
-   public function isValid() {
-     return isset($_SESSION['lifes']);
-   }
-
-   public function isAlive() {
-     return $_SESSION['lifes'] > 0;
-   }
-
-   public function getDisabledClassIfNotAlive() {
-     return $this->isAlive() ? '' : 'disabled';
-   }
-
-   public function areCharsLoaded() {
-     return isset($_SESSION['randomChars']);
-   }
-
-   public function areTooFewChars() {
-     return $this->areCharsLoaded() && is_null($_SESSION['selectedChar']);
-   }
-
-   public function getSelectedChar() {
-     return $_SESSION['selectedChar'];
-   }
-
-   public function getChars() {
-     return $_SESSION['randomChars']->chars;
-   }
-
-   public function isStateInit() {
-     return $_SESSION['state'] === 'init';
-   }
-
-   public function isStateStarted() {
-     return $_SESSION['state'] === 'started';
-   }
-
-   public function isStateWrong() {
-     return $_SESSION['state'] === 'wrong';
-   }
-
-   public function reset() {
-     unset($_SESSION['lifes']);
-     unset($_SESSION['points']);
-     unset($_SESSION['ressort_name']);
-     unset($_SESSION['ressort_description']);
-     unset($_SESSION['state']);
-     $this->clearChars();
-   }
-
-   public function init($lifes) {
-     $this->reset();
-
-     // Start with one life more
-     $_SESSION['lifes'] = $lifes;
-     $_SESSION['points'] = 0;
-     $_SESSION['state'] = 'init';
-   }
-
-   public function start($ressortName, $ressortDescription) {
-     $_SESSION['ressort_name'] = $ressortName;
-     $_SESSION['ressort_description'] = $ressortDescription;
-     $_SESSION['state'] = 'started';
-   }
-
-   public function loadChars($charCount, $allRessortName) {
-     $chars = new Chars();
-     $randomChars = $chars->getRandomChars($charCount, $_SESSION['ressort_name'], $allRessortName);
-     $selectedChar = $randomChars->getRandomChar();
-     $_SESSION['randomChars'] = $randomChars;
-     $_SESSION['selectedChar'] = $selectedChar;
-   }
-
-   public function clearChars() {
-     unset($_SESSION['randomChars']);
-     unset($_SESSION['selectedChar']);
-   }
-
-   public function verify($charId) {
-     return $_SESSION['lifes'] > 0 &&
-     isset($_SESSION['selectedChar']) && $_SESSION['selectedChar']->id === $charId;
-   }
-
-   public function wrong() {
-     if($this->isAlive() && $this->isStateStarted()) {
-       $_SESSION['lifes']--;
-     }
-     $_SESSION['state'] = 'wrong';
-   }
-
-   public function correct() {
-     $this->clearChars();
-     if($this->isStateStarted()) {
-       $_SESSION['points']++;
-     }
-     $_SESSION['state'] = 'started';
-   }
- }
-
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-
+// Helper function to create notifications in php
+function notification($title, $content, $color) {
+  echo "<script>msgBar(`$title`, `$content`, `$color`)</script>";
+}
+ 
 // Use sessions
 if(session_id() == '') {
   session_start();
@@ -323,216 +84,46 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 get_header();
 ?>
 
-<style>
-  .admin-bar {
-    background: transparent;
-  }
-  nav {
-    display: none;
-  }
-  .img-container {
-     position: relative !important;
-  }
-  #msgBar {
-    width: 100%;
-    max-width:  720px;
-    position: absolute !important;
-    top: 0;
-    left: calc(50% - 720px/2);
-  }
+<link rel=stylesheet href="<?= get_template_directory_uri() ?>/styles/namegame.css">
+<script src="<?= get_template_directory_uri() ?>/js/namegame.js"></script>
 
-  @media screen and (max-width: 720px) {
-    #msgBar {
-      left:  0;
+<!-- INIT -->
+<?php
+  getTemplatePart('wrapperStart');
+
+  if ($sessionManager->isStateInit()): 
+    getTemplatePart('start');
+
+  // STARTED
+  elseif ($sessionManager->isStateStarted()):
+   
+    // Load new chars if necessary
+    if (!$sessionManager->areCharsLoaded()) {
+      $sessionManager->loadChars($charCount, $allRessortName);
     }
-  }
 
-  @media screen and (max-width: 480px) {
-    .img-container img {
-      width:  100% !important;
-    }
-  }
-</style>
+    getTemplatePart('interface');
 
-<script>
-function msgBar(title, content, color) {
-  $('body').append(`
-    <div class="ui message `+ color + `" id="msgBar" style='display:none'>
-      <div class="header">
-        `+ title + `
-      </div>
-      <p>`+ content + `</p>
-    </div>
-  `);
-  $('#msgBar').transition('jiggle');
+    if ($sessionManager->areTooFewChars()): 
+      getTemplatePart('tooFewChars');
+    else:
+      notification('Richtige Antwort!', 'Du hast einen Punkt dazu bekommen.', 'green');
+      getTemplatePart('rightAnswer');
+    endif; 
+  
+  // WRONG 
+  elseif($sessionManager->isStateWrong()):  
+    getTemplatePart('interface'); 
+  
+    if ($sessionManager->areTooFewChars()):
+      getTemplatePart('tooFewChars');
+    else: 
+      notification('Falsche Antwort!', 'Klicke die richtige Antwort an, um fortzufahren.', 'red');
+      getTemplatePart('wrongAnswer');
+    endif; 
 
-  setTimeout(function() {
-    // $("#msgBar").fadeOut('400', function() {
-    //   this.remove();
-    // });
-    $('#msgBar').transition('scale');
-  }, 4000);
-};
+  endif; 
 
-$(document).on("click", "button[name='solution']", function(e) {
-  $("#solutions").toggleClass('loading');
-});
-
-$(function() {
-  $('.selection.dropdown').dropdown();
-});
-
-</script>
-
-<!-- <h1>Name Game</h1> -->
-<main>
-  <div class="outer small clearfix" align="center">
-    <div class="ui segments">
-      <div class="ui segment secondary">
-        <div class="ui medium header">
-          Wie gut kennst du die HHCler?
-        </div>
-      </div>
-        <!-- INIT -->
-        <?php if($sessionManager->isStateInit()): ?>
-          <!-- Load ressorts -->
-          <?php
-            $ressorts = (new Ressorts())->ressorts;
-          ?>
-          <form class="ui segment form" action="." method="POST">
-            <div class="ui field">
-                <label>Wähle das Ressort!</label>
-                <div class="ui selection dropdown">
-                    <input type="hidden" name="ressort" required>
-                    <i class="dropdown icon"></i>
-                    <div class="default text">Ressort</div>
-                    <div class="menu">
-                      <!-- Print all ressorts as dropdown -->
-                      <?php
-                        echo '<div class="item" data-value="'.$allRessortName.'">Alle Ressorts</div>';
-                        foreach ($ressorts as $ressort) {
-                          echo '<div class="item" data-value="'.$ressort->name.'">'.$ressort->description.'</div>';
-                        }
-                      ?>
-                    </div>
-                </div>
-            </div>
-            <button type="submit" class="ui button green">Starten!</button>
-          </form>
-
-        <!-- STARTED -->
-        <?php elseif($sessionManager->isStateStarted()): ?>
-          <!-- Load new chars if necessary -->
-          <?php
-            if(!$sessionManager->areCharsLoaded()) {
-              $sessionManager->loadChars($charCount, $allRessortName);
-            }
-          ?>
-
-          <div class="ui segment">
-            <span>Leben</span>
-            <span class="ui red circular label"><?=$_SESSION['lifes']?></span>
-            <span>Punkte</span>
-            <span class="ui green circular label"><?=$_SESSION['points']?></span>
-            <span>Ressort</span>
-            <span class="ui blue circular label"><?=$_SESSION['ressort_description']?></span>
-          </div>
-          
-          <div class="ui segment">
-            <form action="." method="POST">
-              <button type="submit" class="ui button red" name="reset" value="true">Spiel <?=($sessionManager->isAlive() ? 'abbrechen!' : 'neustarten!')?></button>
-            </form>
-          </div>
-
-          <?php if($sessionManager->areTooFewChars()): ?>
-            <div class="ui segment">
-              <span class="ui label large red">Ressort hat zu wenig Bilder!</span>
-            </div>
-          <?php else: ?>
-            <script>msgBar('Richtige Antwort!', 'Du hast einen Punkt dazu bekommen.', 'green')</script>
-            <div class="img-container ui segment">
-              <img class="ui segment" style="margin: 3rem auto; width: 50%; display: block;" src="<?=$sessionManager->getSelectedChar()->imageUrl?>" alt="">
-            </div>
-            <div class="ui segment" id="solutions">
-             <form action="." method="POST">
-              <div class="ui grid">
-                <div class="two column row">
-                  <?php
-                    foreach ($sessionManager->getChars() as $char) {
-                      echo '
-                        <div class="column">
-                          <button type="submit" class="ui button blue fluid '.$sessionManager->getDisabledClassIfNotAlive().'" name="solution" value="'.$char->id.'" value="">
-                            '.$char->firstName.' '.$char->lastName.'
-                          </button>
-                        </div>
-                      ';
-                    }
-                  ?>
-                 </div><!-- /.row -->
-                </div><!-- /.grid -->
-              </form>
-            </div><!-- /.segment -->
-          <?php endif; ?>
-
-        <!-- WRONG -->
-        <?php elseif($sessionManager->isStateWrong()): ?>
-          <!-- Load new chars if necessary -->
-          
-          <script>msgBar('Falsche Antwort!', 'Klicke die richtige Antwort an, um fortzufahren.', 'red')</script>
-
-          <div class="ui segment">
-            <span>Leben</span>
-            <span class="ui red circular label"><?=$_SESSION['lifes']?></span>
-            <span>Punkte</span>
-            <span class="ui green circular label"><?=$_SESSION['points']?></span>
-            <span>Ressort</span>
-            <span class="ui blue circular label"><?=$_SESSION['ressort_description']?></span>
-          </div>
-          <div class="ui segment">
-            <form action="." method="POST">
-              <button type="submit" class="ui button red" name="reset" value="true">Spiel <?=($sessionManager->isAlive() ? 'abbrechen!' : 'neustarten!')?></button>
-            </form>
-          </div>
-
-          <?php if($sessionManager->areTooFewChars()): ?>
-            <span class="ui label large red">Ressort hat zu wenig Bilder!</span>
-          <?php else: ?>
-            <div class="img-container ui segment">
-              <img class="ui segment" style="margin: 3rem auto; width: 50%; display: block;" src="<?=$sessionManager->getSelectedChar()->imageUrl?>" alt="">
-            </div>
-            <div class="ui segment" id="solutions">
-              <form action="." method="POST">
-                <div class="ui grid">
-                  <div class="two column row">
-                    <?php
-                      foreach ($sessionManager->getChars() as $char) {
-                        if($char->id === $sessionManager->getSelectedChar()->id) {
-                          echo '
-                            <div class="column">
-                              <button type="submit" class="ui button green fluid '.$sessionManager->getDisabledClassIfNotAlive().'" name="solution" value="'.$char->id.'" value="">
-                                '.$char->firstName.' '.$char->lastName.'
-                              </button>
-                            </div>
-                          ';
-                        } else {
-                          echo '
-                            <div class="column">
-                              <button type="submit" class="ui button red fluid disabled" name="solution" value="'.$char->id.'" value="">
-                                '.$char->firstName.' '.$char->lastName.'
-                              </button>
-                            </div>
-                          ';
-                        }
-                      }
-                    ?>
-                  </div><!-- /.row -->
-                </div><!-- /.grid -->
-              </form>
-            </div><!-- /.segment -->
-          <?php endif; ?>
-        <?php endif; ?>
-    </div><!-- /.segment -->
-  </div><!-- /.outer -->
-</main>
-
-<?php get_footer(); ?>
+  getTemplatePart('wrapperEnd');
+  
+get_footer();
