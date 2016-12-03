@@ -340,6 +340,18 @@ get_header();
     top: 0;
     left: calc(50% - 720px/2);
   }
+
+  @media screen and (max-width: 720px) {
+    #msgBar {
+      left:  0;
+    }
+  }
+
+  @media screen and (max-width: 480px) {
+    .img-container img {
+      width:  100% !important;
+    }
+  }
 </style>
 
 <script>
@@ -366,28 +378,29 @@ $(document).on("click", "button[name='solution']", function(e) {
   $("#solutions").toggleClass('loading');
 });
 
+$(function() {
+  $('.selection.dropdown').dropdown();
+});
 
 </script>
 
-<h1>Name Game</h1>
+<!-- <h1>Name Game</h1> -->
 <main>
-  <div class="outer small clearfix">
-    <div class="ui segment">
-  	  <div align="center">
-
+  <div class="outer small clearfix" align="center">
+    <div class="ui segments">
+      <div class="ui segment secondary">
+        <div class="ui medium header">
+          Wie gut kennst du die HHCler?
+        </div>
+      </div>
         <!-- INIT -->
         <?php if($sessionManager->isStateInit()): ?>
           <!-- Load ressorts -->
           <?php
             $ressorts = (new Ressorts())->ressorts;
           ?>
-          <script type="text/javascript">
-          $(function() {
-            $('.selection.dropdown').dropdown();
-          });
-          </script>
-          <form class="ui form" action="." method="POST">
-            <div class="field">
+          <form class="ui segment form" action="." method="POST">
+            <div class="ui field">
                 <label>Wähle das Ressort!</label>
                 <div class="ui selection dropdown">
                     <input type="hidden" name="ressort" required>
@@ -424,17 +437,21 @@ $(document).on("click", "button[name='solution']", function(e) {
             <span>Ressort</span>
             <span class="ui blue circular label"><?=$_SESSION['ressort_description']?></span>
           </div>
-
-          <form action="." method="POST">
-            <button type="submit" class="ui button red" name="reset" value="true">Spiel <?=($sessionManager->isAlive() ? 'abbrechen!' : 'neustarten!')?></button>
-          </form>
+          
+          <div class="ui segment">
+            <form action="." method="POST">
+              <button type="submit" class="ui button red" name="reset" value="true">Spiel <?=($sessionManager->isAlive() ? 'abbrechen!' : 'neustarten!')?></button>
+            </form>
+          </div>
 
           <?php if($sessionManager->areTooFewChars()): ?>
-            <span class="ui label large red">Ressort hat zu wenig Bilder!</span>
+            <div class="ui segment">
+              <span class="ui label large red">Ressort hat zu wenig Bilder!</span>
+            </div>
           <?php else: ?>
             <script>msgBar('Richtige Antwort!', 'Du hast einen Punkt dazu bekommen.', 'green')</script>
-            <div class="img-container">
-              <img style="margin: 3rem auto; width: 50%; display: block;" src="<?=$sessionManager->getSelectedChar()->imageUrl?>" alt="">
+            <div class="img-container ui segment">
+              <img class="ui segment" style="margin: 3rem auto; width: 50%; display: block;" src="<?=$sessionManager->getSelectedChar()->imageUrl?>" alt="">
             </div>
             <div class="ui segment" id="solutions">
              <form action="." method="POST">
@@ -471,16 +488,17 @@ $(document).on("click", "button[name='solution']", function(e) {
             <span>Ressort</span>
             <span class="ui blue circular label"><?=$_SESSION['ressort_description']?></span>
           </div>
-
-          <form action="." method="POST">
-            <button type="submit" class="ui button red" name="reset" value="true">Spiel <?=($sessionManager->isAlive() ? 'abbrechen!' : 'neustarten!')?></button>
-          </form>
+          <div class="ui segment">
+            <form action="." method="POST">
+              <button type="submit" class="ui button red" name="reset" value="true">Spiel <?=($sessionManager->isAlive() ? 'abbrechen!' : 'neustarten!')?></button>
+            </form>
+          </div>
 
           <?php if($sessionManager->areTooFewChars()): ?>
             <span class="ui label large red">Ressort hat zu wenig Bilder!</span>
           <?php else: ?>
-            <div class="img-container">
-              <img style="margin: 3rem auto; width: 50%; display: block;" src="<?=$sessionManager->getSelectedChar()->imageUrl?>" alt="">
+            <div class="img-container ui segment">
+              <img class="ui segment" style="margin: 3rem auto; width: 50%; display: block;" src="<?=$sessionManager->getSelectedChar()->imageUrl?>" alt="">
             </div>
             <div class="ui segment" id="solutions">
               <form action="." method="POST">
@@ -513,7 +531,6 @@ $(document).on("click", "button[name='solution']", function(e) {
             </div><!-- /.segment -->
           <?php endif; ?>
         <?php endif; ?>
-  	  </div><!-- /center -->
     </div><!-- /.segment -->
   </div><!-- /.outer -->
 </main>
