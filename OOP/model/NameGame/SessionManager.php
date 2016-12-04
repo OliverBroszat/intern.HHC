@@ -55,6 +55,14 @@ class SessionManager {
    $this->clearChars();
  }
 
+ public function resetInRessort($lifes) {
+   $ressortName = $_SESSION['ressort_name'];
+   $ressortDescription = $_SESSION['ressort_description'];
+
+   $this->init($lifes);
+   $this->start($ressortName, $ressortDescription);
+ }
+
  public function init($lifes) {
    $this->reset();
 

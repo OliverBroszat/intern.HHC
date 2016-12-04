@@ -68,6 +68,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   } else if($sessionManager->isStateStarted() || $sessionManager->isStateWrong()) {
     if($_POST['reset']) {
       $sessionManager->reset();
+    } else if($_POST['reset-in-ressort']) {
+      $sessionManager->resetInRessort($defaultLifes);
     } else if($sessionManager->verify($_POST['solution'])) {
       $sessionManager->correct();
     } else {
@@ -120,8 +122,12 @@ get_header();
     if ($sessionManager->areTooFewChars()):
       getTemplatePart('tooFewChars');
     else:
-      if($sessionManager->getAndClearFlash() === 'wrong') {
-        notification('Falsche Antwort!', 'Klicke die richtige Antwort an, um fortzufahren.', 'red');
+      if ($sessionManager->isAlive()) {
+        if($sessionManager->getAndClearFlash() === 'wrong') {
+          notification('Falsche Antwort!', 'Klicke die richtige Antwort an, um fortzufahren.', 'red');
+        }
+      } else {
+        notification('Game Over!', 'Bitte starte das Spiel neu!', 'red');
       }
       getTemplatePart('wrongAnswer');
     endif;
