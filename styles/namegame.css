@@ -15,6 +15,12 @@ nav {
   left: calc(50% - 720px/2);
 }
 
+.img-container img {
+  margin: 2rem auto !important; 
+  width: 50%; 
+  display: block;
+}
+
 @media screen and (max-width: 720px) {
   #msgBar {
     left:  0;
@@ -24,5 +30,6 @@ nav {
 @media screen and (max-width: 480px) {
   .img-container img {
     width:  100% !important;
+    margin-top:  1rem auto !important;
   }
 }
