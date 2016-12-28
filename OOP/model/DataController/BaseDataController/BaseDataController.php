@@ -33,8 +33,12 @@ class BaseDataController {
     // Völlig in Ordnung
     public function selectSingleRowByQuery($sqlQuery) {
         $selectedRows = $this->selectMultipleRowsByQuery($sqlQuery);
-        if (sizeof($selectedRows) != 1) {
+        if (sizeof($selectedRows) > 1) {
             $errorMessage = "More than 1 row was selected by SQL query '$sqlQuery' in BaseDataController::tryToSelectSingleRowByQuery()";
+            throw new LengthException($errorMessage);
+        }
+        else if (sizeof($selectedRows) < 1) {
+            $errorMessage = "No row was selected by SQL query '$sqlQuery' in BaseDataController::tryToSelectSingleRowByQuery()";
             throw new LengthException($errorMessage);
         }
         return $selectedRows[0];

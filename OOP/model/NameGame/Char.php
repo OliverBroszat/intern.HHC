@@ -26,13 +26,13 @@ class Char {
  }
 
  private function getImageDataByUrl($url){
- 	return (base64_encode(file_get_contents($url)));
+ 	return base64_encode(file_get_contents($url));
  }
 
  private function getImageMimeByUrl($url) {
- 	$finfo = finfo_open(FILEINFO_MIME_TYPE); // return mime type ala mimetype extension
+	$finfo = finfo_open(FILEINFO_MIME_TYPE); // return mime type ala mimetype extension
 	$mime =  finfo_file($finfo, $url);
- 	finfo_close($finfo);
- 	return $mime;
+	finfo_close($finfo);
+	return $mime;
  }
 }
