@@ -101,7 +101,7 @@ class BaseDataController {
     NOTE: ID wird nicht automatisch gesetzt!!!
     */
     public function insertSingleRowInTable($row, $table) {
-            $dataArray = $row->toArray();
+        $dataArray = $row->toArray();
         $this->insertData(
             $table,
             $dataArray,
@@ -231,6 +231,21 @@ class BaseDataController {
             $dataArray[$key] = $row->getValueForKey($key);
         }
         return $dataArray;
+    }
+
+    private function getContactDatabaseRowByID($contactID) {
+        $unpreparedSqlQuery = "SELECT * FROM Contact WHERE id=%d";
+        $preparedSqlQuery = $this->baseDataController->prepareSqlQuery($unpreparedSqlQuery, $contactID);
+        $contactRow = $this->baseDataController->selectSingleRowByQuery($preparedSqlQuery);
+        return $contactRow;
+    }
+
+    // general function for functions like getOrganisationDetailsForIDFromTable
+    public function getRowsFromTableByKey($table, $key, $keyColumn='id') {
+        $unpreparedSqlQuery = "SELECT * FROM $table WHERE $keyColumn=%d";
+        $preparedSqlQuery = $this->baseDataController->prepareSqlQuery($unpreparedSqlQuery, $key);
+        $rows = $this->selectMultipleRowsByQuery($preparedSqlQuery);
+        return $rows;
     }
 
     // Delete Schnittstellenfunktion für Wordpress-Style Delete
