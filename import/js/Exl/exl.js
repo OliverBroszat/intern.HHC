@@ -321,7 +321,9 @@ function ExlClass() {
 	/**
 	 * setupExlContainerWithData
 	 *
-	 * Sets up an exl container based on a given dataset to fill placeholders in the container's template. 'data' can be empty. In this case, no template will be prefilled. This function will insert generated HTML code into the exl-container tag.
+	 * Sets up an exl container based on a given dataset to fill placeholders in the container's template. 
+	 * 'data' can be empty. In this case, no template will be prefilled. 
+	 * This function will insert generated HTML code into the exl-container tag.
 	 *
 	 * @param exlContainer exl-container DOM element
 	 * @param data Datastructure as json
@@ -329,7 +331,8 @@ function ExlClass() {
 	this.setupExlContainerWithData = function (exlContainer, data) {
 		var dataSourceName = exlContainer.getAttribute('source');
 		try {
-			var containerData = data[dataSourceName];
+			// var containerData = data[dataSourceName];
+			var containerData = data;
 		}
 		catch (e) {
 			// Data source was not given, so render template without any content data
