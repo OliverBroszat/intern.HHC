@@ -8,9 +8,7 @@
 			{{/ contact}}			
 		{{/ translatedData}}
 
-		{{# data}}
-			
-
+		{{# data}}	
 			{{# contact}}			
 				{{> editContactBox}}
 			{{/ contact}}
@@ -26,14 +24,6 @@
 			<div class="ui segment">
 				<exl-container id='study-list' template='studies'></exl-container>
 			</div>
-			
-			<script>
-				{{# studies}}
-					select_option('study-status', '{{status}}', 'status');
-					select_option('study-degree', '{{degree}}', 'degree');
-					select_option('study-school', '{{school}}', 'school');
-				{{/ studies}}
-			</script>
 			
 			{{# member}}						
 				{{> editMemberBox}}

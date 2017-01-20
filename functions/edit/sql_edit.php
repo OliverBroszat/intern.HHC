@@ -68,6 +68,8 @@ $newProfile = new ContactProfile(
 	$dataObject['Study']
 );
 
+$newProfile->updateDataWithContactId($crud['id']);
+
 $newMember = new MemberProfile(
 	$dataObject['Member'][0],
 	$newProfile
