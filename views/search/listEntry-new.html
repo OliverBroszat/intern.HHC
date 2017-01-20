@@ -21,26 +21,24 @@
 					<td align='right'>
 
 						<!-- Buttons -->
-						<button type='button' class='circular ui icon mini basic button' value='{{contact.id}}' onclick='edit(this.value)'>
+						<button type='button' class='circular ui icon mini basic button' value='{{contact.id}}' onclick='edit(this.value)'  data-tooltip="Bearbeiten" data-variation="mini">
 							<i class='edit icon'></i>
 						</button>
-						<button type='button' class='circular ui icon mini basic button' id='slide-content-button-{{number}}' value='{{number}}' onclick='member_details({{contact.id}})'>
+						<button type='button' class='circular ui icon mini basic button' id='slide-content-button-{{number}}' value='{{number}}' onclick='member_details({{contact.id}})'  data-tooltip="Details" data-variation="mini">
 							<i class='unhide icon'></i>
 						</button>
 						<br>
 
 						{{# mails}}
 							<a href="mailto:{{address}}"  class="tooltip">
-								<span class="tooltiptext">{{description}}</span>
-								<button type='button' class='circular ui icon mini basic button'>
+								<button type='button' class='circular ui icon mini basic button' data-tooltip="{{description}}" data-variation="mini">
 									<i class='mail icon'></i>
 								</button>
 							</a>
 						{{/ mails}}
 						{{# phones}}
 							<a href="mailto:{{number}}"  class="tooltip">
-								<span class="tooltiptext">{{description}}</span>
-								<button type='button' class='circular ui icon mini basic button'>
+								<button type='button' class='circular ui icon mini basic button' data-tooltip="{{description}}" data-variation="mini">
 									<i class='phone icon'></i>
 								</button>
 							</a>
