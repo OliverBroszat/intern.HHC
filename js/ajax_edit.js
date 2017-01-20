@@ -5,11 +5,11 @@ function edit(id){
 	var data = new FormData();
 	data.append('id', id);
 
-  	var templateDirectory = document.getElementById('templateDirectory').value; 
+	var templateDirectory = document.getElementById('templateDirectory').value; 
 
 	$.ajax({
-  		url: templateDirectory+'/functions/edit/edit.php',
-	  	data: data,
+		url: templateDirectory+'/functions/edit/edit.php',
+		data: data,
 		processData: false,
 		contentType: false,
 		type: 'POST',
@@ -38,7 +38,7 @@ $(document).on('click', '#edit-save', function(event){
 	var id = $(this).val();
 	$('#edit-form').append($("<input>").attr("type", "hidden").attr("name", "crud-id").val(id));
 	$('#edit-form').append($("<input>").attr("type", "hidden").attr("name", "crud-mode").val('edit'));
-    $('#edit-form').submit();
+	$('#edit-form').submit();
 });
 
 
@@ -49,24 +49,24 @@ $(document).on('click', '#edit-delete', function(event){
 	var id = $(this).val();
 
 	dialog(
-        'Sind Sie sicher, dass Sie diesen Datensatz löschen möchten? Die Löschung kann nicht rückgangig gemacht werden!',
-        function() {
-            // Schließe den Dialog
-            popup_close();
+		'Sind Sie sicher, dass Sie diesen Datensatz löschen möchten? Die Löschung kann nicht rückgangig gemacht werden!',
+		function() {
+			// Schließe den Dialog
+			popup_close();
    
-            setTimeout(function() {
-	           // append ID
-	            $('#edit-form').append($("<input>").attr("type", "hidden").attr("name", "crud-id").val(id));
-	            $('#edit-form').append($("<input>").attr("type", "hidden").attr("name", "crud-mode").val('delete'));
-	           // submit form
-	            $('#edit-form').submit();
-	        }, 200);
-        },
-        function() {
-            // Schließe nur das Popup
-            popup_close();
-        }
-    );
+			setTimeout(function() {
+			   // append ID
+				$('#edit-form').append($("<input>").attr("type", "hidden").attr("name", "crud-id").val(id));
+				$('#edit-form').append($("<input>").attr("type", "hidden").attr("name", "crud-mode").val('delete'));
+			   // submit form
+				$('#edit-form').submit();
+			}, 200);
+		},
+		function() {
+			// Schließe nur das Popup
+			popup_close();
+		}
+	);
 });
 
 
@@ -80,25 +80,19 @@ $( document ).on('submit', '#edit-form', function(event) {
 	$('.edit .popup-content').addClass('modal');
 
 	jQuery.ajax({
-	    url: form.attr("action"),
-        type: form.attr("method"),
-        data: data,
-        processData: false,
-        contentType: false,
-        success: function (result, status)
-        {
-        	setTimeout(function() {
-				// Debug Output
-				$(".edit .popup-content").html(result);
-				$('.edit .popup-content').removeClass('modal');
-				$('.edit').addClass('reload-form');
-			}, 100);
-        },
-        error: function (xhr, desc, err)
-        {
-        	$(".edit .popup-content").html('xhr: ' + xhr + '<br>desc: ' + desc + '<br>err: ' + err);
-        	$('.edit .popup-content').removeClass('modal');
-        }
+		url: form.attr("action"),
+		type: form.attr("method"),
+		data: data,
+		processData: false,
+		contentType: false,
+		success: function (result, status) {
+			popup_close();
+			ajax_post();
+		},
+		error: function (xhr, desc, err) {
+			$(".edit .popup-content").html('xhr: ' + xhr + '<br>desc: ' + desc + '<br>err: ' + err);
+			$('.edit .popup-content').removeClass('modal');
+		}
 	});
 });
 
@@ -124,7 +118,7 @@ function loadFile(event) {
 	`);
 	
 	$('#edit-upload-image').hide();
-    $('#edit-delete-image').show();
+	$('#edit-delete-image').show();
 };
 
 // Image Placeholder

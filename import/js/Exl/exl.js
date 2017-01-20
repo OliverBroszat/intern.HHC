@@ -331,7 +331,6 @@ function ExlClass() {
 	this.setupExlContainerWithData = function (exlContainer, data) {
 		var dataSourceName = exlContainer.getAttribute('source');
 		try {
-			// var containerData = data[dataSourceName];
 			var containerData = data;
 		}
 		catch (e) {
