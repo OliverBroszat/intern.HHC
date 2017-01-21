@@ -333,7 +333,7 @@ if (!function_exists('arr_to_list')) {
 
 
 
-// Findet in POST den Key und den Index zu einer Value (aus einem HTML-Array)
+// Findet in POST (HTML-Array) bzw. einem anderen 2D-Array den Key und den Index zu einer Value
 function search_in_2d_array($array, $needle) {
 	$result = array();
 	foreach ($array as $key => $value) {
@@ -347,26 +347,6 @@ function search_in_2d_array($array, $needle) {
 	}
 	return $result;
 }
-
-
-
-// Lösche aus aus dem HTML-Array alle die gesuchten Einträge und re-indiziere das HTML-Array
-function unset_value_in_2d_array($array, $needle) {
-
-	$result = search_in_2d_array($array, $needle);
-
-	foreach ($result as $res) {
-		$key = $res['key'];
-		$index = $res['index'];
-
-		unset($array[$key][$index]);
-		$array[$key] = array_values($array[$key]);
-
-	}
-
-	return $array;
-}
-
 
 
 // Wandele POST in ein geordnetes Array um
