@@ -1,20 +1,17 @@
-<h2>Profilbild</h2>
-<div class="ui segment edit-image clearfix">
-	<div class="edit-image-image">
-		<a href="{{image.source}}" target="_blank" onclick="image_popup(this, event)">
-			<img src="{{image.thumbnail}}" class="profile-picture" alt="Profilbild">
-		</a>
-	</div>
-	<div class="edit-image-buttons">
-		<input type="file" accept="image/*" onchange="$('#delete_image').val('false'); loadFile(event);" class="full-width" id="edit-upload-image" placeholder="Upload" name="upload_image">
-		
-		<button type="button" class="ui icon button fluid" id="edit-delete-image" style="display:none;" 
-			onclick="$('#delete_image').val('true')">
-			<i class="remove icon"></i>							
-			Löschen &nbsp; / 
-			<i class="upload icon"></i>
-			Hochladen
-		</button>
-		<input type="hidden" id="delete_image" name="crud-delete_image" value="false">
-	</div>						
+<div class="edit-image-image">
+	<a href="{{image.source}}" target="_blank" onclick="image_popup(this, event)">
+		<img src="{{image.thumbnail}}" class="profile-picture" alt="Profilbild">
+	</a>
 </div>
+<div class="edit-image-buttons">
+	<input type="file" accept="image/*" onchange="$('#delete_image').val('false'); loadFile(event);" class="full-width" id="edit-upload-image" placeholder="Upload" name="upload_image">
+	
+	<button type="button" class="ui icon button fluid" id="edit-delete-image" style="display:none;" 
+		onclick="$('#delete_image').val('true')">
+		<i class="remove icon"></i>							
+		Löschen &nbsp; / 
+		<i class="upload icon"></i>
+		Hochladen
+	</button>
+	<input type="hidden" id="delete_image" name="crud-delete_image" value="false">
+</div>						

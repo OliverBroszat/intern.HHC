@@ -220,9 +220,10 @@ function ExlClass() {
 		var newDeleteButton = document.createElement('button');
 		newDeleteButton.type = 'button';
 		newDeleteButton.id = 'exl-button-delete-'+exlContainerID+'-'+itemID;
-		newDeleteButton.classList.add('exl', 'button', 'delete');
+		newDeleteButton.classList.add('ui', 'circular', 'icon', 'mini', 'basic', 'button', 'exl', 'delete');
 		newDeleteButton.setAttribute('onClick', 'Exl.deleteListItemForContainerWithID("'+exlContainerID+'", '+itemID+');');
-		newDeleteButton.innerHTML = '-';
+		newDeleteButton.setAttribute('data-tooltip', 'Löschen');
+		newDeleteButton.innerHTML = '<i class="minus icon"></i>';
 		return newDeleteButton;
 
 	}
@@ -244,10 +245,19 @@ function ExlClass() {
 		newListItem.id = 'exl-listitem-'+exlContainerID+'-'+newItemID;
 		newListItem.classList.add('exl', 'listitem');
 
+		// semantic ui fields
+		$(newListItem).append(`
+			<div class="two fields">
+				<div class="fifteen wide field exl-content-field"></div>
+				<div class="one wide field exl-button-field"></div>
+			</div>
+		`);
+
 		var newExlContent = createEmptyExlContent(contentTemplate, exlContainerID, newItemID);
 		var newDeleteButton = createNewDeleteButton(exlContainerID, newItemID);
-		$(newListItem).append(newExlContent);
-		$(newListItem).append(newDeleteButton);
+		
+		$(newListItem).find('.exl-content-field').append(newExlContent);
+		$(newListItem).find('.exl-button-field').append(newDeleteButton);
 
 		return newListItem;
 	}

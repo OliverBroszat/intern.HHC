@@ -1,45 +1,53 @@
 <div id="edit">
-	<form id="edit-form" method="POST" action="{{dir}}/functions/edit/sql_edit.php" enctype="multipart/form-data">
+	<form id="edit-form" class="ui form" method="POST" action="{{dir}}/functions/edit/sql_edit.php" enctype="multipart/form-data">
 		<div id="popup-content">
 		
-		{{# translatedData}}
-			{{# contact}}
-				{{> editImage}}	
-			{{/ contact}}			
-		{{/ translatedData}}
+			<div class="ui segment edit-image clearfix">
+				<h3 class="ui dividing header">Profilbild</h3>
+				{{# translatedData}}
+					{{# contact}}
+						{{> editImage}}	
+					{{/ contact}}			
+				{{/ translatedData}}
+			</div>
 
-		{{# data}}	
-			{{# contact}}			
-				{{> editContactBox}}
-			{{/ contact}}
-			<script> select_option('contact-prefix', '{{contact.prefix}}', 'prefix'); </script>
-
-			<h2>Addressen</h2>
+{{# data}}	
 			<div class="ui segment">
+				<h3 class="ui dividing header">Persönliche Angaben</h3>
+				{{# contact}}	
+					{{> editContactBox}}
+				{{/ contact}}
+				<script> select_option('contact-prefix', '{{contact.prefix}}', 'prefix'); </script>
+			</div>		
+			
+
+			<div class="ui segment">
+				<h3 class="ui dividing header">Anschriften</h3>
 				<exl-container id='address-list' template='addresses'></exl-container>
 			</div>
-	
 
-			<h2>Studienprofile</h2>
 			<div class="ui segment">
+				<h3 class="ui dividing header">Studienprofile</h3>
 				<exl-container id='study-list' template='studies'></exl-container>
 			</div>
-			
-			{{# member}}						
-				{{> editMemberBox}}
-			{{/ member}}
-			<script>
-				select_option('member-active', '{{member.active}}', 'active');
-				select_option('member-ressort', '{{member.ressort}}', 'ressort');
-				select_option('member-position', '{{member.position}}', 'position');
-			</script>			
 
-			
-			<h2>Kommentare</h2>
 			<div class="ui segment">
-				<textarea name="Contact-comment" rows="4">{{contact.comment}}</textarea>
+				<h3 class="ui dividing header">HHC Mitgliedschaft</h3>
+				{{# member}}						
+					{{> editMemberBox}}
+				{{/ member}}
+				<script>
+					select_option('member-active', '{{member.active}}', 'active');
+					select_option('member-ressort', '{{member.ressort}}', 'ressort');
+					select_option('member-position', '{{member.position}}', 'position');
+				</script>			
 			</div>
 
+			
+			<div class="ui segment">
+				<h3 class="ui header">Kommentare</h3>
+				<textarea name="Contact-comment" rows="4">{{contact.comment}}</textarea>
+			</div>
 
 		</div>
 		<div id="popup-footer">
@@ -64,6 +72,9 @@
 </div>
 
 <script>
+	// semantic ui
+	$('.ui.dropdown').dropdown() ;
+	// EXL
 	Exl.setupExlContainerWithID('mail-list', {{{mails}}});
 	Exl.setupExlContainerWithID('phone-list', {{{phones}}});
 	Exl.setupExlContainerWithID('address-list', {{{addresses}}});

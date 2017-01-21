@@ -1,8 +1,11 @@
 <input type='hidden' name='Mail-id[]' value='{{id}}'/>
 <input type='hidden' name='Mail-contact[]' value='{{contact}}'/>
-<td>
-	<input class='mail_content' type='text' name='Mail-description[]' placeholder='Beschreibung' value='{{description}}' style='width: 45%; margin-right: 10px;'/>
-</td>
-<td>
-	<input name='Mail-address[]' class='mail_content' type='email' placeholder='E-Mail' value='{{address}}' style='width: 45%;'/>
-</td>
+
+<div class="two fields">
+	<div class="four wide field">
+		<input class='mail_content' type='text' name='Mail-description[]' placeholder='Beschreibung' value='{{description}}' />			
+	</div>
+	<div class="twelve wide field">
+		<input name='Mail-address[]' class='mail_content' type='email' placeholder='E-Mail' value='{{address}}' />
+	</div>
+</div>

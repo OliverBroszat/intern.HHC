@@ -46,14 +46,65 @@ button.ui.labeled.icon.basic.button {
     box-shadow: none;
     background: transparent !important;
     border: none;
-
 }
 
 ui.multiple.dropdown {
     padding: 0.5rem;
 }
 
+.popup .ui.centered.inline.loader.active, 
+.popup .ui.centered.inline.loader.visible {
+    margin: 0 auto 2rem;
+}
 
+.ui.form .fields .field:first-child,
+.ui.form :not(.fields) > .field,
+.ui.form :not(.fields) > .wide.field  {
+    padding-left: 0;
+}
+
+.ui.form .field>label {
+    margin: 0.5rem 0 0;
+    font-weight: normal;
+    opacity: 0.75;
+}
+
+.ui.form .fields > .field > label {
+    margin-top: 0;
+}
+
+.ui.form .field > .fields {
+    margin: 0;
+}
+
+
+.ui.form .fields .field,
+.ui.form .fields:last-child .field {
+    margin-bottom: 0.5rem;
+}
+
+.ui.form .fields > .field,
+.ui.form .fields:last-child > .field,
+.ui.form .fields .field:last-child {
+    margin-bottom: 0;
+}
+
+.ui.form input:not([type]), 
+.ui.form input[type=text], 
+.ui.form input[type=email], 
+.ui.form input[type=search], 
+.ui.form input[type=password], 
+.ui.form input[type=date], 
+.ui.form input[type=datetime-local], 
+.ui.form input[type=tel], 
+.ui.form input[type=time], 
+.ui.form input[type=url], 
+.ui.form input[type=number],
+.ui.form select,
+.ui.form .dropdown,
+.ui.form textarea {
+    background-color: #fcfcfc;
+}
 
 
 /* ---------------------------------------------- */

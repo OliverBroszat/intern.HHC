@@ -11,7 +11,8 @@ function popup(content, name, title) {
 
     if (content == null) {
         // Warten, bis Content nachträglich hinzugefügt wird über $(".popup-content").html()
-        content = "<div class='modal'></div>";
+        // content = "<div class='modal'></div>";
+        content = "<div class='ui active centered inline loader'>";
     }
 
     if (name == null) { 

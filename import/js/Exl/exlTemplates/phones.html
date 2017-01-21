@@ -1,8 +1,11 @@
 <input type='hidden' name='Phone-contact[]' value='{{contact}}'></input>
 <input type='hidden' name='Phone-id[]' value='{{id}}'></input>
-<td>
-	<input class='phone_content' type='text' name='Phone-description[]' placeholder='Beschreibung' value='{{description}}' style='width: 45%; margin-right: 10px;'/>
-</td>
-<td>
-	<input class='phone_content' type='text' name='Phone-number[]' placeholder='Telefonnummer' value='{{number}}' style='width: 45%;'/>
-</td>
+
+<div class="two fields">
+	<div class="four wide field">
+		<input class='phone_content' type='text' name='Phone-description[]' placeholder='Beschreibung' value='{{description}}' />
+	</div>
+	<div class="twelve wide field">
+		<input class='phone_content' type='text' name='Phone-number[]' placeholder='Telefonnummer' value='{{number}}' />
+	</div>
+</div>

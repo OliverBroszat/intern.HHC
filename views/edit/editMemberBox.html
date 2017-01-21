@@ -1,50 +1,51 @@
-<h2>HHC Mitgliedschaft</h2>
 <input type='hidden' name='Member-contact[]' value='{{id}}'></input>
-<div class='ui segment'>
-	<table class='form'>
-		<tbody>
-			<tr>
-				<td width='50%'>
-					Status*:
-					<select name='Member-active' id='member-active'>
-						<option disabled selected value class='placeholder'>Status</option>
-						<option value='0'>Aktiv</option>
-						<option value='1'>Inaktiv</option>
-					</select>
-				</td>
-				<td colspan='2'>
-	                Ressort*: 
-					<select name='Member-ressort' id='member-ressort' required>
-						<option disabled selected value class='placeholder'>Ressort</option>
-						<option value='1'>Vorstand</option>"
-						<option value='3'>IT</option>"
-						<option value='7'>OPE</option>"
-						<option value='8'>Sales</option>"
-						<option value='9'>MPR</option>"
-						<option value='10'>Finance</option>"
-						<option value='11'>QM</option>"
-						<option value='12'>unbekannt</option>"
-					</select>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					Position*:
-					<select name='Member-position' id='member-position'>
-						<option disabled selected value class='placeholder'>Position</option>
-						<option value='anwärter'>Anwärter</option>
-						<option value='mitglied'>Mitglied</option>
-						<option value='ressortleiter'>Ressortleiter</option>
-						<option value='alumni'>Alumni</option>
-					</select>
-				</td>
-				<td>
-					Beitritt*: <input type='date' name='Member-joined' placeholder='YYYY-MM-DD' value='{{joined}}'>
-				</td>
-				<td>
-					(Austritt): <input type='date' name='Member-left' placeholder='YYYY-MM-DD' value='{{left}}'>
-				</td>
-			</tr>
-		</tbody>
-	</table>
+
+<div class="field">
+	<div class="two fields">
+		<div class="field required">
+			<label>Status</label>
+			<select class="ui fluid dropdown" name='Member-active' id='member-active'>
+				<option disabled selected value class='placeholder'>Status</option>
+				<option value='0'>Aktiv</option>
+				<option value='1'>Inaktiv</option>
+			</select>
+		</div>
+		<div class="field required">
+			<label>Ressort</label>
+			<select class="ui fluid dropdown" name='Member-ressort' id='member-ressort' required>
+				<option disabled selected value class='placeholder'>Ressort</option>
+				<option value='1'>Vorstand</option>"
+				<option value='3'>IT</option>"
+				<option value='7'>OPE</option>"
+				<option value='8'>Sales</option>"
+				<option value='9'>MPR</option>"
+				<option value='10'>Finance</option>"
+				<option value='11'>QM</option>"
+				<option value='12'>unbekannt</option>"
+			</select>
+		</div>
+	</div>
+</div>
+
+<div class="field">
+	<div class="three fields">
+		<div class="field required">
+			<label>Position</label>
+			<select class="ui fluid dropdown" name='Member-position' id='member-position'>
+				<option disabled selected value class='placeholder'>Position</option>
+				<option value='anwärter'>Anwärter</option>
+				<option value='mitglied'>Mitglied</option>
+				<option value='ressortleiter'>Ressortleiter</option>
+				<option value='alumni'>Alumni</option>
+			</select>
+		</div>
+		<div class="field required">
+			<label>Beitritt</label>
+			<input type='date' name='Member-joined' placeholder='YYYY-MM-DD' value='{{joined}}'>
+		</div>
+		<div class="field">
+			<label>Austritt</label>
+			<input type='date' name='Member-left' placeholder='YYYY-MM-DD' value='{{left}}'>
+		</div>
+	</div>
 </div>

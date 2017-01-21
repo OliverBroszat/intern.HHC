@@ -77,7 +77,7 @@ $( document ).on('submit', '#edit-form', function(event) {
 	var form = $(this),
 		data = new FormData(this);
 
-	$('.edit .popup-content').addClass('modal');
+	$('#edit-form').addClass('loading');
 
 	jQuery.ajax({
 		url: form.attr("action"),
@@ -86,6 +86,8 @@ $( document ).on('submit', '#edit-form', function(event) {
 		processData: false,
 		contentType: false,
 		success: function (result, status) {
+			// $(".edit .popup-content").html(result);
+			console.log(result);
 			popup_close();
 			ajax_post();
 		},

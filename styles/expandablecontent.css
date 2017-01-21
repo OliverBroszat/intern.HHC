@@ -2,20 +2,30 @@
     display: block;
 }
 
-.exl.container {
-}
-
-.exl.wrapper {
-    padding: 5px;
-}
-
 .exl.list {
-    padding-left:0;
+    /* margin-bottom: 1rem; */
 }
 
 .exl.listitem {
-    margin: 5px 0px;
-    padding: 5px;
+    border-bottom: 1px solid rgba(34,36,38,.15);
+    padding-bottom: 1.5rem;
+}
+
+.exl.listitem:not(:first-child) {
+    padding-top: 1rem;
+}
+
+.exl.listitem:last-child {
+    border: none;
+}
+
+.small .exl.listitem {
+    padding: 0.25rem 0;
+    border: none;
+}
+
+.small .exl.listitem:last-child {
+    padding-bottom: 0.5rem;
 }
 
 .exl.listitem:after {
@@ -26,15 +36,6 @@
     height: 0px;
 }
 
-.exl.content {
-    width: 90%;
-    padding: 5px;
-    float: left;
-}
-
-.exl.button.delete {
-    float: left;
-}
-
-.exl.button.add {
+.exl .fields {
+    margin: 0 !important;
 }

@@ -18,7 +18,7 @@ require_once("$root/functions/html_templates/userdata.php");
 		<h1>Bewerbung</h1>
 
 			
-		<form action="<?php echo get_template_directory_uri(); ?>\OOP\model\DataController\ApplicationDataController\ApplicationDataController.php" method='POST' enctype='multipart/form-data'>	
+		<form class="ui form" action="<?php echo get_template_directory_uri(); ?>\OOP\model\DataController\ApplicationDataController\ApplicationDataController.php" method='POST' enctype='multipart/form-data'>	
 
 			<?php
 				echo getContactEditTemplate(null);

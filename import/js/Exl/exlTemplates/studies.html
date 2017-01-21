@@ -1,41 +1,41 @@
+<input type='hidden' name='Study-contact[]' value='{{contact}}'></input>
+<input type='hidden' name='Study-id[]' value='{{id}}'></input>
 
-<table class='form'>
-	<input type='hidden' name='Study-contact[]' value='{{contact}}'></input>
-	<input type='hidden' name='Study-id[]' value='{{id}}'></input>
-	<tr>
-		<td style='vertical-align: top;'>Status</td>
-		<td style='vertical-align: top;'>
-			<select id='study-status' name='Study-status[]'>
-				<option disabled selected value class='placeholder'>Status</option>
-				<option id='status-option-{{exl-content-full-id}}-active' value="active">Aktuell</option>
-				<option id='status-option-{{exl-content-full-id}}-cancelled' value="cancelled">Abgebrochen</option>
-				<option id='status-option-{{exl-content-full-id}}-done' value="done">Abgeschlossen</option>
-			</select>
-		</td>
-		<script>
-			if ("{{status}}" != "") {
-				document.getElementById('status-option-{{exl-content-full-id}}-{{status}}').selected=true;
-			}
-		</script>
-	</tr>
-	<tr>
-		<td>Abschluss</td>
-		<td>
-			<select id='degree-{{exl-content-full-id}}' name='Study-degree[]' onChange='showDiv(this);'>
+<!-- Status -->
+<div class="eight wide field required">
+	<label>Status</label>
+	<select class="ui fluid dropdown" id='study-status' name='Study-status[]'>
+		<option disabled selected value class='placeholder'>Status</option>
+		<option id='status-option-{{exl-content-full-id}}-active' value="active">Aktuell</option>
+		<option id='status-option-{{exl-content-full-id}}-cancelled' value="cancelled">Abgebrochen</option>
+		<option id='status-option-{{exl-content-full-id}}-done' value="done">Abgeschlossen</option>
+	</select>
+	<script> if ("{{status}}" != "") {document.getElementById('status-option-{{exl-content-full-id}}-{{status}}').selected=true; } </script>
+</div>
+
+<!-- Abschluss -->
+<div class="field required">
+	<label>Abschluss</label>
+	<div class="two fields">
+		<div class="field">
+			<select class="ui fluid dropdown" id='degree-{{exl-content-full-id}}' name='Study-degree[]' onChange='showDiv(this);'>
 				<option disabled selected class='placeholder'>Abschluss</option>
 				<option id='degree-option-{{exl-content-full-id}}-b_sc' value="b_sc">Bachelor of Science</option>
 				<option id='degree-option-{{exl-content-full-id}}-m_sc' value="m_sc">Master of Science</option>
 				<option id='degree-option-{{exl-content-full-id}}-b_a' value="b_a">Bachelor of Arts</option>
 				<option id='degree-option-{{exl-content-full-id}}-m_a' value="m_a">Master of Arts</option>
+				<option id='degree-option-{{exl-content-full-id}}-m_a' value="exam">Staatsexamen</option>
+				<option id='degree-option-{{exl-content-full-id}}-m_a' value="diplom">Diplom</option>
+				<option id='degree-option-{{exl-content-full-id}}-m_a' value="dr">Doktor</option>
 				<option id='degree-option-{{exl-content-full-id}}-other' value="other">anderer Abschluss...</option>
 			</select>
-		</td>
-		<td>
+		</div>
+		<div class="field">
 			<input id='hidden_div-degree-{{exl-content-full-id}}' type='text' name='Study-degree[]' placeholder='anderer Abschluss...'
 			style='display:none;' disabled/>
-		</td>
+		</div>
 		<script>
-			if ($.inArray("{{degree}}", ['b_sc', 'm_sc', 'b_a', 'm_a']) != -1) {
+			if ($.inArray("{{degree}}", ['b_sc', 'm_sc', 'b_a', 'm_a', 'exam', 'diplom', 'dr']) != -1) {
 				document.getElementById('degree-option-{{exl-content-full-id}}-{{degree}}').selected=true;
 			}
 			else if ("{{degree}}" != "") {
@@ -46,20 +46,29 @@
 				document.getElementById('hidden_div-degree-{{exl-content-full-id}}').setAttribute('value', '{{degree}}');
 			}
 		</script>
-	</tr>
-	<tr>
-		<td>Fach</td>
-		<td>
+	</div>
+</div>
+
+<!-- Fach -->
+<div class="field">
+	<div class="two fields">
+		<div class="field required">
+			<label>Fach</label>
 			<input type='text' name='Study-course[]' placeholder='Fach' value='{{course}}'/>
-		</td>
-		<td>
+		</div>
+		<div class="field">
+			<label>Schwerpunkt</label>
 			<input type='text' name='Study-focus[]' placeholder='(Schwerpunkt)' value='{{focus}}'/>
-		</td>
-	</tr>
-	<tr>
-		<td width ='20%' style='vertical-align: top;'>Universität</td>
-		<td width='40%' style='vertical-align: top;'>
-			<select id='school-{{exl-content-full-id}}' name='Study-school[]' onChange='showDiv(this);'>
+		</div>
+	</div>
+</div>
+
+<!-- Universität -->
+<div class="field required">
+	<label>Universität</label>
+	<div class="two fields">
+		<div class="field">
+			<select class="ui fluid dropdown" id='school-{{exl-content-full-id}}' name='Study-school[]' onChange='showDiv(this);'>
 				<option disabled selected class='placeholder'>Hochschule</option>
 				<option id='school-option-{{exl-content-full-id}}-1' value='Heinrich-Heine-Universität'>Heinrich-Heine-Universität</option>
 				<option id='school-option-{{exl-content-full-id}}-2' value='Universität Duisburg Essen'>Universität Duisburg Essen</option>
@@ -67,14 +76,12 @@
 				<option id='school-option-{{exl-content-full-id}}-4' value='FOM'>FOM</option>
 				<option id='school-option-{{exl-content-full-id}}-other' value='other'>andere Universität...</option>
 			</select>
-		</td>
-		<td width='40%' style='vertical-align:top;'>
+		</div>
+		<div class="field">
 			<input id='hidden_div-school-{{exl-content-full-id}}' type='text' name='Study-school[]' placeholder='andere Hochschule...'
 			disabled style='display:none;'/>
-			<br>
-		</td>
+		</div>
 		<script>
-			console.log("School is {{school}}");
 			var translator = {
 				"Heinrich-Heine-Universität": 1,
 				"Universität Duisburg Essen": 2,
@@ -95,12 +102,23 @@
 				}
 			}
 		</script>
-	</tr>
-	<tr>
-		<td>Beginn / Ende</td>
-		<td style='vertical-align:top;'><input type='date' name='Study-start[]' value='{{start}}'/></td>
-		<td style='vertical-align:top;'><input type='date' name='Study-end[]' value='{{end}}'/></td>
-	</tr>
-	<tr>
-	</tr>
-</table>
+	</div>
+</div>
+
+<!-- Beginn / Ende -->
+<div class="field">
+	<div class="two fields">
+		<div class="field required">
+			<label>Beginn</label>
+			<input type='date' name='Study-start[]' value='{{start}}'/>
+		</div>
+		<div class="field">
+			<label>(voraussichtliches) Ende</label>
+			<input type='date' name='Study-end[]' value='{{end}}'/>
+		</div>
+	</div>
+</div>
+
+<script>
+	$('.ui.dropdown').dropdown();
+</script>

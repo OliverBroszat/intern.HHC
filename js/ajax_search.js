@@ -3,7 +3,8 @@ function ajax_post() {
 	$('#suggestions').toggleClass("show",false); 
 	
 	// Insert loading animation
-	$( "#list-container" ).html( "<div class='modal'></div>" );
+	$( "#list-container" ).html( "<div class='ui active centered inline loader'>");
+
 
 	// get form and url
 	var form = $( "#form-suche" );

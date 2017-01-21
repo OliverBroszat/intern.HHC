@@ -1,30 +1,37 @@
-<table class='form'>
-	<input type='hidden' name='Address-contact[]' value='{{contact}}'></input>
-	<input type='hidden' name='Address-id[]' value='{{id}}'></input>
-	<tr>
-		<td colspan='2'>
-			<input type='text' name='Address-description[]' placeholder='Beschreibung' value='{{description}}'>
-		</td>
-	</tr>
-	<tr>
-		<td width='20%'>Straße / Nr.</td>
-		<td width='30%'>
+<input type='hidden' name='Address-contact[]' value='{{contact}}'></input>
+<input type='hidden' name='Address-id[]' value='{{id}}'></input>
+
+<div class="six wide field required">
+	<label>Beschreibung</label>
+	<input type='text' name='Address-description[]' placeholder='Beschreibung' value='{{description}}'>
+</div>
+
+<div class="field">
+	<div class="three fields">
+		<div class="six wide field required">
+			<label>Straße</label>
 			<input type='text'name='Address-street[]' placeholder='Straße' value='{{street}}'/>
-		</td>
-		<td width='30%'>
+		</div>
+		<div class="six wide field required">
+			<label>Hausnummer</label>
 			<input type='text' name='Address-number[]'placeholder='Nr.' value='{{number}}'/>
-		</td>
-		<td width='20%'>
+		</div>
+		<div class="four wide field">
+			<label>Addresszusatz</label>
 			<input type='text' name='Address-addr_extra[]' placeholder='(Zusatz)' value='{{addr_extra}}'/>
-		</td>
-	</tr>
-	<tr>
-		<td>Wohnort</td>
-		<td>
+		</div>
+	</div>
+</div>
+
+<div class="field">
+	<div class="two fields">
+		<div class="six wide field required">
+			<label>PLZ</label>
 			<input type='text' name='Address-postal[]'placeholder='PLZ' value='{{postal}}'/>
-		</td>
-		<td>
+		</div>
+		<div class="six wide field required">
+			<label>Ort</label>
 			<input type='text' name='Address-city[]' placeholder='Stadt' value='{{city}}'/>
-		</td>
-	</tr>
-</table>
+		</div>
+	</div>
+</div>
