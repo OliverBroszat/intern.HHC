@@ -1,0 +1,108 @@
+<div class="outer small clearfix">
+	<h1>Bewerbung</h1>		
+	<form class="ui form" action="{{root}}\OOP\model\DataController\ApplicationDataController\ApplicationDataController.php" method='POST' enctype='multipart/form-data'>	
+
+		<div class="ui segment">
+			<h3 class="ui dividing header">Persönliche Angaben</h3>
+			<input type="hidden" name="Contact-id" value="{{id}}"></input>
+
+			<div class="field">
+				<div class="two fields">
+					<div class="four wide field required">
+						<label>Anrede</label>
+						<select class="ui fluid dropdown" name="Contact-prefix" id="contact-prefix" style="min-width: 0; width: auto;">
+							<option disabled selected value class="placeholder">Anrede</option>
+							<option value="Herr">Herr</option>
+							<option value="Frau">Frau</option>
+						</select>
+					</div>
+					<div class="twelve wide field required">
+						<label>Name</label>
+						<div class="two fields">
+							<div class="field">
+								<input type="text" name="Contact-first_name" placeholder="Vorname" required minlength="2" value=""/>
+							</div>
+							<div class="field">
+								<input type="text" name="Contact-last_name" placeholder="Nachname" required minlength="2" value=""/>
+							</div>	
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="field">
+				<div class="two fields">
+					<div class="eight wide field required">
+						<label>Geburtstag</label>
+						<input type="date" name="Contact-birth_date" placeholder="YYYY-MM-DD" value=""/>
+					</div>
+
+					<div class="eight wide field">
+						<label>Skype Name</label>
+						<input type="text" name="Contact-skype_name" placeholder="Skype Name" value=""/>
+					</div>
+				</div>
+			</div>
+
+			<div class="field">
+				<label>Mail Adresse</label>
+				<exl-container id='mail-list' template='mails' class="small" min-templates='1'></exl-container>
+			</div>
+
+			<div class="field">
+				<label>Telefonnummer</label>
+				<exl-container id='phone-list' template='phones' class="small" min-templates='1'></exl-container>
+			</div>				
+		</div>		
+		
+
+		<div class="ui segment">
+			<h3 class="ui dividing header">Anschriften</h3>
+			<exl-container id='address-list' template='addresses' min-templates='1'></exl-container>
+		</div>
+
+		<div class="ui segment">
+			<h3 class="ui dividing header">Studienprofile</h3>
+			<exl-container id='study-list' template='studies' min-templates='1'></exl-container>
+		</div>
+
+		
+		<div class="ui segment">
+			<h3 class="ui header">Kommentare</h3>
+			<textarea name="Contact-comment" rows="4"></textarea>
+		</div>
+
+		<div class="ui segment">
+			<h2>Anlagen</h2>
+			<table class='form'>
+				<tr><td colspan='2'>
+				<exl-container id='file-list' template='files' source='files' min-templates='1'></exl-container>
+				</td></tr>
+			</table>
+			<script>
+			Exl.setupExlContainerWithID('file-list', {});
+			</script>
+		</div>
+
+		<button type='submit' class='ui primary submit large button icon registrieren'>
+			<i class="mail icon"></i>
+			Bewerbung abschicken!
+		</button>
+
+		<button type="button" onclick="newApplicationTestData()" class="ui button">
+			Test-Daten
+		</button>
+	</form>
+</div>
+
+<script>
+	// semantic ui
+	$(document).ready(function() {
+		$('.ui.dropdown').dropdown();
+	});
+	// EXL
+	Exl.setupExlContainerWithID('mail-list', {});
+	Exl.setupExlContainerWithID('phone-list', {});
+	Exl.setupExlContainerWithID('address-list', {});
+	Exl.setupExlContainerWithID('study-list', {});
+</script>

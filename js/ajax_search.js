@@ -13,11 +13,13 @@ function ajax_post() {
 	// sent form data via AJAX to url (/functions/search/sql_search.php)
 	$.post( url, form.serialize(), function( result ) {	
 
-		var data = $.parseJSON(result);
+		var result = $.parseJSON(result);
+		var data = result['data'];
+		// console.log(data);
 		// Insert HTML result
-		$( "#list-container" ).html(data['html'] );
+		$( "#list-container" ).html(result['html'] );
 		// Insert number of search results in title
-		$( "#search-results-title" ).html( "Suchergebnisse (" + data['number'] + ")" );
+		$( "#search-results-title" ).html( "Suchergebnisse (" + result['number'] + ")" );
 
 		// Remove loading animation
 		$( "#list-container .modal" ).remove();

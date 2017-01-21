@@ -30,7 +30,8 @@ $html = $mustache->render('searchResults', $data);
 // Prepare Return
 $return = array(
 	'number' => sizeof($memberProfiles),
-	'html' => $html
+	'html' => $html,
+	'data' => json_encode($data)
 );
 
 // Return
