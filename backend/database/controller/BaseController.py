@@ -1,16 +1,6 @@
 # coding=utf-8
 
 """
-
-TODOS:
-- add simple db operations
-- add JSON compatible interfaces
-- refactor ContractController
-
-insert:
-insert_into_table(table, data)
-
-
 DATABASE INFORMATION AS JSON:
 data = {
     table1: {
@@ -41,12 +31,14 @@ row = {
 
 class BaseController(object):
     
-    QUERY_INSERT = u"INSERT INTO {table} {columns} VALUES ({placeholders});"
+    QUERY_INSERT = u"INSERT INTO {table} ({columns}) VALUES ({placeholders});"
     QUERY_SELECT = u"SELECT * FROM {table} WHERE {column}=?;"
     QUERY_SELECT_COLUMNS_BY_SINGLE_VALUE = u"SELECT {columns} FROM {table} WHERE {key}=?;"
     QUERY_GET_TABLE_INFO = u"PRAGMA table_info({table});"
     QUERY_SELECT_FROM_TABLE = u"SELECT * FROM {table};"
     QUERY_SELECT_COLUMNS = u"SELECT {columns} FROM {table};"
+    QUERY_UPDATE = u"UPDATE `{table}` SET {updates} WHERE {filter};"
+    QUERY_DELETE = u"DELETE FROM `{table}` WHERE {filter};"
     
     MSG_ERROR_INSERT = u"Insert query \"{query}\" with values ({values}) returned error: {error}"
     MSG_ERROR_SELECT = u"Select query \"{query}\" with values ({values}) returned error: {error}"
@@ -139,9 +131,10 @@ class BaseController(object):
         :return: The generated id for the inserted row
         """
         columns, values, placeholders = BaseController.extract_table_data(row)
+        columns_as_string = u", ".join(columns)
         query = BaseController.QUERY_INSERT.format(
             table=table_name,
-            columns=columns,
+            columns=columns_as_string,
             placeholders=placeholders
         )
         try:
@@ -158,10 +151,6 @@ class BaseController(object):
             self.database.commit()
         return self.database.cursor.lastrowid
     
-    def insert_rows_in_table(self, table, rows, commit=True):
-        for row in rows:
-            self.insert_row_in_table(table, row, commit=commit)
-    
     def select_rows(self, table):
         """
         Selects all existing rows from a given table.
@@ -175,6 +164,13 @@ class BaseController(object):
         return results
     
     def select_columns(self, table, columns):
+        """
+        Selects given columns from a table
+        
+        :param table: (str) Table name
+        :param columns: (tuple) Columns to select
+        :return: ([sqlite3.Row]) List of selected rows
+        """
         self.verify_columns_for_table(table, columns)
         arg_columns = u", ".join(columns)
         query = BaseController.QUERY_SELECT_COLUMNS.format(
@@ -220,6 +216,19 @@ class BaseController(object):
             raise e
     
     def get_table_info(self, table):
+        """
+        Uses PRAGMA table_info() to get meta information about a table's columns:
+        
+        - id: Row ID
+        - column_name: Name of the column
+        - column_type: Type of the column
+        - unknown_data_1: Unkonwn data field
+        - unknown_data_2: Unkonwn data field
+        - unknown_data_3: Unkonwn data field
+        
+        :param table: (str) Table name
+        :return: ([dict]) List of data objects as discribed above
+        """
         query = BaseController.QUERY_GET_TABLE_INFO.format(table=table)
         self.database.cursor.execute(query)
         result = self.database.cursor.fetchall()
@@ -239,10 +248,22 @@ class BaseController(object):
         return named_result
     
     def get_columns_for_table(self, table):
+        """
+        Returns all columns for a table
+        
+        :param table: (str) Table name
+        :return: ([str]) List of column names
+        """
         table_info = self.get_table_info(table)
         return [e[u"column_name"] for e in table_info]
     
     def verify_columns_for_table(self, table, columns):
+        """
+        Checks if a given list of columns exists in a
+        :param table:
+        :param columns:
+        :return:
+        """
         if columns == ("*",):
             return
         valid_columns = self.get_columns_for_table(table)
@@ -277,6 +298,41 @@ class BaseController(object):
                 error=repr(e)
             ))
             raise e
+
+    def update_row(self, table, row, where=None, commit=True):
+        """
+        Interface to sqlite3 UPDATE TABLE query for contact data structure.
+
+        :param table: (str) Contact table to update (contact, mail, phone, address or study)
+        :param row: ({str: str}) key/value pairs of data to update
+        :param where: (str) Which records should be updated? (Standard would be 'contact_id=<id>')
+        :param commit: (bool) Commit changes within function call
+        :return: (none)
+        """
+        columns, values, placeholders = BaseController.extract_table_data(row)
+        self.verify_columns_for_table(table, columns)
+        updates = ",".join(["{column}=?".format(column=column) for column in columns])
+        if where is None:
+            where = "1=1"
+        query = BaseController.QUERY_UPDATE.format(
+            table=table,
+            updates=updates,
+            filter=where
+        )
+        self.database.cursor.execute(query, values)
+        if commit:
+            self.database.commit()
+
+    def delete_rows_by_single_value(self, table, key, value, commit=True):
+        filter = "{key}={value}".format(key=key, value=value)
+        query = BaseController.QUERY_DELETE.format(
+            table=table,
+            filter=filter
+        )
+        self.database.cursor.execute(query)
+        if commit:
+            self.database.commit()
+
         
 
 
