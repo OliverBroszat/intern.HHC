@@ -39,7 +39,9 @@ def setup_logger(log_path):
     logging.getLogger("tornado.application").addHandler(log_tornado_streamhandler)
     logging.getLogger("tornado.general").addHandler(log_tornado_streamhandler)
     if log_path:
-        log_filename = "{name}.log".format(name=datetime.datetime.now().isoformat())
+        log_filename = "{name}.log".format(name=datetime.datetime.now().isoformat()).replace(":", "-")
+        if not os.path.exists(log_path):
+            os.makedirs(log_path)
         log_filepath = os.path.join(log_path, log_filename)
         log_filehandler = logging.FileHandler(log_filepath)
         log_filehandler.setFormatter(stdout_formatter)
