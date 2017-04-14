@@ -60,10 +60,15 @@ class ContactController(object):
                 phone["contact_id"] = contact_id
             for study in contact["study"]:
                 study["contact_id"] = contact_id
-            self.base_controller.insert_rows_in_table("mail", contact["mail"], commit=False)
-            self.base_controller.insert_rows_in_table("address", contact["address"], commit=False)
-            self.base_controller.insert_rows_in_table("phone", contact["phone"], commit=False)
-            self.base_controller.insert_rows_in_table("study", contact["study"], commit=False)
+
+            for mail in contact["mail"]:
+                self.base_controller.insert_row_in_table("mail", mail, commit=False)
+            for address in contact["address"]:
+                self.base_controller.insert_row_in_table("address", address, commit=False)
+            for phone in contact["phone"]:
+                self.base_controller.insert_row_in_table("phone", phone, commit=False)
+            for study in contact["study"]:
+                self.base_controller.insert_row_in_table("study", study, commit=False)
             if commit:
                 self.database.commit()
             return contact_id
