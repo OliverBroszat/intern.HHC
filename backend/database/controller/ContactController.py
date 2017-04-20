@@ -40,7 +40,7 @@ class ContactController(object):
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
     
-    def create_contact(self, contact, commit=True):
+    def create_contact(self, data, commit=True):
         """
         Creates a new contact in the database given a contact structure. Note: since this contact is
         new, no "id" field in the "contact" data is required, just as no "contact_id" fields are
@@ -51,23 +51,23 @@ class ContactController(object):
         :return: (int) The generated contact id for the new contact record
         """
         try:
-            contact_id = self.base_controller.insert_row_in_table("contact", contact["contact"], commit=False)
-            for mail in contact["mail"]:
+            contact_id = self.base_controller.insert_row_in_table("contact", data["contact"], commit=False)
+            for mail in data["mail"]:
                 mail["contact_id"] = contact_id
-            for address in contact["address"]:
+            for address in data["address"]:
                 address["contact_id"] = contact_id
-            for phone in contact["phone"]:
+            for phone in data["phone"]:
                 phone["contact_id"] = contact_id
-            for study in contact["study"]:
+            for study in data["study"]:
                 study["contact_id"] = contact_id
 
-            for mail in contact["mail"]:
+            for mail in data["mail"]:
                 self.base_controller.insert_row_in_table("mail", mail, commit=False)
-            for address in contact["address"]:
+            for address in data["address"]:
                 self.base_controller.insert_row_in_table("address", address, commit=False)
-            for phone in contact["phone"]:
+            for phone in data["phone"]:
                 self.base_controller.insert_row_in_table("phone", phone, commit=False)
-            for study in contact["study"]:
+            for study in data["study"]:
                 self.base_controller.insert_row_in_table("study", study, commit=False)
             if commit:
                 self.database.commit()

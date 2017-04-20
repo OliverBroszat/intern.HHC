@@ -6,36 +6,32 @@ import json
 import tornado.escape
 
 from backend.webhandler.util import ApiHandler
-from backend.database.controller import ContactController
+from backend.database.controller import MemberController
 
 
-class CreateContactHandler(ApiHandler.ApiHandler):
-
+class DeleteMemberHandler(ApiHandler.ApiHandler):
     def post(self):
         """
-        Post handler for CreateContactHandler
+        Post handler for DeletecontactHandler
         :return: (none)
         """
         if self.api_token_is_invalid():
             self.write_invalid_api_token_response()
             return
         data = tornado.escape.json_decode(self.get_argument("data"))
-        ctr = ContactController.ContactController(self.context.database)
+        mtr = MemberController.MemberController(self.context.database)
         try:
-            contact_id = ctr.create_contact(data)
-            self.write_success_response(contact_id)
+            mtr.delete_member(data)
+            self.write_success_response()
         except BaseException, e:
             self.write_error_response(e)
 
-    def write_success_response(self, contact_id):
+    def write_success_response(self):
         """
-        Write a success JSON response that contains the created contact's id
-        :param contact_id: (int) The new contact id
+        Write a JSON answer containing no error messages
         :return: (none)
         """
         data = {
-            "contact_id": contact_id,
             "error": None
         }
         self.write(json.dumps(data))
-

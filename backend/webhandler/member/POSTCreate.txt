@@ -1,0 +1,47 @@
+{
+"newcontact":false
+,
+"member": {
+"contact_id":259,
+"ressort": "Vorname",
+"active": "Nachname",
+"position": "oho",
+"joined": "dd.mm.yyyy",
+"left": "dd.mm.yyyy2"
+}
+}
+
+{
+"newcontact":true
+,
+"contact": {
+"prefix": "Herr",
+"first_name": "Vorname",
+"last_name": "Nachname",
+"birth_date": "dd.mm.yyy",
+"comment": "Test-Kommentar"
+}
+,
+"mail": [
+{"description": "Test Mail1", "address": "alex1@alex.de"}
+],
+"address": [
+{"description": "Privat", "street": "Gilbachstrasse", "number": "7-9", "addr_extra": "", "postal": "40219",
+"city": "Duesseldorf"}
+],
+"phone": [
+{"description": "Privat1", "number": "0123456789"},
+{"description": "Privat2", "number": "4123561351354"}
+],
+"study": [
+{"status": "done", "school": "HHU", "course": "Informatik", "start": "dd.mm.yyyy", "end": "dd.mm.yyyy",
+"focus": "Netzwerksicherheit", "degree": "b_a"}
+],
+"member": {
+"ressort": "Vorname",
+"active": "Nachname",
+"position": "oho",
+"joined": "dd.mm.yyyy",
+"left": "dd.mm.yyyy2"
+}
+}

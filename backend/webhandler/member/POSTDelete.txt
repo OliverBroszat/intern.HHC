@@ -1,0 +1,12 @@
+{
+"keepcontact":false
+,
+"contact_id":42
+}
+
+
+{
+"keepcontact":true
+,
+"contact_id":50
+}
